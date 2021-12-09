@@ -2,7 +2,14 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 public class PharaohModel<T extends PharaohEntity> extends HumanoidModel<T> {
     private final ModelPart waist;
@@ -10,12 +17,15 @@ public class PharaohModel<T extends PharaohEntity> extends HumanoidModel<T> {
     private final ModelPart rightItem;
     private final ModelPart leftItem;
 
-    public PharaohModel(float modelSize) {
-        super(modelSize);
-        this.texWidth = 64;
-        this.texHeight = 96;
+    public PharaohModel(ModelPart part) {
+        super(part);
+        this.waist = part.getChild("waist");
+        this.beard = part.getChild("beard");
+        this.rightItem = part.getChild("rightItem");
+        this.leftItem = part.getChild("leftItem");
 
-        this.body = new ModelPart(this);
+        /*
+        this.body = new ModelPart(this); //TODO Needs re-exporting in Blockbench
         this.body.setPos(0.0F, 0.0F, 0.0F);
         this.body.texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
         this.body.texOffs(0, 75).addBox(-6.0F, 3.0F, -1.5F, 12.0F, 18.0F, 3.0F, 0.9F, false);
@@ -70,12 +80,12 @@ public class PharaohModel<T extends PharaohEntity> extends HumanoidModel<T> {
 
         this.leftLeg = new ModelPart(this);
         this.leftLeg.setPos(2.0F, 12.0F, 0.0F);
-        this.leftLeg.texOffs(0, 16).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);
+        this.leftLeg.texOffs(0, 16).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);*/
     }
 
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.getXRot() = x;
-        modelRenderer.getYRot() = y;
-        modelRenderer.zRot = z;
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        return LayerDefinition.create(meshDefinition, 64, 96);
     }
 }

@@ -24,9 +24,19 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
     private float relaxStateOneAmount;
     protected int state = 1;
 
-    public ServalModel(float size) {
+    public ServalModel(ModelPart part) {
         super(true, 10.0F, 4.0F);
-        texWidth = 64;
+        this.body = part.getChild("body");
+        this.body_r1 = part.getChild("body_r1");
+        this.head = part.getChild("head");
+        this.tail = part.getChild("tail");
+        this.tail_r1 = part.getChild("tail_r1");
+        this.backLeftLeg = part.getChild("backLeftLeg");
+        this.backRightLeg = part.getChild("backRightLeg");
+        this.frontLeftLeg = part.getChild("frontLeftLeg");
+        this.frontRightLeg = part.getChild("frontRightLeg");
+
+        /*texWidth = 64; //TODO Needs re-exporting in Blockbench
         texHeight = 32;
 
         body = new ModelPart(this);
@@ -64,7 +74,7 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
         frontLeftLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);
 
         frontRightLeg = new ModelPart(this);
-        frontRightLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);
+        frontRightLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);*/
     }
 
     @Override
@@ -80,8 +90,8 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
     }
 
     public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.getXRot() = x;
-        modelRenderer.getYRot() = y;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
         modelRenderer.zRot = z;
     }
 
@@ -91,15 +101,15 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
         this.lieDownAmountTail = entity.getLieDownAmountTail(partialTick);
         this.relaxStateOneAmount = entity.getRelaxStateOneAmount(partialTick);
         if (this.lieDownAmount <= 0.0F) {
-            this.head.getXRot() = 0.0F;
+            this.head.xRot = 0.0F;
             this.head.zRot = 0.0F;
-            this.frontLeftLeg.getXRot() = 0.0F;
+            this.frontLeftLeg.xRot = 0.0F;
             this.frontLeftLeg.zRot = 0.0F;
-            this.frontRightLeg.getXRot() = 0.0F;
+            this.frontRightLeg.xRot = 0.0F;
             this.frontRightLeg.zRot = 0.0F;
             this.frontRightLeg.x = -1.2F;
-            this.backLeftLeg.getXRot() = 0.0F;
-            this.backRightLeg.getXRot() = 0.0F;
+            this.backLeftLeg.xRot = 0.0F;
+            this.backRightLeg.xRot = 0.0F;
             this.backRightLeg.zRot = 0.0F;
             this.backRightLeg.x = -1.1F;
             this.backRightLeg.y = 18.0F;
@@ -107,24 +117,24 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
 
         this.baseLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
         if (entity.isInSittingPose()) {
-            this.body.getXRot() = ((float) Math.PI / -4F);
+            this.body.xRot = ((float) Math.PI / -4F);
             this.body.y += 2.0F;
             this.body.z += -4.0F;
             this.head.y += -3.3F;
             ++this.head.z;
             this.tail.y += 8.0F;
             this.tail.z += -2.0F;
-            this.tail.getXRot() = 1.7278761F;
-            this.frontLeftLeg.getXRot() = -0.15707964F;
+            this.tail.xRot = 1.7278761F;
+            this.frontLeftLeg.xRot = -0.15707964F;
             this.frontLeftLeg.y = 16.1F;
             this.frontLeftLeg.z = -7.0F;
-            this.frontRightLeg.getXRot() = -0.15707964F;
+            this.frontRightLeg.xRot = -0.15707964F;
             this.frontRightLeg.y = 16.1F;
             this.frontRightLeg.z = -7.0F;
-            this.backLeftLeg.getXRot() = (-(float) Math.PI / 2F);
+            this.backLeftLeg.xRot = (-(float) Math.PI / 2F);
             this.backLeftLeg.y = 21.0F;
             this.backLeftLeg.z = 1.0F;
-            this.backRightLeg.getXRot() = (-(float) Math.PI / 2F);
+            this.backRightLeg.xRot = (-(float) Math.PI / 2F);
             this.backRightLeg.y = 21.0F;
             this.backRightLeg.z = 1.0F;
             this.state = 3;
@@ -140,15 +150,15 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
         backRightLeg.setPos(-1.1F, 18.0F, 7.0F);
         frontLeftLeg.setPos(1.2F, 14.0F, -4.0F);
         frontRightLeg.setPos(-1.2F, 14.0F, -4.0F);
-        this.tail.getXRot() = 0.9F;
+        this.tail.xRot = 0.9F;
         if (entity.isCrouching()) {
             ++this.body.y;
             this.head.y += 2.0F;
             ++this.tail.y;
-            this.tail.getXRot() = ((float) Math.PI / 2F);
+            this.tail.xRot = ((float) Math.PI / 2F);
             this.state = 0;
         } else if (entity.isSprinting()) {
-            this.tail.getXRot() = ((float) Math.PI / 2F);
+            this.tail.xRot = ((float) Math.PI / 2F);
             this.state = 2;
         } else {
             this.state = 1;
@@ -161,39 +171,39 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
         this.baseRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         if (this.lieDownAmount > 0.0F) {
             this.head.zRot = ModelUtils.rotlerpRad(this.head.zRot, -1.2707963F, this.lieDownAmount);
-            this.head.getYRot() = ModelUtils.rotlerpRad(this.head.getYRot(), 1.2707963F, this.lieDownAmount);
-            this.frontLeftLeg.getXRot() = -1.2707963F;
-            this.frontRightLeg.getXRot() = -0.47079635F;
+            this.head.yRot = ModelUtils.rotlerpRad(this.head.yRot, 1.2707963F, this.lieDownAmount);
+            this.frontLeftLeg.xRot = -1.2707963F;
+            this.frontRightLeg.xRot = -0.47079635F;
             this.frontRightLeg.zRot = -0.2F;
             this.frontRightLeg.x = -0.2F;
-            this.backLeftLeg.getXRot() = -0.4F;
-            this.backRightLeg.getXRot() = 0.5F;
+            this.backLeftLeg.xRot = -0.4F;
+            this.backRightLeg.xRot = 0.5F;
             this.backRightLeg.zRot = -0.5F;
             this.backRightLeg.x = -0.3F;
             this.backRightLeg.y = 20.0F;
-            this.tail.getXRot() = ModelUtils.rotlerpRad(this.tail.getXRot(), 0.8F, this.lieDownAmountTail);
+            this.tail.xRot = ModelUtils.rotlerpRad(this.tail.xRot, 0.8F, this.lieDownAmountTail);
         }
 
         if (this.relaxStateOneAmount > 0.0F) {
-            this.head.getXRot() = ModelUtils.rotlerpRad(this.head.getXRot(), -0.58177644F, this.relaxStateOneAmount);
+            this.head.xRot = ModelUtils.rotlerpRad(this.head.xRot, -0.58177644F, this.relaxStateOneAmount);
         }
     }
 
     public void baseRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.getXRot() = headPitch * ((float) Math.PI / 180F);
-        this.head.getYRot() = netHeadYaw * ((float) Math.PI / 180F);
+        this.head.xRot = headPitch * ((float) Math.PI / 180F);
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         if (this.state != 3) {
-            this.body.getXRot() = ((float) Math.PI / 180F);
+            this.body.xRot = ((float) Math.PI / 180F);
             if (this.state == 2) {
-                this.backLeftLeg.getXRot() = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
-                this.backRightLeg.getXRot() = Mth.cos(limbSwing * 0.6662F + 0.3F) * limbSwingAmount;
-                this.frontLeftLeg.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI + 0.3F) * limbSwingAmount;
-                this.frontRightLeg.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+                this.backLeftLeg.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
+                this.backRightLeg.xRot = Mth.cos(limbSwing * 0.6662F + 0.3F) * limbSwingAmount;
+                this.frontLeftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI + 0.3F) * limbSwingAmount;
+                this.frontRightLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
             } else {
-                this.backLeftLeg.getXRot() = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
-                this.backRightLeg.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
-                this.frontLeftLeg.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
-                this.frontRightLeg.getXRot() = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
+                this.backLeftLeg.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
+                this.backRightLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+                this.frontLeftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+                this.frontRightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
             }
         }
 

@@ -30,10 +30,20 @@ public class AtemArmorModel extends ArmorModel {
 	private final ModelPart leftCape;
 	private final ModelPart rightCape;
 
-	public AtemArmorModel(EquipmentSlot slot, boolean hasFullSet) {
+	public AtemArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
 		super(slot);
 		this.hasFullSet = hasFullSet;
-		this.texWidth = 64;
+		this.fins = part.getChild("fins");
+		this.hat = part.getChild("hat");
+		this.postiche = part.getChild("postiche");
+		this.chestplate = part.getChild("chestplate");
+		this.rightShoulderBlade = part.getChild("rightShoulderBlade");
+		this.leftShoulderBlade = part.getChild("leftShoulderBlade");
+		this.leftBoot = part.getChild("leftBoot");
+		this.rightBoot = part.getChild("rightBoot");
+		this.leftCape = part.getChild("leftCape");
+		this.rightCape = part.getChild("rightCape");
+		/*this.texWidth = 64; //TODO Requires to be re-exported in Blockbench
 		this.texHeight = 96;
 
 		body = new ModelPart(this);
@@ -124,7 +134,7 @@ public class AtemArmorModel extends ArmorModel {
 
 		leftBoot = new ModelPart(this);
 		leftBoot.texOffs(32, 63).addBox(0.1F - 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
-		leftBoot.texOffs(56, 36).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
+		leftBoot.texOffs(56, 36).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);*/
 	}
 
 	@Override

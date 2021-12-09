@@ -19,9 +19,17 @@ public class QuailModel<T extends QuailEntity> extends AgeableListModel<T> {
     public ModelPart headFeather;
     public ModelPart headFeather1;
 
-    public QuailModel() {
+    public QuailModel(ModelPart part) {
         super(false, 4.0F, 2.0F); //isChildHeadScaled, childHeadOffsetY, childHeadOffsetZ
-        this.beak = new ModelPart(this);
+        this.beak = part.getChild("beak");
+        this.head = part.getChild("head");
+        this.body = part.getChild("body");
+        this.rightWing = part.getChild("rightWing");
+        this.leftWing = part.getChild("leftWing");
+        this.leftFoot = part.getChild("leftFoot");
+        this.rightFoot = part.getChild("rightFoot");
+        this.headFeather = part.getChild("headFeather");
+        /*this.beak = new ModelPart(this); //TODO Needs re-exporting from Blockbench
         this.beak.setPos(0.0F, 17.0F, -4.0F);
         this.beak.texOffs(14, 0).addBox(-1.0F, -2.0F, -4.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
         this.head = new ModelPart(this);
@@ -50,7 +58,7 @@ public class QuailModel<T extends QuailEntity> extends AgeableListModel<T> {
         this.leftFoot.texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);
         this.rightFoot = new ModelPart(this);
         this.rightFoot.setPos(-2.0F, 21.0F, 1.0F);
-        this.rightFoot.texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);
+        this.rightFoot.texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);*/
     }
 
     @Override
@@ -67,20 +75,20 @@ public class QuailModel<T extends QuailEntity> extends AgeableListModel<T> {
 
     @Override
     public void setupAnim(@Nonnull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.getXRot() = headPitch * ((float) Math.PI / 180F);
-        this.head.getYRot() = netHeadYaw * ((float) Math.PI / 180F);
-        this.beak.getXRot() = this.head.getXRot();
-        this.beak.getYRot() = this.head.getYRot();
-        this.body.getXRot() = ((float) Math.PI / 2F);
-        this.rightFoot.getXRot() = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.leftFoot.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        this.head.xRot = headPitch * ((float) Math.PI / 180F);
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
+        this.beak.xRot = this.head.xRot;
+        this.beak.yRot = this.head.yRot;
+        this.body.xRot = ((float) Math.PI / 2F);
+        this.rightFoot.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.leftFoot.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         this.rightWing.zRot = ageInTicks;
         this.leftWing.zRot = -ageInTicks;
     }
 
     private void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.getXRot() = x;
-        modelRenderer.getYRot() = y;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
         modelRenderer.zRot = z;
     }
 }

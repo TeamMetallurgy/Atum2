@@ -4,6 +4,8 @@ import com.teammetallurgy.atum.entity.bandit.NomadEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BowItem;
@@ -14,12 +16,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class NomadModel<T extends NomadEntity> extends PlayerModel<T> {
 
-    public NomadModel() {
-        this(0.0F);
-    }
-
-    public NomadModel(float size) {
-        super(size, false);
+    public NomadModel(EntityRendererProvider.Context context) {
+        super(context.bakeLayer(ModelLayers.PLAYER), false);
     }
 
     @Override

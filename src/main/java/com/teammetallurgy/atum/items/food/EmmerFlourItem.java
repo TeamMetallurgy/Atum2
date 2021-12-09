@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.CauldronBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
@@ -47,11 +48,10 @@ public class EmmerFlourItem extends Item {
             if (world.mayInteract(player, pos) && player.mayUseItemAt(pos, blockRayTrace.getDirection(), heldStack)) {
                 BlockState state = world.getBlockState(pos);
 
-                if (state.getBlock() instanceof CauldronBlock) {
-                    CauldronBlock cauldron = (CauldronBlock) state.getBlock();
-                    int level = state.getValue(CauldronBlock.LEVEL);
+                if (state.getBlock() instanceof LayeredCauldronBlock) {
+                    int level = state.getValue(LayeredCauldronBlock.LEVEL);
                     if (level > 0) {
-                        cauldron.setWaterLevel(world, pos, state, level - 1);
+                        LayeredCauldronBlock.lowerFillLevel(state, world, pos);
                         this.giveDough(player, hand, heldStack);
                         return new InteractionResultHolder<>(InteractionResult.SUCCESS, heldStack);
                     } else {

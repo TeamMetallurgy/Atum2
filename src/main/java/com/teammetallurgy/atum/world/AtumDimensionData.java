@@ -11,17 +11,18 @@ import java.util.List;
 
 public class AtumDimensionData extends SavedData {
     public static final String ID = "atum_dimension_data";
-    private boolean hasStartStructureSpawned;
-    private boolean isStorming;
-    private final List<BoundingBox> beatenPyramids = new ArrayList<>();
+    public boolean hasStartStructureSpawned;
+    public boolean isStorming;
+    public final List<BoundingBox> beatenPyramids = new ArrayList<>();
 
     public static AtumDimensionData load(@Nonnull CompoundTag nbt) {
-        this.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
-        this.isStorming = nbt.getBoolean("IsStorming");
+        AtumDimensionData data = new AtumDimensionData();
+        data.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
+        data.isStorming = nbt.getBoolean("IsStorming");
 
-        ListTag listNBT = nbt.getList("PyramidBoxes", Constants.NBT.TAG_INT_ARRAY);
+        ListTag listNBT = nbt.getList("PyramidBoxes", Constant.NBT.TAG_INT_ARRAY);
         for (int i = 0; i < listNBT.size(); ++i) {
-            this.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i)));
+            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i)));
         }
     }
 

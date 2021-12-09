@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CauldronBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
@@ -76,7 +77,7 @@ public class RelicItem extends Item {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
         Level level = entityItem.level;
         BlockState state = level.getBlockState(new BlockPos(Mth.floor(entityItem.getX()), Mth.floor(entityItem.getY()), Mth.floor(entityItem.getZ())));
-        if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.getValue(CauldronBlock.LEVEL) > 0) {
+        if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof LayeredCauldronBlock && state.getValue(LayeredCauldronBlock.LEVEL) > 0) {
             if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !level.isClientSide) {
                 while (stack.getCount() > 0) {
                     Optional<RelicEntry> optional = WeightedRandom.getRandomItem(level.random, RELIC_ENTRIES);

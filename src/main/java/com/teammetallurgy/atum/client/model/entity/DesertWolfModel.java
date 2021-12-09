@@ -12,43 +12,32 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class DesertWolfModel<T extends DesertWolfEntity> extends ColorableAgeableListModel<T> {
+    private static final String REAL_HEAD = "real_head";
+    private static final String UPPER_BODY = "upper_body";
+    private static final String REAL_TAIL = "real_tail";
     private final ModelPart head;
+    private final ModelPart realHead;
     private final ModelPart body;
-    private final ModelPart wolfLeg1;
-    private final ModelPart wolfLeg2;
-    private final ModelPart wolfLeg3;
-    private final ModelPart wolfLeg4;
+    private final ModelPart rightHindLeg;
+    private final ModelPart leftHindLeg;
+    private final ModelPart rightFrontLeg;
+    private final ModelPart leftFrontLeg;
     private final ModelPart tail;
-    private final ModelPart mane;
+    private final ModelPart realTail;
+    private final ModelPart upperBody;
+    private static final int LEG_SIZE = 8;
 
-    public DesertWolfModel(float size) {
-        this.head = new ModelPart(this, 0, 0);
-        this.head.addBox(-2.0F, -3.0F, -2.0F, 6, 6, 4, size);
-        this.head.setPos(-1.0F, 13.5F, -7.0F);
-        this.body = new ModelPart(this, 18, 14);
-        this.body.addBox(-3.0F, -2.0F, -3.0F, 6, 9, 6, size);
-        this.body.setPos(0.0F, 14.0F, 2.0F);
-        this.mane = new ModelPart(this, 21, 0);
-        this.mane.addBox(-3.0F, -3.0F, -3.0F, 8, 6, 7, size);
-        this.mane.setPos(-1.0F, 14.0F, 2.0F);
-        this.wolfLeg1 = new ModelPart(this, 0, 18);
-        this.wolfLeg1.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
-        this.wolfLeg1.setPos(-2.5F, 16.0F, 7.0F);
-        this.wolfLeg2 = new ModelPart(this, 0, 18);
-        this.wolfLeg2.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
-        this.wolfLeg2.setPos(0.5F, 16.0F, 7.0F);
-        this.wolfLeg3 = new ModelPart(this, 0, 18);
-        this.wolfLeg3.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
-        this.wolfLeg3.setPos(-2.5F, 16.0F, -4.0F);
-        this.wolfLeg4 = new ModelPart(this, 0, 18);
-        this.wolfLeg4.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
-        this.wolfLeg4.setPos(0.5F, 16.0F, -4.0F);
-        this.tail = new ModelPart(this, 9, 18);
-        this.tail.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
-        this.tail.setPos(-1.0F, 12.0F, 8.0F);
-        this.head.texOffs(16, 14).addBox(-2.0F, -5.0F, 0.0F, 2, 2, 1, size);
-        this.head.texOffs(16, 14).addBox(2.0F, -5.0F, 0.0F, 2, 2, 1, size);
-        this.head.texOffs(0, 10).addBox(-0.5F, 0.0F, -5.0F, 3, 3, 4, size);
+    public DesertWolfModel(ModelPart part) {
+        this.head = part.getChild("head");
+        this.realHead = this.head.getChild("real_head");
+        this.body = part.getChild("body");
+        this.upperBody = part.getChild("upper_body");
+        this.rightHindLeg = part.getChild("right_hind_leg");
+        this.leftHindLeg = part.getChild("left_hind_leg");
+        this.rightFrontLeg = part.getChild("right_front_leg");
+        this.leftFrontLeg = part.getChild("left_front_leg");
+        this.tail = part.getChild("tail");
+        this.realTail = this.tail.getChild("real_tail");
     }
 
     @Override
@@ -60,66 +49,64 @@ public class DesertWolfModel<T extends DesertWolfEntity> extends ColorableAgeabl
     @Override
     @Nonnull
     protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body, this.wolfLeg1, this.wolfLeg2, this.wolfLeg3, this.wolfLeg4, this.tail, this.mane);
+        return ImmutableList.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.tail, this.upperBody);
     }
-
 
     @Override
     public void prepareMobModel(T desertWolf, float limbSwing, float limbSwingAmount, float partialTickTime) {
         if (desertWolf.isAngry()) {
-            this.tail.getYRot() = 0.0F;
+            this.tail.yRot = 0.0F;
         } else {
-            float tailAmount = desertWolf.isVehicle() ? 0.5F : 1.4F;
-            this.tail.getYRot() = Mth.cos(limbSwing * 0.6662F) * tailAmount * limbSwingAmount;
+            this.tail.yRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
 
         if (desertWolf.isInSittingPose()) {
-            this.mane.setPos(-1.0F, 16.0F, -3.0F);
-            this.mane.getXRot() = ((float) Math.PI * 2F / 5F);
-            this.mane.getYRot() = 0.0F;
+            this.upperBody.setPos(-1.0F, 16.0F, -3.0F);
+            this.upperBody.xRot = 1.2566371F;
+            this.upperBody.yRot = 0.0F;
             this.body.setPos(0.0F, 18.0F, 0.0F);
-            this.body.getXRot() = ((float) Math.PI / 4F);
+            this.body.xRot = ((float) Math.PI / 4F);
             this.tail.setPos(-1.0F, 21.0F, 6.0F);
-            this.wolfLeg1.setPos(-2.5F, 22.0F, 2.0F);
-            this.wolfLeg1.getXRot() = ((float) Math.PI * 3F / 2F);
-            this.wolfLeg2.setPos(0.5F, 22.0F, 2.0F);
-            this.wolfLeg2.getXRot() = ((float) Math.PI * 3F / 2F);
-            this.wolfLeg3.getXRot() = 5.811947F;
-            this.wolfLeg3.setPos(-2.49F, 17.0F, -4.0F);
-            this.wolfLeg4.getXRot() = 5.811947F;
-            this.wolfLeg4.setPos(0.51F, 17.0F, -4.0F);
+            this.rightHindLeg.setPos(-2.5F, 22.7F, 2.0F);
+            this.rightHindLeg.xRot = ((float) Math.PI * 1.5F);
+            this.leftHindLeg.setPos(0.5F, 22.7F, 2.0F);
+            this.leftHindLeg.xRot = ((float) Math.PI * 1.5F);
+            this.rightFrontLeg.xRot = 5.811947F;
+            this.rightFrontLeg.setPos(-2.49F, 17.0F, -4.0F);
+            this.leftFrontLeg.xRot = 5.811947F;
+            this.leftFrontLeg.setPos(0.51F, 17.0F, -4.0F);
         } else {
             this.body.setPos(0.0F, 14.0F, 2.0F);
-            this.body.getXRot() = ((float) Math.PI / 2F);
-            this.mane.setPos(-1.0F, 14.0F, -3.0F);
-            this.mane.getXRot() = this.body.getXRot();
+            this.body.xRot = ((float) Math.PI / 2F);
+            this.upperBody.setPos(-1.0F, 14.0F, -3.0F);
+            this.upperBody.xRot = this.body.xRot;
             this.tail.setPos(-1.0F, 12.0F, 8.0F);
-            this.wolfLeg1.setPos(-2.5F, 16.0F, 7.0F);
-            this.wolfLeg2.setPos(0.5F, 16.0F, 7.0F);
-            this.wolfLeg3.setPos(-2.5F, 16.0F, -4.0F);
-            this.wolfLeg4.setPos(0.5F, 16.0F, -4.0F);
-            this.wolfLeg1.getXRot() = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-            this.wolfLeg2.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-            this.wolfLeg3.getXRot() = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-            this.wolfLeg4.getXRot() = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.rightHindLeg.setPos(-2.5F, 16.0F, 7.0F);
+            this.leftHindLeg.setPos(0.5F, 16.0F, 7.0F);
+            this.rightFrontLeg.setPos(-2.5F, 16.0F, -4.0F);
+            this.leftFrontLeg.setPos(0.5F, 16.0F, -4.0F);
+            this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+            this.rightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+            this.leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
 
         if (desertWolf.isVehicle()) {
-            this.head.getXRot() = Mth.cos(limbSwing * 0.6662F) * 0.15F * limbSwingAmount;
+            this.head.xRot = Mth.cos(limbSwing * 0.6662F) * 0.15F * limbSwingAmount;
         }
 
-        this.head.zRot = desertWolf.getInterestedAngle(partialTickTime) + desertWolf.getShakeAngle(partialTickTime, 0.0F);
-        this.mane.zRot = desertWolf.getShakeAngle(partialTickTime, -0.08F);
-        this.body.zRot = desertWolf.getShakeAngle(partialTickTime, -0.16F);
-        this.tail.zRot = desertWolf.getShakeAngle(partialTickTime, -0.2F);
+        this.realHead.zRot = desertWolf.getHeadRollAngle(partialTickTime) + desertWolf.getBodyRollAngle(partialTickTime, 0.0F);
+        this.upperBody.zRot = desertWolf.getBodyRollAngle(partialTickTime, -0.08F);
+        this.body.zRot = desertWolf.getBodyRollAngle(partialTickTime, -0.16F);
+        this.realTail.zRot = desertWolf.getBodyRollAngle(partialTickTime, -0.2F);
     }
 
     @Override
-    public void setupAnim(T desertWolf, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@Nonnull T desertWolf, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!desertWolf.isVehicle()) {
-            this.head.getXRot() = headPitch * 0.017453292F;
+            this.head.xRot = headPitch * ((float) Math.PI / 180F);
         }
-        this.head.getYRot() = netHeadYaw * 0.017453292F;
-        this.tail.getXRot() = ageInTicks;
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
+        this.tail.xRot = ageInTicks;
     }
 }

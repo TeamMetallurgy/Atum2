@@ -13,11 +13,11 @@ import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.AtumScaffoldingItem;
+import com.teammetallurgy.atum.items.BlockItemWithoutLevelRenderer;
 import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.data.DataGenerator;
@@ -26,8 +26,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -35,6 +39,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,7 +54,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -168,8 +172,8 @@ public class AtumRegistry {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static Block registerBlock(@Nonnull Block block, Supplier<Callable<BlockEntityWithoutLevelRenderer>> ister, @Nullable Item.Properties properties, @Nonnull String name) {
-        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties().setISTER(ister) : properties.setISTER(ister).tab(Atum.GROUP));
+    public static Block registerWithRenderer(@Nonnull Block block, @Nullable Item.Properties properties, @Nonnull String name) {
+        BlockItem blockItem = new BlockItemWithoutLevelRenderer(block, properties == null ? new Item.Properties() : properties.tab(Atum.GROUP));
         return registerBlockWithItem(block, blockItem, name);
     }
 
@@ -226,9 +230,9 @@ public class AtumRegistry {
      * @param builder      Builder for the entity
      * @return The EntityType that was registered
      */
-    public static <T extends Entity> EntityType<T> registerMob(String name, int eggPrimary, int eggSecondary, EntityType.Builder<T> builder) {
+    public static <T extends Mob> EntityType<T> registerMob(String name, int eggPrimary, int eggSecondary, EntityType.Builder<T> builder) {
         EntityType<T> entityType = registerEntity(name, builder);
-        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).tab(Atum.GROUP));
+        Item spawnEgg = new ForgeSpawnEggItem(() -> entityType, eggPrimary, eggSecondary, (new Item.Properties()).tab(Atum.GROUP));
         registerItem(spawnEgg, name + "_spawn_egg");
         return entityType;
     }
@@ -368,7 +372,7 @@ public class AtumRegistry {
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
-        AtumBiomes.addBiomeTags();
+        //AtumBiomes.addBiomeTags(); //TODO Uncomment when biomes are re-added
     }
 
     @SubscribeEvent

@@ -22,18 +22,14 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -141,22 +137,6 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             }
         }
         this.hasSpawned = true;
-    }
-
-    @Override
-    protected void playSound(@Nonnull SoundEvent sound) { //Overridden to change sound
-        ChestType chestType = this.getBlockState().getValue(ChestBlock.TYPE);
-        if (chestType != ChestType.LEFT) {
-            double x = (double)this.worldPosition.getX() + 0.5D;
-            double y = (double)this.worldPosition.getY() + 0.5D;
-            double z = (double)this.worldPosition.getZ() + 0.5D;
-            if (chestType == ChestType.RIGHT) {
-                Direction direction = ChestBlock.getConnectedDirection(this.getBlockState());
-                x += (double)direction.getStepX() * 0.5D;
-                z += (double)direction.getStepZ() * 0.5D;
-            }
-            this.level.playSound(null, x, y, z, SoundEvents.PISTON_CONTRACT, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.05F);
-        }
     }
 
     @Override

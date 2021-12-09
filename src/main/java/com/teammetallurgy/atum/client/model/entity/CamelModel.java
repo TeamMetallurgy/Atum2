@@ -30,8 +30,26 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
     public final ModelPart saddle1;
     public final ModelPart saddle2;
 
-    public CamelModel(float size) {
-        this.texWidth = 128;
+    public CamelModel(ModelPart part) {
+        this.headModel = part.getChild("headModel");
+        this.body = part.getChild("body");
+        this.legBackRight = part.getChild("legBackRight");
+        this.legBackLeft = part.getChild("legBackLeft");
+        this.legFrontRight = part.getChild("legFrontRight");
+        this.legFrontLeft = part.getChild("legFrontLeft");
+        this.neckheadModelLower = part.getChild("neckheadModelLower");
+        this.snout = part.getChild("snout");
+        this.earRight = part.getChild("earRight");
+        this.earLeft = part.getChild("earLeft");
+        this.hump1 = part.getChild("hump1");
+        this.hump2 = part.getChild("hump2");
+        this.tail = part.getChild("tail");
+        this.chestRight = part.getChild("chestRight");
+        this.chestLeft = part.getChild("chestLeft");
+        this.saddle1 = part.getChild("saddle1");
+        this.saddle2 = part.getChild("saddle2");
+
+        /*this.texWidth = 128;//TODO Needs re-exporting in Blockbench
         this.texHeight = 64;
         this.chestLeft = new ModelPart(this, 45, 41);
         this.chestLeft.setPos(5.5F, 3.0F, 3.0F);
@@ -97,7 +115,7 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
         this.headModel.addChild(this.earLeft);
         this.headModel.addChild(this.neckheadModelLower);
         this.body.addChild(this.hump1);
-        this.body.addChild(this.hump2);
+        this.body.addChild(this.hump2);*/
     }
 
     @Override
@@ -131,21 +149,21 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
     public void setupAnim(@Nonnull T camel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch) {
         limbSwingAmount *= CamelEntity.CAMEL_RIDING_SPEED_AMOUNT;
         if (camel.isVehicle()) {
-            this.headModel.getXRot() = Mth.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;
+            this.headModel.xRot = Mth.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;
             Vec3 motion = camel.getDeltaMovement();
-            this.tail.getXRot() = -45.5F + (Mth.sqrt(Math.pow(motion.x, 2) + Math.pow(motion.z, 2)));
+            this.tail.xRot = -45.5F + (Mth.sqrt((float) (Math.pow(motion.x, 2) + Math.pow(motion.z, 2))));
         } else {
-            this.tail.getXRot() = -45.5F;
+            this.tail.xRot = -45.5F;
         }
         this.tail.zRot = Mth.cos(limbSwing * 0.6662F) * 0.1F * limbSwingAmount;
 
-        this.headModel.getXRot() = headModelPitch * 0.017453292F;
-        this.headModel.getYRot() = netheadModelYaw * 0.017453292F;
-        this.body.getXRot() = 1.5707964F;
-        this.legBackRight.getXRot() = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.legBackLeft.getXRot() = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
-        this.legFrontRight.getXRot() = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
-        this.legFrontLeft.getXRot() = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.headModel.xRot = headModelPitch * 0.017453292F;
+        this.headModel.yRot = netheadModelYaw * 0.017453292F;
+        this.body.xRot = 1.5707964F;
+        this.legBackRight.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.legBackLeft.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
+        this.legFrontRight.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
+        this.legFrontLeft.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 
         boolean isChild = camel.isBaby();
         boolean isSaddled = !isChild && camel.isSaddled();
@@ -156,8 +174,8 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
     }
 
     private void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.getXRot() = x;
-        modelRenderer.getYRot() = y;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
         modelRenderer.zRot = z;
     }
 }

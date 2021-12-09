@@ -47,6 +47,7 @@ import org.lwjgl.glfw.GLFW;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnubisWrathItem extends SwordItem implements IArtifact {
@@ -68,18 +69,18 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     }
 
     @Override
-    public boolean showDurabilityBar(@Nonnull ItemStack stack) {
-        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
+    public boolean isBarVisible(@Nonnull ItemStack stack) {
+        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.isBarVisible(stack) : getSouls(stack) > 0;
     }
 
     @Override
-    public double getDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / (double) getSoulUpgradeTier(getTier(stack));
+    public int getBarWidth(@Nonnull ItemStack stack) {
+        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getBarWidth(stack) : (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / getSoulUpgradeTier(getTier(stack));
     }
 
     @Override
-    public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
+    public int getBarColor(@Nonnull ItemStack stack) {
+        return !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getBarColor(stack) : 12452784;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -100,9 +101,9 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
                 LivingEntity entity = event.getEntityLiving();
+                Random random = entity.level.random;
                 double y = Mth.nextDouble(random, 0.02D, 0.1D);
-                if (entity.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) entity.level;
+                if (entity.level instanceof ServerLevel serverWorld) {
                     serverWorld.sendParticles(AtumParticles.ANUBIS, entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }

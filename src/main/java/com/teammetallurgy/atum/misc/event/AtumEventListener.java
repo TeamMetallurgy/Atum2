@@ -35,9 +35,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CauldronBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -112,7 +110,7 @@ public class AtumEventListener {
                     BlockState state = world.getBlockState(entityItem.blockPosition());
                     if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.defaultBlockState())) {
                         if (AtumBlocks.PORTAL.trySpawnPortal(world, entityItem.blockPosition())) {
-                            entityItem.remove();
+                            entityItem.discard();
                             return;
                         }
                     }
@@ -142,13 +140,13 @@ public class AtumEventListener {
 
             if (stack.getItem() instanceof WandererDyeableArmor && ((WandererDyeableArmor) stack.getItem()).hasCustomColor(stack)) {
                 BlockState state = world.getBlockState(pos);
-                if (state.getBlock() instanceof CauldronBlock) {
-                    int level = state.getValue(CauldronBlock.LEVEL);
+                if (state.getBlock() instanceof LayeredCauldronBlock) {
+                    int level = state.getValue(LayeredCauldronBlock.LEVEL);
                     if (level > 0) {
                         if (!world.isClientSide) {
                             ((WandererDyeableArmor) stack.getItem()).clearColor(stack);
                             player.awardStat(Stats.CLEAN_ARMOR);
-                            ((CauldronBlock) state.getBlock()).setWaterLevel(world, pos, state, level - 1);
+                            LayeredCauldronBlock.lowerFillLevel(state, world, pos);
                         }
                         player.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.16F, 0.66F);
                         event.setUseItem(Event.Result.DENY);
@@ -221,7 +219,7 @@ public class AtumEventListener {
             double x = angler.getX() - bobber.getX();
             double y = angler.getY() - bobber.getY();
             double z = angler.getZ() - bobber.getZ();
-            double swush = Mth.sqrt(x * x + y * y + z * z);
+            double swush = Mth.sqrt((float) (x * x + y * y + z * z));
             fish.setDeltaMovement(x * 0.1D, y * 0.1D + swush * 0.08D, z * 0.1D);
             world.addFreshEntity(fish);
         }

@@ -35,7 +35,7 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
     public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
         ItemStack heldStack = player.getItemInHand(hand);
         Block block = Block.byItem(heldStack.getItem());
-        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightValue(block.defaultBlockState(), world, pos) > 0)) {
+        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightEmission(block.defaultBlockState(), world, pos) > 0)) {
             if (heldStack.getItem().canBeDepleted()) {
                 heldStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
             }
@@ -49,7 +49,7 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent.RightClickBlock event) { //Light unlit held torch
         BlockState state = event.getWorld().getBlockState(event.getPos());
-        if (Block.byItem(event.getItemStack().getItem()) instanceof AtumTorchUnlitBlock && state.getBlock().getLightValue(state.getBlock().defaultBlockState(), event.getWorld(), event.getPos()) > 0) {
+        if (Block.byItem(event.getItemStack().getItem()) instanceof AtumTorchUnlitBlock && state.getBlock().getLightEmission(state.getBlock().defaultBlockState(), event.getWorld(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);

@@ -123,13 +123,13 @@ public class FertileSoilTilledBlock extends FarmBlock {
         }
     }
 
-    @Override
-    public void onPlantGrow(BlockState state, @Nonnull LevelAccessor world, @Nonnull BlockPos pos, BlockPos source) {
+    /*@Override
+    public void onPlantGrow(BlockState state, @Nonnull LevelAccessor world, @Nonnull BlockPos pos, BlockPos source) { //TODO Is this even needed anymore?
         if (this == AtumBlocks.FERTILE_SOIL_TILLED) {
             world.setBlock(pos, AtumBlocks.FERTILE_SOIL.defaultBlockState(), 2);
         }
         super.onPlantGrow(state, world, pos, source);
-    }
+    }*/
 
     @Override
     public void onPlace(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {

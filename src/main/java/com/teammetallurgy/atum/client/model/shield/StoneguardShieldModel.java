@@ -24,8 +24,21 @@ public class StoneguardShieldModel extends AbstractShieldModel {
     private final ModelPart handleSide1;
     private final ModelPart handleSide2;
 
-    public StoneguardShieldModel() {
-        this.texWidth = 32;
+    public StoneguardShieldModel(ModelPart part) {
+        this.shieldCore = part.getChild("shieldCore");
+        this.handleCore = part.getChild("handleCore");
+        this.shieldCenter = part.getChild("shieldCenter");
+        this.shieldTop1 = part.getChild("shieldTop1");
+        this.shieldTop2 = part.getChild("shieldTop2");
+        this.shieldTop3 = part.getChild("shieldTop3");
+        this.shieldTop4 = part.getChild("shieldTop4");
+        this.shieldBottom1 = part.getChild("shieldBottom1");
+        this.shieldBottom2 = part.getChild("shieldBottom2");
+        this.shieldBottom3 = part.getChild("shieldBottom3");
+        this.shieldBottom4 = part.getChild("shieldBottom4");
+        this.handleSide1 = part.getChild("handleSide1");
+        this.handleSide2 = part.getChild("handleSide2");
+        /*this.texWidth = 32; //TODO Needs re-exported in Blockbench
         this.texHeight = 32;
         this.shieldTop1 = new ModelPart(this, 0, 8);
         this.shieldTop1.setPos(0.0F, 0.0F, 0.0F);
@@ -76,7 +89,7 @@ public class StoneguardShieldModel extends AbstractShieldModel {
         this.shieldCore.addChild(this.shieldBottom4);
         this.shieldCore.addChild(this.shieldTop4);
         this.shieldCore.addChild(this.shieldTop3);
-        this.shieldCore.addChild(this.shieldCenter);
+        this.shieldCore.addChild(this.shieldCenter);*/
     }
 
     @Override

@@ -7,7 +7,10 @@ import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
 import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
-import com.teammetallurgy.atum.client.model.entity.*;
+import com.teammetallurgy.atum.client.model.entity.NonRangedSkeletonModel;
+import com.teammetallurgy.atum.client.model.entity.MonsterModel;
+import com.teammetallurgy.atum.client.model.entity.NomadModel;
+import com.teammetallurgy.atum.client.model.entity.PharaohModel;
 import com.teammetallurgy.atum.client.render.entity.PharaohOrbRender;
 import com.teammetallurgy.atum.client.render.entity.TefnutsCallRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
@@ -22,6 +25,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.BlazeModel;
+import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -56,11 +61,19 @@ public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
     private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
 
-    //Model Layers
+    /**Model Layers**/
+    //Blocks
     public static final ModelLayerLocation CRATE = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "crate"), "crate");
     public static final ModelLayerLocation QUERN = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "quern"), "quern");
     public static final ModelLayerLocation SARCOPHAGUS = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "sarcophagus"), "sarcophagus");
     public static final ModelLayerLocation CURIO_DISPLAY = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "curio_display"), "curio_display");
+    //Entities
+    public static final ModelLayerLocation FORSAKEN = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "forsaken"), "forsaken");
+    public static final ModelLayerLocation MUMMY = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "mummy"), "mummy");
+    public static final ModelLayerLocation WRAITH = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "wraith"), "wraith");
+    public static final ModelLayerLocation BONESTORM = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "bonestorm"), "bonestorm");
+    public static final ModelLayerLocation PHARAOH = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "pharaoh"), "pharaoh");
+    public static final ModelLayerLocation TEFNUTS_CALL = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "tefnuts_call"), "tefnuts_call");
 
     public static void init() {
         //Screens
@@ -317,15 +330,15 @@ public class ClientHandler {
         event.registerEntityRenderer(AtumEntities.SERGEANT, AtumBipedRender::new);
         event.registerEntityRenderer(AtumEntities.BRIGAND, AtumBipedRender::new);
         event.registerEntityRenderer(AtumEntities.BARBARIAN, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.NOMAD, manager -> new AtumBipedRender<>(manager, new NomadModel<>(), new NomadModel<>(0.5F), new NomadModel<>(1.0F)));
+        event.registerEntityRenderer(AtumEntities.NOMAD, context -> new AtumBipedRender<>(context, new NomadModel<>(context), false));
         event.registerEntityRenderer(AtumEntities.BANDIT_WARLORD, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.PHARAOH, manager -> new AtumBipedRender<>(manager, new PharaohModel<>(0.0F), new PharaohModel<>(0.5F), new PharaohModel<>(1.0F)));
-        event.registerEntityRenderer(AtumEntities.MUMMY, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
-        event.registerEntityRenderer(AtumEntities.FORSAKEN, manager -> new AtumBipedRender<>(manager, new ForsakenModel(), new ForsakenModel(0.5F), new ForsakenModel(1.0F)));
-        event.registerEntityRenderer(AtumEntities.WRAITH, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
-        event.registerEntityRenderer(AtumEntities.VILLAGER_MALE, manager -> new AtumVillagerRenderer(manager, false));
-        event.registerEntityRenderer(AtumEntities.VILLAGER_FEMALE, manager -> new AtumVillagerRenderer(manager, true));
-        event.registerEntityRenderer(AtumEntities.BONESTORM, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));
+        event.registerEntityRenderer(AtumEntities.PHARAOH, context -> new AtumBipedRender<>(context, new PharaohModel<>(context.bakeLayer(PHARAOH)), false));
+        event.registerEntityRenderer(AtumEntities.MUMMY, context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(MUMMY)), false));
+        event.registerEntityRenderer(AtumEntities.FORSAKEN, context -> new AtumBipedRender<>(context, new NonRangedSkeletonModel(context.bakeLayer(FORSAKEN)), false));
+        event.registerEntityRenderer(AtumEntities.WRAITH, context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(WRAITH)), false));
+        event.registerEntityRenderer(AtumEntities.VILLAGER_MALE, context -> new AtumVillagerRenderer(context, false));
+        event.registerEntityRenderer(AtumEntities.VILLAGER_FEMALE, context -> new AtumVillagerRenderer(context, true));
+        event.registerEntityRenderer(AtumEntities.BONESTORM, context -> new AtumMobRender<>(context, new BlazeModel<>(context.bakeLayer(BONESTORM))));
         event.registerEntityRenderer(AtumEntities.STONEGUARD, AtumBipedRender::new);
         event.registerEntityRenderer(AtumEntities.STONEWARDEN, StonewardenRender::new);
         event.registerEntityRenderer(AtumEntities.STONEGUARD_FRIENDLY, AtumBipedRender::new);
@@ -358,6 +371,9 @@ public class ClientHandler {
         event.registerLayerDefinition(QUERN, QuernRender::createLayer);
         event.registerLayerDefinition(SARCOPHAGUS, SarcophagusRender::createLayer);
         event.registerLayerDefinition(CURIO_DISPLAY, CurioDisplayTileEntityRender::createLayer);
+        event.registerLayerDefinition(BONESTORM, BlazeModel::createBodyLayer);
+        event.registerLayerDefinition(PHARAOH, PharaohModel::createLayer);
+        event.registerLayerDefinition(TEFNUTS_CALL, TridentModel::createLayer);
     }
 
     public static void registerBowModelProperties(BaseBowItem bow) {

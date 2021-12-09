@@ -2,10 +2,12 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.FurnaceMenu;
@@ -62,34 +64,37 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
         if (!level.isClientSide) {
             ItemStack itemstack = glassblower.items.get(1);
-            if (glassblower.isBurning() || !itemstack.isEmpty() && !this.items.get(0).isEmpty()) {
-                Recipe<?> irecipe = level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) this.recipeType, glassblower, level).orElse(null);
-                if (!glassblower.isBurning() && glassblower.canBurn(irecipe)) {
-                    glassblower.litTime = glassblower.getBurnDuration(itemstack);
-                    glassblower.litDuration = glassblower.litTime;
-                    if (glassblower.isBurning()) {
-                        flag1 = true;
-                        if (itemstack.hasContainerItem())
-                            glassblower.items.set(1, itemstack.getContainerItem());
-                        else if (!itemstack.isEmpty()) {
-                            itemstack.shrink(1);
-                            if (itemstack.isEmpty()) {
+            if (glassblower.isBurning() || !itemstack.isEmpty() && !glassblower.items.get(0).isEmpty()) {
+                Recipe<?> irecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, glassblower, level).orElse(null);
+                if (irecipe != null) {
+                    int maxStackSize = glassblower.getMaxStackSize();
+                    if (!glassblower.isBurning() && glassblower.canBurn(irecipe, glassblower.items, maxStackSize)) {
+                        glassblower.litTime = glassblower.getBurnDuration(itemstack);
+                        glassblower.litDuration = glassblower.litTime;
+                        if (glassblower.isBurning()) {
+                            flag1 = true;
+                            if (itemstack.hasContainerItem())
                                 glassblower.items.set(1, itemstack.getContainerItem());
+                            else if (!itemstack.isEmpty()) {
+                                itemstack.shrink(1);
+                                if (itemstack.isEmpty()) {
+                                    glassblower.items.set(1, itemstack.getContainerItem());
+                                }
                             }
                         }
                     }
-                }
 
-                if (glassblower.isBurning() && glassblower.canBurn(irecipe)) {
-                    ++glassblower.cookingProgress;
-                    if (glassblower.cookingProgress == glassblower.cookingTotalTime) {
+                    if (glassblower.isBurning() && glassblower.canBurn(irecipe, glassblower.items, maxStackSize)) {
+                        ++glassblower.cookingProgress;
+                        if (glassblower.cookingProgress == glassblower.cookingTotalTime) {
+                            glassblower.cookingProgress = 0;
+                            glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(level, irecipe.getResultItem(), glassblower);
+                            glassblower.burn(irecipe, glassblower.items, maxStackSize);
+                            flag1 = true;
+                        }
+                    } else {
                         glassblower.cookingProgress = 0;
-                        glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(irecipe.getResultItem(), true);
-                        glassblower.smelt(irecipe);
-                        flag1 = true;
                     }
-                } else {
-                    glassblower.cookingProgress = 0;
                 }
             } else if (!glassblower.isBurning() && glassblower.cookingProgress > 0) {
                 glassblower.cookingProgress = Mth.clamp(glassblower.cookingProgress - 2, 0, glassblower.cookingTotalTime);
@@ -97,7 +102,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
             if (flag != glassblower.isBurning()) {
                 flag1 = true;
-                glassblower.level.setBlock(glassblower.worldPosition, state.setValue(AbstractFurnaceBlock.LIT, glassblower.isBurning()), 3);
+                level.setBlock(pos, state.setValue(AbstractFurnaceBlock.LIT, glassblower.isBurning()), 3);
             }
         }
 
@@ -120,32 +125,55 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         }
 
         if (index == 0 && !flag) {
-            this.cookingTotalTime = this.getGlassBlowerCookTime(slotStack, false);
+            this.cookingTotalTime = this.getGlassBlowerCookTime(this.level, slotStack, this);
             this.cookingProgress = 0;
             this.setChanged();
         }
     }
 
-    //Copied from AbstractFurnaceTileEntity
-    private void smelt(@Nullable Recipe<?> recipe) {
-        if (recipe != null && this.canBurn(recipe)) {
-            ItemStack itemstack = this.items.get(0);
-            ItemStack itemstack1 = recipe.getResultItem();
-            ItemStack itemstack2 = this.items.get(2);
+    //Copied from AbstractFurnaceBlockEntity
+    private boolean burn(@Nullable Recipe<?> p_155027_, NonNullList<ItemStack> p_155028_, int p_155029_) {
+        if (p_155027_ != null && this.canBurn(p_155027_, p_155028_, p_155029_)) {
+            ItemStack itemstack = p_155028_.get(0);
+            ItemStack itemstack1 = ((Recipe<WorldlyContainer>) p_155027_).assemble(this);
+            ItemStack itemstack2 = p_155028_.get(2);
             if (itemstack2.isEmpty()) {
-                this.items.set(2, itemstack1.copy());
-            } else if (itemstack2.getItem() == itemstack1.getItem()) {
+                p_155028_.set(2, itemstack1.copy());
+            } else if (itemstack2.is(itemstack1.getItem())) {
                 itemstack2.grow(itemstack1.getCount());
             }
 
-            if (!this.level.isClientSide) {
-                this.setRecipeUsed(recipe);
+            if (itemstack.is(Blocks.WET_SPONGE.asItem()) && !p_155028_.get(1).isEmpty() && p_155028_.get(1).is(Items.BUCKET)) {
+                p_155028_.set(1, new ItemStack(Items.WATER_BUCKET));
             }
 
-            if (itemstack.getItem() == Blocks.WET_SPONGE.asItem() && !this.items.get(1).isEmpty() && this.items.get(1).getItem() == Items.BUCKET) {
-                this.items.set(1, new ItemStack(Items.WATER_BUCKET));
-            }
             itemstack.shrink(1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Copied from AbstractFurnaceBlockEntity
+    public boolean canBurn(@Nullable Recipe<?> p_155006_, NonNullList<ItemStack> p_155007_, int p_155008_) {
+        if (!p_155007_.get(0).isEmpty() && p_155006_ != null) {
+            ItemStack itemstack = ((Recipe<WorldlyContainer>) p_155006_).assemble(this);
+            if (itemstack.isEmpty()) {
+                return false;
+            } else {
+                ItemStack itemstack1 = p_155007_.get(2);
+                if (itemstack1.isEmpty()) {
+                    return true;
+                } else if (!itemstack1.sameItem(itemstack)) {
+                    return false;
+                } else if (itemstack1.getCount() + itemstack.getCount() <= p_155008_ && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) { // Forge fix: make furnace respect stack sizes in furnace recipes
+                    return true;
+                } else {
+                    return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize(); // Forge fix: make furnace respect stack sizes in furnace recipes
+                }
+            }
+        } else {
+            return false;
         }
     }
 }

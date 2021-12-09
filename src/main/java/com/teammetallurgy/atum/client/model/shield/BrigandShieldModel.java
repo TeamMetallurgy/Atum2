@@ -23,8 +23,21 @@ public class BrigandShieldModel extends AbstractShieldModel {
     private final ModelPart handleSide1;
     private final ModelPart handleSide2;
 
-    public BrigandShieldModel() {
-        this.texWidth = 32;
+    public BrigandShieldModel(ModelPart part) {
+        this.shieldCore = part.getChild("shieldCore");
+        this.handleCore = part.getChild("handleCore");
+        this.shieldTop1 = part.getChild("shieldTop1");
+        this.shieldTop2 = part.getChild("shieldTop2");
+        this.shieldTop3 = part.getChild("shieldTop3");
+        this.shieldTop4 = part.getChild("shieldTop4");
+        this.shieldBottom1 = part.getChild("shieldBottom1");
+        this.shieldBottom2 = part.getChild("shieldBottom2");
+        this.shieldBottom3 = part.getChild("shieldBottom3");
+        this.shieldBottom4 = part.getChild("shieldBottom4");
+        this.handleSide1 = part.getChild("handleSide1");
+        this.handleSide2 = part.getChild("handleSide2");
+
+        /*this.texWidth = 32; //TODO Needs to be re-exported in Blockbench
         this.texHeight = 32;
         this.handleSide1 = new ModelPart(this, 25, 3);
         this.handleSide1.setPos(0.0F, 0.0F, 0.0F);
@@ -71,7 +84,7 @@ public class BrigandShieldModel extends AbstractShieldModel {
         this.shieldCore.addChild(this.shieldBottom2);
         this.shieldCore.addChild(this.shieldBottom3);
         this.shieldCore.addChild(this.shieldTop4);
-        this.shieldCore.addChild(this.shieldTop1);
+        this.shieldCore.addChild(this.shieldTop1);*/
     }
 
     @Override

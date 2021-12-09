@@ -80,7 +80,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     @Override
-    public boolean canCreatureSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType) {
+    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, EntityType<?> entityType) {
         return false;
     }
 

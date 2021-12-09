@@ -34,7 +34,7 @@ public class AtumWallTorchUnlitBlock extends AtumWallTorch {
     public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) { //Copied from AtumTorchUnlitBlock
         ItemStack heldStack = player.getItemInHand(hand);
         Block block = Block.byItem(heldStack.getItem());
-        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightValue(block.defaultBlockState(), world, pos) > 0)) {
+        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightEmission(block.defaultBlockState(), world, pos) > 0)) {
             if (heldStack.getItem().canBeDepleted()) {
                 heldStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
             }

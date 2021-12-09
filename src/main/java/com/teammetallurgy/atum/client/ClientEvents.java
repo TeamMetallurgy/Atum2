@@ -2,9 +2,7 @@ package com.teammetallurgy.atum.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.*;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.IFogReductionItem;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -14,6 +12,7 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -40,15 +39,14 @@ public class ClientEvents {
     private static final ResourceLocation MUMMY_BLUR_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/hud/mummyblur.png");
 
     @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    public static void renderFog(EntityViewRenderEvent.FogDensity event) {
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         LocalPlayer clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
-        Entity entity = event.getInfo().getEntity();
+        Entity entity = event.getCamera().getEntity();
         Level world = entity.level;
 
         if (world.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
-            RenderSystem.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.05F;
 
             if (entity instanceof Player player) {
@@ -61,9 +59,8 @@ public class ClientEvents {
                 }
 
                 for (ItemStack armor : player.getArmorSlots()) {
-                    if (armor.getItem() instanceof IFogReductionItem) {
+                    if (armor.getItem() instanceof IFogReductionItem fogReductionItem) {
                         EquipmentSlot slotType = Mob.getEquipmentSlotForItem(armor);
-                        IFogReductionItem fogReductionItem = (IFogReductionItem) armor.getItem();
                         if (fogReductionItem.getSlotTypes().contains(slotType)) {
                             fogDensity = fogReductionItem.getFogReduction(fogDensity, armor);
                         }
@@ -72,7 +69,7 @@ public class ClientEvents {
                 if (player.getY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);
                 }
-                RenderSystem.fogDensity(fogDensity);
+                event.setDensity(fogDensity); //TODO Test if this new event works properly
                 event.setResult(Event.Result.ALLOW);
             }
         }
@@ -92,20 +89,23 @@ public class ClientEvents {
     public static void renderMummyHelmet(RenderGameOverlayEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
+        PoseStack poseStack = event.getMatrixStack();
 
-        if (player != null && mc.options.getCameraType().isFirstPerson() && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
+        //TODO Test & test if LAYER ElemntType works
+        if (player != null && mc.options.getCameraType().isFirstPerson() && event.getType() == RenderGameOverlayEvent.ElementType.LAYER && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
 
+            poseStack.pushPose();
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.disableAlphaTest();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            //RenderSystem.disableAlphaTest();
             mc.getTextureManager().bindForSetup(MUMMY_BLUR_TEXTURE);
             Tesselator tessellator = Tesselator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuilder();
-            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
+            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
             bufferbuilder.vertex(0.0D, height, -90.0D).uv(0.0F, 1.0F).endVertex();
             bufferbuilder.vertex(width, height, -90.0D).uv(1.0F, 1.0F).endVertex();
             bufferbuilder.vertex(width, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
@@ -113,8 +113,9 @@ public class ClientEvents {
             tessellator.end();
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            //RenderSystem.enableAlphaTest();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
         }
     }
 }

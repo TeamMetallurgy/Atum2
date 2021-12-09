@@ -103,7 +103,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -159,7 +159,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
                         }
 
                         if (this.attackStep > 1) {
-                            float f = Mth.sqrt(Mth.sqrt(distance)) * 0.5F;
+                            float f = Mth.sqrt(Mth.sqrt((float) distance)) * 0.5F;
                             this.bonestorm.level.playSound(null, livingBase.blockPosition(), SoundEvents.SKELETON_HURT, SoundSource.HOSTILE, 0.7F, (this.bonestorm.random.nextFloat() - this.bonestorm.random.nextFloat()) * 0.2F + 1.0F);
 
                             for (int i = 0; i < 1; ++i) {

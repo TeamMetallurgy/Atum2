@@ -89,7 +89,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
     @Override
     protected void tickDespawn() {
-        this.remove();
+        this.discard();
     }
 
     @Override
@@ -161,18 +161,18 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
             this.playSound(this.getDefaultHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
             if (this.getPierceLevel() <= 0) {
-                this.remove();
+                this.discard();
             }
         } else {
             entity.setRemainingFireTicks(fireTimer);
             this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
-            this.getYRot() += 180.0F;
+            this.setYRot(this.getYRot() + 180.0F);
             this.yRotO += 180.0F;
             if (!this.level.isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
-                this.remove();
+                this.discard();
             }
         }
-        this.remove();
+        this.discard();
     }
 
     public void doGodSpecificEffect(God god, LivingEntity shooter, LivingEntity target) {

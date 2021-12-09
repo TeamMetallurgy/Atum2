@@ -118,14 +118,14 @@ public class SarcophagusBlock extends ChestBaseBlock {
         if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
             sarcophagus.hasSpawned = true;
             sarcophagus.setOpenable();
-            sarcophagus.clearCache();
+            sarcophagus.setChanged();
 
             for (Direction horizontal : Direction.Plane.HORIZONTAL) {
                 BlockEntity tileEntityOffset = world.getBlockEntity(pos.relative(horizontal));
                 if (tileEntityOffset instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntityOffset).hasSpawned = true;
                     ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
-                    tileEntityOffset.clearCache();
+                    tileEntityOffset.setChanged();
                 }
             }
         }

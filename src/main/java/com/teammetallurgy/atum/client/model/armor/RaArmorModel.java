@@ -31,11 +31,22 @@ public class RaArmorModel extends ArmorModel {
     private final ModelPart leftBoot;
     private final ModelPart rightBoot;
 
-    public RaArmorModel(EquipmentSlot slot, boolean hasFullSet) {
+    public RaArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
         super(slot);
         this.hasFullSet = hasFullSet;
+        this.chestplate = part.getChild("chestplate");
+        this.rightShoulderBlade = part.getChild("rightShoulderBlade");
+        this.leftShoulderBlade = part.getChild("leftShoulderBlade");
+        this.leftBoot = part.getChild("leftBoot");
+        this.rightBoot = part.getChild("rightBoot");
+        this.leftCape = part.getChild("leftCape");
+        this.rightCape = part.getChild("rightCape");
+        this.horns = part.getChild("horns");
+        this.postiche = part.getChild("postiche");
+        this.hat = part.getChild("hat");
+        this.hornLeft_r1 = part.getChild("hornLeft_r1");
 
-        texWidth = 64;
+        /*texWidth = 64; //TODO Needs to be re-exported in Blockbench
         texHeight = 96;
 
         body = new ModelPart(this);
@@ -134,7 +145,7 @@ public class RaArmorModel extends ArmorModel {
         leftBoot = new ModelPart(this);
         leftBoot.setPos(0.0F, 24.0F, 0.0F);
         leftBoot.texOffs(32, 63).addBox(0.1F - 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.1F, true);
-        leftBoot.texOffs(29, 41).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
+        leftBoot.texOffs(29, 41).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);*/
     }
 
     @Override

@@ -2,15 +2,14 @@ package com.teammetallurgy.atum.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.*;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -36,10 +35,12 @@ public class SandstormRendering {
     public static void renderlast(RenderLevelLastEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null && player.level.dimension() == Atum.ATUM) {
+            PoseStack poseStack = event.getPoseStack();
+            float partialTick = event.getPartialTick();
             if (Minecraft.getInstance().options.hideGui) {
-                renderSand(event.getPartialTick(), 1, 2, 3, 4, 5, 6);
+                renderSand(poseStack, partialTick, 1, 2, 3, 4, 5, 6);
             } else {
-                renderSand(event.getPartialTick(), 1, 2, 3, 4, 5, 6);
+                renderSand(poseStack, partialTick, 1, 2, 3, 4, 5, 6);
             }
         }
     }
@@ -54,7 +55,7 @@ public class SandstormRendering {
         }
     }*/
 
-    private static void renderSand(float partialTicks, int... layers) {
+    private static void renderSand(PoseStack poseStack, float partialTicks, int... layers) { //TODO This 100% needs to be fixed
         float baseDarkness = AtumConfig.SANDSTORM.sandDarkness.get() / 100.0F;
         float baseAlpha = AtumConfig.SANDSTORM.sandAlpha.get() / 100.0F;
         float eyesOfAtumAlpha = AtumConfig.SANDSTORM.sandEyesAlpha.get() / 100.0F;
@@ -72,30 +73,29 @@ public class SandstormRendering {
 
             float light = getSunBrightness(world, partialTicks);
 
-            RenderSystem.pushMatrix();
-
-            //mc.entityRenderer.setupOverlayRendering();
+            poseStack.pushPose();
 
             RenderSystem.clear(256, Minecraft.ON_OSX);
-            RenderSystem.matrixMode(5889);
-            RenderSystem.pushMatrix();
-            RenderSystem.loadIdentity();
-            RenderSystem.ortho(0.0D, mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight(), 0.0D, 1000.0D, 3000.0D);
-            RenderSystem.matrixMode(5888);
-            RenderSystem.pushMatrix();
-            RenderSystem.loadIdentity();
-            RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
+            //RenderSystem.matrixMode(5889);
+            poseStack.pushPose();
+            //RenderSystem.loadIdentity();
+            //RenderSystem.ortho(0.0D, mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+            //RenderSystem.matrixMode(5888);
+            poseStack.pushPose();
+            //RenderSystem.loadIdentity();
+            poseStack.translate(0.0F, 0.0F, -2000.0F);
 
             RenderSystem.enableBlend();
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            RenderSystem.disableAlphaTest();
-            mc.getTextureManager().bind(SAND_BLUR_TEXTURE);
+            //RenderSystem.disableAlphaTest();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, SAND_BLUR_TEXTURE);
 
             Tesselator tessellator = Tesselator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuilder();
-            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
+            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
             BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
             boolean sky = player.level.canSeeSkyFromBelowWater(playerPos);
@@ -118,7 +118,7 @@ public class SandstormRendering {
                     alpha *= eyesOfAtumAlpha;
                 }
 
-                RenderSystem.color4f(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
+                RenderSystem.setShaderColor(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
                 double scaleX = 0.01F * mc.getWindow().getGuiScaledHeight() * scale * mc.getWindow().getGuiScale();
                 double scaleY = 0.01F * mc.getWindow().getGuiScaledWidth() * scale * mc.getWindow().getGuiScale();
                 float speed = 500f - i * 15;
@@ -136,15 +136,15 @@ public class SandstormRendering {
             RenderSystem.disableBlend();
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            //RenderSystem.enableAlphaTest();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-            RenderSystem.matrixMode(5889);
-            RenderSystem.popMatrix();
-            RenderSystem.matrixMode(5888);
-            RenderSystem.popMatrix();
+            //RenderSystem.matrixMode(5889);
+            poseStack.popPose();
+            //RenderSystem.matrixMode(5888);
+            poseStack.popPose();
 
-            RenderSystem.popMatrix();
+            poseStack.popPose();
         }
     }
 

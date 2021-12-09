@@ -71,6 +71,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJumping, ContainerListener, MenuProvider, NeutralMob {
@@ -317,7 +318,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
+    public float getBodyRollAngle(float p_70923_1_, float p_70923_2_) {
         float f = (this.shakeAnimO + (this.shakeAnim - this.shakeAnimO) * p_70923_1_ + p_70923_2_) / 1.8F;
 
         if (f < 0.0F) {
@@ -329,7 +330,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getInterestedAngle(float angle) {
+    public float getHeadRollAngle(float angle) {
         return (this.interestedAngleO + (this.interestedAngle - this.interestedAngleO) * angle) * 0.15F * (float) Math.PI;
     }
 
@@ -505,13 +506,13 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         }
     }
 
-    public Inventory getInventory() {
+    public SimpleContainer getInventory() {
         return this.desertWolfInventory;
     }
 
     private void initInventory() {
-        Container inventory = this.desertWolfInventory;
-        this.desertWolfInventory = new Inventory(2);
+        SimpleContainer inventory = this.desertWolfInventory;
+        this.desertWolfInventory = new SimpleContainer(2);
 
         if (inventory != null) {
             inventory.removeListener(this);
@@ -772,21 +773,40 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public boolean setSlot(int inventorySlot, @Nonnull ItemStack stack) {
+    @Nonnull
+    public SlotAccess getSlot(int inventorySlot) {
         int slot = inventorySlot - 400;
         if (slot >= 0 && slot < 2 && slot < this.desertWolfInventory.getContainerSize()) {
-            if (slot == 0 && !(stack.getItem() instanceof SaddleItem)) {
-                return false;
-            } else if (slot != 1 || this.isArmor(stack)) {
-                this.desertWolfInventory.setItem(slot, stack);
-                this.updateSlots();
-                return true;
-            } else {
-                return false;
+            if (slot == 0) {
+                return this.createEquipmentSlotAccess(slot, (stack) -> stack.isEmpty() || stack.getItem() instanceof SaddleItem);
             }
-        } else {
-            return false;
+
+            if (slot == 1) {
+                return this.createEquipmentSlotAccess(slot, (stack) -> stack.isEmpty() || this.isArmor(stack));
+            }
         }
+        return SlotAccess.NULL;
+    }
+
+    private SlotAccess createEquipmentSlotAccess(final int slot, final Predicate<ItemStack> p) {
+        return new SlotAccess() {
+            @Override
+            @Nonnull
+            public ItemStack get() {
+                return DesertWolfEntity.this.getInventory().getItem(slot);
+            }
+
+            @Override
+            public boolean set(@Nonnull ItemStack stack) {
+                if (!p.test(stack)) {
+                    return false;
+                } else {
+                    DesertWolfEntity.this.getInventory().setItem(slot, stack);
+                    DesertWolfEntity.this.updateSlots();
+                    return true;
+                }
+            }
+        };
     }
 
     private void setVariant(int variant) {

@@ -72,55 +72,55 @@ public class AtumBlocks {
     public static final Block GODFORGE = registerBlock(new GodforgeBlock(), "godforge");
     public static final Block QUANDARY_BLOCK = registerBlock(new QuandaryBlock(), "quandary_block");
     public static final Block GLASSBLOWER_FURNACE = registerBlock(new GlassblowerFurnace(), "glassblower_furnace");
-    public static final Block PALM_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+    public static final Block PALM_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new PalmCurioDisplayTileEntity();
+            return new PalmCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "palm_curio_display");
-    public static final Block DEADWOOD_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+    }, new Item.Properties(), "palm_curio_display");
+    public static final Block DEADWOOD_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new DeadwoodCurioDisplayTileEntity();
+            return new DeadwoodCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "deadwood_curio_display");
-    public static final Block ACACIA_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+    }, new Item.Properties(), "deadwood_curio_display");
+    public static final Block ACACIA_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new AcaciaCurioDisplayTileEntity();
+            return new AcaciaCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "acacia_curio_display");
-    public static final Block LIMESTONE_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.STONE) {
+    }, new Item.Properties(), "acacia_curio_display");
+    public static final Block LIMESTONE_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new LimestoneCurioDisplayTileEntity();
+            return new LimestoneCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "limestone_curio_display");
-    public static final Block ALABASTER_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.STONE) {
+    }, new Item.Properties(), "limestone_curio_display");
+    public static final Block ALABASTER_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new AlabasterCurioDisplayTileEntity();
+            return new AlabasterCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "alabaster_curio_display");
-    public static final Block PORPHYRY_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.STONE) {
+    }, new Item.Properties(), "alabaster_curio_display");
+    public static final Block PORPHYRY_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new PorphyryCurioDisplayTileEntity();
+            return new PorphyryCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "porphyry_curio_display");
-    public static final Block NEBU_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.METAL) {
+    }, new Item.Properties(), "porphyry_curio_display");
+    public static final Block NEBU_CURIO_DISPLAY = registerWithRenderer(new CurioDisplayBlock(Material.METAL) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new NebuCurioDisplayTileEntity();
+            return new NebuCurioDisplayTileEntity(pos, state);
         }
-    }, () -> ItemStackRenderer::new, new Item.Properties(), "nebu_curio_display");
+    }, new Item.Properties(), "nebu_curio_display");
     public static final Block BURNING_TRAP = registerBlock(new BurningTrapBlock(), "burning_trap");
     public static final Block POISON_TRAP = registerBlock(new PoisonTrapBlock(), "poison_trap");
     public static final Block TAR_TRAP = registerBlock(new TarTrapBlock(), "tar_trap");
     public static final Block SMOKE_TRAP = registerBlock(new SmokeTrapBlock(), "smoke_trap");
     public static final Block ARROW_TRAP = registerBlock(new ArrowTrapBlock(), "arrow_trap");
-    public static final Block SARCOPHAGUS = registerBlock(new SarcophagusBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "sarcophagus");
-    public static final Block LIMESTONE_CHEST = registerBlock(new LimestoneChestBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "limestone_chest");
+    public static final Block SARCOPHAGUS = registerWithRenderer(new SarcophagusBlock(), new Item.Properties(), "sarcophagus");
+    public static final Block LIMESTONE_CHEST = registerWithRenderer(new LimestoneChestBlock(), new Item.Properties(), "limestone_chest");
     public static final Block GOLD_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "gold_ore");
     public static final Block IRON_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "iron_ore");
     public static final Block COAL_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "coal_ore");
