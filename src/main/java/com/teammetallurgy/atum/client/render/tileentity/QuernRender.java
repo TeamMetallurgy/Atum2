@@ -38,7 +38,7 @@ import javax.annotation.Nonnull;
 public class QuernRender implements BlockEntityRenderer<QuernTileEntity> {
     private static final ResourceLocation QUERN_STONE = new ResourceLocation(Atum.MOD_ID, "textures/block/quern_stone.png");
     private static final RenderType QUERN_RENDER = RenderType.entityCutout(QUERN_STONE);
-    public final ModelPart core;
+    private final ModelPart core;
     private final ModelPart coreLeft;
     private final ModelPart coreRight;
     private final ModelPart coreFront;
@@ -46,23 +46,23 @@ public class QuernRender implements BlockEntityRenderer<QuernTileEntity> {
     private final ModelPart handle;
 
     public QuernRender(BlockEntityRendererProvider.Context context) {
-        ModelPart part = context.bakeLayer(ClientHandler.CURIO_DISPLAY);
+        ModelPart part = context.bakeLayer(ClientHandler.QUERN);
         this.core = part.getChild("core");
-        this.coreLeft = part.getChild("coreLeft");
-        this.coreRight = part.getChild("coreRight");
-        this.coreFront = part.getChild("coreFront");
-        this.coreBack = part.getChild("coreBack");
-        this.handle = part.getChild("handle");
+        this.coreLeft = this.core.getChild("core_left");
+        this.coreRight = this.core.getChild("core_right");
+        this.coreFront = this.core.getChild("core_front");
+        this.coreBack = this.core.getChild("core_back");
+        this.handle = this.core.getChild("handle");
     }
 
     public static LayerDefinition createLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
         PartDefinition core = partDefinition.addOrReplaceChild("core", CubeListBuilder.create().texOffs(0, 18).addBox(-5.0F, -2.0F, -5.0F, 10, 4, 10), PartPose.offset(0.0F, 20.0F, 0.0F));
-        core.addOrReplaceChild("coreLeft", CubeListBuilder.create().texOffs(0, 48).addBox(-6.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
-        core.addOrReplaceChild("coreRight", CubeListBuilder.create().texOffs(0, 48).addBox(5.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
-        core.addOrReplaceChild("coreFront", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, -6.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
-        core.addOrReplaceChild("coreBack", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, 5.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("core_left", CubeListBuilder.create().texOffs(0, 48).addBox(-6.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("core_right", CubeListBuilder.create().texOffs(0, 48).addBox(5.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("core_front", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, -6.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("core_back", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, 5.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
         core.addOrReplaceChild("handle", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -5.0F, -3.0F, 1, 3, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
         return LayerDefinition.create(meshDefinition, 64, 64);
     }

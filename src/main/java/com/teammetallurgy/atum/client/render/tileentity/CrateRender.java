@@ -41,15 +41,15 @@ public class CrateRender implements BlockEntityRenderer<CrateTileEntity> {
 
     public CrateRender(BlockEntityRendererProvider.Context context) {
         ModelPart part = context.bakeLayer(ClientHandler.CRATE);
-        this.crateCore = part.getChild("crateCore");
-        this.crateLid = part.getChild("crateLid");
+        this.crateCore = part.getChild("crate_core");
+        this.crateLid = part.getChild("crate_lid");
     }
 
     public static LayerDefinition createLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
-        partDefinition.addOrReplaceChild("crateCore", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, 0.0F, -8.0F, 16, 15, 16), PartPose.offset(8.0F, 9.0F, 0.0F));
-        partDefinition.addOrReplaceChild("crateLid", CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, 0.0F, -8.0F, 16, 1, 16), PartPose.offset(8.0F, 8.0F, 0.0F));
+        partDefinition.addOrReplaceChild("crate_core", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, 0.0F, -8.0F, 16, 15, 16), PartPose.offset(8.0F, 9.0F, 0.0F));
+        partDefinition.addOrReplaceChild("crate_lid", CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, 0.0F, -8.0F, 16, 1, 16), PartPose.offset(8.0F, 8.0F, 0.0F));
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 

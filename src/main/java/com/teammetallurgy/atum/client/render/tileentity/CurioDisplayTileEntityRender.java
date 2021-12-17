@@ -36,10 +36,10 @@ public abstract class CurioDisplayTileEntityRender implements BlockEntityRendere
 
     public CurioDisplayTileEntityRender(BlockEntityRendererProvider.Context context) {
         ModelPart part = context.bakeLayer(ClientHandler.CURIO_DISPLAY);
-        this.displayStand = part.getChild("displayStand");
-        this.displayStand1 = part.getChild("displayStand1");
-        this.displayStand2 = part.getChild("displayStand2");
-        this.displayStand3 = part.getChild("displayStand3");
+        this.displayStand = part.getChild("display_stand");
+        this.displayStand1 = part.getChild("display_stand_1");
+        this.displayStand2 = part.getChild("display_stand_2");
+        this.displayStand3 = part.getChild("display_stand_3");
     }
 
     public abstract Block getBlock();
@@ -47,10 +47,10 @@ public abstract class CurioDisplayTileEntityRender implements BlockEntityRendere
     public static LayerDefinition createLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
-        partDefinition.addOrReplaceChild("displayStand", CubeListBuilder.create().texOffs(48, 0).addBox(-2.0F, -7.0F, -2.0F, 4.0F, 6.0F, 4.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
-        partDefinition.addOrReplaceChild("displayStand1", CubeListBuilder.create().texOffs(24, 21).addBox(-5.0F, -8.0F, -5.0F, 10.0F, 1.0F, 10.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
-        partDefinition.addOrReplaceChild("displayStand2", CubeListBuilder.create().texOffs(24, 21).addBox(-5.0F, -1.0F, -5.0F, 10.0F, 1.0F, 10.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
-        partDefinition.addOrReplaceChild("displayStand3", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -16.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("display_stand", CubeListBuilder.create().texOffs(48, 0).addBox(-2.0F, -7.0F, -2.0F, 4.0F, 6.0F, 4.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("display_stand_1", CubeListBuilder.create().texOffs(24, 21).addBox(-5.0F, -8.0F, -5.0F, 10.0F, 1.0F, 10.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("display_stand_2", CubeListBuilder.create().texOffs(24, 21).addBox(-5.0F, -1.0F, -5.0F, 10.0F, 1.0F, 10.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("display_stand_3", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -16.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.offset(0.0F, 24.0F, 0.0F));
         return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
