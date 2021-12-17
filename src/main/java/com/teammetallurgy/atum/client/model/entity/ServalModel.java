@@ -5,19 +5,16 @@ import com.teammetallurgy.atum.entity.animal.ServalEntity;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.ModelUtils;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
 import javax.annotation.Nonnull;
 
 public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
     private final ModelPart body;
-    private final ModelPart body_r1;
     private final ModelPart head;
     private final ModelPart tail;
-    private final ModelPart tail_r1;
     private final ModelPart backLeftLeg;
     private final ModelPart backRightLeg;
     private final ModelPart frontLeftLeg;
@@ -30,59 +27,37 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
     public ServalModel(ModelPart part) {
         super(true, 10.0F, 4.0F);
         this.body = part.getChild("body");
-        this.body_r1 = part.getChild("body_r1");
         this.head = part.getChild("head");
         this.tail = part.getChild("tail");
-        this.tail_r1 = part.getChild("tail_r1");
         this.backLeftLeg = part.getChild("backLeftLeg");
         this.backRightLeg = part.getChild("backRightLeg");
         this.frontLeftLeg = part.getChild("frontLeftLeg");
         this.frontRightLeg = part.getChild("frontRightLeg");
-
-        /*//TODO Needs re-exporting in Blockbench
-
-        body = new ModelPart(this);
-        body.texOffs(50, 21).addBox(2.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, size, false);
-        body.texOffs(50, 10).addBox(-3.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, size, false);
-        body.texOffs(26, 25).addBox(-3.0F, -6.0F, -8.0F, 6.0F, 1.0F, 6.0F, size, false);
-        body.texOffs(54, 6).addBox(-1.9F, -2.0F, -9.0F, 4.0F, 3.0F, 1.0F, size, false);
-
-        body_r1 = new ModelPart(this);
-        this.body.addChild(body_r1);
-        setRotationAngle(body_r1, 1.5708F, 0.0F, 0.0F);
-        body_r1.texOffs(20, 0).addBox(-2.0F, -7.0F, 6.0F, 4.0F, 16.0F, 6.0F, size, false);
-
-        head = new ModelPart(this);
-        head.texOffs(0, 0).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 4.0F, 5.0F, size, false);
-        head.texOffs(0, 28).addBox(-1.5F, -0.0156F, -4.0F, 3.0F, 2.0F, 2.0F, size, false);
-        head.texOffs(26, 22).addBox(-2.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, size, false);
-        head.texOffs(20, 22).addBox(1.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, size, false);
-
-        tail = new ModelPart(this);
-
-        tail_r1 = new ModelPart(this);
-        tail_r1.setPos(0.0F, 9.0F, -8.0F);
-        this.tail.addChild(tail_r1);
-        setRotationAngle(tail_r1, 0.6109F, 0.0F, 0.0F);
-        tail_r1.texOffs(0, 15).addBox(-0.5F, -5.0F, 13.0F, 1.0F, 11.0F, 1.0F, size, false);
-
-        backLeftLeg = new ModelPart(this);
-        backLeftLeg.texOffs(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, size, false);
-
-        backRightLeg = new ModelPart(this);
-        backRightLeg.texOffs(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, size, false);
-
-        frontLeftLeg = new ModelPart(this);
-        frontLeftLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);
-
-        frontRightLeg = new ModelPart(this);
-        frontRightLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);*/
     }
 
-    public static LayerDefinition createLayer() {
-        MeshDefinition meshDefinition = new MeshDefinition();
-        PartDefinition partDefinition = meshDefinition.getRoot();
-        return LayerDefinition.create(meshDefinition, 64, 32);
+    public static MeshDefinition createMesh(CubeDeformation cubeDeformation) {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(50, 21).addBox(2.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, cubeDeformation)
+                .texOffs(50, 10).addBox(-3.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, cubeDeformation)
+                .texOffs(26, 25).addBox(-3.0F, -6.0F, -8.0F, 6.0F, 1.0F, 6.0F, cubeDeformation)
+                .texOffs(54, 6).addBox(-1.9F, -2.0F, -9.0F, 4.0F, 3.0F, 1.0F, cubeDeformation), PartPose.offset(0.0F, 17.0F, 1.0F));
+        body.addOrReplaceChild("body_r1", CubeListBuilder.create().texOffs(20, 0).addBox(-2.0F, -7.0F, 6.0F, 4.0F, 16.0F, 6.0F, cubeDeformation), PartPose.offsetAndRotation(0.0F, 7.0F, -1.0F, 1.5708F, 0.0F, 0.0F));
+
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 4.0F, 5.0F, cubeDeformation)
+                .texOffs(0, 28).addBox(-1.5F, -0.0156F, -4.0F, 3.0F, 2.0F, 2.0F, cubeDeformation)
+                .texOffs(26, 22).addBox(-2.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, cubeDeformation)
+                .texOffs(20, 22).addBox(1.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, cubeDeformation), PartPose.offset(0.0F, 13.0F, -9.0F));
+
+        PartDefinition tail = partdefinition.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offset(0.0F, 15.0F, 8.0F));
+        tail.addOrReplaceChild("tail_r1", CubeListBuilder.create().texOffs(0, 15).addBox(-0.5F, -5.0F, 13.0F, 1.0F, 11.0F, 1.0F, cubeDeformation), PartPose.offsetAndRotation(0.0F, 9.0F, -8.0F, 0.6109F, 0.0F, 0.0F));
+        partdefinition.addOrReplaceChild("backLeftLeg", CubeListBuilder.create().texOffs(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, cubeDeformation), PartPose.offset(1.1F, 18.0F, 7.0F));
+        partdefinition.addOrReplaceChild("backRightLeg", CubeListBuilder.create().texOffs(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, cubeDeformation), PartPose.offset(-1.1F, 18.0F, 7.0F));
+        partdefinition.addOrReplaceChild("frontLeftLeg", CubeListBuilder.create().texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, cubeDeformation), PartPose.offset(1.2F, 14.0F, -4.0F));
+        partdefinition.addOrReplaceChild("frontRightLeg", CubeListBuilder.create().texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, cubeDeformation), PartPose.offset(-1.2F, 14.0F, -4.0F));
+
+        return meshdefinition;
     }
 
     @Override
@@ -151,7 +126,7 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
 
     public void baseLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
         body.setPos(0.0F, 17.0F, 1.0F);
-        body_r1.setPos(0.0F, 7.0F, -1.0F);
+        //body_r1.setPos(0.0F, 7.0F, -1.0F); //TODO Check if it´s fine without
         head.setPos(0.0F, 13.0F, -9.0F);
         tail.setPos(0.0F, 15.0F, 8.0F);
         backLeftLeg.setPos(1.1F, 18.0F, 7.0F);
@@ -214,6 +189,5 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
                 this.frontRightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
             }
         }
-
     }
 }

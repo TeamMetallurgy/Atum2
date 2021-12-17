@@ -35,7 +35,7 @@ public class SandstormHandler {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onWorldLoad(WorldEvent.Load event) { // calculateInitialWeather
-        if (event.getWorld() instanceof ServerLevel && DimensionHelper.getData((ServerLevel) event.getWorld()).isStorming()) {
+        if (event.getWorld() instanceof ServerLevel serverLevel && serverLevel.dimension() == Atum.ATUM && DimensionHelper.getData((ServerLevel) event.getWorld()).isStorming()) {
             this.stormStrength = 1.0F;
         }
     }

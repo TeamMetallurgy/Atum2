@@ -15,7 +15,7 @@ public class PharaohOrbModel extends EntityModel<PharaohOrbEntity> {
     private final ModelPart main;
 
     public PharaohOrbModel(ModelPart part) {
-        this.main = part.getChild("child");
+        this.main = part.getChild("main");
     }
 
     public static LayerDefinition createLayer() {

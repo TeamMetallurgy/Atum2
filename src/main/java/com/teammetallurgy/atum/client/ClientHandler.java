@@ -7,7 +7,12 @@ import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
 import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
+import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
+import com.teammetallurgy.atum.client.model.armor.RaArmorModel;
 import com.teammetallurgy.atum.client.model.entity.*;
+import com.teammetallurgy.atum.client.model.shield.AtemsProtectionModel;
+import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
+import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.client.render.entity.PharaohOrbRender;
 import com.teammetallurgy.atum.client.render.entity.TefnutsCallRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
@@ -22,9 +27,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.model.BlazeModel;
-import net.minecraft.client.model.TridentModel;
+import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -381,17 +387,34 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        LayerDefinition zombie = LayerDefinition.create(HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F), 64, 64);
+
         event.registerLayerDefinition(CRATE, CrateRender::createLayer);
         event.registerLayerDefinition(QUERN, QuernRender::createLayer);
         event.registerLayerDefinition(SARCOPHAGUS, SarcophagusRender::createLayer);
         event.registerLayerDefinition(CURIO_DISPLAY, CurioDisplayTileEntityRender::createLayer);
+        event.registerLayerDefinition(FORSAKEN, NonRangedSkeletonModel::createLayer);
+        event.registerLayerDefinition(MUMMY, () -> zombie);
+        event.registerLayerDefinition(WRAITH, () -> zombie);
         event.registerLayerDefinition(BONESTORM, BlazeModel::createBodyLayer);
         event.registerLayerDefinition(PHARAOH, PharaohModel::createLayer);
+        event.registerLayerDefinition(PHARAOH_ORB, PharaohOrbModel::createLayer);
+        event.registerLayerDefinition(CAMEL, () -> LayerDefinition.create(CamelModel.createMesh(CubeDeformation.NONE), 128, 64));
+        event.registerLayerDefinition(CAMEL_ARMOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.02F)), 128, 64));
+        event.registerLayerDefinition(CAMEL_DECOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.01F)), 128, 64));
         event.registerLayerDefinition(QUAIL, QuailModel::createLayer);
         event.registerLayerDefinition(STONEWARDEN, StonewardenModel::createLayer);
-        event.registerLayerDefinition(DESERT_WOLF, DesertWolfModel::createLayer);
-        event.registerLayerDefinition(SERVAL, ServalModel::createLayer);
+        event.registerLayerDefinition(DESERT_WOLF, () -> LayerDefinition.create(DesertWolfModel.createMesh(CubeDeformation.NONE), 64, 32));
+        event.registerLayerDefinition(DESERT_WOLF_ARMOR, () -> LayerDefinition.create(DesertWolfModel.createMesh(new CubeDeformation(0.02F)), 64, 32));
+        event.registerLayerDefinition(DESERT_WOLF_SADDLE, () -> LayerDefinition.create(DesertWolfModel.createMesh(new CubeDeformation(0.01F)), 64, 32));
+        event.registerLayerDefinition(SERVAL, () -> LayerDefinition.create(ServalModel.createMesh(CubeDeformation.NONE), 64, 32));
+        event.registerLayerDefinition(SERVAL_COLLAR, () -> LayerDefinition.create(ServalModel.createMesh(new CubeDeformation(0.01F)), 64, 32));
         event.registerLayerDefinition(TEFNUTS_CALL, TridentModel::createLayer);
+        event.registerLayerDefinition(ATEM_ARMOR, AtemArmorModel::createLayer);
+        event.registerLayerDefinition(RA_ARMOR, RaArmorModel::createLayer);
+        event.registerLayerDefinition(ATEMS_PROTECTION, AtemsProtectionModel::createLayer);
+        event.registerLayerDefinition(BRIGAND_SHIELD, BrigandShieldModel::createLayer);
+        event.registerLayerDefinition(STONEGUARD_SHIELD, StoneguardShieldModel::createLayer);
     }
 
     public static void registerBowModelProperties(BaseBowItem bow) {
