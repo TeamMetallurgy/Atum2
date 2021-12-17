@@ -23,12 +23,6 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class AtemArmorModel extends ArmorModel {
 	private boolean hasFullSet;
-	private final ModelPart fins;
-	private final ModelPart hat;
-	private final ModelPart postiche;
-	private final ModelPart chestplate;
-	private final ModelPart rightShoulderBlade;
-	private final ModelPart leftShoulderBlade;
 	private final ModelPart leftBoot;
 	private final ModelPart rightBoot;
 	private final ModelPart leftCape;
@@ -38,12 +32,6 @@ public class AtemArmorModel extends ArmorModel {
 		super(slot);
 		ModelPart part = Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR);
 		this.hasFullSet = hasFullSet;
-		this.fins = part.getChild("fins");
-		this.hat = part.getChild("hat");
-		this.postiche = part.getChild("postiche");
-		this.chestplate = part.getChild("chestplate");
-		this.rightShoulderBlade = part.getChild("right_shoulder_blade");
-		this.leftShoulderBlade = part.getChild("left_shoulder_blade");
 		this.leftBoot = part.getChild("left_boot");
 		this.rightBoot = part.getChild("right_boot");
 		this.leftCape = part.getChild("left_cape");
@@ -62,14 +50,16 @@ public class AtemArmorModel extends ArmorModel {
 				.texOffs(48, 88).mirror().addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.35F)).mirror(false)
 				.texOffs(48, 80).mirror().addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(-5.0F, 2.0F, 0.0F));
 		bipedRightArm.addOrReplaceChild("right_shoulder_blade", CubeListBuilder.create().texOffs(18, 90).mirror().addBox(-14.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(10.0F, 0.0F, 0.0F));
-		bipedRightArm.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
+
+		partdefinition.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
 
 		PartDefinition bipedLeftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.1F)).mirror(false)
 				.texOffs(52, 30).mirror().addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.4F)).mirror(false)
 				.texOffs(32, 88).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.35F)).mirror(false)
 				.texOffs(32, 80).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(5.0F, 2.0F, 0.0F));
 		bipedLeftArm.addOrReplaceChild("left_shoulder_blade", CubeListBuilder.create().texOffs(18, 82).mirror().addBox(0.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
-		bipedLeftArm.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
+
+		partdefinition.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
 
 		PartDefinition bipedHead = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.1F))
 				.texOffs(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, new CubeDeformation(-0.25F))

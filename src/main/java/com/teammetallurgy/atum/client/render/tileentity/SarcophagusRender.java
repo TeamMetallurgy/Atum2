@@ -59,7 +59,7 @@ public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEnt
         partDefinition.addOrReplaceChild("sarcophagus_lid", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -2.0F, -16.0F, 30, 2, 14), PartPose.offset(1.0F, 14.0F, 9.0F));
         partDefinition.addOrReplaceChild("sarcophagus_liddeco_1", CubeListBuilder.create().texOffs(48, 51).addBox(-15.0F, -3.0F, -15.0F, 28, 1, 12), PartPose.offset(1.0F, 14.0F, 9.0F));
         partDefinition.addOrReplaceChild("sarcophagus_liddeco_2", CubeListBuilder.create().texOffs(90, 0).addBox(-14.0F, -4.0F, -13.0F, 8, 1, 8), PartPose.offset(1.0F, 14.0F, 9.0F));
-        partDefinition.addOrReplaceChild("sarcophagus_liddeco_3", CubeListBuilder.create().texOffs(0, 45).addBox(-4.0F, -4.0F, -13.0F, 15, 1, 8), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("sarcophagus_liddeco_3", CubeListBuilder.create().texOffs(0, 45).addBox(-4.0F, -4.0F, -13.0F, 15, 1, 8), PartPose.offset(1.0F, 14.0F, 9.0F));
         partDefinition.addOrReplaceChild("sarcophagus_gemchest", CubeListBuilder.create().texOffs(0, 45).addBox(0.0F, -4.5F, -10.0F, 2, 2, 2), PartPose.offset(1.0F, 14.0F, 9.0F));
         partDefinition.addOrReplaceChild("sarcophagus_gemhead", CubeListBuilder.create().texOffs(0, 45).addBox(-12.0F, -4.5F, -10.0F, 2, 2, 2), PartPose.offset(1.0F, 14.0F, 9.0F));
         return LayerDefinition.create(meshDefinition, 128, 64);
