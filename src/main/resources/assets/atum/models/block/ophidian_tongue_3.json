@@ -1,7 +1,0 @@
-{
-    "parent": "block/vine_3",
-    "textures": {
-        "particle": "atum:block/ophidian_tongue_vine",
-        "vine": "atum:block/ophidian_tongue_vine"
-    }
-}

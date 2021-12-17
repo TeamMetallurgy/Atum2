@@ -1,68 +1,256 @@
 {
-    "variants": {
-        "east=false,flowers=false,north=false,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_1" },
-        "east=false,flowers=false,north=false,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_1" },
-        "east=false,flowers=false,north=false,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_1", "y": 90 },
-        "east=false,flowers=false,north=true,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_1", "y": 180 },
-        "east=true,flowers=false,north=false,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_1", "y": 270 },
-        "east=true,flowers=false,north=true,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_2" },
-        "east=true,flowers=false,north=false,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_2", "y": 90 },
-        "east=false,flowers=false,north=false,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_2", "y": 180 },
-        "east=false,flowers=false,north=true,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_2", "y": 270 },
-        "east=true,flowers=false,north=false,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_2_opposite" },
-        "east=false,flowers=false,north=true,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_2_opposite", "y": 90 },
-        "east=true,flowers=false,north=true,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_3" },
-        "east=true,flowers=false,north=false,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_3", "y": 90 },
-        "east=false,flowers=false,north=true,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_3", "y": 180 },
-        "east=true,flowers=false,north=true,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_3", "y": 270 },
-        "east=true,flowers=false,north=true,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_4" },
-        "east=false,flowers=false,north=false,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_u" },
-        "east=false,flowers=false,north=false,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_1u" },
-        "east=false,flowers=false,north=false,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_1u", "y": 90 },
-        "east=false,flowers=false,north=true,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_1u", "y": 180 },
-        "east=true,flowers=false,north=false,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_1u", "y": 270 },
-        "east=true,flowers=false,north=true,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_2u" },
-        "east=true,flowers=false,north=false,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_2u", "y": 90 },
-        "east=false,flowers=false,north=false,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_2u", "y": 180 },
-        "east=false,flowers=false,north=true,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_2u", "y": 270 },
-        "east=true,flowers=false,north=false,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_2u_opposite" },
-        "east=false,flowers=false,north=true,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_2u_opposite", "y": 90 },
-        "east=true,flowers=false,north=true,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_3u" },
-        "east=true,flowers=false,north=false,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_3u", "y": 90 },
-        "east=false,flowers=false,north=true,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_3u", "y": 180 },
-        "east=true,flowers=false,north=true,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_3u", "y": 270 },
-        "east=true,flowers=false,north=true,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_4u" },
-        "east=false,flowers=true,north=false,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_1" },
-        "east=false,flowers=true,north=false,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_1" },
-        "east=false,flowers=true,north=false,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_1", "y": 90 },
-        "east=false,flowers=true,north=true,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_1", "y": 180 },
-        "east=true,flowers=true,north=false,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_1", "y": 270 },
-        "east=true,flowers=true,north=true,south=false,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_2" },
-        "east=true,flowers=true,north=false,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_2", "y": 90 },
-        "east=false,flowers=true,north=false,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_2", "y": 180 },
-        "east=false,flowers=true,north=true,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_2", "y": 270 },
-        "east=true,flowers=true,north=false,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_2_opposite" },
-        "east=false,flowers=true,north=true,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_2_opposite", "y": 90 },
-        "east=true,flowers=true,north=true,south=true,up=false,west=false": { "model": "atum:block/ophidian_tongue_flowered_3" },
-        "east=true,flowers=true,north=false,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_3", "y": 90 },
-        "east=false,flowers=true,north=true,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_3", "y": 180 },
-        "east=true,flowers=true,north=true,south=false,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_3", "y": 270 },
-        "east=true,flowers=true,north=true,south=true,up=false,west=true": { "model": "atum:block/ophidian_tongue_flowered_4" },
-        "east=false,flowers=true,north=false,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_u"},
-        "east=false,flowers=true,north=false,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_1u"},
-        "east=false,flowers=true,north=false,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_1u", "y": 90 },
-        "east=false,flowers=true,north=true,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_1u", "y": 180 },
-        "east=true,flowers=true,north=false,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_1u", "y": 270 },
-        "east=true,flowers=true,north=true,south=false,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_2u"},
-        "east=true,flowers=true,north=false,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_2u", "y": 90 },
-        "east=false,flowers=true,north=false,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_2u", "y": 180 },
-        "east=false,flowers=true,north=true,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_2u", "y": 270 },
-        "east=true,flowers=true,north=false,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_2u_opposite" },
-        "east=false,flowers=true,north=true,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_2u_opposite", "y": 90 },
-        "east=true,flowers=true,north=true,south=true,up=true,west=false": { "model": "atum:block/ophidian_tongue_flowered_3u" },
-        "east=true,flowers=true,north=false,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_3u", "y": 90 },
-        "east=false,flowers=true,north=true,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_3u", "y": 180 },
-        "east=true,flowers=true,north=true,south=false,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_3u", "y": 270 },
-        "east=true,flowers=true,north=true,south=true,up=true,west=true": { "model": "atum:block/ophidian_tongue_flowered_4u" }
-    }
+    "multipart": [
+        {
+            "when": {
+                "up": "true",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "x": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "x": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "north": "true",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue"
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue"
+            }
+        },
+        {
+            "when": {
+                "west": "true",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "true",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "true",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "false"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "true",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "x": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "x": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "north": "true",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered"
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered"
+            }
+        },
+        {
+            "when": {
+                "west": "true",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "true",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "true",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "up": "false",
+                "north": "false",
+                "west": "false",
+                "south": "false",
+                "east": "false",
+                "flowers": "true"
+            },
+            "apply": {
+                "model": "atum:block/ophidian_tongue_flowered",
+                "y": 90,
+                "uvlock": true
+            }
+        }
+    ]
 }
