@@ -156,13 +156,13 @@ public class TefnutsCallEntity extends AbstractArrow {
                     this.doPostHurtEffects(livingEntity);
                 }
                 if (this.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) this.level;
+                    ServerLevel serverLevel = (ServerLevel) this.level;
                     BlockPos entityPos = this.blockPosition();
                     if (this.level.canSeeSky(entityPos)) {
                         LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.level);
                         lightningboltentity.moveTo(Vec3.atBottomCenterOf(entityPos));
                         lightningboltentity.setCause(shooter instanceof ServerPlayer ? (ServerPlayer) shooter : null);
-                        serverWorld.addFreshEntity(lightningboltentity);
+                        serverLevel.addFreshEntity(lightningboltentity);
                     }
                 }
                 this.playSound(SoundEvents.TRIDENT_THUNDER, 4.0F, 1.0F);

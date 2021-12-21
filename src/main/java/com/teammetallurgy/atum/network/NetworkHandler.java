@@ -41,8 +41,8 @@ public class NetworkHandler {
         CHANNEL.sendToServer(msg);
     }
 
-    public static void sendToDimension(Object packet, ServerLevel serverWorld, ResourceKey<Level> dimension) {
-        PlayerList playerList = serverWorld.getServer().getPlayerList();
+    public static void sendToDimension(Object packet, ServerLevel serverLevel, ResourceKey<Level> dimension) {
+        PlayerList playerList = serverLevel.getServer().getPlayerList();
         for (int i = 0; i < playerList.getPlayerCount(); ++i) {
             ServerPlayer serverPlayer = playerList.getPlayers().get(i);
             if (serverPlayer.level.dimension() == dimension) {

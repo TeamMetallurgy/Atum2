@@ -63,9 +63,9 @@ public class KilnOutputSlot extends Slot {
         this.removeCount = 0;
     }
 
-    private void spawnAllOrbs(ServerLevel serverWorld, @Nonnull ItemStack stack, int removeCount) {
-        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN));
-        recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverWorld.getRecipeManager()));
+    private void spawnAllOrbs(ServerLevel serverLevel, @Nonnull ItemStack stack, int removeCount) {
+        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverLevel.getRecipeManager(), IAtumRecipeType.KILN));
+        recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverLevel.getRecipeManager()));
         for (KilnRecipe kilnRecipe : recipes) {
             if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getResultItem())) {
                 this.spawnExpOrbs(player, removeCount, kilnRecipe.getExperience());

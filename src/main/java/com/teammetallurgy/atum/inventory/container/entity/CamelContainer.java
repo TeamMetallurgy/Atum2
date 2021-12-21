@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.init.AtumMenuType;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +25,7 @@ public class CamelContainer extends AbstractContainerMenu {
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
     public CamelContainer(int windowID, Inventory playerInventory, final int entityID) {
-        super(AtumGuis.CAMEL, windowID);
+        super(AtumMenuType.CAMEL, windowID);
         Player player = playerInventory.player;
         this.camel = (CamelEntity) player.level.getEntity(entityID);
         this.camelInventory = this.camel.getHorseChest();

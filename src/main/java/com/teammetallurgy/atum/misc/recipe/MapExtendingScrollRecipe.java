@@ -25,7 +25,7 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
     @Override
     @Nonnull
     public RecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.MAP_EXTENDING_SCROLL;
+        return AtumRecipeSerializers.MAP_EXTENDING_SCROLL.get();
     }
 
     @Override

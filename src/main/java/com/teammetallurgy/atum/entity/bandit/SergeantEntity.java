@@ -58,7 +58,7 @@ public class SergeantEntity extends BanditBaseEntity {
         if (killer instanceof Player) {
             double chance = this.random.nextDouble();
             if (chance <= 0.1D) {
-                ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH, 1020, 0, false, false, true));
+                ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH.get(), 1020, 0, false, false, true));
             }
         }
     }

@@ -70,11 +70,11 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
                         entity.hurt(DamageSource.playerAttack(player), damage);
                         if (entity.level instanceof ServerLevel) {
-                            ServerLevel serverWorld = (ServerLevel) entity.level;
+                            ServerLevel serverLevel = (ServerLevel) entity.level;
                             double d0 = -Mth.sin(player.getYRot() * 0.017453292F);
                             double d1 = Mth.cos(player.getYRot() * 0.017453292F);
-                            serverWorld.sendParticles(AtumParticles.MONTU, target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
-                            serverWorld.sendParticles(AtumParticles.MONTU, entity.getX() + d0, entity.getY() + 1.1D, entity.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
+                            serverLevel.sendParticles(AtumParticles.MONTU, target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
+                            serverLevel.sendParticles(AtumParticles.MONTU, entity.getX() + d0, entity.getY() + 1.1D, entity.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
                         }
                         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
                     }

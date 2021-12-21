@@ -63,12 +63,12 @@ public class AtumFindJobTask extends Behavior<Villager> {
         }
     }
 
-    private void yieldJobSite(ServerLevel serverWorld, Villager p_234022_2_, Villager p_234022_3_, BlockPos p_234022_4_, boolean p_234022_5_) {
+    private void yieldJobSite(ServerLevel serverLevel, Villager p_234022_2_, Villager p_234022_3_, BlockPos p_234022_4_, boolean p_234022_5_) {
         this.eraseMemories(p_234022_2_);
         if (!p_234022_5_) {
             BehaviorUtils.setWalkAndLookTargetMemories(p_234022_3_, p_234022_4_, this.f, 1);
-            p_234022_3_.getBrain().setMemory(MemoryModuleType.POTENTIAL_JOB_SITE, GlobalPos.of(serverWorld.dimension(), p_234022_4_));
-            DebugPackets.sendPoiTicketCountPacket(serverWorld, p_234022_4_);
+            p_234022_3_.getBrain().setMemory(MemoryModuleType.POTENTIAL_JOB_SITE, GlobalPos.of(serverLevel.dimension(), p_234022_4_));
+            DebugPackets.sendPoiTicketCountPacket(serverLevel, p_234022_4_);
         }
 
     }

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.init.AtumMenuType;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ public class AlphaDesertWolfContainer extends AbstractContainerMenu {
     public final DesertWolfEntity desertWolf;
 
     public AlphaDesertWolfContainer(int windowID, Inventory playerInventory, final int entityID) {
-        super(AtumGuis.ALPHA_DESERT_WOLF, windowID);
+        super(AtumMenuType.ALPHA_DESERT_WOLF, windowID);
         Player player = playerInventory.player;
         this.desertWolf = (DesertWolfEntity) player.level.getEntity(entityID);
         this.wolfInventory = this.desertWolf.getInventory();

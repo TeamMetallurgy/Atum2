@@ -51,10 +51,10 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
                 }
             }
             if (target.level instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) target.level;
+                ServerLevel serverLevel = (ServerLevel) target.level;
                 double x = Mth.nextDouble(random, 0.0001D, 0.04D);
                 double z = Mth.nextDouble(random, 0.0001D, 0.04D);
-                serverWorld.sendParticles(AtumParticles.HORUS, target.getX(), target.getY() + 0.9D, target.getZ(), 65, x, 0.9D, -z, 0.005D);
+                serverLevel.sendParticles(AtumParticles.HORUS, target.getX(), target.getY() + 0.9D, target.getZ(), 65, x, 0.9D, -z, 0.005D);
             }
         }
     }

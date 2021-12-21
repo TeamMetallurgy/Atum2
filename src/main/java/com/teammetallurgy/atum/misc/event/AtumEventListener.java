@@ -88,12 +88,12 @@ public class AtumEventListener {
         if (AtumConfig.ATUM_START.startInAtum.get()) {
             LivingEntity livingEntity = event.getEntityLiving();
             if (livingEntity instanceof ServerPlayer serverPlayer) {
-                ServerLevel serverWorld = serverPlayer.getLevel();
+                ServerLevel serverLevel = serverPlayer.getLevel();
                 BlockPos respawnPos = serverPlayer.getRespawnPosition();
                 if (respawnPos != null) {
-                    Optional<Vec3> bedPos = Player.findRespawnPositionAndUseSpawnBlock(serverWorld, respawnPos, serverPlayer.getRespawnAngle(), serverPlayer.isRespawnForced(), false);
+                    Optional<Vec3> bedPos = Player.findRespawnPositionAndUseSpawnBlock(serverLevel, respawnPos, serverPlayer.getRespawnAngle(), serverPlayer.isRespawnForced(), false);
                     if (!bedPos.isPresent()) {
-                        serverPlayer.setRespawnPosition(Atum.ATUM, serverWorld.getSharedSpawnPos(), serverPlayer.getYHeadRot(), true, false); //Ensure that the player respawns in Atum, when bed is broken
+                        serverPlayer.setRespawnPosition(Atum.ATUM, serverLevel.getSharedSpawnPos(), serverPlayer.getYHeadRot(), true, false); //Ensure that the player respawns in Atum, when bed is broken
                     }
                 }
             }

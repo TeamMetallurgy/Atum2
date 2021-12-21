@@ -35,17 +35,15 @@ public class ArrowSlownessEntity extends CustomArrow {
     @Override
     protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
         Entity entity = rayTraceResult.getEntity();
-        if (!level.isClientSide && entity instanceof LivingEntity) {
-            LivingEntity livingBase = (LivingEntity) entity;
+        if (!level.isClientSide && entity instanceof LivingEntity livingBase) {
             float chance = 0.25F;
             if (velocity == 1.0F) {
                 chance = 1.0F;
             }
             if (random.nextFloat() <= chance) {
                 livingBase.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1, false, true));
-                if (level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) level;
-                    serverWorld.sendParticles(AtumParticles.GEB, entity.getX(), this.getY(), entity.getZ(), 15, 0.0D, -0.06D, 0.0D, 0.025D);
+                if (level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(AtumParticles.GEB, entity.getX(), this.getY(), entity.getZ(), 15, 0.0D, -0.06D, 0.0D, 0.025D);
                 }
             }
         }

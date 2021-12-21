@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.inventory.container.block;
 
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
-import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.init.AtumMenuType;
 import com.teammetallurgy.atum.inventory.container.slot.GodforgeFuelSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class GodforgeContainer extends AbstractContainerMenu {
     public Slot fuelSlot;
 
     public GodforgeContainer(int id, Inventory playerInventory, GodforgeTileEntity godforgeInventory) {
-        super(AtumGuis.GODFORGE, id);
+        super(AtumMenuType.GODFORGE, id);
         this.godforgeInventory = godforgeInventory;
         this.godforgeData = godforgeInventory.godforgeData;
         this.addSlot(new Slot(godforgeInventory, 0, 56, 17) {

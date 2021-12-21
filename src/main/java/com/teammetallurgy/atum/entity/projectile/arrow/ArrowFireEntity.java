@@ -68,8 +68,8 @@ public class ArrowFireEntity extends CustomArrow {
 
         if (this.isCritArrow()) {
             if (this.level instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) this.level;
-                serverWorld.sendParticles(AtumParticles.RA_FIRE, this.getX() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + this.level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+                ServerLevel serverLevel = (ServerLevel) this.level;
+                serverLevel.sendParticles(AtumParticles.RA_FIRE, this.getX() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + this.level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

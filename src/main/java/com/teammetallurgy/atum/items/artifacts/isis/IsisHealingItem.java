@@ -44,10 +44,10 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
         if (livingEntity.getHealth() < livingEntity.getMaxHealth()) {
             Level world = livingEntity.getCommandSenderWorld();
             if (world instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) world;
+                ServerLevel serverLevel = (ServerLevel) world;
                 double x = Mth.nextDouble(world.random, 0.0001D, 0.05D);
                 double z = Mth.nextDouble(world.random, 0.0001D, 0.05D);
-                serverWorld.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
+                serverLevel.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
             }
             if (!world.isClientSide) {
                 livingEntity.heal(1.0F);

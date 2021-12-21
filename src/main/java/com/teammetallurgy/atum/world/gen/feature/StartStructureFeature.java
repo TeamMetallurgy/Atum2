@@ -29,8 +29,8 @@ public class StartStructureFeature extends Feature<NoneFeatureConfiguration> { /
     @Override
     public boolean place(@Nonnull WorldGenLevel seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoneFeatureConfiguration config) {
         if (seedReader instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) seedReader;
-            StructureManager manager = serverWorld.getStructureManager();
+            ServerLevel serverLevel = (ServerLevel) seedReader;
+            StructureManager manager = serverLevel.getStructureManager();
             StructureTemplate template = manager.get(new ResourceLocation(AtumConfig.ATUM_START.atumStartStructure.get()));
 
             if (template != null) {
@@ -40,9 +40,9 @@ public class StartStructureFeature extends Feature<NoneFeatureConfiguration> { /
                 BlockPos rotatedPos = template.getSize(rotation);
                 int x = rand.nextInt(rotatedPos.getX()) + template.getSize().getX();
                 int z = rand.nextInt(rotatedPos.getZ()) + template.getSize().getZ();
-                BlockPos posOffset = DimensionHelper.getSurfacePos(serverWorld, pos.offset(x, 0, z));
+                BlockPos posOffset = DimensionHelper.getSurfacePos(serverLevel, pos.offset(x, 0, z));
 
-                template.placeInWorld(serverWorld, posOffset, posOffset.below(), settings, rand, 20);
+                template.placeInWorld(serverLevel, posOffset, posOffset.below(), settings, rand, 20);
                 return true;
             } else {
                 Atum.LOG.error(AtumConfig.ATUM_START.atumStartStructure.get() + " is not a valid structure");

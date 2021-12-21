@@ -51,13 +51,13 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     public void applyEffectTick(@Nonnull LivingEntity livingEntity, int amplifier) {
         Level world = livingEntity.level;
         if (!world.isClientSide()) {
-            if (world instanceof ServerLevel serverWorld) {
-                if (serverWorld.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
-                    Random random = serverWorld.random;
+            if (world instanceof ServerLevel serverLevel) {
+                if (serverLevel.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
+                    Random random = serverLevel.random;
                     int x = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     int z = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ())).move(x, 0, z);
-                    DifficultyInstance difficulty = serverWorld.getCurrentDifficultyAt(mutablePos);
+                    DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(mutablePos);
                     if (difficulty.getDifficulty() != Difficulty.PEACEFUL) {
                         //Amplifier 0 to 9 = I to X
                         //Easy = 1, Normal = 2, Hard = 3
@@ -69,10 +69,10 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
                             int currentTime = NEXT_SPAWN.getInt(livingEntity);
                             NEXT_SPAWN.replace(livingEntity, currentTime - 1);
                         }
-                        if (serverWorld.isAreaLoaded(mutablePos, 10)) {
+                        if (serverLevel.isAreaLoaded(mutablePos, 10)) {
                             if (NEXT_SPAWN.getInt(livingEntity) <= 0) {
-                                mutablePos.setY(serverWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
-                                this.spawnAssassin(serverWorld, mutablePos, random, livingEntity);
+                                mutablePos.setY(serverLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
+                                this.spawnAssassin(serverLevel, mutablePos, random, livingEntity);
                                 NEXT_SPAWN.removeInt(livingEntity);
                                 NEXT_SPAWN.put(livingEntity, value);
                             }
@@ -86,7 +86,7 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     @SubscribeEvent
     public void onEffectExpired(PotionEvent.PotionExpiryEvent event) {
         MobEffectInstance effectInstance = event.getPotionEffect();
-        if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH) {
+        if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH.get()) {
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }
@@ -94,7 +94,7 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     @SubscribeEvent
     public void onEffectRemoval(PotionEvent.PotionRemoveEvent event) {
         MobEffectInstance effectInstance = event.getPotionEffect();
-        if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH) {
+        if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH.get()) {
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }

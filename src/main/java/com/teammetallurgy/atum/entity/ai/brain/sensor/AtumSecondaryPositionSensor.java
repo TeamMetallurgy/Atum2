@@ -21,8 +21,8 @@ public class AtumSecondaryPositionSensor extends SecondaryPoiSensor {
     }
 
     @Override
-    protected void doTick(ServerLevel serverWorld, Villager entity) {
-        ResourceKey<Level> worldKey = serverWorld.dimension();
+    protected void doTick(ServerLevel serverLevel, Villager entity) {
+        ResourceKey<Level> worldKey = serverLevel.dimension();
         BlockPos pos = entity.blockPosition();
         List<GlobalPos> list = Lists.newArrayList();
         int i = 4;
@@ -31,7 +31,7 @@ public class AtumSecondaryPositionSensor extends SecondaryPoiSensor {
             for (int k = -2; k <= 2; ++k) {
                 for (int l = -4; l <= 4; ++l) {
                     BlockPos statePos = pos.offset(j, k, l);
-                    if (entity instanceof AtumVillagerEntity && ((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession().getRelatedWorldBlocks().contains(serverWorld.getBlockState(statePos).getBlock())) {
+                    if (entity instanceof AtumVillagerEntity && ((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession().getRelatedWorldBlocks().contains(serverLevel.getBlockState(statePos).getBlock())) {
                         list.add(GlobalPos.of(worldKey, statePos));
                     }
                 }

@@ -12,18 +12,20 @@ import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(Atum.MOD_ID)
-public class AtumGuis {
+public class AtumMenuType {
     public static List<MenuType<?>> CONTAINERS = Lists.newArrayList();
     public static final MenuType<AlphaDesertWolfContainer> ALPHA_DESERT_WOLF = register(IForgeMenuType.create((windowID, inv, data) -> {
         int entityID = data.readInt();

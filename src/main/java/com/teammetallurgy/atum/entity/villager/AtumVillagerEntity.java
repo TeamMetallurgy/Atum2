@@ -110,9 +110,9 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     }
 
     @Override
-    public void refreshBrain(@Nonnull ServerLevel serverWorld) {
+    public void refreshBrain(@Nonnull ServerLevel serverLevel) {
         Brain<Villager> brain = this.getBrain();
-        brain.stopAll(serverWorld, this);
+        brain.stopAll(serverLevel, this);
         this.brain = brain.copyWithoutBehaviors();
         this.initBrain(this.getBrain());
     }
@@ -152,14 +152,14 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         if (this.level instanceof ServerLevel) {
             MinecraftServer server = ((ServerLevel) this.level).getServer();
             this.brain.getMemory(moduleType).ifPresent((jobSitePos) -> {
-                ServerLevel serverWorld = server.getLevel(jobSitePos.dimension());
-                if (serverWorld != null) {
-                    PoiManager posManger = serverWorld.getPoiManager();
+                ServerLevel serverLevel = server.getLevel(jobSitePos.dimension());
+                if (serverLevel != null) {
+                    PoiManager posManger = serverLevel.getPoiManager();
                     Optional<PoiType> optional = posManger.getType(jobSitePos.pos());
                     BiPredicate<AtumVillagerEntity, PoiType> p = JOB_SITE_PREDICATE_MAP.get(moduleType);
                     if (optional.isPresent() && p.test(this, optional.get())) {
                         posManger.release(jobSitePos.pos());
-                        DebugPackets.sendPoiTicketCountPacket(serverWorld, jobSitePos.pos());
+                        DebugPackets.sendPoiTicketCountPacket(serverLevel, jobSitePos.pos());
                     }
                 }
             });
@@ -239,16 +239,16 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     }
 
     @Override
-    public Villager getBreedOffspring(@Nonnull ServerLevel serverWorld, @Nonnull AgeableMob partner) {
-        AtumVillagerEntity atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_MALE, serverWorld);
-        if (serverWorld.random.nextDouble() >= 0.5D) {
-            atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_FEMALE, serverWorld);
+    public Villager getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob partner) {
+        AtumVillagerEntity atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_MALE, serverLevel);
+        if (serverLevel.random.nextDouble() >= 0.5D) {
+            atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_FEMALE, serverLevel);
         }
         if (partner instanceof AtumVillagerEntity) {
-            Race childRace = serverWorld.random.nextDouble() <= 0.5D ? ((AtumVillagerEntity) partner).getAtumVillagerData().getRace() : this.getAtumVillagerData().getRace();
+            Race childRace = serverLevel.random.nextDouble() <= 0.5D ? ((AtumVillagerEntity) partner).getAtumVillagerData().getRace() : this.getAtumVillagerData().getRace();
             atumVillagerEntity.setAtumVillagerData(atumVillagerEntity.getAtumVillagerData().withRace(childRace));
         }
-        atumVillagerEntity.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(atumVillagerEntity.blockPosition()), MobSpawnType.BREEDING, null, null);
+        atumVillagerEntity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(atumVillagerEntity.blockPosition()), MobSpawnType.BREEDING, null, null);
         return atumVillagerEntity;
     }
 

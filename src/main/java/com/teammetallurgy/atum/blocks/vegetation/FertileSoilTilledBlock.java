@@ -44,9 +44,9 @@ public class FertileSoilTilledBlock extends FarmBlock {
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel serverWorld, @Nonnull BlockPos pos, @Nonnull Random rand) {
-        if (!state.canSurvive(serverWorld, pos)) {
-            turnToSoil(serverWorld, pos, AtumBlocks.FERTILE_SOIL);
+    public void tick(BlockState state, @Nonnull ServerLevel serverLevel, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        if (!state.canSurvive(serverLevel, pos)) {
+            turnToSoil(serverLevel, pos, AtumBlocks.FERTILE_SOIL);
         }
     }
 

@@ -26,49 +26,49 @@ public class BanditPatrolSpawner implements CustomSpawner {
     private int timer;
 
     @Override
-    public int tick(@Nonnull ServerLevel serverWorld, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
+    public int tick(@Nonnull ServerLevel serverLevel, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
         if (!spawnHostileMobs) {
             return 0;
         } else if (AtumConfig.MOBS.banditPatrolFrequency.get() < 1) {
             return 0;
         } else {
-            Random rand = serverWorld.random;
+            Random rand = serverLevel.random;
             --this.timer;
             if (this.timer > 0) {
                 return 0;
             } else {
                 this.timer += rand.nextInt(AtumConfig.MOBS.banditPatrolFrequency.get());
-                if (serverWorld.isDay()) {
-                    int playerAmount = serverWorld.players().size();
+                if (serverLevel.isDay()) {
+                    int playerAmount = serverLevel.players().size();
                     if (playerAmount < 1) {
                         return 0;
                     } else {
-                        Player player = serverWorld.players().get(rand.nextInt(playerAmount));
+                        Player player = serverLevel.players().get(rand.nextInt(playerAmount));
                         if (player.isSpectator()) {
                             return 0;
                         } else {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(player.getX(), player.getY(), player.getZ())).move(x, 0, z);
-                            if (!serverWorld.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos, AtumStructures.PYRAMID_STRUCTURE)*/) { //TDOO Uncomment when structures are re-added
+                            if (!serverLevel.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverLevel, mutablePos, AtumStructures.PYRAMID_STRUCTURE)*/) { //TDOO Uncomment when structures are re-added
                                 return 0;
                             } else {
-                                Biome biome = serverWorld.getBiome(mutablePos);
-                                Optional<ResourceKey<Biome>> biomeKey = serverWorld.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+                                Biome biome = serverLevel.getBiome(mutablePos);
+                                Optional<ResourceKey<Biome>> biomeKey = serverLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
                                 if (biomeKey.isPresent() /*&& (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)*/) { //TODO Uncomment when Biomes are re-added
                                     return 0;
                                 } else {
                                     int amount = 0;
-                                    int difficulty = 1 + (int) Math.ceil(serverWorld.getCurrentDifficultyAt(mutablePos).getEffectiveDifficulty());
+                                    int difficulty = 1 + (int) Math.ceil(serverLevel.getCurrentDifficultyAt(mutablePos).getEffectiveDifficulty());
                                     BanditBaseEntity leadingEntity = null;
                                     for (int size = 0; size < difficulty; ++size) {
                                         EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
                                         ++amount;
-                                        mutablePos.setY(serverWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
+                                        mutablePos.setY(serverLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                         if (size == 0) {
-                                            SergeantEntity leader = AtumEntities.SERGEANT.create(serverWorld);
+                                            SergeantEntity leader = AtumEntities.SERGEANT.create(serverLevel);
                                             if (leader != null) {
-                                                if (this.spawnLeader(leader, serverWorld, mutablePos, rand)) {
+                                                if (this.spawnLeader(leader, serverLevel, mutablePos, rand)) {
                                                     leadingEntity = leader;
                                                 } else {
                                                     break;
@@ -77,7 +77,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                                                 break;
                                             }
                                         } else {
-                                            this.spawnPatroller(entityType, serverWorld, mutablePos, rand, leadingEntity);
+                                            this.spawnPatroller(entityType, serverLevel, mutablePos, rand, leadingEntity);
                                         }
                                         mutablePos.setX(mutablePos.getX() + rand.nextInt(5) - rand.nextInt(5));
                                         mutablePos.setZ(mutablePos.getZ() + rand.nextInt(5) - rand.nextInt(5));

@@ -75,12 +75,12 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     public static BlockPos recall(Level world, Player player) {
         BlockPos pos = null;
         if (world instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) world;
+            ServerLevel serverLevel = (ServerLevel) world;
             if (player instanceof ServerPlayer) {
                 ServerPlayer serverPlayer = (ServerPlayer) player;
                 pos = serverPlayer.getRespawnPosition(); //Bed pos
                 if (pos == null) {
-                    BlockPos spawnPointPos = serverWorld.getSharedSpawnPos();
+                    BlockPos spawnPointPos = serverLevel.getSharedSpawnPos();
                     while (spawnPointPos.getY() > 1 && world.isEmptyBlock(spawnPointPos)) {
                         spawnPointPos = spawnPointPos.below();
                     }
@@ -132,8 +132,8 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
             double x = Mth.cos(cosRandom) * timesRandom;
             double y = 0.01D + (world.random.nextDouble() * 0.5D);
             double z = Mth.sin(cosRandom) * timesRandom;
-            ServerLevel serverWorld = (ServerLevel) world;
-            serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, entity.getX() + x * 0.1D, entity.getY() + 0.3D, entity.getZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
+            ServerLevel serverLevel = (ServerLevel) world;
+            serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, entity.getX() + x * 0.1D, entity.getY() + 0.3D, entity.getZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
         }
         world.playSound(null, entity.blockPosition(), SoundEvents.SHULKER_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
     }

@@ -80,11 +80,11 @@ public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration>
         if (event.getEntity() instanceof ServerPlayer) {
             LevelAccessor world = event.getEntity().level;
             if (world instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) world;
-                StructureStart<?> structureStart = serverWorld.structureFeatureManager().getStructureAt(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
+                ServerLevel serverLevel = (ServerLevel) world;
+                StructureStart<?> structureStart = serverLevel.structureFeatureManager().getStructureAt(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
                 if (structureStart instanceof Start && structureStart.isValid()) {
                     Start start = (Start) structureStart;
-                    if (!DimensionHelper.isBeatenPyramid(serverWorld, start.getBoundingBox())) {
+                    if (!DimensionHelper.isBeatenPyramid(serverLevel, start.getBoundingBox())) {
                         ServerPlayer player = (ServerPlayer) event.getEntity();
                         Block placedBlock = event.getPlacedBlock().getBlock();
                         if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
@@ -127,9 +127,9 @@ public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration>
             BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
             if (sarcophagusPos != null && world instanceof ServerLevel && !world.isClientSide) {
                 if (this.getBoundingBox().isInside(sarcophagusPos)) {
-                    ServerLevel serverWorld = (ServerLevel) world;
-                    DimensionHelper.getData(serverWorld).addBeatenPyramid(this.getBoundingBox());
-                    this.changePyramidBlocks(serverWorld);
+                    ServerLevel serverLevel = (ServerLevel) world;
+                    DimensionHelper.getData(serverLevel).addBeatenPyramid(this.getBoundingBox());
+                    this.changePyramidBlocks(serverLevel);
                 }
             }
         }

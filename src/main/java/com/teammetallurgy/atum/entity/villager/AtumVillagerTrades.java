@@ -105,11 +105,11 @@ public class AtumVillagerTrades {
             if (!(trader.level instanceof ServerLevel)) {
                 return null;
             } else {
-                ServerLevel serverWorld = (ServerLevel) trader.level;
-                BlockPos pos = serverWorld.findNearestMapFeature(this.structureName, trader.blockPosition(), 100, true);
+                ServerLevel serverLevel = (ServerLevel) trader.level;
+                BlockPos pos = serverLevel.findNearestMapFeature(this.structureName, trader.blockPosition(), 100, true);
                 if (pos != null) {
-                    ItemStack mapStack = MapItem.create(serverWorld, pos.getX(), pos.getZ(), (byte) 2, true, true);
-                    MapItem.renderBiomePreviewMap(serverWorld, mapStack);
+                    ItemStack mapStack = MapItem.create(serverLevel, pos.getX(), pos.getZ(), (byte) 2, true, true);
+                    MapItem.renderBiomePreviewMap(serverLevel, mapStack);
                     MapItemSavedData.addTargetDecoration(mapStack, pos, "+", this.mapDecorationType);
                     mapStack.setHoverName(new TranslatableComponent("filled_map." + this.structureName.getFeatureName().toLowerCase(Locale.ROOT)));
                     return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN, this.count), new ItemStack(Items.COMPASS), mapStack, this.maxUses, this.xpValue, 0.2F);

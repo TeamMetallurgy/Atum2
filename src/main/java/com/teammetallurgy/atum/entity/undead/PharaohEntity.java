@@ -312,7 +312,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         }
         Entity killer = source.getEntity();
         if (killer instanceof Player) {
-            ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH, 2400, 0, false, false, true));
+            ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH.get(), 2400, 0, false, false, true));
         }
         super.die(source);
     }

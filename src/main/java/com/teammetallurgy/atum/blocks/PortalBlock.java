@@ -98,11 +98,11 @@ public class PortalBlock extends HalfTransparentBlock {
         }
     }
 
-    public static void changeDimension(ServerLevel serverWorld, Entity entity, ITeleporter teleporter) {
+    public static void changeDimension(ServerLevel serverLevel, Entity entity, ITeleporter teleporter) {
         if (!entity.isPassenger() && !entity.isVehicle() && entity.canChangeDimensions() && entity instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer) entity;
-            ResourceKey<Level> key = serverWorld.dimension() == Atum.ATUM ? Level.OVERWORLD : Atum.ATUM;
-            ServerLevel destWorld = serverWorld.getServer().getLevel(key);
+            ResourceKey<Level> key = serverLevel.dimension() == Atum.ATUM ? Level.OVERWORLD : Atum.ATUM;
+            ServerLevel destWorld = serverLevel.getServer().getLevel(key);
             if (destWorld == null) {
                 return;
             }

@@ -65,7 +65,6 @@ public class AtumRegistry {
     public static final List<Biome> BIOMES = Lists.newArrayList();
     public static final List<ResourceKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
-    private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
     public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
 
@@ -295,20 +294,6 @@ public class AtumRegistry {
     }
 
     /**
-     * Registers a sound
-     *
-     * @param name The name to register the sound with
-     * @return The Sound that was registered
-     */
-    public static SoundEvent registerSound(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(Atum.MOD_ID, name);
-        SoundEvent sound = new SoundEvent(resourceLocation);
-        sound.setRegistryName(resourceLocation);
-        SOUNDS.add(sound);
-        return sound;
-    }
-
-    /**
      * Registers a particle
      *
      * @param name The name to register the sound with
@@ -382,14 +367,6 @@ public class AtumRegistry {
             event.getRegistry().register(entityType);
         }
         AtumEntities.registerSpawnPlacement();
-    }
-
-    @SubscribeEvent
-    public static void registerSound(RegistryEvent.Register<SoundEvent> event) {
-        new AtumSounds();
-        for (SoundEvent sound : SOUNDS) {
-            event.getRegistry().register(sound);
-        }
     }
 
     @SubscribeEvent

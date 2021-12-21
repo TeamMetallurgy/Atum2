@@ -44,11 +44,11 @@ public class AtumSpawnHandling {
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) { //Bandit spawn handling
         if (event.world.dimension() == Atum.ATUM && event.world instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) event.world;
-            boolean doMobSpawning = serverWorld.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
+            ServerLevel serverLevel = (ServerLevel) event.world;
+            boolean doMobSpawning = serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
             if (doMobSpawning) {
                 for (CustomSpawner specialSpawner : specialSpawners) {
-                    specialSpawner.tick(serverWorld, serverWorld.getDifficulty() != Difficulty.PEACEFUL, true);
+                    specialSpawner.tick(serverLevel, serverLevel.getDifficulty() != Difficulty.PEACEFUL, true);
                 }
             }
         }

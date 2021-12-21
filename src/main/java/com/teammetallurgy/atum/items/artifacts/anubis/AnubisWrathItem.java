@@ -103,8 +103,8 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
                 LivingEntity entity = event.getEntityLiving();
                 Random random = entity.level.random;
                 double y = Mth.nextDouble(random, 0.02D, 0.1D);
-                if (entity.level instanceof ServerLevel serverWorld) {
-                    serverWorld.sendParticles(AtumParticles.ANUBIS, entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
+                if (entity.level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(AtumParticles.ANUBIS, entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);

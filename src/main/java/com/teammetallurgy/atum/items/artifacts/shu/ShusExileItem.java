@@ -46,11 +46,11 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
                 LivingEntity target = (LivingEntity) event.getTarget();
                 float defaultKnockback = 0.5F;
                 target.knockback(defaultKnockback * 3, Mth.sin(attacker.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(attacker.getYRot() * ((float) Math.PI / 180F)));
-                if (target.level instanceof ServerLevel serverWorld) {
+                if (target.level instanceof ServerLevel serverLevel) {
                     Random random = target.level.random;
                     double x = Mth.nextDouble(random, 0.001D, 0.02D);
                     double z = Mth.nextDouble(random, 0.001D, 0.02D);
-                    serverWorld.sendParticles(AtumParticles.SHU, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
+                    serverLevel.sendParticles(AtumParticles.SHU, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
         }

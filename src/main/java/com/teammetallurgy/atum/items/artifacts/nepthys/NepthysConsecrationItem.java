@@ -57,8 +57,8 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
             source.setSecondsOnFire(8);
             source.hurt(DamageSource.GENERIC, 2.0F);
             if (livingEntity.level instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) livingEntity.level;
-                serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
+                ServerLevel serverLevel = (ServerLevel) livingEntity.level;
+                serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
             }
             IS_BLOCKING.removeBoolean(livingEntity);
         }

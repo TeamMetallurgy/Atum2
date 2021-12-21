@@ -7,18 +7,15 @@ import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DataSerializerEntry;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumDataSerializer {
-    private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
+    public static final DeferredRegister<DataSerializerEntry> DATA_SERIALIZER_DEFERRED = DeferredRegister.create(ForgeRegistries.DATA_SERIALIZERS, Atum.MOD_ID);
     public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
         @Override
         public void write(FriendlyByteBuf buf, AtumVillagerData value) {
@@ -39,19 +36,9 @@ public class AtumDataSerializer {
             return value;
         }
     };
-    private static final DataSerializerEntry VILLAGER_DATA_ENTRY = register("villager_data", new DataSerializerEntry(VILLAGER_DATA));
+    private static final RegistryObject<DataSerializerEntry> VILLAGER_DATA_ENTRY = register("villager_data", new DataSerializerEntry(VILLAGER_DATA));
 
-    public static DataSerializerEntry register(String name, DataSerializerEntry dataSerializerEntry) {
-        ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
-        dataSerializerEntry.setRegistryName(id);
-        DATA_SERIALIZER_ENTRIES.add(dataSerializerEntry);
-        return dataSerializerEntry;
-    }
-
-    @SubscribeEvent
-    public static void registerDataSerializers(RegistryEvent.Register<DataSerializerEntry> event) {
-        for (DataSerializerEntry dataSerializerEntry : DATA_SERIALIZER_ENTRIES) {
-            event.getRegistry().register(dataSerializerEntry);
-        }
+    public static RegistryObject<DataSerializerEntry> register(String name, DataSerializerEntry dataSerializerEntry) {
+        return DATA_SERIALIZER_DEFERRED.register(name, () -> dataSerializerEntry);
     }
 }

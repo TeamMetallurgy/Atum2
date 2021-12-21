@@ -118,17 +118,16 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
                 pharaoh.spawnGuards(pharaoh.blockPosition().relative(blockFacing, 2).below());
                 pharaoh.spawnAnim();
 
-                if (this.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) this.level;
+                if (this.level instanceof ServerLevel serverLevel) {
                     God godVariant = God.getGod(pharaoh.getVariant());
                     Style pharaohStyle = pharaoh.getName().getStyle();
-                    for (ServerPlayer playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
+                    for (ServerPlayer playerMP : serverLevel.getServer().getPlayerList().getPlayers()) {
                         playerMP.sendMessage(pharaoh.getName().copy().setStyle(pharaohStyle.withColor(godVariant.getColor())).append(new TranslatableComponent("chat.atum.pharaoh_worshiper").withStyle(ChatFormatting.WHITE)).append(godVariant.getDisplayName().setStyle(pharaohStyle.withColor(godVariant.getColor()))).append(new TranslatableComponent("chat.atum.pharaoh_awakened").withStyle(ChatFormatting.WHITE)).append(player.getName().copy().withStyle(ChatFormatting.YELLOW)), Util.NIL_UUID);
                     }
                 }
             }
         }
-        this.level.playLocalSound(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), AtumSounds.PHARAOH_SPAWN, SoundSource.HOSTILE, 0.8F, 1.0F, true);
+        this.level.playLocalSound(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ(), AtumSounds.PHARAOH_SPAWN.get(), SoundSource.HOSTILE, 0.8F, 1.0F, true);
 
         for (Direction horizontal : Direction.Plane.HORIZONTAL) {
             BlockEntity tileEntityOffset = this.level.getBlockEntity(this.worldPosition.relative(horizontal));

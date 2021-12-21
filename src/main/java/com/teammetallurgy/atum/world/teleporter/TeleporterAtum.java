@@ -68,12 +68,12 @@ public class TeleporterAtum implements ITeleporter {
         }
     }
 
-    protected Optional<BlockUtil.FoundRectangle> teleporterResult(ServerLevel serverWorld, BlockPos pos) {
-        Optional<BlockUtil.FoundRectangle> optional = getExistingPortal(serverWorld, pos);
+    protected Optional<BlockUtil.FoundRectangle> teleporterResult(ServerLevel serverLevel, BlockPos pos) {
+        Optional<BlockUtil.FoundRectangle> optional = getExistingPortal(serverLevel, pos);
         if (optional.isPresent()) {
             return optional;
         } else {
-            Optional<BlockUtil.FoundRectangle> optional1 = createPortal(serverWorld, pos);
+            Optional<BlockUtil.FoundRectangle> optional1 = createPortal(serverLevel, pos);
             if (!optional1.isPresent()) {
                 Atum.LOG.error("Unable to create a portal, likely target out of worldborder");
             }
@@ -81,10 +81,10 @@ public class TeleporterAtum implements ITeleporter {
         }
     }
 
-    public Optional<BlockUtil.FoundRectangle> getExistingPortal(ServerLevel serverWorld, BlockPos pos) {
-        PoiManager posManager = serverWorld.getPoiManager();
+    public Optional<BlockUtil.FoundRectangle> getExistingPortal(ServerLevel serverLevel, BlockPos pos) {
+        PoiManager posManager = serverLevel.getPoiManager();
         int i = 128;
-        posManager.ensureLoadedAndValid(serverWorld, pos, i);
+        posManager.ensureLoadedAndValid(serverLevel, pos, i);
         Optional<PoiRecord> optional = posManager.getInSquare((poiType) -> {
             return poiType == AtumPointsOfInterest.PORTAL;
         }, pos, i, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) -> {
@@ -94,9 +94,9 @@ public class TeleporterAtum implements ITeleporter {
         })).findFirst();
         return optional.map((poi) -> {
             BlockPos posPos = poi.getPos();
-            serverWorld.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
-            BlockState blockstate = serverWorld.getBlockState(posPos);
-            return BlockUtil.getLargestRectangleAround(posPos, Direction.Axis.X, 9, Direction.Axis.Z, 9, (posIn) -> serverWorld.getBlockState(posIn) == blockstate);
+            serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
+            BlockState blockstate = serverLevel.getBlockState(posPos);
+            return BlockUtil.getLargestRectangleAround(posPos, Direction.Axis.X, 9, Direction.Axis.Z, 9, (posIn) -> serverLevel.getBlockState(posIn) == blockstate);
         });
     }
 

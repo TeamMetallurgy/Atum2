@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
-import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.init.AtumMenuType;
 import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public class TrapContainer extends AbstractContainerMenu {
     private final ContainerData trapData;
 
     public TrapContainer(int windowID, Inventory playerInventory, TrapTileEntity trapInventory) {
-        super(AtumGuis.TRAP, windowID);
+        super(AtumMenuType.TRAP, windowID);
         this.trapInventory = trapInventory;
         this.trapData = trapInventory.trapData;
         this.addSlot(new FuelSlot(this.trapInventory, 0, 80, 20));

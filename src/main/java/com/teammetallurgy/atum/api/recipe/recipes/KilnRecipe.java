@@ -55,7 +55,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     @Override
     @Nonnull
     public RecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.KILN;
+        return AtumRecipeSerializers.KILN.get();
     }
 
     public static class Serializer<T extends KilnRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {

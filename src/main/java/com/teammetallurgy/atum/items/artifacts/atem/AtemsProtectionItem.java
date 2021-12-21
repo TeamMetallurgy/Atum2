@@ -75,8 +75,8 @@ public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
             Random random = ((LivingEntity) source).getRandom();
             if (random.nextDouble() <= 0.20D) {
                 TIMER.put(livingEntity, 200);
-                if (livingEntity.level instanceof ServerLevel serverWorld) {
-                    serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
+                if (livingEntity.level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
                 }
             }
             IS_BLOCKING.removeBoolean(livingEntity);

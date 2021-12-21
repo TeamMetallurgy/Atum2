@@ -23,27 +23,27 @@ public class ServalSpawner implements CustomSpawner {
     private int timer;
 
     @Override
-    public int tick(@Nonnull ServerLevel serverWorld, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
-        if (spawnPassiveMobs && serverWorld.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+    public int tick(@Nonnull ServerLevel serverLevel, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
+        if (spawnPassiveMobs && serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
             --this.timer;
             if (this.timer > 0) {
                 return 0;
             } else {
                 this.timer = 1200;
-                Player randomPlayer = serverWorld.getRandomPlayer();
+                Player randomPlayer = serverLevel.getRandomPlayer();
                 if (randomPlayer == null) {
                     return 0;
                 } else {
-                    Random random = serverWorld.random;
+                    Random random = serverLevel.random;
                     int i = (8 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     int j = (8 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     BlockPos blockpos = randomPlayer.blockPosition().offset(i, 0, j);
-                    if (!serverWorld.hasChunksAt(blockpos.getX() - 10, blockpos.getY() - 10, blockpos.getZ() - 10, blockpos.getX() + 10, blockpos.getY() + 10, blockpos.getZ() + 10)) {
+                    if (!serverLevel.hasChunksAt(blockpos.getX() - 10, blockpos.getY() - 10, blockpos.getZ() - 10, blockpos.getX() + 10, blockpos.getY() + 10, blockpos.getZ() + 10)) {
                         return 0;
                     } else {
-                        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, serverWorld, blockpos, AtumEntities.SERVAL)) {
-                            if (serverWorld.isCloseToVillage(blockpos, 2)) {
-                                return this.attemptSpawn(serverWorld, blockpos);
+                        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, serverLevel, blockpos, AtumEntities.SERVAL)) {
+                            if (serverLevel.isCloseToVillage(blockpos, 2)) {
+                                return this.attemptSpawn(serverLevel, blockpos);
                             }
                         }
 
@@ -56,28 +56,28 @@ public class ServalSpawner implements CustomSpawner {
         }
     }
 
-    private int attemptSpawn(ServerLevel serverWorld, BlockPos pos) {
-        if (serverWorld.getPoiManager().getCountInRange(PoiType.HOME.getPredicate(), pos, 48, PoiManager.Occupancy.IS_OCCUPIED) > 4L) {
-            List<ServalEntity> list = serverWorld.getEntitiesOfClass(ServalEntity.class, (new AABB(pos)).inflate(48.0D, 8.0D, 48.0D));
+    private int attemptSpawn(ServerLevel serverLevel, BlockPos pos) {
+        if (serverLevel.getPoiManager().getCountInRange(PoiType.HOME.getPredicate(), pos, 48, PoiManager.Occupancy.IS_OCCUPIED) > 4L) {
+            List<ServalEntity> list = serverLevel.getEntitiesOfClass(ServalEntity.class, (new AABB(pos)).inflate(48.0D, 8.0D, 48.0D));
             if (list.size() < 5) {
-                return this.spawnServal(pos, serverWorld);
+                return this.spawnServal(pos, serverLevel);
             }
         }
 
         return 0;
     }
 
-    private int spawnServal(BlockPos pos, ServerLevel serverWorld) {
-        ServalEntity serval = AtumEntities.SERVAL.create(serverWorld);
+    private int spawnServal(BlockPos pos, ServerLevel serverLevel) {
+        ServalEntity serval = AtumEntities.SERVAL.create(serverLevel);
         if (serval == null) {
             return 0;
         } else {
-            if (ForgeHooks.canEntitySpawn(serval, serverWorld, pos.getX(), pos.getY(), pos.getZ(), null, MobSpawnType.NATURAL) == -1) {
+            if (ForgeHooks.canEntitySpawn(serval, serverLevel, pos.getX(), pos.getY(), pos.getZ(), null, MobSpawnType.NATURAL) == -1) {
                 return 0;
             }
-            serval.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
+            serval.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
             serval.moveTo(pos, 0.0F, 0.0F);
-            serverWorld.addFreshEntityWithPassengers(serval);
+            serverLevel.addFreshEntityWithPassengers(serval);
             return 1;
         }
     }

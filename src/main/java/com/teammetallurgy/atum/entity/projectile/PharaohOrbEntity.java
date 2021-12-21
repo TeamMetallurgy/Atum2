@@ -110,8 +110,8 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
         //Particle
         if (this.level instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) level;
-            serverWorld.sendParticles(AtumTorchBlock.GOD_FLAMES.get(this.getGod()), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+            ServerLevel serverLevel = (ServerLevel) level;
+            serverLevel.sendParticles(AtumTorchBlock.GOD_FLAMES.get(this.getGod()), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
         }
     }
 

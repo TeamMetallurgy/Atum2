@@ -39,23 +39,23 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         LevelAccessor world = event.getWorld();
         if (world instanceof ServerLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE) {
-            ServerLevel serverWorld = (ServerLevel) world;
+            ServerLevel serverLevel = (ServerLevel) world;
             BlockPos pos = event.getPos();
-            List<ItemStack> drops = Block.getDrops(event.getState(), serverWorld, pos, null);
+            List<ItemStack> drops = Block.getDrops(event.getState(), serverLevel, pos, null);
             if (!drops.isEmpty()) {
                 for (ItemStack itemDropped : drops) {
                     Block dropBlock = Block.byItem(itemDropped.getItem());
-                    if ((dropBlock == AtumBlocks.IRON_ORE || dropBlock == Blocks.IRON_ORE) && serverWorld.random.nextFloat() <= 0.50F) {
+                    if ((dropBlock == AtumBlocks.IRON_ORE || dropBlock == Blocks.IRON_ORE) && serverLevel.random.nextFloat() <= 0.50F) {
                         if (dropBlock == AtumBlocks.IRON_ORE) {
                             event.setCanceled(true);
                             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                            Block.dropResources(AtumBlocks.GOLD_ORE.defaultBlockState(), serverWorld, pos);
-                            serverWorld.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                            Block.dropResources(AtumBlocks.GOLD_ORE.defaultBlockState(), serverLevel, pos);
+                            serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                         } else {
                             event.setCanceled(true);
                             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                            Block.dropResources(Blocks.GOLD_ORE.defaultBlockState(), serverWorld, pos);
-                            serverWorld.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                            Block.dropResources(Blocks.GOLD_ORE.defaultBlockState(), serverLevel, pos);
+                            serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                         }
                     }
                 }

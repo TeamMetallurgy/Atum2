@@ -252,8 +252,8 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     @Nonnull
     private ItemStack getSmeltingResult(@Nonnull ItemStack input) {
         if (this.level instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) level;
-            RecipeManager recipeManager = serverWorld.getRecipeManager();
+            ServerLevel serverLevel = (ServerLevel) level;
+            RecipeManager recipeManager = serverLevel.getRecipeManager();
             List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, IAtumRecipeType.KILN));
             recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager));
             for (KilnRecipe kilnRecipe : recipes) {

@@ -54,6 +54,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -97,11 +98,11 @@ public class ClientHandler {
 
     public static void init() {
         //Screens
-        MenuScreens.register(AtumGuis.ALPHA_DESERT_WOLF, AlphaDesertWolfScreen::new);
-        MenuScreens.register(AtumGuis.CAMEL, CamelScreen::new);
-        MenuScreens.register(AtumGuis.KILN, KilnScreen::new);
-        MenuScreens.register(AtumGuis.TRAP, TrapScreen::new);
-        MenuScreens.register(AtumGuis.GODFORGE, GodforgeScreen::new);
+        MenuScreens.register(AtumMenuType.ALPHA_DESERT_WOLF, AlphaDesertWolfScreen::new);
+        MenuScreens.register(AtumMenuType.CAMEL, CamelScreen::new);
+        MenuScreens.register(AtumMenuType.KILN, KilnScreen::new);
+        MenuScreens.register(AtumMenuType.TRAP, TrapScreen::new);
+        MenuScreens.register(AtumMenuType.GODFORGE, GodforgeScreen::new);
         //Colors
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
         ItemColors itemColor = Minecraft.getInstance().getItemColors();

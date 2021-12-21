@@ -31,16 +31,16 @@ public class DimensionHelper {
     public static final List<Block> SURFACE_BLOCKS = Lists.newArrayList(AtumBlocks.SAND, AtumBlocks.FERTILE_SOIL, AtumBlocks.LIMESTONE_GRAVEL);
     public static final int GROUND_LEVEL = 63;
 
-    public static AtumDimensionData getData(ServerLevel serverWorld) {
-        return serverWorld.getDataStorage().get(AtumDimensionData::load, AtumDimensionData.ID);
+    public static AtumDimensionData getData(ServerLevel serverLevel) {
+        return serverLevel.getDataStorage().get(AtumDimensionData::load, AtumDimensionData.ID);
     }
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
         LevelAccessor world = event.getWorld();
         if (world instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) world;
-            if (serverWorld.dimension() == Atum.ATUM) {
+            ServerLevel serverLevel = (ServerLevel) world;
+            if (serverLevel.dimension() == Atum.ATUM) {
                 if (world.getLevelData() instanceof DerivedLevelData) {
                     ((DerivedLevelData) world.getLevelData()).wrapped.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
                 }
@@ -85,9 +85,9 @@ public class DimensionHelper {
         return pos;
     }
 
-    public static boolean isBeatenPyramid(ServerLevel serverWorld, BoundingBox box2) {
+    public static boolean isBeatenPyramid(ServerLevel serverLevel, BoundingBox box2) {
         boolean validBox = false;
-        for (BoundingBox box1 : getData(serverWorld).getBeatenPyramids()) {
+        for (BoundingBox box1 : getData(serverLevel).getBeatenPyramids()) {
             if (box1.minX() == box2.minX() && box1.minY() == box2.minY() && box1.minZ() == box2.minZ() && box1.maxX() == box2.maxX() && box1.maxY() == box2.maxY() && box1.maxZ() == box2.maxZ()) {
                 validBox = true;
                 break;

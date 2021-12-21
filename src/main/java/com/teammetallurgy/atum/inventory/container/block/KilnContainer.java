@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.inventory.container.block;
 
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
-import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.init.AtumMenuType;
 import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
 import com.teammetallurgy.atum.inventory.container.slot.KilnOutputSlot;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
@@ -26,7 +26,7 @@ public class KilnContainer extends AbstractContainerMenu {
     private ContainerData kilnData;
 
     public KilnContainer(int windowID, Inventory playerInventory, BlockPos pos) {
-        super(AtumGuis.KILN, windowID);
+        super(AtumMenuType.KILN, windowID);
         Player player = playerInventory.player;
         this.kilnInventory = (KilnTileEntity) player.level.getBlockEntity(pos);
         checkContainerSize(kilnInventory, kilnInventory.getContainerSize());
