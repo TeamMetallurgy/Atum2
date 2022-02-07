@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.inventory.container.entity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
+import com.vazkii.quark.api.IQuarkButtonIgnored;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CamelContainer extends Container {
+public class CamelContainer extends Container implements IQuarkButtonIgnored {
     public final IInventory camelInventory;
     public final CamelEntity camel;
     private List<Slot> rightCrateSlots = new ArrayList<>();
