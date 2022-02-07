@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
+import vazkii.quark.api.IQuarkButtonIgnored;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class CamelScreen extends ContainerScreen<CamelContainer> {
+public class CamelScreen extends ContainerScreen<CamelContainer> implements IQuarkButtonIgnored {
     private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/gui/camel.png");
     private final PlayerInventory playerInventory;
     private float mousePosX;

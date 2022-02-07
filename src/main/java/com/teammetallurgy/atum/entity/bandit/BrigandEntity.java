@@ -78,4 +78,9 @@ public class BrigandEntity extends BanditBaseEntity {
             return true;
         }
     }
+
+    @Override
+    public int getMaxSpawnedInChunk() {
+        return 3;
+    }
 }
