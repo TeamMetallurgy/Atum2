@@ -124,4 +124,9 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     public double getYOffset() {
         return -0.35D;
     }
+
+    @Override
+    public int getMaxSpawnedInChunk() {
+        return 3;
+    }
 }
