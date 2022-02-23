@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -107,7 +107,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 }
 
                 if (!kiln.isBurning() && canSmeltAny) {
-                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, IAtumRecipeType.KILN);
+                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, AtumRecipeTypes.KILN);
                     kiln.recipesUsed = kiln.burnTime;
 
                     if (kiln.isBurning()) {
@@ -254,7 +254,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         if (this.level instanceof ServerLevel) {
             ServerLevel serverLevel = (ServerLevel) level;
             RecipeManager recipeManager = serverLevel.getRecipeManager();
-            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, IAtumRecipeType.KILN));
+            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, AtumRecipeTypes.KILN));
             recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager));
             for (KilnRecipe kilnRecipe : recipes) {
                 for (Ingredient ingredient : kilnRecipe.getIngredients()) {
@@ -273,7 +273,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
 
     protected int getCookTime() {
         Level world = this.level;
-        return world != null ? world.getRecipeManager().getRecipeFor(IAtumRecipeType.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
+        return world != null ? world.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
     }
 
     @Override
@@ -292,7 +292,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         Item item = stack.getItem();
         Block block = Block.byItem(stack.getItem());
 
-        return IAtumRecipeType.kilnBlacklist.contains(item.getRegistryName()) || IAtumRecipeType.kilnBlacklist.contains(block.getRegistryName()) ||
+        return AtumRecipeTypes.kilnBlacklist.contains(item.getRegistryName()) || AtumRecipeTypes.kilnBlacklist.contains(block.getRegistryName()) ||
                 item.isEdible() || block instanceof OreBlock || ItemTags.COALS.contains(item) || ORES_COAL.contains(item) || STORAGE_BLOCKS_COAL.contains(item) ||
                 ItemTags.PLANKS.contains(item) || ItemTags.LOGS.contains(item) || RODS_WOODEN.contains(item) || ItemTags.SMALL_FLOWERS.contains(item) ||
                 ORES.contains(item) || INGOTS.contains(item) && !INGOTS_BRICK.contains(item) || NUGGETS.contains(item) || GEMS.contains(item) || DUSTS.contains(item) ||
@@ -305,7 +305,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         this.burnTime = tag.getInt("BurnTime");
         this.cookTime = tag.getInt("CookTime");
         this.cookTimeTotal = tag.getInt("CookTimeTotal");
-        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), IAtumRecipeType.KILN);
+        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), AtumRecipeTypes.KILN);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.inventory.container.slot;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
@@ -64,7 +64,7 @@ public class KilnOutputSlot extends Slot {
     }
 
     private void spawnAllOrbs(ServerLevel serverLevel, @Nonnull ItemStack stack, int removeCount) {
-        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverLevel.getRecipeManager(), IAtumRecipeType.KILN));
+        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.KILN));
         recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverLevel.getRecipeManager()));
         for (KilnRecipe kilnRecipe : recipes) {
             if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getResultItem())) {

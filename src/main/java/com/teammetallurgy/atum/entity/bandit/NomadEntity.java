@@ -124,4 +124,9 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     public double getMyRidingOffset() {
         return -0.35D;
     }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 3;
+    }
 }

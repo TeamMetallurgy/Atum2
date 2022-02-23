@@ -43,8 +43,11 @@ public class CamelArmorLayer extends RenderLayer<CamelEntity, CamelModel<CamelEn
             this.getParentModel().copyPropertiesTo(this.model);
             this.model.prepareMobModel(camel, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(camel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            VertexConsumer ivertexbuilder = buffer.getBuffer(RenderType.entityCutoutNoCull(CACHE.get(armorType)));
-            this.model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            ResourceLocation resourceLocation = CACHE.get(armorType);
+            if (resourceLocation != null) {
+                VertexConsumer ivertexbuilder = buffer.getBuffer(RenderType.entityCutoutNoCull(resourceLocation));
+                this.model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            }
         }
     }
 }

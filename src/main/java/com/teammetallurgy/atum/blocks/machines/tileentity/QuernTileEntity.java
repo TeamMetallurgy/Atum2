@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
@@ -58,7 +58,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
 
             if (quern.quernRotations > 0) {
                 if (level instanceof ServerLevel serverLevel) {
-                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), IAtumRecipeType.QUERN);
+                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.QUERN);
                     for (QuernRecipe quernRecipe : recipes) {
                         for (Ingredient ingredient : quernRecipe.getIngredients()) {
                             if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.getRotations() == quern.quernRotations) {
@@ -100,7 +100,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
 
     @Override
     public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.level, stack, IAtumRecipeType.QUERN);
+        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.QUERN);
     }
 
     public int getRotations() {
@@ -147,7 +147,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
     @Override
     @Nonnull
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        return this.saveWithoutMetadata();
     }
 
     @Override

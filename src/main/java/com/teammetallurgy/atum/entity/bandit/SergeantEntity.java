@@ -62,4 +62,9 @@ public class SergeantEntity extends BanditBaseEntity {
             }
         }
     }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 2;
+    }
 }

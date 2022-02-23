@@ -297,7 +297,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
     @Override
     @Nonnull
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        return this.saveWithoutMetadata();
     }
 
     LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);

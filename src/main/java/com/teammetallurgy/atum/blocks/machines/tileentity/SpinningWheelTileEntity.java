@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
@@ -34,7 +34,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.level, stack, IAtumRecipeType.SPINNING_WHEEL);
+        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.SPINNING_WHEEL);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     @Override
     @Nonnull
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        return this.saveWithoutMetadata();
     }
 
     @Override

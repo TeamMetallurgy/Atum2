@@ -1,14 +1,14 @@
-/*package com.teammetallurgy.atum.integration.crafttweaker;
+package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
-import com.blamejared.crafttweaker.api.actions.IAction;
-import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.action.base.IAction;
+import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
+import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutput;
+import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutputInput;
+import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
-import com.blamejared.crafttweaker.api.managers.IRecipeManager;
-import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
-import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutput;
-import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -16,7 +16,7 @@ import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.atum.Kiln")
-public class CTKiln implements IRecipeManager {
+public class CTKiln implements IRecipeManager<KilnRecipe> {
 
     @ZenCodeType.Method
     public void addRecipe(IItemStack input, IItemStack output, float experience) {
@@ -25,17 +25,17 @@ public class CTKiln implements IRecipeManager {
 
     @ZenCodeType.Method
     public void addRecipe(IItemStack input, IItemStack output, float experience, int cookTime) {
-        CraftTweakerAPI.apply(new ActionAddRecipe(this, new KilnRecipe(input.getInternal(), output.getInternal(), experience, cookTime), "kiln"));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new KilnRecipe(input.getInternal(), output.getInternal(), experience, cookTime), "kiln"));
     }
 
     @ZenCodeType.Method
     public void removeRecipeByOutput(IItemStack output) {
-        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutput(this, output));
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutput<>(this, output));
     }
 
     @ZenCodeType.Method
     public void removeRecipeByOutputInput(IItemStack output, IItemStack input) {
-        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutputInput(this, output, input));
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutputInput<>(this, output, input));
     }
 
     @ZenCodeType.Method
@@ -45,7 +45,7 @@ public class CTKiln implements IRecipeManager {
 
     @Override
     public RecipeType<KilnRecipe> getRecipeType() {
-        return IAtumRecipeType.KILN;
+        return AtumRecipeTypes.KILN;
     }
 
     private static class Blacklist implements IAction {
@@ -58,8 +58,8 @@ public class CTKiln implements IRecipeManager {
         @Override
         public void apply() {
             final ResourceLocation location = new ResourceLocation(this.id);
-            if (!IAtumRecipeType.kilnBlacklist.contains(location)) {
-                IAtumRecipeType.kilnBlacklist.add(location);
+            if (!AtumRecipeTypes.kilnBlacklist.contains(location)) {
+                AtumRecipeTypes.kilnBlacklist.add(location);
             }
         }
 
@@ -68,4 +68,4 @@ public class CTKiln implements IRecipeManager {
             return "Blacklisted " + this.id + " from being in a Kiln recipe";
         }
     }
-}*/
+}

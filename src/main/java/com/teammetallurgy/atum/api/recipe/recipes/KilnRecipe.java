@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.AbstractAtumRecipe;
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.network.FriendlyByteBuf;
@@ -39,7 +39,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     }
 
     public KilnRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        super(IAtumRecipeType.KILN, id, input, output);
+        super(AtumRecipeTypes.KILN, id, input, output);
         this.experience = experience;
         this.cookTime = cookTime;
     }

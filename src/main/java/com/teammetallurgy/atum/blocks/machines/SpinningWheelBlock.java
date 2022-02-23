@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -111,7 +111,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                         }
                     } else if (!spinningWheel.input.isEmpty()) {
                         ItemStack input = ItemStack.of(spinningWheel.input);
-                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(world.getRecipeManager(), IAtumRecipeType.SPINNING_WHEEL);
+                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(world.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL);
                         for (SpinningWheelRecipe spinningWheelRecipe : recipes) {
                             for (Ingredient ingredient : spinningWheelRecipe.getIngredients()) {
                                 for (ItemStack ingredientStack : ingredient.getItems()) {

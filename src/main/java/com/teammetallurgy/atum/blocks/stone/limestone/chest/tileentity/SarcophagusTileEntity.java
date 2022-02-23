@@ -70,7 +70,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     @Override
     @Nonnull
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        return this.saveWithoutMetadata();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        super.save(tag);
+        super.saveAdditional(tag);
         tag.putBoolean("spawned", this.hasSpawned);
         tag.putBoolean("openable", this.isOpenable);
     }

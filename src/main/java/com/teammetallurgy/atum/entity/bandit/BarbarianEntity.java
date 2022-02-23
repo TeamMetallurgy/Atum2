@@ -33,4 +33,9 @@ public class BarbarianEntity extends BanditBaseEntity {
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.GREATSWORD_IRON));
     }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 2;
+    }
 }

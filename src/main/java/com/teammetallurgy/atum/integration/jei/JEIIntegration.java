@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.categories.KilnRecipeCategory;
@@ -55,10 +55,10 @@ public class JEIIntegration implements IModPlugin {
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
         ClientLevel world = Minecraft.getInstance().level;
         if (world != null) {
-            addRecipes(registry, world, IAtumRecipeType.KILN, KILN);
+            addRecipes(registry, world, AtumRecipeTypes.KILN, KILN);
             registry.addRecipes(RecipeHelper.getKilnRecipesFromFurnace(world.getRecipeManager()), KILN);
-            addRecipes(registry, world, IAtumRecipeType.QUERN, QUERN);
-            addRecipes(registry, world, IAtumRecipeType.SPINNING_WHEEL, SPINNING_WHEEL);
+            addRecipes(registry, world, AtumRecipeTypes.QUERN, QUERN);
+            addRecipes(registry, world, AtumRecipeTypes.SPINNING_WHEEL, SPINNING_WHEEL);
         }
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
     }

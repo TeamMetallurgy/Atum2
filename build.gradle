@@ -20,17 +20,16 @@ repositories {
     name = "JEI"
     url = "https://dvs1.progwml6.com/files/maven/"
   }
-  maven {
-    name = "Hwyla"
-    url = "https://maven.tehnut.info"
-  }
   maven { 
     name = "CraftTweaker2"
     url = "https://maven.blamejared.com" 
   }
   maven {
     name = "TheOneProbe"
-    url = "https://maven.tterrag.com"
+    url "https://cursemaven.com"
+    content {
+        includeGroup "curse.maven"
+    }
   }
   maven {
     name = "Curios"
@@ -83,9 +82,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    //implementation fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
-    //implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
-    //implementation "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${minecraft_version}:${ct_version}")
+    implementation fg.deobf("curse.maven:theoneprobe-245211:3606616")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
     //implementation fg.deobf("com.telepathicgrunt:Blame:1.16.5-3.0.2-forge")

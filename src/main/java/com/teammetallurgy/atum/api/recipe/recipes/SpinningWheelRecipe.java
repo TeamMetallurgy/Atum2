@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.api.recipe.recipes;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.RotationRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
@@ -24,7 +24,7 @@ public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity>
     }
 
     public SpinningWheelRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {
-        super(IAtumRecipeType.SPINNING_WHEEL, id, input, output, rotations);
+        super(AtumRecipeTypes.SPINNING_WHEEL, id, input, output, rotations);
     }
 
     @Override

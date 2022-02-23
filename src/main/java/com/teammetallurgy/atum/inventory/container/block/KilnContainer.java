@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumMenuType;
 import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
@@ -125,7 +125,7 @@ public class KilnContainer extends AbstractContainerMenu {
     protected boolean getRecipe(@Nonnull ItemStack stack) {
         Level world = this.kilnInventory.getLevel();
         RecipeManager recipeManager = world.getRecipeManager();
-        return recipeManager.getRecipeFor((RecipeType) IAtumRecipeType.KILN, new SimpleContainer(stack), world).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager), stack);
+        return recipeManager.getRecipeFor((RecipeType) AtumRecipeTypes.KILN, new SimpleContainer(stack), world).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager), stack);
     }
 
     public int getCookProgressionScaled() {

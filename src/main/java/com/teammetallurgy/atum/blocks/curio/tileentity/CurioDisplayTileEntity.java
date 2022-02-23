@@ -43,7 +43,7 @@ public class CurioDisplayTileEntity extends InventoryBaseTileEntity {
     @Override
     @Nonnull
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        return this.saveWithoutMetadata();
     }
 
     @Override
