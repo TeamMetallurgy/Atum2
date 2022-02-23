@@ -30,6 +30,6 @@ public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity>
     @Override
     @Nonnull
     public RecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.SPINNING_WHEEL.get();
+        return AtumRecipeSerializers.SPINNING_WHEEL;
     }
 }

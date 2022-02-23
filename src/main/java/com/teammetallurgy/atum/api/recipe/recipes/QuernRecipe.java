@@ -30,6 +30,6 @@ public class QuernRecipe extends RotationRecipe<QuernTileEntity> {
     @Override
     @Nonnull
     public RecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.QUERN.get();
+        return AtumRecipeSerializers.QUERN;
     }
 }
