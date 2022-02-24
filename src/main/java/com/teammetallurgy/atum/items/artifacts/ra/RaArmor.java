@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.RaArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
@@ -29,7 +30,7 @@ public class RaArmor extends ArtifactArmor {
         consumer.accept(new IItemRenderProperties() {
             @Override
             public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return new RaArmorModel(armorSlot, hasFullSet(entityLiving));
+                return new RaArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.RA_ARMOR), armorSlot, hasFullSet(entityLiving));
             }
         });
     }

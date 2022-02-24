@@ -22,7 +22,6 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
-import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;

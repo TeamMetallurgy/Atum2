@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.atem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
@@ -50,7 +51,7 @@ public class AtemArmor extends ArtifactArmor {
         consumer.accept(new IItemRenderProperties() {
             @Override
             public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return new AtemArmorModel(armorSlot, hasFullSet(entityLiving));
+                return new AtemArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR), armorSlot, hasFullSet(entityLiving));
             }
         });
     }

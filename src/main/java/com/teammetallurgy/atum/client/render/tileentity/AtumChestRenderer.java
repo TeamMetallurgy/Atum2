@@ -13,19 +13,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
-public class TileChestRender extends ChestRenderer<ChestBaseTileEntity> {
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
+public class AtumChestRenderer extends ChestRenderer<ChestBaseTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private static final Material LIMESTONE_CHEST = getChestMaterial("limestone_chest");
     private static final Material LIMESTONE_CHEST_LEFT = getChestMaterial("limestone_chest_left");
     private static final Material LIMESTONE_CHEST_RIGHT = getChestMaterial("limestone_chest_right");
 
-    public TileChestRender(BlockEntityRendererProvider.Context context) {
+    public AtumChestRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
     }
 

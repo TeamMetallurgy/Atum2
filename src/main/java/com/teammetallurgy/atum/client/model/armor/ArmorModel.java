@@ -13,8 +13,8 @@ import javax.annotation.Nonnull;
 public class ArmorModel extends HumanoidModel<LivingEntity> {
     private final EquipmentSlot slot;
 
-    public ArmorModel(EquipmentSlot slot) {
-        super(Minecraft.getInstance().getEntityModels().bakeLayer(slot == EquipmentSlot.LEGS ? ModelLayers.PLAYER_INNER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR));
+    public ArmorModel(ModelPart part, EquipmentSlot slot) {
+        super(part);
         this.slot = slot;
     }
 
@@ -52,11 +52,5 @@ public class ArmorModel extends HumanoidModel<LivingEntity> {
         this.rightLeg.zRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getZ();
         this.rightLeg.setPos(-1.9F, 11.0F, 0.0F);
         this.hat.copyFrom(this.head);
-    }
-
-    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
     }
 }

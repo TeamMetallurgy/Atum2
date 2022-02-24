@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.client.model.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -13,14 +10,13 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
+/*@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)*/
 public class AtemArmorModel extends ArmorModel {
 	private boolean hasFullSet;
 	private final ModelPart leftBoot;
@@ -28,18 +24,18 @@ public class AtemArmorModel extends ArmorModel {
 	private final ModelPart leftCape;
 	private final ModelPart rightCape;
 
-	public AtemArmorModel(EquipmentSlot slot, boolean hasFullSet) {
-		super(slot);
-		ModelPart part = Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR);
+	public AtemArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
+		super(part, slot);
 		this.hasFullSet = hasFullSet;
 		this.leftBoot = part.getChild("left_boot");
 		this.rightBoot = part.getChild("right_boot");
 		this.leftCape = part.getChild("left_cape");
 		this.rightCape = part.getChild("right_cape");
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public static LayerDefinition createLayer() {
-		MeshDefinition meshdefinition = new MeshDefinition();
+		MeshDefinition meshdefinition = createMesh(CubeDeformation.NONE, 0.0F);
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition bipedBody = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
@@ -51,7 +47,7 @@ public class AtemArmorModel extends ArmorModel {
 				.texOffs(48, 80).mirror().addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(-5.0F, 2.0F, 0.0F));
 		bipedRightArm.addOrReplaceChild("right_shoulder_blade", CubeListBuilder.create().texOffs(18, 90).mirror().addBox(-14.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(10.0F, 0.0F, 0.0F));
 
-		partdefinition.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
+		partdefinition.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F + 5.0F, 4.0F - 2.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
 
 		PartDefinition bipedLeftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.1F)).mirror(false)
 				.texOffs(52, 30).mirror().addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.4F)).mirror(false)
@@ -59,7 +55,7 @@ public class AtemArmorModel extends ArmorModel {
 				.texOffs(32, 80).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(5.0F, 2.0F, 0.0F));
 		bipedLeftArm.addOrReplaceChild("left_shoulder_blade", CubeListBuilder.create().texOffs(18, 82).mirror().addBox(0.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		partdefinition.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
+		partdefinition.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F - 5.0F, -20.0F + 22.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
 
 		PartDefinition bipedHead = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.1F))
 				.texOffs(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, new CubeDeformation(-0.25F))
@@ -68,7 +64,7 @@ public class AtemArmorModel extends ArmorModel {
 		bipedHead.addOrReplaceChild("fins", CubeListBuilder.create().texOffs(0, 87).addBox(5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.1F))
 				.texOffs(0, 87).addBox(-5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 		bipedHead.addOrReplaceChild("postiche", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
-		bipedHead.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		bipedHead.addOrReplaceChild("top_head", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
 				.texOffs(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, new CubeDeformation(0.4F))
@@ -103,8 +99,13 @@ public class AtemArmorModel extends ArmorModel {
 		this.leftCape.visible = this.hasFullSet;
 		this.rightCape.visible = this.hasFullSet;
 
+		this.leftCape.copyFrom(this.leftArm);
+		this.rightCape.copyFrom(this.rightArm);
 		this.leftBoot.copyFrom(this.leftLeg);
 		this.rightBoot.copyFrom(this.rightLeg);
+
+		this.leftCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		this.rightCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.rightBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.leftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 

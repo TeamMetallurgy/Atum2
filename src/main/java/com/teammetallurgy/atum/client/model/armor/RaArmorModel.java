@@ -21,16 +21,15 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
-public class RaArmorModel extends ArmorModel {
+public class RaArmorModel extends ArmorModel { //TODO Fix cape
     private boolean hasFullSet;
     private final ModelPart leftBoot;
     private final ModelPart rightBoot;
     private final ModelPart rightCape;
     private final ModelPart leftCape;
 
-    public RaArmorModel(EquipmentSlot slot, boolean hasFullSet) {
-        super(slot);
-        ModelPart part = Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.RA_ARMOR);
+    public RaArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
+        super(part, slot);
         this.hasFullSet = hasFullSet;
         this.rightCape = part.getChild("right_cape");
         this.leftCape = part.getChild("left_cape");
@@ -39,7 +38,7 @@ public class RaArmorModel extends ArmorModel {
     }
 
     public static LayerDefinition createLayer() {
-        MeshDefinition meshdefinition = new MeshDefinition();
+        MeshDefinition meshdefinition = createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition bipedBody = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.2F)), PartPose.offset(0.0F, 0.0F, 0.0F));
@@ -50,14 +49,16 @@ public class RaArmorModel extends ArmorModel {
                 .texOffs(48, 88).mirror().addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.35F)).mirror(false)
                 .texOffs(48, 80).mirror().addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(-5.0F, 2.0F, 0.0F));
         bipedRightArm.addOrReplaceChild("right_shoulder_blade", CubeListBuilder.create().texOffs(18, 90).mirror().addBox(-14.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(10.0F, 0.0F, 0.0F));
-        partdefinition.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
+
+        partdefinition.addOrReplaceChild("right_cape", CubeListBuilder.create().texOffs(56, 64).mirror().addBox(-7.5F + 5.0F, 4.0F - 2.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(5.0F, -2.0F, 0.0F));
 
         PartDefinition bipedLeftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.1F)).mirror(false)
                 .texOffs(52, 30).mirror().addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.4F)).mirror(false)
                 .texOffs(32, 88).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.35F)).mirror(false)
                 .texOffs(32, 80).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.65F)).mirror(false), PartPose.offset(5.0F, 2.0F, 0.0F));
         bipedLeftArm.addOrReplaceChild("left_shoulder_blade", CubeListBuilder.create().texOffs(18, 82).mirror().addBox(0.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, new CubeDeformation(0.1F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
-        partdefinition.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
+
+        partdefinition.addOrReplaceChild("left_cape", CubeListBuilder.create().texOffs(48, 64).mirror().addBox(3.5F - 5.0F, -20.0F + 22.0F, 2.6F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 22.0F, 0.0F));
 
         PartDefinition bipedHead = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.1F))
                 .texOffs(24, 0).addBox(-5.0F, -6.0F, -5.0F, 10.0F, 4.0F, 2.0F, new CubeDeformation(-0.25F))
@@ -66,7 +67,7 @@ public class RaArmorModel extends ArmorModel {
         bipedHead.addOrReplaceChild("horns", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
         bipedHead.addOrReplaceChild("postiche", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 
-        PartDefinition hat = bipedHead.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition hat = bipedHead.addOrReplaceChild("top_head", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
         hat.addOrReplaceChild("horn_left_r1", CubeListBuilder.create().texOffs(24, 51).mirror().addBox(-8.0F, -14.0F, -1.0F, 4.0F, 11.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(24, 51).addBox(4.0F, -14.0F, -1.0F, 4.0F, 11.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2182F, 0.0F, 0.0F));
         partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
@@ -102,8 +103,13 @@ public class RaArmorModel extends ArmorModel {
         this.leftCape.visible = this.hasFullSet;
         this.rightCape.visible = this.hasFullSet;
 
+        this.leftCape.copyFrom(this.leftArm);
+        this.rightCape.copyFrom(this.rightArm);
         this.leftBoot.copyFrom(this.leftLeg);
         this.rightBoot.copyFrom(this.rightLeg);
+
+        this.leftCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.rightCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.rightBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.leftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 

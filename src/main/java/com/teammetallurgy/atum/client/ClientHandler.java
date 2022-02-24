@@ -54,7 +54,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -292,7 +291,7 @@ public class ClientHandler {
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN, cutoutMipped);
 
-        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), TileChestRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), AtumChestRenderer::new);
         BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS.get(), SarcophagusRender::new);
         BlockEntityRenderers.register(AtumTileEntities.CRATE.get(), CrateRender::new);
         BlockEntityRenderers.register(AtumTileEntities.QUERN.get(), QuernRender::new);
