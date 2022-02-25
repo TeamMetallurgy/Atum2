@@ -58,6 +58,8 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.init();
+        event.enqueueWork(() -> WoodType.register(PALM));
+        event.enqueueWork(() -> WoodType.register(DEADWOOD));
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }

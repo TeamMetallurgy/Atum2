@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -60,7 +61,9 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
                             canDamageEntity = true;
                             if (trap.timer == 0) {
                                 trap.timer = 80;
-                                trap.triggerTrap(level, facing, livingBase);
+                                if (level instanceof ServerLevel serverLevel) {
+                                    trap.triggerTrap(serverLevel, facing, livingBase);
+                                }
                             }
                         } else {
                             canDamageEntity = false;
@@ -125,48 +128,46 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     }
 
     @Override
-    protected void triggerTrap(Level level, Direction facing, LivingEntity livingBase) {
+    protected void triggerTrap(ServerLevel serverLevel, Direction facing, LivingEntity livingBase) {
         double x = (double) this.worldPosition.getX() + 0.5D;
-        double y = (double) this.worldPosition.getY() + level.random.nextDouble() * 12.0D / 16.0D;
+        double y = (double) this.worldPosition.getY() + serverLevel.random.nextDouble() * 12.0D / 16.0D;
         double z = (double) this.worldPosition.getZ() + 0.5D;
-        double randomPos = level.random.nextDouble() * 0.6D - 0.3D;
+        double randomPos = serverLevel.random.nextDouble() * 0.6D - 0.3D;
 
-        level.playLocalSound(x, worldPosition.getY(), z, SoundEvents.DISPENSER_LAUNCH, SoundSource.BLOCKS, 1.0F, 1.2F, false);
+        serverLevel.playSound(null, x, worldPosition.getY(), z, SoundEvents.DISPENSER_LAUNCH, SoundSource.BLOCKS, 1.0F, 1.2F);
 
         switch (facing) {
             case DOWN -> {
-                fireArrow(level, facing, x - randomPos, y - 0.5D, z);
-                level.addParticle(ParticleTypes.SMOKE, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x - randomPos, y - 0.5D, z);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
             }
             case UP -> {
-                fireArrow(level, facing, x - randomPos, y + 1.0D, z);
-                level.addParticle(ParticleTypes.SMOKE, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x - randomPos, y + 1.0D, z);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
             }
             case WEST -> {
-                fireArrow(level, facing, x - 0.52D, y, z + randomPos);
-                level.addParticle(ParticleTypes.SMOKE, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x - 0.52D, y, z + randomPos);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
             }
             case EAST -> {
-                fireArrow(level, facing, x + 0.52D, y, z + randomPos);
-                level.addParticle(ParticleTypes.SMOKE, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x + 0.52D, y, z + randomPos);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
             }
             case NORTH -> {
-                fireArrow(level, facing, x + randomPos, y, z - 0.52D);
-                level.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x + randomPos, y, z - 0.52D);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
             }
             case SOUTH -> {
-                fireArrow(level, facing, x + randomPos, y, z + 0.52D);
-                level.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                fireArrow(serverLevel, facing, x + randomPos, y, z + 0.52D);
+                serverLevel.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
             }
         }
     }
 
-    private void fireArrow(Level level, Direction facing, double x, double y, double z) {
-        if (!level.isClientSide) {
-            Arrow arrow = new Arrow(level, x, y, z);
-            arrow.shoot(facing.getStepX(), (float) facing.getStepY() + 0.1F, facing.getStepZ(), 1.1F, 6.0F);
-            level.addFreshEntity(arrow);
-        }
+    private void fireArrow(ServerLevel serverLevel, Direction facing, double x, double y, double z) {
+        Arrow arrow = new Arrow(serverLevel, x, y, z);
+        arrow.shoot(facing.getStepX(), (float) facing.getStepY() + 0.1F, facing.getStepZ(), 1.1F, 6.0F);
+        serverLevel.addFreshEntity(arrow);
     }
 
     @Override

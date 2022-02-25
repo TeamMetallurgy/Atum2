@@ -36,7 +36,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     private static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public QuandaryBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
+        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).isRedstoneConductor(AtumBlocks::never).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVATED, false).setValue(UNBREAKABLE, false));
     }
 
@@ -52,6 +52,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
             Block facingBlock = world.getBlockState(fromPos).getBlock();
             boolean activated = facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch();
             world.setBlock(pos, state.setValue(ACTIVATED, activated), 2);
+            world.updateNeighborsAt(pos, this);
 
             if (activated) {
                 Helper.attemptMakeDoor(world, pos, state.getValue(FACING), LimestoneBrickBlock.class, null);

@@ -352,7 +352,7 @@ public class AtumBlocks {
     public static final WallBlock CERAMIC_BLACK_WALL = (WallBlock) registerBlock(new WallBlock(copy(CERAMIC_BLACK)), "ceramic_wall_black");
     //public static final Block RADIANT_BEACON = registerBlock(new RadiantBeaconBlock(), "radiant_beacon");
     //public static final Block RADIANT_BEACON_FRAMED = registerBlock(new FramedRadiantBeaconBlock(), null, "radiant_beacon_framed");
-    public static final Block CRYSTAL_GLASS = registerBlock(new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::neverAllowSpawn).isRedstoneConductor(AtumBlocks::isntSolid).isSuffocating(AtumBlocks::isntSolid).isViewBlocking(AtumBlocks::isntSolid)), "crystal_glass");
+    public static final Block CRYSTAL_GLASS = registerBlock(new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "crystal_glass");
     public static final Block WHITE_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.WHITE), "white_stained_crystal_glass");
     public static final Block ORANGE_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.ORANGE), "orange_stained_crystal_glass");
     public static final Block MAGENTA_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.MAGENTA), "magenta_stained_crystal_glass");
@@ -403,7 +403,7 @@ public class AtumBlocks {
     public static final Block GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.GREEN), "green_stained_palm_framed_crystal_glass");
     public static final Block RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.RED), "red_stained_palm_framed_crystal_glass");
     public static final Block BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.BLACK), "black_stained_palm_framed_crystal_glass");
-    public static final Block DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::neverAllowSpawn).isRedstoneConductor(AtumBlocks::isntSolid).isSuffocating(AtumBlocks::isntSolid).isViewBlocking(AtumBlocks::isntSolid)), "deadwood_framed_crystal_glass");
+    public static final Block DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "deadwood_framed_crystal_glass");
     public static final Block WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.WHITE), "white_stained_deadwood_framed_crystal_glass");
     public static final Block ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.ORANGE), "orange_stained_deadwood_framed_crystal_glass");
     public static final Block MAGENTA_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.MAGENTA), "magenta_stained_deadwood_framed_crystal_glass");
@@ -513,8 +513,8 @@ public class AtumBlocks {
     public static final Block DEADWOOD_FENCE = registerBlock(new FenceBlock(copy(DEADWOOD_PLANKS)), "deadwood_fence");
     public static final Block PALM_FENCE_GATE = registerBlock(new FenceGateBlock(copy(PALM_PLANKS)), "palm_fence_gate");
     public static final Block DEADWOOD_FENCE_GATE = registerBlock(new FenceGateBlock(copy(DEADWOOD_PLANKS)), "deadwood_fence_gate");
-    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::neverAllowSpawn)), "palm_hatch");
-    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::neverAllowSpawn)), "deadwood_hatch");
+    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "palm_hatch");
+    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "deadwood_hatch");
     public static final Block PALM_DOOR = registerBlock(new DoorAtumBlock(copy(PALM_PLANKS)), "palm_door");
     public static final Block DEADWOOD_DOOR = registerBlock(new DoorAtumBlock(copy(DEADWOOD_PLANKS)), "deadwood_door");
     public static final Block LIMESTONE_BUTTON = registerBlock(new StoneButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F)), "limestone_button");
@@ -559,27 +559,27 @@ public class AtumBlocks {
     }
 
     public static StainedGlassBlock createStainedGlassFromColor(DyeColor color) {
-        return new StainedGlassBlock(color, BlockBehaviour.Properties.of(Material.GLASS, color).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::neverAllowSpawn).isRedstoneConductor(AtumBlocks::isntSolid).isSuffocating(AtumBlocks::isntSolid).isViewBlocking(AtumBlocks::isntSolid));
+        return new StainedGlassBlock(color, BlockBehaviour.Properties.of(Material.GLASS, color).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never));
     }
 
     //Copied from vanilla Block class
-    public static Boolean neverAllowSpawn(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entity) {
-        return false;
-    }
-
-    public static Boolean alwaysAllowSpawn(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entity) {
-        return true;
-    }
-
     public static Boolean allowsSpawnOnLeaves(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 
-    public static boolean needsPostProcessing(BlockState state, BlockGetter reader, BlockPos pos) {
+    public static boolean always(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
     }
 
-    public static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
+    public static boolean never(BlockState state, BlockGetter reader, BlockPos pos) {
+        return false;
+    }
+
+    public static boolean always(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entityType) {
+        return true;
+    }
+
+    public static boolean never(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entityType) {
         return false;
     }
 }

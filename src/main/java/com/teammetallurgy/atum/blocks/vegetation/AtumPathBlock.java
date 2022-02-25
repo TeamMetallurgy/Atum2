@@ -16,7 +16,7 @@ public class AtumPathBlock extends DirtPathBlock {
     private final Block baseBlock;
 
     public AtumPathBlock(Block baseBlock) {
-        super(BlockBehaviour.Properties.of(baseBlock.defaultBlockState().getMaterial()).strength(0.65F).sound(baseBlock.defaultBlockState().getSoundType()).isViewBlocking(AtumBlocks::needsPostProcessing).isSuffocating(AtumBlocks::needsPostProcessing).dropsLike(baseBlock));
+        super(BlockBehaviour.Properties.of(baseBlock.defaultBlockState().getMaterial()).strength(0.65F).sound(baseBlock.defaultBlockState().getSoundType()).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always).lootFrom(() -> baseBlock));
         this.baseBlock = baseBlock;
     }
 

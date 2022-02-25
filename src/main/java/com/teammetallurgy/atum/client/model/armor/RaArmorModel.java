@@ -67,7 +67,7 @@ public class RaArmorModel extends ArmorModel { //TODO Fix cape
         bipedHead.addOrReplaceChild("horns", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
         bipedHead.addOrReplaceChild("postiche", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 
-        PartDefinition hat = bipedHead.addOrReplaceChild("top_head", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition hat = bipedHead.addOrReplaceChild("head_top", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
         hat.addOrReplaceChild("horn_left_r1", CubeListBuilder.create().texOffs(24, 51).mirror().addBox(-8.0F, -14.0F, -1.0F, 4.0F, 11.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(24, 51).addBox(4.0F, -14.0F, -1.0F, 4.0F, 11.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2182F, 0.0F, 0.0F));
         partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
@@ -122,6 +122,7 @@ public class RaArmorModel extends ArmorModel { //TODO Fix cape
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
         if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA) {
             playerModel.hat.visible = false;
+            playerModel.head.visible = false;
         }
         if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_RA) {
             playerModel.jacket.visible = false;

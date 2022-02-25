@@ -64,7 +64,7 @@ public class AtemArmorModel extends ArmorModel {
 		bipedHead.addOrReplaceChild("fins", CubeListBuilder.create().texOffs(0, 87).addBox(5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.1F))
 				.texOffs(0, 87).addBox(-5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 		bipedHead.addOrReplaceChild("postiche", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
-		bipedHead.addOrReplaceChild("top_head", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		bipedHead.addOrReplaceChild("head_top", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.4F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
 				.texOffs(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, new CubeDeformation(0.4F))
@@ -118,6 +118,7 @@ public class AtemArmorModel extends ArmorModel {
 		PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
 		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
 			playerModel.hat.visible = false;
+			playerModel.head.visible = false;
 		}
 		if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
 			playerModel.jacket.visible = false;

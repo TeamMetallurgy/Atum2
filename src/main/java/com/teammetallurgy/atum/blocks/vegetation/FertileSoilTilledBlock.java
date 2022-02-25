@@ -33,7 +33,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
 
     public FertileSoilTilledBlock() {
-        super(Block.Properties.of(Material.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).isViewBlocking(AtumBlocks::needsPostProcessing).isSuffocating(AtumBlocks::needsPostProcessing));
+        super(Block.Properties.of(Material.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always));
         this.registerDefaultState(this.stateDefinition.any().setValue(MOISTURE, 0).setValue(BLESSED, false));
     }
 

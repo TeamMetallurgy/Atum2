@@ -15,7 +15,7 @@ import java.util.Random;
 public class LeavesAtumBlock extends LeavesBlock {
 
     public LeavesAtumBlock() {
-        super(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(AtumBlocks::allowsSpawnOnLeaves).isSuffocating(AtumBlocks::isntSolid).isViewBlocking(AtumBlocks::isntSolid));
+        super(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(AtumBlocks::allowsSpawnOnLeaves).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never));
     }
 
     @Override

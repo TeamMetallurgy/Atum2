@@ -9,6 +9,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -103,7 +104,9 @@ public class TrapTileEntity extends InventoryBaseTileEntity {
                 for (LivingEntity livingBase : entities) {
                     if (livingBase instanceof Player ? !((Player) livingBase).isCreative() : livingBase != null) {
                         canDamageEntity = true;
-                        trap.triggerTrap(level, facing, livingBase);
+                        if (level instanceof ServerLevel serverLevel) {
+                            trap.triggerTrap(serverLevel, facing, livingBase);
+                        }
                     } else {
                         canDamageEntity = false;
                     }
@@ -142,7 +145,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity {
         }
     }
 
-    protected void triggerTrap(Level world, Direction facing, LivingEntity livingBase) {
+    protected void triggerTrap(ServerLevel serverLevel, Direction facing, LivingEntity livingBase) {
     }
 
     boolean isBurning() {

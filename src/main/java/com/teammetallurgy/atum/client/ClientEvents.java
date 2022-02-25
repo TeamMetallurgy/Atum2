@@ -1,8 +1,10 @@
 package com.teammetallurgy.atum.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.IFogReductionItem;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -12,7 +14,7 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -89,33 +91,28 @@ public class ClientEvents {
     public static void renderMummyHelmet(RenderGameOverlayEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
-        PoseStack poseStack = event.getMatrixStack();
 
-        //TODO Test & test if LAYER ElemntType works
         if (player != null && mc.options.getCameraType().isFirstPerson() && event.getType() == RenderGameOverlayEvent.ElementType.LAYER && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
 
-            poseStack.pushPose();
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            //RenderSystem.disableAlphaTest();
-            mc.getTextureManager().bindForSetup(MUMMY_BLUR_TEXTURE);
-            Tesselator tessellator = Tesselator.getInstance();
-            BufferBuilder bufferbuilder = tessellator.getBuilder();
+            RenderSystem.setShaderTexture(0, MUMMY_BLUR_TEXTURE);
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder bufferbuilder = tesselator.getBuilder();
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            bufferbuilder.vertex(0.0D, height, -90.0D).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(width, height, -90.0D).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(width, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(0.0D, (double) height, -90.0D).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex((double) width, (double) height, -90.0D).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex((double) width, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
             bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
+            tesselator.end();
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
-            //RenderSystem.enableAlphaTest();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            poseStack.popPose();
         }
     }
 }

@@ -212,7 +212,7 @@ public class AtumRegistry {
      */
     public static Block registerSign(@Nonnull Block signBlock, @Nonnull WoodType woodType) {
         String typeName = woodType.name().replace("atum_", "");
-        Block wallSignBlock = new AtumWallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).dropsLike(signBlock), woodType);
+        Block wallSignBlock = new AtumWallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(() -> signBlock), woodType);
         Item signItem = new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlock, wallSignBlock);
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlock, wallSignBlock);
         registerItem(signItem, typeName + "_sign");

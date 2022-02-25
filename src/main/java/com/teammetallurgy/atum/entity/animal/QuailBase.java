@@ -100,9 +100,7 @@ public abstract class QuailBase extends Animal { //Needed to get Follow Goal wor
     }
 
     public void addFollowers(Stream<? extends QuailBase> quails) {
-        quails.limit(this.getMaxFlockSize() - this.groupSize).filter((q) -> {
-            return q != this;
-        }).forEach((quail) -> {
+        quails.limit(this.getMaxFlockSize() - this.groupSize).filter((q) -> q != this).forEach((quail) -> {
             quail.addToFlock(this);
         });
     }
@@ -118,10 +116,11 @@ public abstract class QuailBase extends Animal { //Needed to get Follow Goal wor
         return super.finalizeSpawn(world, difficulty, reason, spawnData, dataTag);
     }
 
-    public static class GroupData implements SpawnGroupData {
+    public static class GroupData extends AgeableMobGroupData {
         public final QuailBase flockLeader;
 
         public GroupData(QuailBase flockLeader) {
+            super(true);
             this.flockLeader = flockLeader;
         }
     }

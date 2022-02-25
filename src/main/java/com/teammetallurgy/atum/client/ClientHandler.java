@@ -140,6 +140,9 @@ public class ClientHandler {
         registerShieldModelProperties(AtumItems.BRIGAND_SHIELD);
         registerShieldModelProperties(AtumItems.STONEGUARD_SHIELD);
         registerShieldModelProperties(AtumItems.ATEMS_PROTECTION);
+
+        Sheets.addWoodType(Atum.PALM);
+        Sheets.addWoodType(Atum.DEADWOOD);
     }
 
     @SubscribeEvent
@@ -338,9 +341,6 @@ public class ClientHandler {
                 return AtumBlocks.NEBU_CURIO_DISPLAY;
             }
         });
-
-        Sheets.addWoodType(Atum.PALM);
-        Sheets.addWoodType(Atum.DEADWOOD);
     }
 
     @SubscribeEvent
