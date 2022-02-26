@@ -130,7 +130,7 @@ public class AtumBlocks {
     public static final Block KHNUMITE_RAW = registerBlock(new Block(of(Material.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "khnumite_raw");
     public static final Block BONE_ORE = registerBlock(new OreBlock(of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "bone_ore");
     public static final Block RELIC_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "relic_ore");
-    public static final Block NEBU_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "nebu_ore");
+    public static final Block NEBU_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 6)), "nebu_ore");
     public static final Block NEBU_BLOCK = registerBlock(new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
     public static final Block GODFORGED_BLOCK = registerBlock(new GodforgedBlock(), "godforged_block");
     public static final Block ANPUT_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(God.ANPUT), "anput_godforged_block");

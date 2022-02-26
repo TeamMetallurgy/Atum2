@@ -32,7 +32,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     public void curioTick(SlotContext slotContext, @Nonnull ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
         if (!livingEntity.level.isClientSide()) {
-            DURATION.putIfAbsent(livingEntity, 220);
+            DURATION.putIfAbsent(livingEntity, 175);
 
             int duration = DURATION.getInt(livingEntity);
             if (duration > 0) {
@@ -53,7 +53,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
                 serverLevel.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
 
                 livingEntity.heal(1.0F);
-                DURATION.replace(livingEntity, 220);
+                DURATION.replace(livingEntity, 175);
             }
         }
     }

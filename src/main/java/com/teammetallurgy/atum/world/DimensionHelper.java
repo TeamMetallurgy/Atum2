@@ -32,14 +32,13 @@ public class DimensionHelper {
     public static final int GROUND_LEVEL = 63;
 
     public static AtumDimensionData getData(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().get(AtumDimensionData::load, AtumDimensionData.ID);
+        return serverLevel.getDataStorage().computeIfAbsent(AtumDimensionData::load, AtumDimensionData::new, AtumDimensionData.ID);
     }
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
         LevelAccessor world = event.getWorld();
-        if (world instanceof ServerLevel) {
-            ServerLevel serverLevel = (ServerLevel) world;
+        if (world instanceof ServerLevel serverLevel) {
             if (serverLevel.dimension() == Atum.ATUM) {
                 if (world.getLevelData() instanceof DerivedLevelData) {
                     ((DerivedLevelData) world.getLevelData()).wrapped.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum

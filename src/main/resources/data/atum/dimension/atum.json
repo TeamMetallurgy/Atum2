@@ -1,0 +1,13 @@
+{
+  "type": "atum:atum",
+  "generator": {
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "minecraft:desert"
+    },
+    "seed": 0,
+    "settings": "atum:atum",
+    "type": "minecraft:noise"
+  },
+  "forge:use_server_seed": true
+}
