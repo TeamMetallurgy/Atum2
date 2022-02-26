@@ -12,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import top.theillusivec4.curios.api.SlotContext;
 
 import javax.annotation.Nonnull;
 
@@ -28,30 +29,31 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        DURATION.putIfAbsent(livingEntity, 40);
+    public void curioTick(SlotContext slotContext, @Nonnull ItemStack stack) {
+        LivingEntity livingEntity = slotContext.entity();
+        if (!livingEntity.level.isClientSide()) {
+            DURATION.putIfAbsent(livingEntity, 220);
 
-        int duration = DURATION.getInt(livingEntity);
-        if (duration > 0) {
-            DURATION.replace(livingEntity, duration - 1);
-        }
-        if (duration == 0) {
-            this.doEffect(livingEntity, stack);
+            int duration = DURATION.getInt(livingEntity);
+            if (duration > 0) {
+                DURATION.replace(livingEntity, duration - 1);
+            }
+            if (duration == 0) {
+                this.doEffect(livingEntity, stack);
+            }
         }
     }
 
     private void doEffect(LivingEntity livingEntity, @Nonnull ItemStack stack) {
         if (livingEntity.getHealth() < livingEntity.getMaxHealth()) {
             Level world = livingEntity.getCommandSenderWorld();
-            if (world instanceof ServerLevel) {
-                ServerLevel serverLevel = (ServerLevel) world;
+            if (world instanceof ServerLevel serverLevel) {
                 double x = Mth.nextDouble(world.random, 0.0001D, 0.05D);
                 double z = Mth.nextDouble(world.random, 0.0001D, 0.05D);
                 serverLevel.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
-            }
-            if (!world.isClientSide) {
+
                 livingEntity.heal(1.0F);
-                DURATION.replace(livingEntity, 40);
+                DURATION.replace(livingEntity, 220);
             }
         }
     }

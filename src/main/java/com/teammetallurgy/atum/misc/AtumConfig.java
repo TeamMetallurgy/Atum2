@@ -106,54 +106,6 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue dungeonChance;
         public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
-        //Oregen options //TODO Remove in 1.18
-        public final ForgeConfigSpec.IntValue coalVeinSize;
-        public final ForgeConfigSpec.IntValue coalCount;
-        public final ForgeConfigSpec.IntValue coalMaxHeight;
-        public final ForgeConfigSpec.IntValue ironVeinSize;
-        public final ForgeConfigSpec.IntValue ironCount;
-        public final ForgeConfigSpec.IntValue ironMaxHeight;
-        public final ForgeConfigSpec.IntValue goldVeinSize;
-        public final ForgeConfigSpec.IntValue goldCount;
-        public final ForgeConfigSpec.IntValue goldMaxHeight;
-        public final ForgeConfigSpec.IntValue redstoneVeinSize;
-        public final ForgeConfigSpec.IntValue redstoneCount;
-        public final ForgeConfigSpec.IntValue redstoneMaxHeight;
-        public final ForgeConfigSpec.IntValue diamondVeinSize;
-        public final ForgeConfigSpec.IntValue diamondCount;
-        public final ForgeConfigSpec.IntValue diamondMaxHeight;
-        public final ForgeConfigSpec.IntValue lapisVeinSize;
-        public final ForgeConfigSpec.IntValue lapisBaseline;
-        public final ForgeConfigSpec.IntValue lapisSpread;
-        public final ForgeConfigSpec.IntValue khnumiteVeinSize;
-        public final ForgeConfigSpec.IntValue khnumiteCount;
-        public final ForgeConfigSpec.IntValue khnumiteMaxHeight;
-        public final ForgeConfigSpec.IntValue boneOreVeinSize;
-        public final ForgeConfigSpec.IntValue boneOreCount;
-        public final ForgeConfigSpec.IntValue boneOreMaxHeight;
-        public final ForgeConfigSpec.IntValue relicOreVeinSize;
-        public final ForgeConfigSpec.IntValue relicOreCount;
-        public final ForgeConfigSpec.IntValue relicOreMaxHeight;
-        public final ForgeConfigSpec.IntValue nebuVeinSize;
-        public final ForgeConfigSpec.IntValue nebuCount;
-        public final ForgeConfigSpec.IntValue nebuMaxHeight;
-        public final ForgeConfigSpec.BooleanValue emeraldEnabled;
-        public final ForgeConfigSpec.IntValue alabasterVeinSize;
-        public final ForgeConfigSpec.IntValue alabasterCount;
-        public final ForgeConfigSpec.IntValue alabasterMaxHeight;
-        public final ForgeConfigSpec.IntValue porphyryVeinSize;
-        public final ForgeConfigSpec.IntValue porphyryCount;
-        public final ForgeConfigSpec.IntValue porphyryMaxHeight;
-        public final ForgeConfigSpec.IntValue sandVeinSize;
-        public final ForgeConfigSpec.IntValue sandCount;
-        public final ForgeConfigSpec.IntValue sandMaxHeight;
-        public final ForgeConfigSpec.IntValue limestoneGravelVeinSize;
-        public final ForgeConfigSpec.IntValue limestoneGravelCount;
-        public final ForgeConfigSpec.IntValue limestoneGravelMaxHeight;
-        public final ForgeConfigSpec.IntValue marlVeinSize;
-        public final ForgeConfigSpec.IntValue marlCount;
-        public final ForgeConfigSpec.IntValue marlMaxHeight;
-
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
             this.mineshaftProbability = builder.comment("Probability of mineshafts generating. Set to 0 to disable. Default value same as vanilla overworld")
@@ -170,54 +122,6 @@ public class AtumConfig {
                     .define("Enable Sand Layer along edges", true);
             builder.pop();
             builder.push(OREGEN).comment("All vanilla based ores, uses the vanilla values by default.");
-            this.coalVeinSize = builder.defineInRange("Coal vein size", 17, 1, 64);
-            this.coalCount = builder.defineInRange("Coal count, set to 0 to disable", 20, 0, 64);
-            this.coalMaxHeight = builder.defineInRange("Coal max height", 128, 1, 255);
-            this.ironVeinSize = builder.defineInRange("Iron vein size", 9, 1, 64);
-            this.ironCount = builder.defineInRange("Iron count, set to 0 to disable", 20, 0, 64);
-            this.ironMaxHeight = builder.defineInRange("Iron max height", 64, 1, 255);
-            this.goldVeinSize = builder.defineInRange("Gold vein size", 9, 1, 64);
-            this.goldCount = builder.defineInRange("Gold count, set to 0 to disable", 2, 0, 64);
-            this.goldMaxHeight = builder.defineInRange("Gold max height", 32, 1, 255);
-            this.redstoneVeinSize = builder.defineInRange("Redstone vein size", 8, 1, 64);
-            this.redstoneCount = builder.defineInRange("Redstone count, set to 0 to disable", 8, 0, 64);
-            this.redstoneMaxHeight = builder.defineInRange("Redstone max height", 16, 1, 255);
-            this.diamondVeinSize = builder.defineInRange("Diamond vein size", 8, 1, 64);
-            this.diamondCount = builder.defineInRange("Diamond count, set to 0 to disable", 1, 0, 64);
-            this.diamondMaxHeight = builder.defineInRange("Diamond max height", 16, 1, 255);
-            this.lapisVeinSize = builder.defineInRange("Lapis vein size", 7, 1, 64);
-            this.lapisBaseline = builder.defineInRange("Lapis baseline, set to 0 to disable", 16, 0, 64);
-            this.lapisSpread = builder.defineInRange("Lapis spread", 16, 1, 64);
-            this.khnumiteVeinSize = builder.defineInRange("Khnumite vein size", 6, 1, 64);
-            this.khnumiteCount = builder.defineInRange("Khnumite count, set to 0 to disable", 4, 0, 64);
-            this.khnumiteMaxHeight = builder.defineInRange("Khnumite max height", 20, 1, 255);
-            this.boneOreVeinSize = builder.defineInRange("Bone Ore vein size", 9, 1, 64);
-            this.boneOreCount = builder.defineInRange("Bone Ore count, set to 0 to disable", 12, 0, 64);
-            this.boneOreMaxHeight = builder.defineInRange("Bone Ore max height", 128, 1, 255);
-            this.relicOreVeinSize = builder.defineInRange("Relic Ore vein size", 5, 1, 64);
-            this.relicOreCount = builder.defineInRange("Relic Ore count, set to 0 to disable", 4, 0, 64);
-            this.relicOreMaxHeight = builder.defineInRange("Relic Ore max height", 64, 1, 255);
-            this.nebuVeinSize = builder.defineInRange("Nebu vein size", 8, 1, 64);
-            this.nebuCount = builder.defineInRange("Nebu count, set to 0 to disable", 1, 0, 64);
-            this.nebuMaxHeight = builder.defineInRange("Nebu max height", 64, 1, 255);
-            this.emeraldEnabled = builder.comment("Should Emeralds generate in Atum?")
-                    .translation("atum.config.emeralds_enabled")
-                    .define("Enable Emeralds", true);
-            this.alabasterVeinSize = builder.defineInRange("Alabaster vein size", 30, 1, 64);
-            this.alabasterCount = builder.defineInRange("Alabaster count, set to 0 to disable", 10, 0, 64);
-            this.alabasterMaxHeight = builder.defineInRange("Alabaster max height", 60, 1, 255);
-            this.porphyryVeinSize = builder.defineInRange("Porphyry vein size", 30, 1, 64);
-            this.porphyryCount = builder.defineInRange("Porphyry count, set to 0 to disable", 10, 0, 64);
-            this.porphyryMaxHeight = builder.defineInRange("Porphyry max height", 60, 1, 255);
-            this.sandVeinSize = builder.defineInRange("Sand pocket vein size", 28, 1, 64);
-            this.sandCount = builder.defineInRange("Sand pocket count, set to 0 to disable", 14, 0, 64);
-            this.sandMaxHeight = builder.defineInRange("Sand pocket max height", 255, 1, 255);
-            this.limestoneGravelVeinSize = builder.defineInRange("Limestone Gravel pocket vein size", 32, 1, 64);
-            this.limestoneGravelCount = builder.defineInRange("Limestone Gravel pocket count, set to 0 to disable", 10, 0, 64);
-            this.limestoneGravelMaxHeight = builder.defineInRange("Limestone Gravel pocket max height", 255, 1, 255);
-            this.marlVeinSize = builder.defineInRange("Marl vein size", 14, 1, 64);
-            this.marlCount = builder.defineInRange("Marl count, set to 0 to disable", 8, 0, 64);
-            this.marlMaxHeight = builder.defineInRange("Marl max height", 50, 1, 255);
             builder.pop();
         }
     }

@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
-public class RaArmorModel extends ArmorModel { //TODO Fix cape
+public class RaArmorModel extends ArmorModel {
     private boolean hasFullSet;
     private final ModelPart leftBoot;
     private final ModelPart rightBoot;

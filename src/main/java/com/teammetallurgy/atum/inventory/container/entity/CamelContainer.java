@@ -33,14 +33,14 @@ public class CamelContainer extends AbstractContainerMenu {
         //Saddle slot
         this.addSlot(new Slot(camelInventory, 0, 62, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return stack.getItem() instanceof SaddleItem && !this.hasItem();
             }
         });
         //Armor slot
         this.addSlot(new Slot(camelInventory, 1, 80, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return camel.isArmor(stack);
             }
 
@@ -58,7 +58,7 @@ public class CamelContainer extends AbstractContainerMenu {
         //Carpet slot
         this.addSlot(new Slot(camelInventory, 2, 98, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return camel.isValidCarpet(stack);
             }
 
@@ -70,7 +70,7 @@ public class CamelContainer extends AbstractContainerMenu {
         //Left Crate slot
         this.addSlot(new Slot(camelInventory, 3, 35, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return Block.byItem(stack.getItem()) instanceof CrateBlock;
             }
 
@@ -81,7 +81,7 @@ public class CamelContainer extends AbstractContainerMenu {
             }
 
             @Override
-            public boolean mayPickup(Player playerIn) {
+            public boolean mayPickup(@Nonnull Player player) {
                 for (Slot slot : leftCrateSlots) {
                     if (slot.hasItem()) {
                         return false;
@@ -98,7 +98,7 @@ public class CamelContainer extends AbstractContainerMenu {
         //Right Crate slot
         this.addSlot(new Slot(camelInventory, 4, 125, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return Block.byItem(stack.getItem()) instanceof CrateBlock;
             }
 
@@ -109,7 +109,7 @@ public class CamelContainer extends AbstractContainerMenu {
             }
 
             @Override
-            public boolean mayPickup(Player playerIn) {
+            public boolean mayPickup(@Nonnull Player player) {
                 for (Slot slot : rightCrateSlots) {
                     if (slot.hasItem()) {
                         return false;
@@ -163,8 +163,9 @@ public class CamelContainer extends AbstractContainerMenu {
                 }
             }
             if (!hasLeftSlots) {
-                for (int i = 0; i < leftCrateSlots.size(); i++) {
-                    slots.add(camel.getNonCrateSize() + i, leftCrateSlots.get(i));
+                for (Slot leftCrateSlot : leftCrateSlots) {
+                    slots.add(camel.getNonCrateSize() + leftCrateSlots.size(), leftCrateSlot);
+                    remoteSlots.add(ItemStack.EMPTY);
                     lastSlots.add(ItemStack.EMPTY);
                 }
             }
@@ -173,6 +174,7 @@ public class CamelContainer extends AbstractContainerMenu {
                 Slot slot = slots.get(i);
                 if (leftCrateSlots.contains(slot)) {
                     slots.remove(i);
+                    remoteSlots.remove(i);
                     lastSlots.remove(i);
                     i--;
                 }
@@ -195,6 +197,7 @@ public class CamelContainer extends AbstractContainerMenu {
             if (!hasRightSlots) {
                 for (Slot rightCrateSlot : rightCrateSlots) {
                     slots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlot);
+                    remoteSlots.add(ItemStack.EMPTY);
                     lastSlots.add(ItemStack.EMPTY);
                 }
             }
@@ -203,6 +206,7 @@ public class CamelContainer extends AbstractContainerMenu {
                 Slot slot = slots.get(i);
                 if (rightCrateSlots.contains(slot)) {
                     slots.remove(i);
+                    remoteSlots.remove(i);
                     lastSlots.remove(i);
                     i--;
                 }
@@ -220,7 +224,7 @@ public class CamelContainer extends AbstractContainerMenu {
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(Player player, int index) {
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
@@ -264,7 +268,7 @@ public class CamelContainer extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
+    public void removed(@Nonnull Player player) {
         super.removed(player);
         this.camelInventory.stopOpen(player);
     }

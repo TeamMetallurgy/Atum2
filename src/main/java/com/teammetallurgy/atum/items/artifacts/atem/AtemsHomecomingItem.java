@@ -125,16 +125,16 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
         }
     }
 
-    private static void onTeleport(Level world, Entity entity) {
-        if (world instanceof ServerLevel) {
-            float timesRandom = world.random.nextFloat() * 4.0F;
-            float cosRandom = world.random.nextFloat() * ((float) Math.PI * 2F);
+    private static void onTeleport(Level level, Entity entity) {
+        if (level instanceof ServerLevel serverLevel) {
+            float timesRandom = serverLevel.random.nextFloat() * 4.0F;
+            float cosRandom = serverLevel.random.nextFloat() * ((float) Math.PI * 2F);
             double x = Mth.cos(cosRandom) * timesRandom;
-            double y = 0.01D + (world.random.nextDouble() * 0.5D);
+            double y = 0.01D + (serverLevel.random.nextDouble() * 0.5D);
             double z = Mth.sin(cosRandom) * timesRandom;
-            ServerLevel serverLevel = (ServerLevel) world;
+            BlockPos pos = entity.blockPosition();
             serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, entity.getX() + x * 0.1D, entity.getY() + 0.3D, entity.getZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
+            serverLevel.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.SHULKER_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
-        world.playSound(null, entity.blockPosition(), SoundEvents.SHULKER_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 }

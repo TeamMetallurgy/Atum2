@@ -134,8 +134,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         int fireTimer = entity.getRemainingFireTicks();
 
         if (!(entity instanceof PharaohEntity) && entity.hurt(damagesource, (float) i)) {
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) entity;
+            if (entity instanceof LivingEntity livingEntity) {
 
                 if (this.knockback > 0) {
                     Vec3 vector3d = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double) this.knockback * 0.6D);

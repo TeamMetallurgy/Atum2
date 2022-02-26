@@ -4,16 +4,12 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -38,25 +34,17 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         LevelAccessor world = event.getWorld();
-        if (world instanceof ServerLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE) {
-            ServerLevel serverLevel = (ServerLevel) world;
+        if (world instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE) {
             BlockPos pos = event.getPos();
             List<ItemStack> drops = Block.getDrops(event.getState(), serverLevel, pos, null);
             if (!drops.isEmpty()) {
                 for (ItemStack itemDropped : drops) {
-                    Block dropBlock = Block.byItem(itemDropped.getItem());
-                    if ((dropBlock == AtumBlocks.IRON_ORE || dropBlock == Blocks.IRON_ORE) && serverLevel.random.nextFloat() <= 0.50F) {
-                        if (dropBlock == AtumBlocks.IRON_ORE) {
-                            event.setCanceled(true);
-                            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                            Block.dropResources(AtumBlocks.GOLD_ORE.defaultBlockState(), serverLevel, pos);
-                            serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        } else {
-                            event.setCanceled(true);
-                            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                            Block.dropResources(Blocks.GOLD_ORE.defaultBlockState(), serverLevel, pos);
-                            serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        }
+                    Item dropItem = itemDropped.getItem();
+                    if ((dropItem == Items.RAW_IRON) && serverLevel.random.nextFloat() <= 0.35F) {
+                        event.setCanceled(true);
+                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        Block.popResource(serverLevel, pos, new ItemStack(Items.RAW_GOLD));
+                        serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                     }
                 }
             }
