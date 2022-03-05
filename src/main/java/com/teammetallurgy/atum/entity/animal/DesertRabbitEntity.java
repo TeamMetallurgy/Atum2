@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.api.AtumAPI;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -54,7 +55,7 @@ public class DesertRabbitEntity extends Rabbit {
 
         Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
 
-        /*if (optional.isPresent()) { //TODO Uncomment when biomes are re-added
+        if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return i <= 80 ? 0 : 1;
@@ -77,9 +78,9 @@ public class DesertRabbitEntity extends Rabbit {
             } else {
                 return 0;
             }
-        } else {*/
+        } else {
             return 0;
-        //}
+        }
     }
 
     @Override

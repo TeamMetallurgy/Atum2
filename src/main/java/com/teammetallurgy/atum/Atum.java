@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum;
 
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
@@ -10,12 +11,15 @@ import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
+import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -40,7 +44,9 @@ public class Atum {
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final CreativeModeTab GROUP = new AtumItemGroup();
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "atum"));
-    //public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC); //TODO?
+    public static final ResourceKey<LevelStem> ATUM_LEVEL = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, new ResourceLocation(Atum.MOD_ID, "atum"));
+    public static final ResourceKey<DimensionType> ATUM_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(Atum.MOD_ID, "atum"));
+    public static final Codec<AtumBiomeSource> ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
 

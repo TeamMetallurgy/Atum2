@@ -21,9 +21,7 @@ import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -33,7 +31,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -46,7 +43,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -62,8 +58,6 @@ public class AtumRegistry {
     //Registry lists
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
-    public static final List<Biome> BIOMES = Lists.newArrayList();
-    public static final List<ResourceKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
     public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
@@ -269,31 +263,6 @@ public class AtumRegistry {
     }
 
     /**
-     * Registers a biome
-     *
-     * @param biome The biome to be registered
-     * @param name  The name to register the biome with
-     * @return The Biome that was registered
-     */
-    public static Biome registerBiome(Biome biome, String name) {
-        biome.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
-        BIOMES.add(biome);
-        return biome;
-    }
-
-    /**
-     * Registers a biome key
-     *
-     * @param biomeName The name to register the biome key with
-     * @return The Biome key that was registered
-     */
-    public static ResourceKey<Biome> registerBiomeKey(String biomeName) {
-        ResourceKey<Biome> biomeKey = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
-        BIOME_KEYS.add(biomeKey);
-        return biomeKey;
-    }
-
-    /**
      * Registers a particle
      *
      * @param name The name to register the sound with
@@ -349,15 +318,6 @@ public class AtumRegistry {
             event.getRegistry().register(block);
         }
         AtumBlocks.setBlockInfo();
-    }
-
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        //new AtumBiomes();
-        for (Biome biome : BIOMES) {
-            event.getRegistry().register(biome);
-        }
-        //AtumBiomes.addBiomeTags(); //TODO Uncomment when biomes are re-added
     }
 
     @SubscribeEvent

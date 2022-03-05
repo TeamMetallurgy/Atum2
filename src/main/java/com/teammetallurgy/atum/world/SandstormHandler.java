@@ -53,8 +53,7 @@ public class SandstormHandler {
     }
 
     public void updateWeather(Level world) {
-        if (world instanceof ServerLevel && !world.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) world;
+        if (world instanceof ServerLevel serverLevel && !world.isClientSide) {
             ServerLevelData worldInfo = serverLevel.getServer().getWorldData().overworldData();
             int cleanWeatherTime = worldInfo.getClearWeatherTime();
 

@@ -2,8 +2,279 @@
   "type": "atum:atum",
   "generator": {
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "minecraft:desert"
+      "type": "atum:atum_multi_noise",
+      "biomes": [
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -1.0,
+              -0.9333
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.03,
+              0.3
+            ]
+          },
+          "biome": "atum:sand_plains"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.7799,
+              -0.375
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.9333,
+              -0.7666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.03,
+              0.8
+            ]
+          },
+          "biome": "atum:sand_dunes"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              0.4,
+              0.5666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.3,
+              1.0
+            ]
+          },
+          "biome": "atum:sand_hills"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.15,
+              0.2
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.03,
+              1.0
+            ]
+          },
+          "biome": "atum:dense_woods"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              0.05
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.15,
+              0.2
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.5,
+              1.0
+            ]
+          },
+          "biome": "atum:sparse_woods"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              0.5666,
+              0.7666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              -0.19,
+              1.0
+            ]
+          },
+          "biome": "atum:limestone_crags"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.9333,
+              -0.7666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              -0.19,
+              1.0
+            ]
+          },
+          "biome": "atum:limestone_mountains"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.05,
+              0.05
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              -0.01,
+              0.03
+            ]
+          },
+          "biome": "atum:oasis"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              0.05,
+              0.2666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.0,
+              0.05
+            ]
+          },
+          "biome": "atum:dead_oasis"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -1.0,
+              -0.375
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              -0.05,
+              0.05
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              -0.19,
+              -0.11
+            ]
+          },
+          "biome": "atum:dried_river"
+        }
+      ]
     },
     "seed": 0,
     "settings": "atum:atum",

@@ -4,16 +4,19 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -52,6 +55,7 @@ import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuProvider {
@@ -196,9 +200,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         Biome biome = this.level.getBiome(this.blockPosition());
         int chance = this.random.nextInt(100);
 
-        /*Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
 
-        if (optional.isPresent()) { //TODO Require functional biomes
+        if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return chance <= 50 ? 0 : 5;
@@ -211,9 +215,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             } else {
                 return 0;
             }
-        } else {*/
+        } else {
             return Mth.nextInt(random, 0, 5);
-        //}
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
