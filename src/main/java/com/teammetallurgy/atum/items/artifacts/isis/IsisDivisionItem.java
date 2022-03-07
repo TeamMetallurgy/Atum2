@@ -24,8 +24,7 @@ import javax.annotation.Nonnull;
 public class IsisDivisionItem extends BaseBowItem implements IArtifact {
 
     public IsisDivisionItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT.get());
+        super(new Item.Properties().rarity(Rarity.RARE).durability(650), AtumItems.NEBU_INGOT);
     }
 
     @Override
@@ -35,8 +34,7 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
 
     @Override
     public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
-        if (entityLiving instanceof Player) {
-            Player player = (Player) entityLiving;
+        if (entityLiving instanceof Player player) {
             boolean infinity = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
             ItemStack ammoStack = player.getProjectile(stack);
             int maxUses = this.getUseDuration(stack) - timeLeft;

@@ -7,16 +7,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class VillagerSpawnEggItem extends SpawnEggItem {
+public class VillagerSpawnEggItem extends ForgeSpawnEggItem {
 
     public VillagerSpawnEggItem() {
-        super(AtumEntities.VILLAGER_MALE.get(), 0x9D7A62, 0x452D25, new Item.Properties().tab(Atum.GROUP));
-        BY_ID.put(AtumEntities.VILLAGER_FEMALE.get(), this);
+        super(AtumEntities.VILLAGER_MALE, 0x9D7A62, 0x452D25, new Item.Properties().tab(Atum.GROUP));
+        //BY_ID.put(AtumEntities.VILLAGER_FEMALE.get(), this);
     }
 
     @Override

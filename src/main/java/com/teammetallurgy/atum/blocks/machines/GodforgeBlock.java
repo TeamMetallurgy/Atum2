@@ -127,7 +127,7 @@ public class GodforgeBlock extends BaseEntityBlock {
             double d6 = rand.nextDouble() * 6.0D / 16.0D;
             double d7 = axis == Direction.Axis.Z ? (double)direction.getStepZ() * 0.52D : d4;
             world.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
-            world.addParticle(AtumTorchBlock.GOD_FLAMES.get(state.getValue(GOD)), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+            world.addParticle(AtumTorchBlock.GOD_FLAMES.get(state.getValue(GOD)).get(), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
         }
     }
 

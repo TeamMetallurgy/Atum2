@@ -21,7 +21,7 @@ public class BlockStatesGenerator extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        generateTorchWithUnlit(AtumBlocks.PALM_TORCH.get());
+        /*generateTorchWithUnlit(AtumBlocks.PALM_TORCH.get());
         generateTorchWithUnlit(AtumBlocks.DEADWOOD_TORCH.get());
         generateTorchWithUnlit(AtumBlocks.LIMESTONE_TORCH.get());
         generateTorchWithUnlit(AtumBlocks.BONE_TORCH.get());
@@ -40,7 +40,7 @@ public class BlockStatesGenerator extends BlockStateProvider {
         generateTorch(AtumBlocks.TORCH_OF_RA.get());
         generateTorch(AtumBlocks.TORCH_OF_SETH.get());
         generateTorch(AtumBlocks.TORCH_OF_SHU.get());
-        generateTorch(AtumBlocks.TORCH_OF_TEFNUT.get());
+        generateTorch(AtumBlocks.TORCH_OF_TEFNUT.get());*/
         wallBlock((WallBlock) AtumBlocks.LIMESTONE_WALL.get(), AtumBlocks.LIMESTONE.get());
         wallBlock((WallBlock) AtumBlocks.LIMESTONE_CRACKED_WALL.get(), AtumBlocks.LIMESTONE_CRACKED.get());
         wallBlock((WallBlock) AtumBlocks.SMALL_WALL.get(), AtumBlocks.LIMESTONE_BRICK_SMALL.get());
@@ -92,7 +92,7 @@ public class BlockStatesGenerator extends BlockStateProvider {
         }
     }
 
-    private void generateTorch(Block torch) {
+    /*private void generateTorch(Block torch) {
         String torchName = torch.getRegistryName().getPath();
         ResourceLocation wallTorchName = new ResourceLocation(Atum.MOD_ID, "wall_" + torchName);
         ResourceLocation torchLocation = new ResourceLocation(Atum.MOD_ID, "block/" + torchName);
@@ -100,16 +100,15 @@ public class BlockStatesGenerator extends BlockStateProvider {
         horizontalBlock(StackHelper.getBlockFromName(wallTorchName), models().torchWall("wall_" + torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)), 90);
         super.itemModels().getBuilder(torch.getRegistryName().getPath()).parent(itemModels().getExistingFile(new ResourceLocation("item/generated"))).texture("layer0", torchLocation);
         super.itemModels().getBuilder(wallTorchName.getPath()).parent(itemModels().getExistingFile(new ResourceLocation("item/generated"))).texture("layer0", torchLocation);
+    }*/
 
-    }
-
-    private void generateTorchWithUnlit(Block torch) {
+    /*private void generateTorchWithUnlit(Block torch) {
         String torchName = torch.getRegistryName().getPath();
         generateTorch(torch);
         ResourceLocation unlitTorchLocation = new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit");
         simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), models().torch(torchName + "_unlit", unlitTorchLocation));
         horizontalBlock(StackHelper.getBlockFromName(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")), 90);
-    }
+    }*/
 
     private void wallBlock(WallBlock wallBlock, Block textureBlock) {
         super.wallBlock(wallBlock, modLoc("block/" + textureBlock.getRegistryName().getPath()));

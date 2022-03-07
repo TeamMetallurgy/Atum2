@@ -111,8 +111,8 @@ public class AtumParticles {
 
     public static RegistryObject<SimpleParticleType> registerGodFlame(String name, God god) {
         RegistryObject<SimpleParticleType> particleType = registerParticle(name);
-        AtumTorchBlock.GOD_FLAMES.put(god, particleType.get());
-        AtumTorchBlock.GODS.put(particleType.get(), god);
+        AtumTorchBlock.GOD_FLAMES.put(god, particleType);
+        AtumTorchBlock.GODS.put(particleType, god);
         return particleType;
     }
 }

@@ -22,12 +22,19 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
+    private final Supplier<? extends Block> lit;
 
-    public AtumTorchUnlitBlock() {
+    public AtumTorchUnlitBlock(Supplier<? extends Block> lit) {
         super(0);
+        this.lit = lit;
+    }
+
+    public Supplier<? extends Block> getLit() {
+        return this.lit;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
             if (heldStack.getItem().canBeDepleted()) {
                 heldStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
             }
-            world.setBlockAndUpdate(pos, LIT.get(this).defaultBlockState());
+            world.setBlockAndUpdate(pos, this.getLit().get().defaultBlockState());
             world.playSound(null, pos, SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS, 2.5F, 1.0F);
             return InteractionResult.SUCCESS;
         }
@@ -49,11 +56,12 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent.RightClickBlock event) { //Light unlit held torch
         BlockState state = event.getWorld().getBlockState(event.getPos());
-        if (Block.byItem(event.getItemStack().getItem()) instanceof AtumTorchUnlitBlock && state.getBlock().getLightEmission(state.getBlock().defaultBlockState(), event.getWorld(), event.getPos()) > 0) {
+        Block block =  Block.byItem(event.getItemStack().getItem());
+        if (block instanceof AtumTorchUnlitBlock unlit && state.getBlock().getLightEmission(state.getBlock().defaultBlockState(), event.getWorld(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);
-            StackHelper.giveItem(event.getPlayer(), event.getHand(), new ItemStack(LIT.get(Block.byItem(event.getItemStack().getItem()))));
+            StackHelper.giveItem(event.getPlayer(), event.getHand(), new ItemStack(unlit.getLit().get()));
             event.getWorld().playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 10.0F, 1.0F, false);
         }
     }

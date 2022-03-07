@@ -4,24 +4,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addBrewingRecipeWithSubPotions;
 import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addRecipe;
 import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipes {
 
-    @SubscribeEvent
-    public static void registerRecipes(RegistryEvent.Register<RecipeSerializer<?>> event) {
-        AtumRecipes.addBrewingRecipes();
-    }
-
-    private static void addBrewingRecipes() {
+    public static void addBrewingRecipes() {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.DUSTY_BONE.get()), Potions.FIRE_RESISTANCE);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.ECTOPLASM.get()), Potions.INVISIBILITY);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.GLISTERING_DATE.get()), Potions.REGENERATION);

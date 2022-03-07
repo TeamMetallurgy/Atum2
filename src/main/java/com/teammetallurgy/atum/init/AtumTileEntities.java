@@ -41,7 +41,7 @@ public class AtumTileEntities {
     public static final RegistryObject<BlockEntityType<SpinningWheelTileEntity>> SPINNING_WHEEL = register("spinning_wheel", () -> BlockEntityType.Builder.of(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL.get()));
     public static final RegistryObject<BlockEntityType<KilnTileEntity>> KILN = register("kiln", () -> BlockEntityType.Builder.of(KilnTileEntity::new, AtumBlocks.KILN.get(), AtumBlocks.KILN_FAKE.get()));
     public static final RegistryObject<BlockEntityType<GodforgeTileEntity>> GODFORGE = register("godforge", () -> BlockEntityType.Builder.of(GodforgeTileEntity::new, AtumBlocks.GODFORGE.get()));
-    public static final RegistryObject<BlockEntityType<AtumSignTileEntity>> SIGN = register("sign", () -> BlockEntityType.Builder.of(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN.get(), AtumBlocks.DEADWOOD_SIGN.get(), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN.get()), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN.get())));
+    public static final RegistryObject<BlockEntityType<AtumSignTileEntity>> SIGN = register("sign", () -> BlockEntityType.Builder.of(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN.get(), AtumBlocks.DEADWOOD_SIGN.get(), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN).get(), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN).get()));
     public static final RegistryObject<BlockEntityType<PalmCurioDisplayTileEntity>> PALM_CURIO_DISPLAY = register("palm_curio_display", () -> BlockEntityType.Builder.of(PalmCurioDisplayTileEntity::new, AtumBlocks.PALM_CURIO_DISPLAY.get()));
     public static final RegistryObject<BlockEntityType<DeadwoodCurioDisplayTileEntity>> DEADWOOD_CURIO_DISPLAY = register("deadwood_curio_display", () -> BlockEntityType.Builder.of(DeadwoodCurioDisplayTileEntity::new, AtumBlocks.DEADWOOD_CURIO_DISPLAY.get()));
     public static final RegistryObject<BlockEntityType<AcaciaCurioDisplayTileEntity>> ACACIA_CURIO_DISPLAY = register("acacia_curio_display", () -> BlockEntityType.Builder.of(AcaciaCurioDisplayTileEntity::new, AtumBlocks.ACACIA_CURIO_DISPLAY.get()));
@@ -51,7 +51,6 @@ public class AtumTileEntities {
     public static final RegistryObject<BlockEntityType<NebuCurioDisplayTileEntity>> NEBU_CURIO_DISPLAY = register("nebu_curio_display", () -> BlockEntityType.Builder.of(NebuCurioDisplayTileEntity::new, AtumBlocks.NEBU_CURIO_DISPLAY.get()));
 
     public static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(@Nonnull String name, @Nonnull Supplier<BlockEntityType.Builder<T>> initializer) {
-        Type<?> type = Util.fetchChoiceType(References.BLOCK_ENTITY, Atum.MOD_ID + ":" + name);
-        return BLOCK_ENTITY_DEFERRED.register(name, () -> initializer.get().build(type));
+        return BLOCK_ENTITY_DEFERRED.register(name, () -> initializer.get().build(null));
     }
 }

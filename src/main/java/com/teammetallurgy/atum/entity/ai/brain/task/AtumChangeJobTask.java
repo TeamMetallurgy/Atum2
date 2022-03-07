@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.ai.brain.task;
 import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
-import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
+import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;

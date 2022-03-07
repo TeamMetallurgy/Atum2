@@ -17,8 +17,7 @@ import javax.annotation.Nonnull;
 public class AnputsGroundingItem extends BaseBowItem implements IArtifact {
 
     public AnputsGroundingItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT.get());
+        super(new Item.Properties().rarity(Rarity.RARE).durability(650), AtumItems.NEBU_INGOT);
     }
 
     @Override

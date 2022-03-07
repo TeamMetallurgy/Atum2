@@ -16,12 +16,14 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class BaseBowItem extends BowItem {
-    private Item repairItem = AtumItems.LINEN_THREAD.get();
+    private final Supplier<Item> repairItem;
 
-    public BaseBowItem(Item.Properties properties) {
+    public BaseBowItem(Item.Properties properties, Supplier<Item> repairItem) {
         super(properties.tab(Atum.GROUP));
+        this.repairItem = repairItem;
     }
 
     @Override
@@ -109,13 +111,8 @@ public class BaseBowItem extends BowItem {
         return (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
     }
 
-    protected BaseBowItem setRepairItem(Item item) {
-        this.repairItem = item;
-        return this;
-    }
-
     @Override
     public boolean isValidRepairItem(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == this.repairItem;
+        return repair.getItem() == this.repairItem.get();
     }
 }

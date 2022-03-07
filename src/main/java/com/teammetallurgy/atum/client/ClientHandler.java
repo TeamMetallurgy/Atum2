@@ -60,6 +60,7 @@ import net.minecraftforge.registries.RegistryObject;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
@@ -130,15 +131,15 @@ public class ClientHandler {
         }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
         ItemProperties.register(AtumItems.ANUBIS_WRATH.get(), new ResourceLocation("tier"), (stack, world, entity, i) -> AnubisWrathItem.getTier(stack));
         ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        registerBowModelProperties((BaseBowItem) AtumItems.SHORT_BOW.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.ANPUTS_GROUNDING.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.HORUS_SOARING.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.MONTUS_BLAST.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.ISIS_DIVISION.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.RAS_FURY.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.SETHS_VENOM.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.SHUS_BREATH.get());
-        registerBowModelProperties((BaseBowItem) AtumItems.TEFNUTS_RAIN.get());
+        registerBowModelProperties(AtumItems.SHORT_BOW.get());
+        registerBowModelProperties(AtumItems.ANPUTS_GROUNDING.get());
+        registerBowModelProperties(AtumItems.HORUS_SOARING.get());
+        registerBowModelProperties(AtumItems.MONTUS_BLAST.get());
+        registerBowModelProperties(AtumItems.ISIS_DIVISION.get());
+        registerBowModelProperties(AtumItems.RAS_FURY.get());
+        registerBowModelProperties(AtumItems.SETHS_VENOM.get());
+        registerBowModelProperties(AtumItems.SHUS_BREATH.get());
+        registerBowModelProperties(AtumItems.TEFNUTS_RAIN.get());
         registerShieldModelProperties(AtumItems.NUITS_IRE.get());
         registerShieldModelProperties(AtumItems.NUITS_QUARTER.get());
         registerShieldModelProperties(AtumItems.BRIGAND_SHIELD.get());
@@ -277,8 +278,8 @@ public class ClientHandler {
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.EMMER_WHEAT.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING.get(), cutout);
-        for (Block torch : AtumTorchUnlitBlock.ALL_TORCHES) {
-            ItemBlockRenderTypes.setRenderLayer(torch, cutout);
+        for (Supplier<? extends Block> torch : AtumTorchUnlitBlock.ALL_TORCHES) {
+            ItemBlockRenderTypes.setRenderLayer(torch.get(), cutout);
         }
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_LANTERN.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ANPUT.get(), cutout);
@@ -374,15 +375,14 @@ public class ClientHandler {
         event.registerEntityRenderer(AtumEntities.DESERT_RABBIT.get(), DesertRabbitRender::new);
         event.registerEntityRenderer(AtumEntities.QUAIL.get(), QuailRender::new);
         event.registerEntityRenderer(AtumEntities.PHARAOH_ORB.get(), PharaohOrbRender::new);
-        for (EntityType<? extends CustomArrow> arrow : AtumEntities.ARROWS) {
-            event.registerEntityRenderer(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
-                @Override
-                @Nonnull
-                public ResourceLocation getTextureLocation(@Nonnull CustomArrow entity) {
-                    return entity.getTexture();
-                }
-            });
-        }
+        registerArrowRender(AtumEntities.DOUBLE_ARROW.get(), event);
+        registerArrowRender(AtumEntities.EXPLOSIVE_ARROW.get(), event);
+        registerArrowRender(AtumEntities.FIRE_ARROW.get(), event);
+        registerArrowRender(AtumEntities.POISON_ARROW.get(), event);
+        registerArrowRender(AtumEntities.QUICKDRAW_ARROW.get(), event);
+        registerArrowRender(AtumEntities.RAIN_ARROW.get(), event);
+        registerArrowRender(AtumEntities.SLOWNESS_ARROW.get(), event);
+        registerArrowRender(AtumEntities.STRAIGHT_ARROW.get(), event);
         event.registerEntityRenderer(AtumEntities.SMALL_BONE.get(), manager -> new ThrownItemRenderer<>(manager, 0.35F, true));
         event.registerEntityRenderer(AtumEntities.TEFNUTS_CALL.get(), TefnutsCallRender::new);
         event.registerEntityRenderer(AtumEntities.CAMEL_SPIT.get(), LlamaSpitRenderer::new);
@@ -421,15 +421,25 @@ public class ClientHandler {
         event.registerLayerDefinition(STONEGUARD_SHIELD, StoneguardShieldModel::createLayer);
     }
 
-    public static void registerBowModelProperties(BaseBowItem bow) {
-        ItemProperties.register(bow, new ResourceLocation("pull"), (stack, world, entity, i) -> {
+    public static void registerArrowRender(EntityType<? extends CustomArrow> arrow, EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
+            @Override
+            @Nonnull
+            public ResourceLocation getTextureLocation(@Nonnull CustomArrow entity) {
+                return entity.getTexture();
+            }
+        });
+    }
+
+    public static void registerBowModelProperties(Item item) {
+        ItemProperties.register(item, new ResourceLocation("pull"), (stack, world, entity, i) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
-                return entity.getUseItem() != stack ? 0.0F : bow.getDrawbackSpeed(stack, entity);
+                return entity.getUseItem() != stack ? 0.0F : ((BaseBowItem) item).getDrawbackSpeed(stack, entity);
             }
         });
-        ItemProperties.register(bow, new ResourceLocation("pulling"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("pulling"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 
     public static void registerShieldModelProperties(Item shield) {

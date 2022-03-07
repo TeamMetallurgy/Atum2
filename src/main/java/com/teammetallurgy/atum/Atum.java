@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
-import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
+import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -67,6 +67,7 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
+        AtumRecipes.addBrewingRecipes();
         IntegrationHandler.INSTANCE.init();
         event.enqueueWork(AtumBlocks::setBlockInfo);
         event.enqueueWork(AtumItems::setItemInfo);

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
-import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
+import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;

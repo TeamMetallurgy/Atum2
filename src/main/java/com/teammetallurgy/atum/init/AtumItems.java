@@ -88,7 +88,7 @@ public class AtumItems {
     public static final RegistryObject<Item> SHU_GODSHARD = registerItem(() -> new GodshardItem(God.SHU), "shu_godshard");
     public static final RegistryObject<Item> TEFNUT_GODSHARD = registerItem(() -> new GodshardItem(God.TEFNUT), "tefnut_godshard");
     public static final RegistryObject<Item> IDOL_OF_LABOR = registerItem(IdolOfLaborItem::new, "idol_of_labor");
-    public static final RegistryObject<Item> SHORT_BOW = registerItem(() -> new BaseBowItem(new Item.Properties().durability(384)), "short_bow");
+    public static final RegistryObject<Item> SHORT_BOW = registerItem(() -> new BaseBowItem(new Item.Properties().durability(384), AtumItems.LINEN_THREAD), "short_bow");
     public static final RegistryObject<Item> LIMESTONE_SHOVEL = registerItem(() -> new ShovelItem(AtumMats.LIMESTONE, 1.2F, -3.0F, new Item.Properties().tab(Atum.GROUP)), "limestone_shovel");
     public static final RegistryObject<Item> LIMESTONE_PICKAXE = registerItem(() -> new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().tab(Atum.GROUP)), "limestone_pickaxe");
     public static final RegistryObject<Item> LIMESTONE_AXE = registerItem(() -> new AxeItem(AtumMats.LIMESTONE, 7.0F, -3.2F, new Item.Properties().tab(Atum.GROUP)), "limestone_axe");

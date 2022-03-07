@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
-import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
+import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.protocol.game.DebugPackets;

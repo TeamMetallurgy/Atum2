@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.init;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
@@ -38,7 +37,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.List;
 import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -48,10 +46,9 @@ import static net.minecraft.world.entity.EntityType.Builder;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.ENTITIES, Atum.MOD_ID);
-    public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
     //Mobs
     public static final RegistryObject<EntityType<AssassinEntity>> ASSASSIN = registerMob("assassin", 0x433731, 0xd99220, () -> Builder.of(AssassinEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
-    public static final RegistryObject<EntityType<BarbarianEntity>> BARBARIAN = registerMob("barbarian", 0x9c7359, 0x8c8c8c, () ->Builder.of(BarbarianEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
+    public static final RegistryObject<EntityType<BarbarianEntity>> BARBARIAN = registerMob("barbarian", 0x9c7359, 0x8c8c8c, () -> Builder.of(BarbarianEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
     public static final RegistryObject<EntityType<BonestormEntity>> BONESTORM = registerMob("bonestorm", 0x74634e, 0xab9476, () -> Builder.of(BonestormEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
     public static final RegistryObject<EntityType<BrigandEntity>> BRIGAND = registerMob("brigand", 0xC2C2C2, 0x040F85, () -> Builder.of(BrigandEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
     public static final RegistryObject<EntityType<CamelEntity>> CAMEL = registerMob("camel", 0xAD835C, 0x684626, () -> Builder.of(CamelEntity::new, MobCategory.CREATURE).sized(0.9F, 1.87F).clientTrackingRange(10));
@@ -166,7 +163,7 @@ public class AtumEntities {
     public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
         BlockState spawnState = world.getBlockState(pos.below());
         Block spawnBlock = spawnState.getBlock();
-        return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || DimensionHelper.SURFACE_BLOCKS.contains(spawnBlock) ||
+        return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || DimensionHelper.getSurfaceBlocks().contains(spawnBlock) ||
                 spawnBlock == Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8;
     }
 
@@ -204,12 +201,10 @@ public class AtumEntities {
      * @return The Arrow EntityType that was registered
      */
     public static <T extends CustomArrow> RegistryObject<EntityType<T>> registerArrow(String name, EntityType.EntityFactory<T> factory, BiFunction<PlayMessages.SpawnEntity, Level, T> customClientFactory) {
-        RegistryObject<EntityType<T>> entityType = registerEntity(name, () -> EntityType.Builder.of(factory, MobCategory.MISC)
+        return registerEntity(name, () -> Builder.of(factory, MobCategory.MISC)
                 .sized(0.5F, 0.5F)
                 .setTrackingRange(4)
                 .updateInterval(20)
                 .setCustomClientFactory(customClientFactory));
-        AtumEntities.ARROWS.add(entityType);
-        return entityType;
     }
 }

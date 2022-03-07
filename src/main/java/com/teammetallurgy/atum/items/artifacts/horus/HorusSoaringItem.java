@@ -17,8 +17,7 @@ import javax.annotation.Nonnull;
 public class HorusSoaringItem extends BaseBowItem implements IArtifact {
 
     public HorusSoaringItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT.get());
+        super(new Item.Properties().rarity(Rarity.RARE).durability(650), AtumItems.NEBU_INGOT);
     }
 
     @Override

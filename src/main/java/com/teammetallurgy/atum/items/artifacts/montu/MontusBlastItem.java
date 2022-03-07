@@ -18,8 +18,7 @@ import javax.annotation.Nonnull;
 public class MontusBlastItem extends BaseBowItem implements IArtifact {
 
     public MontusBlastItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT.get());
+        super(new Item.Properties().rarity(Rarity.RARE).durability(650), AtumItems.NEBU_INGOT);
     }
 
     @Override

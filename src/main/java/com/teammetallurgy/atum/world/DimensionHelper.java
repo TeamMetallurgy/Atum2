@@ -29,8 +29,11 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
-    public static final List<Block> SURFACE_BLOCKS = Lists.newArrayList(AtumBlocks.SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());
     public static final int GROUND_LEVEL = 63;
+
+    public static List<Block> getSurfaceBlocks() {
+        return Lists.newArrayList(AtumBlocks.SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());
+    }
 
     public static AtumDimensionData getData(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(AtumDimensionData::load, AtumDimensionData::new, AtumDimensionData.ID);
@@ -79,7 +82,7 @@ public class DimensionHelper {
         while (pos.getY() > 1 && world.isEmptyBlock(pos.below())) {
             pos = pos.below();
         }
-        while (!world.isEmptyBlock(pos.above()) && (SURFACE_BLOCKS.contains(world.getBlockState(pos.below()).getBlock()) || world.getBlockState(pos.below()).getBlock() != AtumBlocks.SAND_LAYERED.get()) || pos.getY() < 60) {
+        while (!world.isEmptyBlock(pos.above()) && (getSurfaceBlocks().contains(world.getBlockState(pos.below()).getBlock()) || world.getBlockState(pos.below()).getBlock() != AtumBlocks.SAND_LAYERED.get()) || pos.getY() < 60) {
             pos = pos.above();
         }
         return pos;
