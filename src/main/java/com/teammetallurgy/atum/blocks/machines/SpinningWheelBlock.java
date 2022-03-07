@@ -174,7 +174,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumBlocks.SPINNING_WHEEL);
+        return new ItemStack(AtumBlocks.SPINNING_WHEEL.get());
     }
 
     @Override

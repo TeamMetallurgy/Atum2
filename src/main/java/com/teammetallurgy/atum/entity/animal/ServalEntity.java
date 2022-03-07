@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class ServalEntity extends Cat {
-    private static final Ingredient BREEDING_ITEMS = Ingredient.of(AtumItems.SKELETAL_FISH);
+    private static final Ingredient BREEDING_ITEMS = Ingredient.of(AtumItems.SKELETAL_FISH.get());
     private CatTemptGoal temptGoal;
     public static final Map<Integer, ResourceLocation> SERVAL_TEXTURE_BY_ID = Util.make(Maps.newHashMap(), (m) -> {
         m.put(0, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/black.png"));

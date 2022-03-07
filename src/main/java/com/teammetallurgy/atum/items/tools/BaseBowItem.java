@@ -18,7 +18,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import javax.annotation.Nonnull;
 
 public class BaseBowItem extends BowItem {
-    private Item repairItem = AtumItems.LINEN_THREAD;
+    private Item repairItem = AtumItems.LINEN_THREAD.get();
 
     public BaseBowItem(Item.Properties properties) {
         super(properties.tab(Atum.GROUP));

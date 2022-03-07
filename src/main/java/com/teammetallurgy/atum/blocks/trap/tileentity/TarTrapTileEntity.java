@@ -32,12 +32,12 @@ public class TarTrapTileEntity extends TrapTileEntity {
         if (serverLevel.getGameTime() % 8L == 0L) {
             serverLevel.playSound(null, (double) this.worldPosition.getX() + 0.5D, this.worldPosition.getY(), (double) this.worldPosition.getZ() + 0.5D, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.8F, 0.8F);
             switch (facing) {
-                case DOWN -> serverLevel.sendParticles(AtumParticles.TAR, x - randomPos, y - 0.2D, z, 2, 0.01D, 0.0D, 0.01D, 0.01D);
-                case UP -> serverLevel.sendParticles(AtumParticles.TAR, x - randomPos, y + 0.65D, z, 2, 0.01D, 0.0D, 0.01D, 0.01D);
-                case WEST -> serverLevel.sendParticles(AtumParticles.TAR, x - 0.52D, y, z + randomPos, 2, 0.01D, 0.0D, 0.01D, 0.01D);
-                case EAST -> serverLevel.sendParticles(AtumParticles.TAR, x + 0.52D, y, z + randomPos, 2, 0.01D, 0.0D, 0.01D, 0.01D);
-                case NORTH -> serverLevel.sendParticles(AtumParticles.TAR, x + randomPos, y, z - 0.52D, 2, 0.01D, 0.0D, 0.01D, 0.01D);
-                case SOUTH -> serverLevel.sendParticles(AtumParticles.TAR, x + randomPos, y, z + 0.52D, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case DOWN -> serverLevel.sendParticles(AtumParticles.TAR.get(), x - randomPos, y - 0.2D, z, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case UP -> serverLevel.sendParticles(AtumParticles.TAR.get(), x - randomPos, y + 0.65D, z, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case WEST -> serverLevel.sendParticles(AtumParticles.TAR.get(), x - 0.52D, y, z + randomPos, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case EAST -> serverLevel.sendParticles(AtumParticles.TAR.get(), x + 0.52D, y, z + randomPos, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case NORTH -> serverLevel.sendParticles(AtumParticles.TAR.get(), x + randomPos, y, z - 0.52D, 2, 0.01D, 0.0D, 0.01D, 0.01D);
+                case SOUTH -> serverLevel.sendParticles(AtumParticles.TAR.get(), x + randomPos, y, z + 0.52D, 2, 0.01D, 0.0D, 0.01D, 0.01D);
             }
         }
     }

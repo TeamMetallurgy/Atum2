@@ -46,7 +46,7 @@ public class ChestBaseBlock extends ChestBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumBlocks.LIMESTONE_CHEST);
+        return new ItemStack(AtumBlocks.LIMESTONE_CHEST.get());
     }
 
     @Override

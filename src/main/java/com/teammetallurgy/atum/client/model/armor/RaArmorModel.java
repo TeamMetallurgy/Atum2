@@ -120,16 +120,16 @@ public class RaArmorModel extends ArmorModel {
     public static void onPlayerRender(RenderPlayerEvent event) {
         Player player = event.getPlayer();
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
-        if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA) {
+        if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA.get()) {
             playerModel.hat.visible = false;
             playerModel.head.visible = false;
         }
-        if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_RA) {
+        if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_RA.get()) {
             playerModel.jacket.visible = false;
             playerModel.leftSleeve.visible = false;
             playerModel.rightSleeve.visible = false;
         }
-        if (player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_RA || player.getItemBySlot(EquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_RA) {
+        if (player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_RA.get() || player.getItemBySlot(EquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_RA.get()) {
             playerModel.leftPants.visible = false;
             playerModel.rightPants.visible = false;
         }

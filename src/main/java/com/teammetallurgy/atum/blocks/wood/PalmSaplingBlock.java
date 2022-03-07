@@ -30,6 +30,6 @@ public class PalmSaplingBlock extends SaplingBlock implements BonemealableBlock 
 
     @Override
     protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos) {
-        return state.getBlock() == AtumBlocks.FERTILE_SOIL || super.mayPlaceOn(state, reader, pos);
+        return state.getBlock() == AtumBlocks.FERTILE_SOIL.get() || super.mayPlaceOn(state, reader, pos);
     }
 }

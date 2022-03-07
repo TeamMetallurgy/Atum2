@@ -55,7 +55,7 @@ public class CrateRender implements BlockEntityRenderer<CrateTileEntity> {
 
     @Override
     public void render(@Nonnull CrateTileEntity crate, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        BlockState state = crate.getLevel() != null ? crate.getBlockState() : AtumBlocks.PALM_CRATE.defaultBlockState().setValue(CrateBlock.FACING, Direction.SOUTH);
+        BlockState state = crate.getLevel() != null ? crate.getBlockState() : AtumBlocks.PALM_CRATE.get().defaultBlockState().setValue(CrateBlock.FACING, Direction.SOUTH);
         Block block = state.getBlock();
         if (block instanceof CrateBlock) {
             matrixStack.pushPose();

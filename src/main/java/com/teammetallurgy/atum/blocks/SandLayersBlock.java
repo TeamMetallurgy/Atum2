@@ -113,7 +113,7 @@ public class SandLayersBlock extends FallingBlock {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos());
         if (state.getBlock() == this) {
             int layer = state.getValue(LAYERS);
-            return layer == 7 ? AtumBlocks.SAND.defaultBlockState() : state.setValue(LAYERS, Math.min(7, layer + 1));
+            return layer == 7 ? AtumBlocks.SAND.get().defaultBlockState() : state.setValue(LAYERS, Math.min(7, layer + 1));
         } else {
             return super.getStateForPlacement(context);
         }

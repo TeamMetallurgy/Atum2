@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class NepthysGuardItem extends RingItem implements IArtifact {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NEPTHYS_GUARD, event.getEntityLiving());
+        Optional<SlotResult> optional = CuriosApi.getCuriosHelper().findFirstCurio(event.getEntityLiving(), AtumItems.NEPTHYS_GUARD.get());
         if (optional.isPresent()) {
             Entity source = event.getSource().getDirectEntity();
             if (source instanceof LivingEntity && ((LivingEntity) source).getMobType() == MobType.UNDEAD) {

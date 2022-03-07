@@ -22,12 +22,13 @@ import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.anubis.AnubisWrathItem;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
-import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.model.*;
+import net.minecraft.client.model.BlazeModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -54,6 +55,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -64,7 +66,9 @@ public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
     private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
 
-    /**Model Layers**/
+    /**
+     * Model Layers
+     **/
     //Blocks
     public static final ModelLayerLocation CRATE = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "crate"), "crate");
     public static final ModelLayerLocation QUERN = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "quern"), "quern");
@@ -97,11 +101,11 @@ public class ClientHandler {
 
     public static void init() {
         //Screens
-        MenuScreens.register(AtumMenuType.ALPHA_DESERT_WOLF, AlphaDesertWolfScreen::new);
-        MenuScreens.register(AtumMenuType.CAMEL, CamelScreen::new);
-        MenuScreens.register(AtumMenuType.KILN, KilnScreen::new);
-        MenuScreens.register(AtumMenuType.TRAP, TrapScreen::new);
-        MenuScreens.register(AtumMenuType.GODFORGE, GodforgeScreen::new);
+        MenuScreens.register(AtumMenuType.ALPHA_DESERT_WOLF.get(), AlphaDesertWolfScreen::new);
+        MenuScreens.register(AtumMenuType.CAMEL.get(), CamelScreen::new);
+        MenuScreens.register(AtumMenuType.KILN.get(), KilnScreen::new);
+        MenuScreens.register(AtumMenuType.TRAP.get(), TrapScreen::new);
+        MenuScreens.register(AtumMenuType.GODFORGE.get(), GodforgeScreen::new);
         //Colors
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
         ItemColors itemColor = Minecraft.getInstance().getItemColors();
@@ -109,37 +113,37 @@ public class ClientHandler {
         itemColor.register((stack, tintIndex) -> {
             BlockState state = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return Minecraft.getInstance().getBlockColors().getColor(state, null, null, tintIndex);
-        }, AtumBlocks.PALM_LEAVES, AtumBlocks.DRY_LEAVES);
-        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor(), AtumBlocks.PALM_LEAVES, AtumBlocks.DRY_LEAVES);
+        }, AtumBlocks.PALM_LEAVES.get(), AtumBlocks.DRY_LEAVES.get());
+        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor(), AtumBlocks.PALM_LEAVES.get(), AtumBlocks.DRY_LEAVES.get());
         //Dyeable armor
-        itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((WandererDyeableArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
+        itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((WandererDyeableArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET.get(), AtumItems.WANDERER_CHEST.get(), AtumItems.WANDERER_LEGS.get(), AtumItems.WANDERER_BOOTS.get(), AtumItems.DESERT_HELMET_IRON.get(), AtumItems.DESERT_CHEST_IRON.get(), AtumItems.DESERT_LEGS_IRON.get(), AtumItems.DESERT_BOOTS_IRON.get(), AtumItems.DESERT_HELMET_GOLD.get(), AtumItems.DESERT_CHEST_GOLD.get(), AtumItems.DESERT_LEGS_GOLD.get(), AtumItems.DESERT_BOOTS_GOLD.get(), AtumItems.DESERT_HELMET_DIAMOND.get(), AtumItems.DESERT_CHEST_DIAMOND.get(), AtumItems.DESERT_LEGS_DIAMOND.get(), AtumItems.DESERT_BOOTS_DIAMOND.get());
         //Dead Grass
         itemColor.register((stack, tintIndex) -> {
             return 12889745;
-        }, AtumBlocks.DRY_GRASS, AtumBlocks.TALL_DRY_GRASS);
+        }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
         blockColors.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null) {
                 return BiomeColors.getAverageGrassColor(world, pos);
             } else {
                 return 12889745;
             }
-        }, AtumBlocks.DRY_GRASS, AtumBlocks.TALL_DRY_GRASS);
-        ItemProperties.register(AtumItems.ANUBIS_WRATH, new ResourceLocation("tier"), (stack, world, entity, i) -> AnubisWrathItem.getTier(stack));
-        ItemProperties.register(AtumItems.TEFNUTS_CALL, new ResourceLocation("throwing"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        registerBowModelProperties(AtumItems.SHORT_BOW);
-        registerBowModelProperties(AtumItems.ANPUTS_GROUNDING);
-        registerBowModelProperties(AtumItems.HORUS_SOARING);
-        registerBowModelProperties(AtumItems.MONTUS_BLAST);
-        registerBowModelProperties(AtumItems.ISIS_DIVISION);
-        registerBowModelProperties(AtumItems.RAS_FURY);
-        registerBowModelProperties(AtumItems.SETHS_VENOM);
-        registerBowModelProperties(AtumItems.SHUS_BREATH);
-        registerBowModelProperties(AtumItems.TEFNUTS_RAIN);
-        registerShieldModelProperties(AtumItems.NUITS_IRE);
-        registerShieldModelProperties(AtumItems.NUITS_QUARTER);
-        registerShieldModelProperties(AtumItems.BRIGAND_SHIELD);
-        registerShieldModelProperties(AtumItems.STONEGUARD_SHIELD);
-        registerShieldModelProperties(AtumItems.ATEMS_PROTECTION);
+        }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
+        ItemProperties.register(AtumItems.ANUBIS_WRATH.get(), new ResourceLocation("tier"), (stack, world, entity, i) -> AnubisWrathItem.getTier(stack));
+        ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        registerBowModelProperties((BaseBowItem) AtumItems.SHORT_BOW.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.ANPUTS_GROUNDING.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.HORUS_SOARING.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.MONTUS_BLAST.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.ISIS_DIVISION.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.RAS_FURY.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.SETHS_VENOM.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.SHUS_BREATH.get());
+        registerBowModelProperties((BaseBowItem) AtumItems.TEFNUTS_RAIN.get());
+        registerShieldModelProperties(AtumItems.NUITS_IRE.get());
+        registerShieldModelProperties(AtumItems.NUITS_QUARTER.get());
+        registerShieldModelProperties(AtumItems.BRIGAND_SHIELD.get());
+        registerShieldModelProperties(AtumItems.STONEGUARD_SHIELD.get());
+        registerShieldModelProperties(AtumItems.ATEMS_PROTECTION.get());
 
         Sheets.addWoodType(Atum.PALM);
         Sheets.addWoodType(Atum.DEADWOOD);
@@ -150,149 +154,149 @@ public class ClientHandler {
         RenderType cutout = RenderType.cutout();
         RenderType cutoutMipped = RenderType.cutoutMipped();
         RenderType translucent = RenderType.translucent();
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.OASIS_GRASS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DRY_GRASS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.TALL_DRY_GRASS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.SHRUB, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WEED, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.OPHIDIAN_TONGUE, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BONE_LADDER, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_SAPLING, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.POTTED_PALM_SAPLING, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_LEAVES, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DRY_LEAVES, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_LADDER, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_LADDER, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_HATCH, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_DOOR, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PAPYRUS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.FLAX, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.EMMER_WHEAT, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING, cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ANPUTS_FINGERS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.OASIS_GRASS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DRY_GRASS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.TALL_DRY_GRASS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.SHRUB.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WEED.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.OPHIDIAN_TONGUE.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BONE_LADDER.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.MAGENTA_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.YELLOW_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIME_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PINK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LIGHT_GRAY_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.CYAN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PURPLE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLUE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BROWN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.GREEN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE.get(), translucent);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_SAPLING.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.POTTED_PALM_SAPLING.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_LEAVES.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DRY_LEAVES.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_LADDER.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_LADDER.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_HATCH.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_DOOR.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PAPYRUS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.FLAX.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.EMMER_WHEAT.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING.get(), cutout);
         for (Block torch : AtumTorchUnlitBlock.ALL_TORCHES) {
             ItemBlockRenderTypes.setRenderLayer(torch, cutout);
         }
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_LANTERN, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ANPUT, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ANUBIS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ATEM, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_GEB, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_HORUS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ISIS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_MONTU, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_NEPTHYS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_NUIT, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_OSIRIS, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_PTAH, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_RA, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SETH, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SHU, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN, cutoutMipped);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_LANTERN.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ANPUT.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ANUBIS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ATEM.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_GEB.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_HORUS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_ISIS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_MONTU.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_NEPTHYS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_NUIT.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_OSIRIS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_PTAH.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_RA.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SETH.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SHU.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN.get(), cutoutMipped);
 
         BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), AtumChestRenderer::new);
         BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS.get(), SarcophagusRender::new);
@@ -302,43 +306,43 @@ public class ClientHandler {
         BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.PALM_CURIO_DISPLAY;
+                return AtumBlocks.PALM_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.DEADWOOD_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.DEADWOOD_CURIO_DISPLAY;
+                return AtumBlocks.DEADWOOD_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.ACACIA_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.ACACIA_CURIO_DISPLAY;
+                return AtumBlocks.ACACIA_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.LIMESTONE_CURIO_DISPLAY;
+                return AtumBlocks.LIMESTONE_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.ALABASTER_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.ALABASTER_CURIO_DISPLAY;
+                return AtumBlocks.ALABASTER_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.PORPHYRY_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.PORPHYRY_CURIO_DISPLAY;
+                return AtumBlocks.PORPHYRY_CURIO_DISPLAY.get();
             }
         });
         BlockEntityRenderers.register(AtumTileEntities.NEBU_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
-                return AtumBlocks.NEBU_CURIO_DISPLAY;
+                return AtumBlocks.NEBU_CURIO_DISPLAY.get();
             }
         });
     }

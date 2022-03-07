@@ -19,13 +19,13 @@ import javax.annotation.Nonnull;
 public class MapExtendingScrollRecipe extends ShapedRecipe {
 
     public MapExtendingScrollRecipe(ResourceLocation location) {
-        super(location, "", 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL)), new ItemStack(Items.MAP));
+        super(location, "", 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get())), new ItemStack(Items.MAP));
     }
 
     @Override
     @Nonnull
     public RecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.MAP_EXTENDING_SCROLL;
+        return AtumRecipeSerializers.MAP_EXTENDING_SCROLL.get();
     }
 
     @Override

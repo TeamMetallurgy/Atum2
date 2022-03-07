@@ -37,7 +37,7 @@ public class PapyrusBlock extends SugarCaneBlock {
         if (block == this) {
             return true;
         } else {
-            if (block == AtumBlocks.FERTILE_SOIL || block == AtumBlocks.FERTILE_SOIL_TILLED || block == AtumBlocks.SAND) {
+            if (block == AtumBlocks.FERTILE_SOIL.get() || block == AtumBlocks.FERTILE_SOIL_TILLED.get() || block == AtumBlocks.SAND.get()) {
                 BlockPos powDown = pos.below();
 
                 for (Direction direction : Direction.Plane.HORIZONTAL) {
@@ -54,14 +54,14 @@ public class PapyrusBlock extends SugarCaneBlock {
     @Override
     public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
         BlockState plant = plantable.getPlant(world, pos.relative(direction));
-        if (plant.getBlock() == AtumBlocks.PAPYRUS && this == AtumBlocks.PAPYRUS) {
+        if (plant.getBlock() == AtumBlocks.PAPYRUS.get() && this == AtumBlocks.PAPYRUS.get()) {
             return true;
         }
         return super.canSustainPlant(state, world, pos, direction, plantable);
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         world.setBlockAndUpdate(pos, state.setValue(TOP, world.isEmptyBlock(pos.above())));
         if (world.getBlockState(pos.below()).equals(state.setValue(TOP, true))) { //Correct non-top papyrus, when manually placed
             world.setBlockAndUpdate(pos.below(), state.setValue(TOP, false));
@@ -69,7 +69,7 @@ public class PapyrusBlock extends SugarCaneBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (world.getBlockState(pos.below()).getBlock() == this) {
             world.setBlockAndUpdate(pos.below(), state.setValue(TOP, world.isEmptyBlock(pos.above()))); //Fix new top, when top gets removed
         }
@@ -78,7 +78,7 @@ public class PapyrusBlock extends SugarCaneBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumItems.PAPYRUS_PLANT);
+        return new ItemStack(AtumItems.PAPYRUS_PLANT.get());
     }
 
     @Override

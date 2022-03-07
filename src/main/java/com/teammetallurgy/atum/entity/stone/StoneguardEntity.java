@@ -75,7 +75,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
 
     private void setStoneguardEquipment(int randomWeapon) {
         if (randomWeapon != 2) {
-            this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+            this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD.get()));
 
             if (!this.level.isClientSide) {
                 AttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
@@ -87,18 +87,10 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         }
 
         switch (randomWeapon) {
-            case 0:
-                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
-                break;
-            case 1:
-                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB));
-                break;
-            case 2:
-                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD));
-                break;
-            case 3:
-                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH));
-                break;
+            case 0 -> this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD.get()));
+            case 1 -> this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB.get()));
+            case 2 -> this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD.get()));
+            case 3 -> this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH.get()));
         }
     }
 

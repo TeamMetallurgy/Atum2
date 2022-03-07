@@ -53,7 +53,7 @@ public class ArrowStraightEntity extends CustomArrow {
 
             if (this.getOwner() instanceof LivingEntity && !this.inGround && this.velocity == 1.0F && this.isAlive()) {
                 if (this.level instanceof ServerLevel serverLevel && this.tickCount > 2) {
-                    serverLevel.sendParticles(AtumParticles.HORUS, getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                    serverLevel.sendParticles(AtumParticles.HORUS.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
                 }
             }
         }

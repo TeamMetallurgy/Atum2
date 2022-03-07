@@ -34,6 +34,6 @@ public class FlaxBlock extends CropBlock {
     @Override
     @Nonnull
     protected ItemLike getBaseSeedId() {
-        return AtumItems.FLAX_SEEDS;
+        return AtumItems.FLAX_SEEDS.get();
     }
 }

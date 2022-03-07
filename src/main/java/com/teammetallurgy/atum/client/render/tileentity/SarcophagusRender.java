@@ -69,11 +69,10 @@ public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEnt
     public void render(SarcophagusTileEntity sarcophagus, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         Level world = sarcophagus.getLevel();
         boolean worldNotNull = world != null;
-        BlockState state = worldNotNull ? sarcophagus.getBlockState() : AtumBlocks.SARCOPHAGUS.defaultBlockState().setValue(SarcophagusBlock.FACING, Direction.SOUTH);
+        BlockState state = worldNotNull ? sarcophagus.getBlockState() : AtumBlocks.SARCOPHAGUS.get().defaultBlockState().setValue(SarcophagusBlock.FACING, Direction.SOUTH);
         ChestType type = state.hasProperty(SarcophagusBlock.TYPE) ? state.getValue(SarcophagusBlock.TYPE) : ChestType.SINGLE;
         Block block = state.getBlock();
-        if (block instanceof SarcophagusBlock) { //Actually left side, but whatever
-            SarcophagusBlock sarcophagusBlock = (SarcophagusBlock) block;
+        if (block instanceof SarcophagusBlock sarcophagusBlock) { //Actually left side, but whatever
             matrixStack.pushPose();
             Direction facing = state.getValue(SarcophagusBlock.FACING);
             float facingAngle = facing.toYRot();

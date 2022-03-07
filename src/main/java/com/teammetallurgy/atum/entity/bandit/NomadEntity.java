@@ -55,7 +55,7 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
 
     @Override
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW.get()));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
         if (this.level != null && !this.level.isClientSide) {
             this.goalSelector.removeGoal(this.aiAttackOnCollide);
             this.goalSelector.removeGoal(this.aiArrowAttack);
-            ItemStack heldBow = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW));
+            ItemStack heldBow = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW.get()));
             if (heldBow.getItem() instanceof BowItem) {
                 int cooldown = 20;
                 if (this.level.getDifficulty() != Difficulty.HARD) {
@@ -87,7 +87,7 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
-        ItemStack ammo = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW)));
+        ItemStack ammo = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW.get())));
         AbstractArrow arrow = ProjectileUtil.getMobArrow(this, ammo, distanceFactor);
         if (this.getMainHandItem().getItem() instanceof BowItem) {
             arrow = ((BowItem) this.getMainHandItem().getItem()).customArrow(arrow);

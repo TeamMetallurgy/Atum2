@@ -29,7 +29,7 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
 
     public NepthysConsecrationItem() {
         super(500, new Item.Properties().rarity(Rarity.RARE));
-        this.setRepairItem(AtumItems.NEBU_INGOT);
+        this.setRepairItem(AtumItems.NEBU_INGOT.get());
     }
 
     @Override
@@ -56,9 +56,8 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
         if (source instanceof LivingEntity && IS_BLOCKING.containsKey(livingEntity) && ((LivingEntity) source).getMobType() == MobType.UNDEAD /*&& random.nextFloat() <= 0.50F*/) {
             source.setSecondsOnFire(8);
             source.hurt(DamageSource.GENERIC, 2.0F);
-            if (livingEntity.level instanceof ServerLevel) {
-                ServerLevel serverLevel = (ServerLevel) livingEntity.level;
-                serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
+            if (livingEntity.level instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE.get(), livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
             }
             IS_BLOCKING.removeBoolean(livingEntity);
         }

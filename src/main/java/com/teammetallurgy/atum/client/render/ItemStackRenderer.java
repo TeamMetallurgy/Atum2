@@ -67,34 +67,34 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
             Block block = ((BlockItem) item).getBlock();
 
             if (block instanceof LimestoneChestBlock) {
-                dispatcher.renderItem(new LimestoneChestTileEntity(BlockPos.ZERO, AtumBlocks.LIMESTONE_CHEST.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+                dispatcher.renderItem(new LimestoneChestTileEntity(BlockPos.ZERO, AtumBlocks.LIMESTONE_CHEST.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (block instanceof SarcophagusBlock) {
-                dispatcher.renderItem(new SarcophagusTileEntity(BlockPos.ZERO, AtumBlocks.SARCOPHAGUS.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.PALM_CURIO_DISPLAY) {
-                dispatcher.renderItem(new PalmCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.PALM_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.DEADWOOD_CURIO_DISPLAY) {
-                dispatcher.renderItem(new DeadwoodCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.DEADWOOD_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.ACACIA_CURIO_DISPLAY) {
-                dispatcher.renderItem(new AcaciaCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.ACACIA_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.LIMESTONE_CURIO_DISPLAY) {
-                dispatcher.renderItem(new LimestoneCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.LIMESTONE_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.ALABASTER_CURIO_DISPLAY) {
-                dispatcher.renderItem(new AlabasterCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.ALABASTER_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.PORPHYRY_CURIO_DISPLAY) {
-                dispatcher.renderItem(new PorphyryCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.PORPHYRY_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block == AtumBlocks.NEBU_CURIO_DISPLAY) {
-                dispatcher.renderItem(new NebuCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.NEBU_CURIO_DISPLAY.defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+                dispatcher.renderItem(new SarcophagusTileEntity(BlockPos.ZERO, AtumBlocks.SARCOPHAGUS.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.PALM_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new PalmCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.PALM_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.DEADWOOD_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new DeadwoodCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.DEADWOOD_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.ACACIA_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new AcaciaCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.ACACIA_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.LIMESTONE_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new LimestoneCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.LIMESTONE_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.ALABASTER_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new AlabasterCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.ALABASTER_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.PORPHYRY_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new PorphyryCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.PORPHYRY_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.NEBU_CURIO_DISPLAY.get()) {
+                dispatcher.renderItem(new NebuCurioDisplayTileEntity(BlockPos.ZERO, AtumBlocks.NEBU_CURIO_DISPLAY.get().defaultBlockState()), matrixStack, buffer, combinedLight, combinedOverlay);
             }
         } else {
-            if (item == AtumItems.BRIGAND_SHIELD) {
+            if (item == AtumItems.BRIGAND_SHIELD.get()) {
                 renderShield(stack, brigandShield, BRIGAND_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (item == AtumItems.STONEGUARD_SHIELD) {
+            } else if (item == AtumItems.STONEGUARD_SHIELD.get()) {
                 renderShield(stack, stoneguardShield, STONEGUARD_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (item == AtumItems.ATEMS_PROTECTION) {
+            } else if (item == AtumItems.ATEMS_PROTECTION.get()) {
                 renderShield(stack, atemsProtection, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } /*else if (item == AtumItems.NEPTHYS_CONSECRATION) {
                 renderShield(stack, NEPTHYS_CONSECRATION, NEPTHYS_CONSECRATION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
-            } */else if (item == AtumItems.TEFNUTS_CALL) {
+            } */else if (item == AtumItems.TEFNUTS_CALL.get()) {
                 matrixStack.pushPose();
                 matrixStack.scale(1.0F, -1.0F, -1.0F);
                 VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, this.tefnutsCall.renderType(TefnutsCallRender.TEFNUTS_CALL_TEXTURE), false, stack.hasFoil());

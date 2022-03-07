@@ -31,7 +31,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
 
     public QuernRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(QUERN_GUI, 0, -6, 82, 32);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.QUERN));
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.QUERN.get()));
     }
 
     @Override

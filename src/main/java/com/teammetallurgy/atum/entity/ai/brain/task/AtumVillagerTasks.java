@@ -115,7 +115,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         if (relicStack.getItem() instanceof RelicItem) {
             RelicItem.Type type = RelicItem.getType(relicStack.getItem());
             RelicItem.Quality quality = RelicItem.getQuality(relicStack.getItem());
-            trades.add(new ItemStack(AtumItems.GOLD_COIN, getCoinAmount(type, quality)));
+            trades.add(new ItemStack(AtumItems.GOLD_COIN.get(), getCoinAmount(type, quality)));
         }
         return trades;
     }

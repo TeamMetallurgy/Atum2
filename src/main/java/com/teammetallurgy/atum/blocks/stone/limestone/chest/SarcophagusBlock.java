@@ -158,6 +158,6 @@ public class SarcophagusBlock extends ChestBaseBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumBlocks.SARCOPHAGUS);
+        return new ItemStack(AtumBlocks.SARCOPHAGUS.get());
     }
 }

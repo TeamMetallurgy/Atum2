@@ -50,7 +50,7 @@ public class GebsUndoingItem extends PickaxeItem implements IArtifact {
         Entity trueSource = event.getSource().getEntity();
         if (trueSource instanceof Player player) {
             ItemStack held = player.getItemBySlot(EquipmentSlot.MAINHAND);
-            if (held.getItem() == AtumItems.GEBS_UNDOING) {
+            if (held.getItem() == AtumItems.GEBS_UNDOING.get()) {
                 LivingEntity target = event.getEntityLiving();
                 if (target instanceof StoneBaseEntity) {
                     if (!player.getCooldowns().isOnCooldown(held.getItem())) {

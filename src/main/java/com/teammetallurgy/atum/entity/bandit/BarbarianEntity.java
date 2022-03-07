@@ -31,7 +31,7 @@ public class BarbarianEntity extends BanditBaseEntity {
 
     @Override
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.GREATSWORD_IRON));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.GREATSWORD_IRON.get()));
     }
 
     @Override

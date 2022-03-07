@@ -26,7 +26,7 @@ public class KilnContainer extends AbstractContainerMenu {
     private ContainerData kilnData;
 
     public KilnContainer(int windowID, Inventory playerInventory, BlockPos pos) {
-        super(AtumMenuType.KILN, windowID);
+        super(AtumMenuType.KILN.get(), windowID);
         Player player = playerInventory.player;
         this.kilnInventory = (KilnTileEntity) player.level.getBlockEntity(pos);
         checkContainerSize(kilnInventory, kilnInventory.getContainerSize());

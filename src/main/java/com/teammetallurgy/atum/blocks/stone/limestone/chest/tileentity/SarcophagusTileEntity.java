@@ -43,7 +43,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public boolean isOpenable;
 
     public SarcophagusTileEntity(BlockPos pos, BlockState state) {
-        super(AtumTileEntities.SARCOPHAGUS.get(), pos, state, false, true, AtumBlocks.SARCOPHAGUS);
+        super(AtumTileEntities.SARCOPHAGUS.get(), pos, state, false, true, AtumBlocks.SARCOPHAGUS.get());
     }
 
     @Nullable

@@ -50,7 +50,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
             if (world instanceof ServerLevel serverLevel) {
                 double x = Mth.nextDouble(world.random, 0.0001D, 0.05D);
                 double z = Mth.nextDouble(world.random, 0.0001D, 0.05D);
-                serverLevel.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
+                serverLevel.sendParticles(AtumParticles.ISIS.get(), livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
 
                 livingEntity.heal(1.0F);
                 DURATION.replace(livingEntity, 175);

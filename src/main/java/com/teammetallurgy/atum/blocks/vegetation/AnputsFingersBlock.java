@@ -44,7 +44,7 @@ public class AnputsFingersBlock extends CropBlock {
     @Override
     @Nonnull
     protected ItemLike getBaseSeedId() {
-        return AtumItems.ANPUTS_FINGERS_SPORES;
+        return AtumItems.ANPUTS_FINGERS_SPORES.get();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AnputsFingersBlock extends CropBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-        return state.getBlock() == AtumBlocks.SAND;
+        return state.getBlock() == AtumBlocks.SAND.get();
     }
 
     @Override
@@ -81,8 +81,7 @@ public class AnputsFingersBlock extends CropBlock {
 
     @Override
     public void entityInside(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (!world.isClientSide && entity instanceof Player) {
-            Player player = (Player) entity;
+        if (!world.isClientSide && entity instanceof Player player) {
             MinecraftServer server = world.getServer();
             Integer lastTouched = this.lastTouchedTick.get(player.getUUID());
             if (server != null) {

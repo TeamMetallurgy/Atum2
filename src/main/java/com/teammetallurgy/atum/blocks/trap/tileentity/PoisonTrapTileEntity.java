@@ -30,12 +30,12 @@ public class PoisonTrapTileEntity extends TrapTileEntity {
             serverLevel.playSound(null, (double) this.worldPosition.getX() + 0.5D, this.worldPosition.getY(), (double) this.worldPosition.getZ() + 0.5D, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
         switch (facing) {
-            case DOWN -> serverLevel.sendParticles(AtumParticles.GAS, x - randomPos, (double) this.worldPosition.getY() - 0.1D, z - 0.2 + (serverLevel.random.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
-            case UP -> serverLevel.sendParticles(AtumParticles.GAS, x - randomPos, (double) this.worldPosition.getY() + 1.1D, z - 0.2 + (serverLevel.random.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
-            case WEST -> serverLevel.sendParticles(AtumParticles.GAS, x - 0.52D, y, z + randomPos, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
-            case EAST -> serverLevel.sendParticles(AtumParticles.GAS, x + 0.52D, y, z + randomPos, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
-            case NORTH -> serverLevel.sendParticles(AtumParticles.GAS, x + randomPos, y, z - 0.52D, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
-            case SOUTH -> serverLevel.sendParticles(AtumParticles.GAS, x + randomPos, y, z + 0.52D, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case DOWN -> serverLevel.sendParticles(AtumParticles.GAS.get(), x - randomPos, (double) this.worldPosition.getY() - 0.1D, z - 0.2 + (serverLevel.random.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case UP -> serverLevel.sendParticles(AtumParticles.GAS.get(), x - randomPos, (double) this.worldPosition.getY() + 1.1D, z - 0.2 + (serverLevel.random.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case WEST -> serverLevel.sendParticles(AtumParticles.GAS.get(), x - 0.52D, y, z + randomPos, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case EAST -> serverLevel.sendParticles(AtumParticles.GAS.get(), x + 0.52D, y, z + randomPos, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case NORTH -> serverLevel.sendParticles(AtumParticles.GAS.get(), x + randomPos, y, z - 0.52D, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+            case SOUTH -> serverLevel.sendParticles(AtumParticles.GAS.get(), x + randomPos, y, z + 0.52D, 10, 0.0D, 0.0025D, 0.0D, 0.005D);
         }
     }
 }

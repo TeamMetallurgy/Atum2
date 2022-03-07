@@ -31,7 +31,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
 
     public SpinningWheelRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(SPINNING_WHEEL_GUI, 0, -6, 68, 32);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.SPINNING_WHEEL));
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.SPINNING_WHEEL.get()));
     }
 
     @Override

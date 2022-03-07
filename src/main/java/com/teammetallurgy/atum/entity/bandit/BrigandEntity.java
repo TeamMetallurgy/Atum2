@@ -36,8 +36,8 @@ public class BrigandEntity extends BanditBaseEntity {
 
     @Override
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
-        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON.get()));
+        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD.get()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BrigandEntity extends BanditBaseEntity {
         if (!super.doHurtTarget(entity)) {
             return false;
         } else {
-            if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.GREATSWORD_IRON) {
+            if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.GREATSWORD_IRON.get()) {
                 float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
                 float knockback = (float) this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 

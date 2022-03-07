@@ -38,7 +38,7 @@ public class ArrowRainEntity extends CustomArrow {
     public void tick() {
         if (this.level.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
             if (this.level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.TEFNUT_DROP, getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                serverLevel.sendParticles(AtumParticles.TEFNUT_DROP.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
         if (this.velocity == 1.0F && this.getOwner() instanceof LivingEntity) {

@@ -69,8 +69,8 @@ import java.util.function.BiPredicate;
 
 public class AtumVillagerEntity extends Villager implements ITexture {
     private static final EntityDataAccessor<AtumVillagerData> ATUM_VILLAGER_DATA = SynchedEntityData.defineId(AtumVillagerEntity.class, AtumDataSerializer.VILLAGER_DATA);
-    public static final Map<Item, Integer> FOOD_VALUES = ImmutableMap.of(AtumItems.EMMER_BREAD, 4, Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
-    private static final Set<Item> ALLOWED_INVENTORY_ITEMS = ImmutableSet.of(AtumItems.EMMER_BREAD, AtumItems.EMMER_EAR, AtumItems.EMMER_SEEDS, Items.BREAD, Items.POTATO, Items.CARROT, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS);
+    public static final Map<Item, Integer> FOOD_VALUES = ImmutableMap.of(AtumItems.EMMER_BREAD.get(), 4, Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
+    private static final Set<Item> ALLOWED_INVENTORY_ITEMS = ImmutableSet.of(AtumItems.EMMER_BREAD.get(), AtumItems.EMMER_EAR.get(), AtumItems.EMMER_SEEDS.get(), Items.BREAD, Items.POTATO, Items.CARROT, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT, Items.BEETROOT_SEEDS);
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(AtumVillagerEntity.class, EntityDataSerializers.INT);
     private String texturePath;
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, MemoryModuleType.MEETING_POINT, MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_BED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE, MemoryModuleType.HEARD_BELL_TIME, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModuleType.LAST_WOKEN, MemoryModuleType.LAST_WORKED_AT_POI, MemoryModuleType.GOLEM_DETECTED_RECENTLY, MemoryModuleType.ADMIRING_ITEM, MemoryModuleType.ADMIRING_DISABLED, MemoryModuleType.DISABLE_WALK_TO_ADMIRE_ITEM); //No changes
@@ -383,7 +383,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
 
     @Override
     public boolean hasFarmSeeds() {
-        return super.hasFarmSeeds() || this.getInventory().hasAnyOf(ImmutableSet.of(AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS));
+        return super.hasFarmSeeds() || this.getInventory().hasAnyOf(ImmutableSet.of(AtumItems.EMMER_SEEDS.get(), AtumItems.FLAX_SEEDS.get()));
     }
 
     @Override

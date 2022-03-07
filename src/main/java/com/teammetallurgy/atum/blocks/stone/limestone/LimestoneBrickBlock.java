@@ -38,13 +38,13 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
 
-        if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_SMALL) {
+        if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_SMALL.get()) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
                         BlockPos checkPos = pos.offset(dx, dy, dz);
                         BlockState kilnState = world.getBlockState(checkPos);
-                        if (kilnState.getBlock() == AtumBlocks.KILN) {
+                        if (kilnState.getBlock() == AtumBlocks.KILN.get()) {
                             KilnBlock kiln = (KilnBlock) kilnState.getBlock();
                             kiln.tryMakeMultiblock(world, checkPos, kilnState);
                         }

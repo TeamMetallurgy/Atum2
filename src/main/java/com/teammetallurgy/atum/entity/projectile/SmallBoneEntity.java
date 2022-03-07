@@ -53,7 +53,7 @@ public class SmallBoneEntity extends Fireball {
     @Override
     @Nonnull
     protected ParticleOptions getTrailParticle() {
-        return AtumParticles.EMPTY;
+        return AtumParticles.EMPTY.get();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class SmallBoneEntity extends Fireball {
     @Nonnull
     public ItemStack getItem() {
         ItemStack stack = this.getItemRaw();
-        return stack.isEmpty() ? new ItemStack(AtumItems.DUSTY_BONE) : stack;
+        return stack.isEmpty() ? new ItemStack(AtumItems.DUSTY_BONE.get()) : stack;
     }
 
     @Override

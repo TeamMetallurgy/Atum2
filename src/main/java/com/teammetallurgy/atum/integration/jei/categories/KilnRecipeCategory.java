@@ -34,7 +34,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
     public KilnRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(KilnScreen.KILN_GUI, 35, 14, 71, 84);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.KILN));
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.KILN.get()));
         IDrawableStatic staticFlame = guiHelper.createDrawable(KilnScreen.KILN_GUI, 176, 0, 14, 14);
         animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
         arrow = guiHelper.drawableBuilder(KilnScreen.KILN_GUI, 176, 14, 19, 8).buildAnimated(200, IDrawableAnimated.StartDirection.TOP, false);

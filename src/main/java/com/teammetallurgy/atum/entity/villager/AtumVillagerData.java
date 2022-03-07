@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.entity.villager;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.misc.ForgeRegistryEntryCodec;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.npc.VillagerData;

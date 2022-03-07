@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class AtumSounds {
-    public static final DeferredRegister<SoundEvent> BLOCK_ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Atum.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND_DEFERRED = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Atum.MOD_ID);
 
     public static final RegistryObject<SoundEvent> PHARAOH_SPAWN = registerSound("pharaohspawn");
 
@@ -21,6 +21,6 @@ public class AtumSounds {
     public static RegistryObject<SoundEvent> registerSound(String name) {
         ResourceLocation resourceLocation = new ResourceLocation(Atum.MOD_ID, name);
         SoundEvent sound = new SoundEvent(resourceLocation);
-        return BLOCK_ENTITY_DEFERRED.register(name, () -> sound);
+        return SOUND_DEFERRED.register(name, () -> sound);
     }
 }

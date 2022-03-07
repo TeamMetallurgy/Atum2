@@ -41,7 +41,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
     public void inventoryTick(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER) {
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER.get()) {
                 HUNGER_TIMER.putIfAbsent(player, 80);
                 int hungerTimer = HUNGER_TIMER.getInt(player);
                 if (hungerTimer > 0 && player.getFoodData().getFoodLevel() > 0) {
@@ -58,7 +58,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
     @SubscribeEvent
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getPlayer();
-        if (event.getTarget() instanceof LivingEntity && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER) {
+        if (event.getTarget() instanceof LivingEntity && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER.get()) {
             player.getFoodData().eat(1, 0.0F);
             ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 40));
             HUNGER_TIMER.replace(player, 200);

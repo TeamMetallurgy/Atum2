@@ -107,9 +107,9 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                 BlockState offsetLeft = world.getBlockState(pos.relative(facing.getClockWise(), 3));
                 BlockState offsetRight = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3));
 
-                if ((offsetLeft.getBlock() == AtumBlocks.QUANDARY_BLOCK && offsetLeft.getValue(ACTIVATED)) || (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK && offsetRight.getValue(ACTIVATED))) {
+                if ((offsetLeft.getBlock() == AtumBlocks.QUANDARY_BLOCK.get() && offsetLeft.getValue(ACTIVATED)) || (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK.get() && offsetRight.getValue(ACTIVATED))) {
                     boolean isPrimary = false;
-                    if (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK) {
+                    if (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK.get()) {
                         isPrimary = true;
                     }
 
@@ -127,10 +127,10 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                                 if (doorRead != null) {
                                     door = (DoorBlock) doorRead;
                                 } else {
-                                    door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR;
+                                    door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR.get();
                                 }
                             } else {
-                                door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR;
+                                door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR.get();
                             }
                         }
 

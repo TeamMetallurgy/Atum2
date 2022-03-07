@@ -18,7 +18,7 @@ public class RasFuryItem extends BaseBowItem implements IArtifact {
 
     public RasFuryItem() {
         super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT);
+        this.setRepairItem(AtumItems.NEBU_INGOT.get());
     }
 
     @Override

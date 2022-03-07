@@ -19,7 +19,7 @@ public class ShusBreathItem extends BaseBowItem implements IArtifact {
 
     public ShusBreathItem() {
         super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT);
+        this.setRepairItem(AtumItems.NEBU_INGOT.get());
     }
 
     @Override

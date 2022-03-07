@@ -35,6 +35,6 @@ public class AmuletItem extends Item implements ICurioItem {
 
     @Override
     public boolean isValidRepairItem(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == AtumItems.NEBU_INGOT;
+        return repair.getItem() == AtumItems.NEBU_INGOT.get();
     }
 }

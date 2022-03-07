@@ -138,7 +138,7 @@ public class ScarabEntity extends Monster {
     @Override
     public float getWalkTargetValue(@Nonnull BlockPos pos) {
         Block block = this.level.getBlockState(pos.below()).getBlock();
-        return block == AtumBlocks.LIMESTONE || block == AtumBlocks.DEADWOOD_LOG ? 10.0F : super.getWalkTargetValue(pos);
+        return block == AtumBlocks.LIMESTONE.get() || block == AtumBlocks.DEADWOOD_LOG.get() ? 10.0F : super.getWalkTargetValue(pos);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class ScarabEntity extends Monster {
                     BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
                     BlockState state = this.mob.level.getBlockState(pos);
 
-                    if (state.getBlock() == AtumBlocks.LIMESTONE || state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
+                    if (state.getBlock() == AtumBlocks.LIMESTONE.get() || state.getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
                         this.doMerge = true;
                         return true;
                     }
@@ -225,13 +225,13 @@ public class ScarabEntity extends Monster {
                 BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
                 BlockState state = world.getBlockState(pos);
 
-                if (state.getBlock() == AtumBlocks.LIMESTONE) {
-                    world.setBlock(pos, AtumBlocks.LIMESTONE.defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
+                if (state.getBlock() == AtumBlocks.LIMESTONE.get()) {
+                    world.setBlock(pos, AtumBlocks.LIMESTONE.get().defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
                     this.mob.discard();
                 }
-                if (state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
-                    world.setBlock(pos, AtumBlocks.DEADWOOD_LOG.defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
+                if (state.getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
+                    world.setBlock(pos, AtumBlocks.DEADWOOD_LOG.get().defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
                     this.mob.discard();
                 }

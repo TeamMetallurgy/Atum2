@@ -19,7 +19,7 @@ public class TrapContainer extends AbstractContainerMenu {
     private final ContainerData trapData;
 
     public TrapContainer(int windowID, Inventory playerInventory, TrapTileEntity trapInventory) {
-        super(AtumMenuType.TRAP, windowID);
+        super(AtumMenuType.TRAP.get(), windowID);
         this.trapInventory = trapInventory;
         this.trapData = trapInventory.trapData;
         this.addSlot(new FuelSlot(this.trapInventory, 0, 80, 20));

@@ -43,7 +43,7 @@ public class ArrowSlownessEntity extends CustomArrow {
             if (random.nextFloat() <= chance) {
                 livingBase.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1, false, true));
                 if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(AtumParticles.GEB, entity.getX(), this.getY(), entity.getZ(), 15, 0.0D, -0.06D, 0.0D, 0.025D);
+                    serverLevel.sendParticles(AtumParticles.GEB.get(), entity.getX(), this.getY(), entity.getZ(), 15, 0.0D, -0.06D, 0.0D, 0.025D);
                 }
             }
         }

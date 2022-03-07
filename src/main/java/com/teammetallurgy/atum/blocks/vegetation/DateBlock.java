@@ -84,7 +84,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumItems.DATE);
+        return new ItemStack(AtumItems.DATE.get());
     }
 
     @Override

@@ -79,7 +79,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (attacker.level.random.nextFloat() <= 0.25F) {
-            applyWither(target, attacker, attacker.getOffhandItem().getItem() == AtumItems.NUITS_QUARTER);
+            applyWither(target, attacker, attacker.getOffhandItem().getItem() == AtumItems.NUITS_QUARTER.get());
         }
         return super.hurtEnemy(stack, target, attacker);
     }
@@ -101,7 +101,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
         Entity trueSource = event.getSource().getDirectEntity();
         LivingEntity livingEntity = event.getEntityLiving();
         if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level.random.nextFloat() <= 0.25F) {
-            applyWither((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getMainHandItem().getItem() == AtumItems.NUITS_QUARTER);
+            applyWither((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getMainHandItem().getItem() == AtumItems.NUITS_QUARTER.get());
             IS_BLOCKING.removeBoolean(livingEntity);
         }
     }
@@ -110,7 +110,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
         if (attacker != target) {
             if (target.level instanceof ServerLevel serverLevel) {
                 Random random = serverLevel.random;
-                serverLevel.sendParticles(AtumParticles.NUIT_WHITE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
+                serverLevel.sendParticles(AtumParticles.NUIT_WHITE.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
             }
             target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
         }

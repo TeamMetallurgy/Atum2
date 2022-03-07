@@ -71,7 +71,7 @@ public class QuernRender implements BlockEntityRenderer<QuernTileEntity> {
     public void render(@Nonnull QuernTileEntity quern, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         Level world = quern.getLevel();
         boolean hasWorld = world != null;
-        BlockState state = hasWorld ? quern.getBlockState() : AtumBlocks.QUERN.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
+        BlockState state = hasWorld ? quern.getBlockState() : AtumBlocks.QUERN.get().defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
         Block block = state.getBlock();
 
         if (block instanceof QuernBlock) {

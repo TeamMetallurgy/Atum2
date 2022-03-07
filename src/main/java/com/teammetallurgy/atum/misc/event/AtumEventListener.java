@@ -35,7 +35,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -108,8 +110,8 @@ public class AtumEventListener {
             if (world.dimension() == Level.OVERWORLD || world.dimension() == Atum.ATUM) {
                 for (ItemEntity entityItem : world.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(10.0F, 1.0F, 10.0F))) {
                     BlockState state = world.getBlockState(entityItem.blockPosition());
-                    if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.defaultBlockState())) {
-                        if (AtumBlocks.PORTAL.trySpawnPortal(world, entityItem.blockPosition())) {
+                    if (entityItem.getItem().getItem() == AtumItems.SCARAB.get() && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.get().defaultBlockState())) {
+                        if (((PortalBlock) AtumBlocks.PORTAL.get()).trySpawnPortal(world, entityItem.blockPosition())) {
                             entityItem.discard();
                             return;
                         }
@@ -123,8 +125,8 @@ public class AtumEventListener {
     public static void onPlace(BlockEvent.EntityPlaceEvent event) {
         BlockState state = event.getPlacedBlock();
         if (event.getEntity() != null && event.getEntity().level.dimension() == Atum.ATUM) {
-            if (((state.getMaterial() == Material.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED)) {
-                event.getWorld().setBlock(event.getPos(), AtumBlocks.SAND.defaultBlockState(), 3);
+            if (((state.getMaterial() == Material.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED.get())) {
+                event.getWorld().setBlock(event.getPos(), AtumBlocks.SAND.get().defaultBlockState(), 3);
             }
         }
     }
@@ -245,7 +247,7 @@ public class AtumEventListener {
     //Ra Armor
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent event) {
-        if (StackHelper.hasFullArmorSet(event.getEntityLiving(), AtumItems.HALO_OF_RA, AtumItems.BODY_OF_RA, AtumItems.LEGS_OF_RA, AtumItems.FEET_OF_RA) && event.getSource().isFire()) {
+        if (StackHelper.hasFullArmorSet(event.getEntityLiving(), AtumItems.HALO_OF_RA.get(), AtumItems.BODY_OF_RA.get(), AtumItems.LEGS_OF_RA.get(), AtumItems.FEET_OF_RA.get()) && event.getSource().isFire()) {
             event.setAmount(0.0F);
         }
     }

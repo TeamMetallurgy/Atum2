@@ -125,7 +125,7 @@ public class AssassinEntity extends BanditBaseEntity {
 
     @Override
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER.get()));
     }
 
     @Override
@@ -133,7 +133,7 @@ public class AssassinEntity extends BanditBaseEntity {
         if (!super.doHurtTarget(entity)) {
             return false;
         } else {
-            if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
+            if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER.get() && entity instanceof LivingEntity) {
                 entity.hurt(ASSASSINATED, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 (((LivingEntity) entity)).addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
             }

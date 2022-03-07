@@ -24,7 +24,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
         if (!world.isClientSide) {
             if (world.random.nextDouble() <= 0.05F) {
                 if (isValidBonemealTarget(world, pos, state, false)) {
-                    world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.defaultBlockState());
+                    world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
                 }
             }
         }
@@ -39,7 +39,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
         for (int i = 0; i < 4; i++) {
             Direction horizontal = Direction.from2DDataValue((5 - i) % 4); //[W, S, E, N]
             BlockPos check = pos.relative(horizontal);
-            if (reader.getBlockState(check).getBlock() == AtumBlocks.PALM_LOG) {
+            if (reader.getBlockState(check).getBlock() == AtumBlocks.PALM_LOG.get()) {
                 return true;
             }
         }
@@ -54,7 +54,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
     @Override
     public void performBonemeal(@Nonnull ServerLevel world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (isValidBonemealTarget(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
-            world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.defaultBlockState());
+            world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
         }
     }
 }

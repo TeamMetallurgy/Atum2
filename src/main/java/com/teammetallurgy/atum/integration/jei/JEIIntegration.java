@@ -45,10 +45,10 @@ public class JEIIntegration implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
-        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.QUERN), QUERN);
-        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.SPINNING_WHEEL), SPINNING_WHEEL);
-        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.KILN), KILN, VanillaRecipeCategoryUid.FUEL);
-        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.LIMESTONE_FURNACE), VanillaRecipeCategoryUid.FURNACE, VanillaRecipeCategoryUid.FUEL);
+        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.QUERN.get()), QUERN);
+        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.SPINNING_WHEEL.get()), SPINNING_WHEEL);
+        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.KILN.get()), KILN, VanillaRecipeCategoryUid.FUEL);
+        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.LIMESTONE_FURNACE.get()), VanillaRecipeCategoryUid.FURNACE, VanillaRecipeCategoryUid.FUEL);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class JEIIntegration implements IModPlugin {
             addRecipes(registry, world, AtumRecipeTypes.QUERN, QUERN);
             addRecipes(registry, world, AtumRecipeTypes.SPINNING_WHEEL, SPINNING_WHEEL);
         }
-        addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
+        addInfo(new ItemStack(AtumItems.EMMER_DOUGH.get()), registry);
     }
 
     private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level world, RecipeType<T> recipeType, ResourceLocation name) {

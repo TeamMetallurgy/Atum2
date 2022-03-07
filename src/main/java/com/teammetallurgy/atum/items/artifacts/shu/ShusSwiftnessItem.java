@@ -43,7 +43,7 @@ public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
         Level world = livingEntity.getCommandSenderWorld();
         AttributeInstance attribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
         for (int l = 0; l < 2; ++l) {
-            world.addParticle(AtumParticles.SHU, livingEntity.getX() + (world.random.nextDouble() - 0.5D) * (double) livingEntity.getBbWidth(), livingEntity.getY() + 0.2D, livingEntity.getZ() + (world.random.nextDouble() - 0.5D) * (double) livingEntity.getBbWidth(), 0.0D, 0.0D, 0.0D);
+            world.addParticle(AtumParticles.SHU.get(), livingEntity.getX() + (world.random.nextDouble() - 0.5D) * (double) livingEntity.getBbWidth(), livingEntity.getY() + 0.2D, livingEntity.getZ() + (world.random.nextDouble() - 0.5D) * (double) livingEntity.getBbWidth(), 0.0D, 0.0D, 0.0D);
         }
         if (attribute != null && !attribute.hasModifier(SPEED_BOOST)) {
             attribute.addTransientModifier(SPEED_BOOST);

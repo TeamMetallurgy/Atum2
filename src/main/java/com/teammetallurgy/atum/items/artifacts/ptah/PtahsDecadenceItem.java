@@ -34,7 +34,7 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         LevelAccessor world = event.getWorld();
-        if (world instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE) {
+        if (world instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE.get()) {
             BlockPos pos = event.getPos();
             List<ItemStack> drops = Block.getDrops(event.getState(), serverLevel, pos, null);
             if (!drops.isEmpty()) {

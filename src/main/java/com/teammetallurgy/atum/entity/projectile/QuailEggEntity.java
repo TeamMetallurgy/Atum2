@@ -42,7 +42,7 @@ public class QuailEggEntity extends ThrowableItemProjectile {
     @Override
     @Nonnull
     protected Item getDefaultItem() {
-        return AtumItems.QUAIL_EGG;
+        return AtumItems.QUAIL_EGG.get();
     }
 
     @Override

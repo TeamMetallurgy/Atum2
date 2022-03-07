@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TefnutsCallEntity extends AbstractArrow {
-    protected ItemStack thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
+    protected ItemStack thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL.get());
     private boolean dealtDamage;
     public int returningTicks;
 

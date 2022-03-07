@@ -25,7 +25,7 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
 
     public IsisDivisionItem() {
         super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT);
+        this.setRepairItem(AtumItems.NEBU_INGOT.get());
     }
 
     @Override

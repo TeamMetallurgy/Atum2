@@ -87,7 +87,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getPlayer();
         if (player.level.isClientSide) return;
-        if (player.getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH && getTier(player.getMainHandItem()) == 3) {
+        if (player.getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH.get() && getTier(player.getMainHandItem()) == 3) {
             if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() != MobType.UNDEAD && !(event.getTarget() instanceof StoneBaseEntity)) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
             }
@@ -104,7 +104,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
                 Random random = entity.level.random;
                 double y = Mth.nextDouble(random, 0.02D, 0.1D);
                 if (entity.level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(AtumParticles.ANUBIS, entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
+                    serverLevel.sendParticles(AtumParticles.ANUBIS.get(), entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);
@@ -114,7 +114,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     @SubscribeEvent
     public static void onKill(LivingDeathEvent event) {
         Entity source = event.getSource().getEntity();
-        if (source instanceof LivingEntity && ((LivingEntity) source).getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH) {
+        if (source instanceof LivingEntity && ((LivingEntity) source).getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH.get()) {
             ItemStack heldStack = ((LivingEntity) source).getMainHandItem();
             CompoundTag tag = StackHelper.getTag(heldStack);
             tag.putInt("souls", getSouls(heldStack) + 1);
@@ -138,14 +138,14 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
 
     @Nonnull
     private static ItemStack findAnubisWrath(Player player) {
-        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
+        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() == AtumItems.ANUBIS_WRATH.get()) {
             return player.getItemInHand(InteractionHand.OFF_HAND);
-        } else if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
+        } else if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANUBIS_WRATH.get()) {
             return player.getItemInHand(InteractionHand.MAIN_HAND);
         } else {
             for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
                 ItemStack stack = player.getInventory().getItem(i);
-                if (stack.getItem() == AtumItems.ANUBIS_WRATH) {
+                if (stack.getItem() == AtumItems.ANUBIS_WRATH.get()) {
                     return stack;
                 }
             }

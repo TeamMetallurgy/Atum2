@@ -116,16 +116,16 @@ public class AtemArmorModel extends ArmorModel {
 	public static void onPlayerRender(RenderPlayerEvent event) {
 		Player player = event.getPlayer();
 		PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
-		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
+		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATEM.get()) {
 			playerModel.hat.visible = false;
 			playerModel.head.visible = false;
 		}
-		if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
+		if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATEM.get()) {
 			playerModel.jacket.visible = false;
 			playerModel.leftSleeve.visible = false;
 			playerModel.rightSleeve.visible = false;
 		}
-		if (player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemBySlot(EquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
+		if (player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_ATEM.get() || player.getItemBySlot(EquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_ATEM.get()) {
 			playerModel.leftPants.visible = false;
 			playerModel.rightPants.visible = false;
 		}

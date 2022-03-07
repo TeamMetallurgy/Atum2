@@ -34,6 +34,6 @@ public class EmmerBlock extends CropBlock {
     @Override
     @Nonnull
     protected ItemLike getBaseSeedId() {
-        return AtumItems.EMMER_SEEDS;
+        return AtumItems.EMMER_SEEDS.get();
     }
 }

@@ -76,7 +76,7 @@ public class EmmerFlourItem extends Item {
     private void giveDough(Player player, InteractionHand hand, @Nonnull ItemStack heldStack) {
         player.awardStat(Stats.ITEM_USED.get(this));
         player.playSound(SoundEvents.LILY_PAD_PLACE, 1.0F, 1.0F);
-        StackHelper.giveItem(player, hand, new ItemStack(AtumItems.EMMER_DOUGH));
+        StackHelper.giveItem(player, hand, new ItemStack(AtumItems.EMMER_DOUGH.get()));
         heldStack.shrink(1);
     }
 }

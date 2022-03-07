@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class AtumFarmerWorkTask extends WorkAtPoi {
-    private static final List<Item> SEEDS = ImmutableList.of(AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS);
+    private static final List<Item> SEEDS = ImmutableList.of(AtumItems.EMMER_SEEDS.get(), AtumItems.FLAX_SEEDS.get());
 
     @Override
     protected void useWorkstation(@Nonnull ServerLevel world, Villager villager) {
@@ -78,15 +78,15 @@ public class AtumFarmerWorkTask extends WorkAtPoi {
 
     private void bakeBread(Villager villager) {
         SimpleContainer inventory = villager.getInventory();
-        if (inventory.countItem(AtumItems.EMMER_BREAD) <= 36) {
-            int i = inventory.countItem(AtumItems.EMMER_EAR);
+        if (inventory.countItem(AtumItems.EMMER_BREAD.get()) <= 36) {
+            int i = inventory.countItem(AtumItems.EMMER_EAR.get());
             int j = 3;
             int k = 3;
             int l = Math.min(3, i / 3);
             if (l != 0) {
                 int i1 = l * 3;
-                inventory.removeItemType(AtumItems.EMMER_EAR, i1);
-                ItemStack itemstack = inventory.addItem(new ItemStack(AtumItems.EMMER_BREAD, l));
+                inventory.removeItemType(AtumItems.EMMER_EAR.get(), i1);
+                ItemStack itemstack = inventory.addItem(new ItemStack(AtumItems.EMMER_BREAD.get(), l));
                 if (!itemstack.isEmpty()) {
                     villager.spawnAtLocation(itemstack, 0.5F);
                 }

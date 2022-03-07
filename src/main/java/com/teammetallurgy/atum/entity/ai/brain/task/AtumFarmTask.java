@@ -113,11 +113,11 @@ public class AtumFarmTask extends Behavior<Villager> {
                         ItemStack itemstack = inventory.getItem(i);
                         boolean flag = false;
                         if (!itemstack.isEmpty()) {
-                            if (itemstack.getItem() == AtumItems.EMMER_SEEDS) {
-                                world.setBlock(this.pos, AtumBlocks.EMMER_WHEAT.defaultBlockState(), 3);
+                            if (itemstack.getItem() == AtumItems.EMMER_SEEDS.get()) {
+                                world.setBlock(this.pos, AtumBlocks.EMMER_WHEAT.get().defaultBlockState(), 3);
                                 flag = true;
-                            } else if (itemstack.getItem() == AtumItems.FLAX_SEEDS) {
-                                world.setBlock(this.pos, AtumBlocks.FLAX.defaultBlockState(), 3);
+                            } else if (itemstack.getItem() == AtumItems.FLAX_SEEDS.get()) {
+                                world.setBlock(this.pos, AtumBlocks.FLAX.get().defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == Items.POTATO) {
                                 world.setBlock(this.pos, Blocks.POTATOES.defaultBlockState(), 3);

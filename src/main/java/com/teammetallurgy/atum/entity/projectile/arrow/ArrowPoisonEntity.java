@@ -37,14 +37,14 @@ public class ArrowPoisonEntity extends CustomArrow {
         //Particle while arrow is in air
         if (this.isCritArrow()) {
             if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.SETH, this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                serverLevel.sendParticles(AtumParticles.SETH.get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
 
         //Particle after hit
         if (level.getGameTime() % 8L == 0L) {
             if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.SETH, getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                serverLevel.sendParticles(AtumParticles.SETH.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
     }

@@ -49,7 +49,7 @@ public class RasStep extends RingItem implements IArtifact {
 
     private void lavaWalk(LivingEntity living, Level world, BlockPos pos) {
         if (living.isOnGround()) {
-            BlockState raStone = AtumBlocks.RA_STONE.defaultBlockState();
+            BlockState raStone = AtumBlocks.RA_STONE.get().defaultBlockState();
             float area = (float) Math.min(16, 2);
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 

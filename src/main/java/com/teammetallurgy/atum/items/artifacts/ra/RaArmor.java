@@ -42,21 +42,21 @@ public class RaArmor extends ArtifactArmor {
 
     @Override
     public Item getHelmet() {
-        return AtumItems.HALO_OF_RA;
+        return AtumItems.HALO_OF_RA.get();
     }
 
     @Override
     public Item getChestplate() {
-        return AtumItems.BODY_OF_RA;
+        return AtumItems.BODY_OF_RA.get();
     }
 
     @Override
     public Item getLeggings() {
-        return AtumItems.LEGS_OF_RA;
+        return AtumItems.LEGS_OF_RA.get();
     }
 
     @Override
     public Item getBoots() {
-        return AtumItems.FEET_OF_RA;
+        return AtumItems.FEET_OF_RA.get();
     }
 }

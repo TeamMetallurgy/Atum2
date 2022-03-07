@@ -150,7 +150,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 BlockPos secondaryKilnPos = KilnBlock.getSecondaryKilnFromPrimary(level, pos);
                 if (secondaryKilnPos != null) {
                     BlockState secondaryState = level.getBlockState(secondaryKilnPos);
-                    if (secondaryState.getBlock() == AtumBlocks.KILN) {
+                    if (secondaryState.getBlock() == AtumBlocks.KILN.get()) {
                         level.setBlockAndUpdate(secondaryKilnPos, secondaryState.setValue(KilnBlock.LIT, kiln.isBurning()));
                     }
                 }

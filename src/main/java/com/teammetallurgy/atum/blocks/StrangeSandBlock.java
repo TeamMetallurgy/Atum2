@@ -36,7 +36,7 @@ public class StrangeSandBlock extends FallingBlock {
                 world.getBlockState(pos.north()).getFluidState().is(FluidTags.WATER) ||
                 world.getBlockState(pos.south()).getFluidState().is(FluidTags.WATER));
 
-        if (plant.getBlock() instanceof CactusBlock || plant.getBlock() == AtumBlocks.ANPUTS_FINGERS) {
+        if (plant.getBlock() instanceof CactusBlock || plant.getBlock() == AtumBlocks.ANPUTS_FINGERS.get()) {
             return true;
         }
 
@@ -51,6 +51,6 @@ public class StrangeSandBlock extends FallingBlock {
 
     @Override
     public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-        return toolAction == ToolActions.SHOVEL_FLATTEN ? AtumBlocks.STRANGE_SAND_PATH.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
+        return toolAction == ToolActions.SHOVEL_FLATTEN ? AtumBlocks.STRANGE_SAND_PATH.get().defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
     }
 }

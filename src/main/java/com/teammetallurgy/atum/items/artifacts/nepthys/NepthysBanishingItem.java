@@ -42,7 +42,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
         Player player = event.getPlayer();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() == MobType.UNDEAD) {
-            if (player.getMainHandItem().getItem() == AtumItems.NEPTHYS_BANISHING) {
+            if (player.getMainHandItem().getItem() == AtumItems.NEPTHYS_BANISHING.get()) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
             }
         }
@@ -57,7 +57,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
                 event.setAmount(event.getAmount() * 2);
                 if (target.level instanceof ServerLevel serverLevel) {
                     Random random = serverLevel.random;
-                    serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
+                    serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);

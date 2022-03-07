@@ -39,7 +39,7 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
     public static void onAttack(AttackEntityEvent event) {
         Player attacker = event.getPlayer();
         if (attacker.level.isClientSide) return;
-        if (event.getTarget() instanceof LivingEntity && attacker.getMainHandItem().getItem() == AtumItems.SHUS_EXILE) {
+        if (event.getTarget() instanceof LivingEntity && attacker.getMainHandItem().getItem() == AtumItems.SHUS_EXILE.get()) {
             COOLDOWN.put(attacker, attacker.getAttackStrengthScale(0.5F));
 
             if (COOLDOWN.getFloat(attacker) == 1.0F) {
@@ -50,7 +50,7 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
                     Random random = target.level.random;
                     double x = Mth.nextDouble(random, 0.001D, 0.02D);
                     double z = Mth.nextDouble(random, 0.001D, 0.02D);
-                    serverLevel.sendParticles(AtumParticles.SHU, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
+                    serverLevel.sendParticles(AtumParticles.SHU.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
         }

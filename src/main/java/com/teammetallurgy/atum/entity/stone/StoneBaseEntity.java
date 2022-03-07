@@ -129,7 +129,7 @@ public class StoneBaseEntity extends Monster {
     protected InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
 
-        if (heldStack.getItem() == AtumItems.KHNUMITE) {
+        if (heldStack.getItem() == AtumItems.KHNUMITE.get()) {
             if (!player.getAbilities().instabuild) {
                 heldStack.shrink(1);
             }

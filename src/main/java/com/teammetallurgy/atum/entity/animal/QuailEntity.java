@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class QuailEntity extends QuailBase {
-    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(AtumItems.EMMER_SEEDS, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(AtumItems.EMMER_SEEDS.get(), Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -93,7 +93,7 @@ public class QuailEntity extends QuailBase {
         this.wingRotation += this.wingRotDelta * 2.0F;
         if (!this.level.isClientSide && this.isAlive() && !this.isBaby() && --this.timeUntilNextEgg <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(AtumItems.QUAIL_EGG);
+            this.spawnAtLocation(AtumItems.QUAIL_EGG.get());
             this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
         }
     }

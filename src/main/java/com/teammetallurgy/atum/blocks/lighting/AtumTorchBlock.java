@@ -34,7 +34,7 @@ public class AtumTorchBlock extends TorchBlock implements INebuTorch {
     }
 
     public AtumTorchBlock(@Nullable God god) {
-        this(14, god == null ? AtumParticles.NEBU_FLAME : GOD_FLAMES.get(god));
+        this(14, god == null ? AtumParticles.NEBU_FLAME.get() : GOD_FLAMES.get(god));
     }
 
     public ParticleOptions getParticleType() {

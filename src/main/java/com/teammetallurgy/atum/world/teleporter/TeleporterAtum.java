@@ -86,7 +86,7 @@ public class TeleporterAtum implements ITeleporter {
         int i = 128;
         posManager.ensureLoadedAndValid(serverLevel, pos, i);
         Optional<PoiRecord> optional = posManager.getInSquare((poiType) -> {
-            return poiType == AtumPointsOfInterest.PORTAL;
+            return poiType == AtumPointsOfInterest.PORTAL.get();
         }, pos, i, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) -> {
             return poi.getPos().distSqr(pos);
         }).thenComparingInt((poi) -> {
@@ -105,21 +105,21 @@ public class TeleporterAtum implements ITeleporter {
     }
 
     public Optional<BlockUtil.FoundRectangle> createPortal(Level world, BlockPos pos) {
-        BlockState portalState = AtumBlocks.PORTAL.defaultBlockState();
+        BlockState portalState = AtumBlocks.PORTAL.get().defaultBlockState();
         BlockState sandState;
 
         while (pos.getY() > 1 && world.isEmptyBlock(pos)) {
             pos = pos.below();
         }
 
-        while (!world.isEmptyBlock(pos.above()) && (world.getBlockState(pos).getBlock() != AtumBlocks.SAND || world.getBlockState(pos).getBlock() != Blocks.GRASS)) {
+        while (!world.isEmptyBlock(pos.above()) && (world.getBlockState(pos).getBlock() != AtumBlocks.SAND.get() || world.getBlockState(pos).getBlock() != Blocks.GRASS)) {
             pos = pos.above();
         }
 
         if (world.dimension() == Level.OVERWORLD) {
             sandState = Blocks.SANDSTONE.defaultBlockState();
         } else {
-            sandState = AtumBlocks.LIMESTONE_BRICK_LARGE.defaultBlockState();
+            sandState = AtumBlocks.LIMESTONE_BRICK_LARGE.get().defaultBlockState();
         }
 
 

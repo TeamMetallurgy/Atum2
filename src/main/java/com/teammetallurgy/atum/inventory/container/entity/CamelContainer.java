@@ -25,7 +25,7 @@ public class CamelContainer extends AbstractContainerMenu {
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
     public CamelContainer(int windowID, Inventory playerInventory, final int entityID) {
-        super(AtumMenuType.CAMEL, windowID);
+        super(AtumMenuType.CAMEL.get(), windowID);
         Player player = playerInventory.player;
         this.camel = (CamelEntity) player.level.getEntity(entityID);
         this.camelInventory = this.camel.getHorseChest();

@@ -22,7 +22,7 @@ public class GodforgeContainer extends AbstractContainerMenu {
     public Slot fuelSlot;
 
     public GodforgeContainer(int id, Inventory playerInventory, GodforgeTileEntity godforgeInventory) {
-        super(AtumMenuType.GODFORGE, id);
+        super(AtumMenuType.GODFORGE.get(), id);
         this.godforgeInventory = godforgeInventory;
         this.godforgeData = godforgeInventory.godforgeData;
         this.addSlot(new Slot(godforgeInventory, 0, 56, 17) {

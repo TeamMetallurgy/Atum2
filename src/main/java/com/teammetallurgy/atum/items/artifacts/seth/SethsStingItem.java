@@ -43,7 +43,7 @@ public class SethsStingItem extends DaggerItem implements IArtifact {
         Player player = event.getPlayer();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
-            if (player.getMainHandItem().getItem() == AtumItems.SETHS_STING) {
+            if (player.getMainHandItem().getItem() == AtumItems.SETHS_STING.get()) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
             }
         }
@@ -58,7 +58,7 @@ public class SethsStingItem extends DaggerItem implements IArtifact {
                 target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 2));
                 if (trueSource.level instanceof ServerLevel serverLevel) {
                     Random random = serverLevel.random;
-                    serverLevel.sendParticles(AtumParticles.SETH, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
+                    serverLevel.sendParticles(AtumParticles.SETH.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);

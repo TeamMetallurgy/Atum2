@@ -18,7 +18,7 @@ public class TefnutsRainItem extends BaseBowItem implements IArtifact {
 
     public TefnutsRainItem() {
         super(new Item.Properties().rarity(Rarity.RARE).durability(650));
-        this.setRepairItem(AtumItems.NEBU_INGOT);
+        this.setRepairItem(AtumItems.NEBU_INGOT.get());
     }
 
     @Override

@@ -17,7 +17,7 @@ public class AtumItemGroup extends CreativeModeTab {
     @Override
     @Nonnull
     public ItemStack makeIcon() {
-        return new ItemStack(AtumItems.SCARAB);
+        return new ItemStack(AtumItems.SCARAB.get());
     }
 
     @Override

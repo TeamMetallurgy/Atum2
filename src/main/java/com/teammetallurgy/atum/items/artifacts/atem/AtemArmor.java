@@ -63,22 +63,22 @@ public class AtemArmor extends ArtifactArmor {
 
     @Override
     public Item getHelmet() {
-        return AtumItems.EYES_OF_ATEM;
+        return AtumItems.EYES_OF_ATEM.get();
     }
 
     @Override
     public Item getChestplate() {
-        return AtumItems.BODY_OF_ATEM;
+        return AtumItems.BODY_OF_ATEM.get();
     }
 
     @Override
     public Item getLeggings() {
-        return AtumItems.LEGS_OF_ATEM;
+        return AtumItems.LEGS_OF_ATEM.get();
     }
 
     @Override
     public Item getBoots() {
-        return AtumItems.FEET_OF_ATEM;
+        return AtumItems.FEET_OF_ATEM.get();
     }
 
     @SubscribeEvent
@@ -106,7 +106,7 @@ public class AtemArmor extends ArtifactArmor {
         LivingEntity livingEntity = event.getEntityLiving();
         if (livingEntity instanceof Player) {
             Player player = (Player) livingEntity;
-            if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM, AtumItems.BODY_OF_ATEM, AtumItems.LEGS_OF_ATEM, AtumItems.FEET_OF_ATEM)) {
+            if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM.get(), AtumItems.BODY_OF_ATEM.get(), AtumItems.LEGS_OF_ATEM.get(), AtumItems.FEET_OF_ATEM.get())) {
                 if (!RECALL_TIMER.containsKey(player)) {
                     livingEntity.setHealth(livingEntity.getMaxHealth());
                     AtemsHomecomingItem.recall(livingEntity.level, player);

@@ -132,7 +132,7 @@ public class TefnutsCallItem extends Item implements IArtifact {
 
     @Override
     public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == AtumItems.NEBU_INGOT;
+        return repair.getItem() == AtumItems.NEBU_INGOT.get();
     }
 
     @Override

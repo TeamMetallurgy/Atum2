@@ -62,8 +62,8 @@ public class KilnFakeBlock extends BaseEntityBlock {
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos);
         if (primaryPos != null) {
             BlockState primaryState = world.getBlockState(primaryPos);
-            if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(KilnBlock.MULTIBLOCK_PRIMARY)) {
-                ((KilnBlock) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(KilnBlock.FACING));
+            if (primaryState.getBlock() == AtumBlocks.KILN.get() && primaryState.getValue(KilnBlock.MULTIBLOCK_PRIMARY)) {
+                ((KilnBlock) AtumBlocks.KILN.get()).destroyMultiblock(world, primaryPos, primaryState.getValue(KilnBlock.FACING));
             }
         }
         super.onRemove(state, world, pos, newState, isMoving);
@@ -80,7 +80,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
     @Override
     @Nonnull
     public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new ItemStack(AtumBlocks.KILN);
+        return new ItemStack(AtumBlocks.KILN.get());
     }
 
     @Override

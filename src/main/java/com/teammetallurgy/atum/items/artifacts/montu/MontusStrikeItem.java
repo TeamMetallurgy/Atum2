@@ -51,7 +51,7 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
         Player player = event.getPlayer();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
-            if (player.getMainHandItem().getItem() == AtumItems.MONTUS_STRIKE) {
+            if (player.getMainHandItem().getItem() == AtumItems.MONTUS_STRIKE.get()) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
             }
         }
@@ -69,12 +69,11 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 12.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
                         entity.hurt(DamageSource.playerAttack(player), damage);
-                        if (entity.level instanceof ServerLevel) {
-                            ServerLevel serverLevel = (ServerLevel) entity.level;
+                        if (entity.level instanceof ServerLevel serverLevel) {
                             double d0 = -Mth.sin(player.getYRot() * 0.017453292F);
                             double d1 = Mth.cos(player.getYRot() * 0.017453292F);
-                            serverLevel.sendParticles(AtumParticles.MONTU, target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
-                            serverLevel.sendParticles(AtumParticles.MONTU, entity.getX() + d0, entity.getY() + 1.1D, entity.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
+                            serverLevel.sendParticles(AtumParticles.MONTU.get(), target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
+                            serverLevel.sendParticles(AtumParticles.MONTU.get(), entity.getX() + d0, entity.getY() + 1.1D, entity.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
                         }
                         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
                     }

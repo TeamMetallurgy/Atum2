@@ -21,13 +21,13 @@ public class FurnaceFuel {
         ItemStack stack = event.getItemStack();
         Item item = stack.getItem();
         Block block = Block.byItem(item);
-        if (item == AtumBlocks.DEADWOOD_LADDER.asItem() || item == AtumBlocks.PALM_LADDER.asItem()) {
+        if (item == AtumBlocks.DEADWOOD_LADDER.get().asItem() || item == AtumBlocks.PALM_LADDER.get().asItem()) {
             event.setBurnTime(300);
         } else if (block instanceof LinenBlock) {
             event.setBurnTime(100);
         } else if (block instanceof LinenCarpetBlock) {
             event.setBurnTime(67);
-        } else if (item == AtumItems.PALM_STICK || item == AtumItems.DEADWOOD_STICK) {
+        } else if (item == AtumItems.PALM_STICK.get() || item == AtumItems.DEADWOOD_STICK.get()) {
             event.setBurnTime(100);
         } else if (block instanceof AtumScaffoldingBlock) {
             event.setBurnTime(400);

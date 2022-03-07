@@ -31,7 +31,7 @@ public class GebsMightItem extends HammerItem implements IArtifact {
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;
-            serverLevel.sendParticles(AtumParticles.GEB, target.getX(), target.getY() + target.getEyeHeight() - 0.1D, target.getZ(), 35, d0, d1, d2, 0.04D);
+            serverLevel.sendParticles(AtumParticles.GEB.get(), target.getX(), target.getY() + target.getEyeHeight() - 0.1D, target.getZ(), 35, d0, d1, d2, 0.04D);
         }
     }
 }

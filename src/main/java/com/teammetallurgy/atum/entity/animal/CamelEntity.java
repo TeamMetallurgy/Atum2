@@ -598,7 +598,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
-        } else if (item == AtumItems.DATE) {
+        } else if (item == AtumItems.DATE.get()) {
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
@@ -614,7 +614,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
                 isEating = true;
                 this.setInLove(player);
             }
-        } else if (item == Items.GOLDEN_APPLE || item == AtumItems.GOLDEN_DATE || item == AtumItems.ENCHANTED_GOLDEN_DATE) {
+        } else if (item == Items.GOLDEN_APPLE || item == AtumItems.GOLDEN_DATE.get() || item == AtumItems.ENCHANTED_GOLDEN_DATE.get()) {
             healAmount = 10.0F;
             growthAmount = 240;
             temperAmount = 10;
@@ -739,11 +739,11 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
         public static ArmorType getByItemStack(@Nonnull ItemStack stack) {
             Item item = stack.getItem();
-            if (item == AtumItems.CAMEL_IRON_ARMOR) {
+            if (item == AtumItems.CAMEL_IRON_ARMOR.get()) {
                 return IRON;
-            } else if (item == AtumItems.CAMEL_GOLD_ARMOR) {
+            } else if (item == AtumItems.CAMEL_GOLD_ARMOR.get()) {
                 return GOLD;
-            } else if (item == AtumItems.CAMEL_DIAMOND_ARMOR) {
+            } else if (item == AtumItems.CAMEL_DIAMOND_ARMOR.get()) {
                 return DIAMOND;
             } else {
                 return NONE;

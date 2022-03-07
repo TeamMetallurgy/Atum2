@@ -35,7 +35,7 @@ public class ArrowQuickdrawEntity extends CustomArrow {
 
         if (this.isCritArrow()) {
             if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.SHU, this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.01D);
+                serverLevel.sendParticles(AtumParticles.SHU.get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

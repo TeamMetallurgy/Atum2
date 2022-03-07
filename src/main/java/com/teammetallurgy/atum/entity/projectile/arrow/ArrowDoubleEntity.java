@@ -32,7 +32,7 @@ public class ArrowDoubleEntity extends CustomArrow {
 
         if (this.isCritArrow()) {
             if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.ISIS, this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+                serverLevel.sendParticles(AtumParticles.ISIS.get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

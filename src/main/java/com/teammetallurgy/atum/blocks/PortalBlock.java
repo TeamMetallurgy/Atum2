@@ -233,7 +233,7 @@ public class PortalBlock extends HalfTransparentBlock {
 
         void placePortalBlocks() {
             for (BlockPos portalPos : BlockPos.MutableBlockPos.betweenClosed(nw, se)) {
-                this.world.setBlock(portalPos, AtumBlocks.PORTAL.defaultBlockState(), 2);
+                this.world.setBlock(portalPos, AtumBlocks.PORTAL.get().defaultBlockState(), 2);
             }
         }
     }

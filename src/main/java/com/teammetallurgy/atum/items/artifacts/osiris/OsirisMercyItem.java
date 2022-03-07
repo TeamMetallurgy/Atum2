@@ -75,7 +75,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity livingEntity = event.getEntityLiving();
-        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.OSIRIS_MERCY, livingEntity);
+        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.OSIRIS_MERCY.get(), livingEntity);
         if (optional.isPresent()) {
             if (event.getEntityLiving() instanceof Player) {
                 ItemStack anubisMercy = optional.get().getRight();
@@ -98,10 +98,10 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
                 if (player.level instanceof ServerLevel serverLevel) {
                     Random random = serverLevel.random;
                     double y = Mth.nextDouble(random, 0.01D, 0.1D);
-                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL, player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.04D, y, 0.0D, 0.075D);
-                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL, player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.0D, y, 0.04D, 0.075D);
-                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL, player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, -0.04D, y, 0.0D, 0.075D);
-                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL, player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.0D, y, -0.04D, 0.075D);
+                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.04D, y, 0.0D, 0.075D);
+                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.0D, y, 0.04D, 0.075D);
+                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, -0.04D, y, 0.0D, 0.075D);
+                    serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.0D, y, -0.04D, 0.075D);
                 }
                 player.level.playSound(null, player.blockPosition(), SoundEvents.GHAST_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }

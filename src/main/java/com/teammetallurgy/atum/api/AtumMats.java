@@ -43,7 +43,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumItems.SCRAP);
+            return Ingredient.of(AtumItems.SCRAP.get());
         }
 
         @Override
@@ -92,7 +92,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumItems.LINEN_CLOTH);
+            return Ingredient.of(AtumItems.LINEN_CLOTH.get());
         }
 
         @Override
@@ -140,7 +140,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumItems.KHNUMITE);
+            return Ingredient.of(AtumItems.KHNUMITE.get());
         }
     };
     public static final Tier LIMESTONE = new Tier() {
@@ -172,7 +172,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumBlocks.LIMESTONE_CRACKED);
+            return Ingredient.of(AtumBlocks.LIMESTONE_CRACKED.get());
         }
     };
     public static final Tier NEBU = new Tier() {
@@ -204,7 +204,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumItems.NEBU_INGOT);
+            return Ingredient.of(AtumItems.NEBU_INGOT.get());
         }
     };
     public static final ArmorMaterial NEBU_ARMOR = new ArmorMaterial() {
@@ -236,7 +236,7 @@ public class AtumMats {
         @Override
         @Nonnull
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(AtumItems.NEBU_INGOT);
+            return Ingredient.of(AtumItems.NEBU_INGOT.get());
         }
 
         @Override

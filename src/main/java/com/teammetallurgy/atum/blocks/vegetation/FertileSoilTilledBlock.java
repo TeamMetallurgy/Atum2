@@ -46,7 +46,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     @Override
     public void tick(BlockState state, @Nonnull ServerLevel serverLevel, @Nonnull BlockPos pos, @Nonnull Random rand) {
         if (!state.canSurvive(serverLevel, pos)) {
-            turnToSoil(serverLevel, pos, AtumBlocks.FERTILE_SOIL);
+            turnToSoil(serverLevel, pos, AtumBlocks.FERTILE_SOIL.get());
         }
     }
 
@@ -63,7 +63,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
             if (moisture > 0) {
                 world.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
             } else if (!this.hasCrops(world, pos)) {
-                turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL);
+                turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL.get());
             }
         } else if (moisture < 7) {
             world.setBlock(pos, state.setValue(MOISTURE, 7), 2);
@@ -83,7 +83,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
                 double d0 = rand.nextGaussian() * 0.01D;
                 double d1 = rand.nextGaussian() * 0.005D;
                 double d2 = rand.nextGaussian() * 0.01D;
-                world.addParticle(AtumParticles.TEFNUT, (float) pos.getX() + rand.nextFloat(), (double) pos.getY() + 1.05D, (float) pos.getZ() + rand.nextFloat(), d0, d1, d2);
+                world.addParticle(AtumParticles.TEFNUT.get(), (float) pos.getX() + rand.nextFloat(), (double) pos.getY() + 1.05D, (float) pos.getZ() + rand.nextFloat(), d0, d1, d2);
             }
         }
     }
@@ -91,7 +91,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     @Override
     public void fallOn(@Nonnull Level world, BlockState state, @Nonnull BlockPos pos, @Nonnull Entity entity, float fallDistance) {
         if (!world.isClientSide && entity.canTrample(this.defaultBlockState(), pos, fallDistance)) {
-            turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL);
+            turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL.get());
         }
         entity.causeFallDamage(fallDistance, 1.0F, DamageSource.FALL);
     }
@@ -119,7 +119,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
 
         if (world.getBlockState(pos.above()).getMaterial().isSolid()) {
-            turnToSoil(world, pos, AtumBlocks.SAND);
+            turnToSoil(world, pos, AtumBlocks.SAND.get());
         }
     }
 
@@ -136,7 +136,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
         super.onPlace(state, world, pos, oldState, isMoving);
 
         if (world.getBlockState(pos.above()).getMaterial().isSolid()) {
-            turnToSoil(world, pos, AtumBlocks.SAND);
+            turnToSoil(world, pos, AtumBlocks.SAND.get());
         }
     }
 

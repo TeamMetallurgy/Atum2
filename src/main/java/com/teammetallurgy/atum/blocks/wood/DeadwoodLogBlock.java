@@ -59,7 +59,7 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     @Override
     public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
         if (this.canBeStripped) {
-            return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_DEADWOOD_LOG.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
+            return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_DEADWOOD_LOG.get().defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
         } else {
             return null;
         }

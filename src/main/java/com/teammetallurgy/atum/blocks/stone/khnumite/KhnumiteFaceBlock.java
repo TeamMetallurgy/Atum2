@@ -133,13 +133,13 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
     }
 
     public static void addDispenserSupport() {
-        DispenserBlock.registerBehavior(AtumBlocks.KHNUMITE_FACE.asItem(), new OptionalDispenseItemBehavior() {
+        DispenserBlock.registerBehavior(AtumBlocks.KHNUMITE_FACE.get().asItem(), new OptionalDispenseItemBehavior() {
             @Override
             @Nonnull
             protected ItemStack execute(@Nonnull BlockSource source, @Nonnull ItemStack stack) {
                 Level world = source.getLevel();
                 BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
-                KhnumiteFaceBlock khnumiteFace = (KhnumiteFaceBlock) AtumBlocks.KHNUMITE_FACE;
+                KhnumiteFaceBlock khnumiteFace = (KhnumiteFaceBlock) AtumBlocks.KHNUMITE_FACE.get();
 
                 if (world.isEmptyBlock(pos) && khnumiteFace.canDispenserPlace(world, pos)) {
                     if (!world.isClientSide) {
@@ -161,28 +161,28 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
 
     private BlockPattern getStoneguardBasePattern() {
         if (this.stoneguardBasePattern == null) {
-            this.stoneguardBasePattern = BlockPatternBuilder.start().aisle("   ", "~#~", " # ").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stoneguardBasePattern = BlockPatternBuilder.start().aisle("   ", "~#~", " # ").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
         }
         return this.stoneguardBasePattern;
     }
 
     private BlockPattern getStoneguardPattern() {
         if (this.stoneguardPattern == null) {
-            this.stoneguardPattern = BlockPatternBuilder.start().aisle(" ^ ", "~#~", " # ").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stoneguardPattern = BlockPatternBuilder.start().aisle(" ^ ", "~#~", " # ").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
         }
         return this.stoneguardPattern;
     }
 
     private BlockPattern getStonewardenBasePattern() {
         if (this.stonewardenBasePattern == null) {
-            this.stonewardenBasePattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stonewardenBasePattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
         }
         return this.stonewardenBasePattern;
     }
 
     private BlockPattern getStonewardenPattern() {
         if (this.stonewardenPattern == null) {
-            this.stonewardenPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stonewardenPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
         }
         return this.stonewardenPattern;
     }
