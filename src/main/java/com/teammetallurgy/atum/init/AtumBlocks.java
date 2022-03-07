@@ -592,7 +592,7 @@ public class AtumBlocks {
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static <T extends Block> RegistryObject<T> registerTorchWithUnlit(@Nonnull Supplier<T> lit, @Nonnull String name) {
+    public static RegistryObject<Block> registerTorchWithUnlit(@Nonnull Supplier<Block> lit, @Nonnull String name) {
         Supplier<Block> unlitTorch = () -> new AtumTorchUnlitBlock(lit);
         Supplier<Block> wallTorchLit = () -> new AtumWallTorch(Block.Properties.copy(lit.get()).lootFrom(lit), ((AtumTorchBlock) lit.get()).getParticleType());
         Supplier<Block> wallTorchUnlit = () -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.copy(unlitTorch.get()).lootFrom(unlitTorch));
@@ -606,7 +606,7 @@ public class AtumBlocks {
         return registerBlockWithItem(lit, () -> new StandingAndWallBlockItem(lit.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
     }
 
-    public static <T extends Block> RegistryObject<T> registerTorch(@Nonnull Supplier<T> torch, @Nonnull String name) {
+    public static RegistryObject<Block> registerTorch(@Nonnull Supplier<Block> torch, @Nonnull String name) {
         Supplier<Block> wallTorchLit = () -> new AtumWallTorch(Block.Properties.copy(torch.get()).lootFrom(torch), ((AtumTorchBlock) torch.get()).getParticleType());
         registerBaseBlock(wallTorchLit, "wall_" + name);
         AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
@@ -621,26 +621,26 @@ public class AtumBlocks {
      * @param name        The name to register the block with
      * @return The Block that was registered
      */
-    public static <T extends Block> RegistryObject<T> registerScaffolding(@Nonnull Supplier<T> scaffolding, @Nonnull String name) {
+    public static RegistryObject<Block> registerScaffolding(@Nonnull Supplier<Block> scaffolding, @Nonnull String name) {
         return registerBlockWithItem(scaffolding, () -> new AtumScaffoldingItem(scaffolding.get()), name);
     }
 
     /**
      * Allows for easy registering of signs, that handles Ground Sign, Wall Sign and Item sign registration
      */
-    public static <T extends Block> RegistryObject<T> registerSign(@Nonnull Supplier<T> signBlock, @Nonnull WoodType woodType) {
+    public static RegistryObject<Block> registerSign(@Nonnull Supplier<Block> signBlock, @Nonnull WoodType woodType) {
         String typeName = woodType.name().replace("atum_", "");
         RegistryObject<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlock), woodType), typeName + "_wall_sign");
         AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlock.get(), wallSignBlock.get()), typeName + "_sign");
-        RegistryObject<Block> signBlockObject = registerBaseBlock((Supplier<Block>) signBlock, typeName + "_sign");
+        RegistryObject<Block> signBlockObject = registerBaseBlock(signBlock, typeName + "_sign");
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlockObject, wallSignBlock);
-        return (RegistryObject<T>) signBlockObject;
+        return signBlockObject;
     }
 
     /**
      * Same as {@link AtumBlocks#registerBlock(Supplier, Item.Properties, String)}, but have an empty Item.Properties set
      */
-    public static <T extends Block> RegistryObject<T> registerBlock(@Nonnull Supplier<T> block, @Nonnull String name) {
+    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nonnull String name) {
         return registerBlock(block, new Item.Properties(), name);
     }
 
@@ -649,7 +649,7 @@ public class AtumBlocks {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static <T extends Block> RegistryObject<T> registerWithRenderer(@Nonnull Supplier<T> block, @Nullable Item.Properties properties, @Nonnull String name) {
+    public static RegistryObject<Block> registerWithRenderer(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
         return registerBlockWithItem(block, () -> new BlockItemWithoutLevelRenderer(block.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
     }
 
@@ -658,14 +658,14 @@ public class AtumBlocks {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static <T extends Block> RegistryObject<T> registerBlock(@Nonnull Supplier<T> block, @Nullable Item.Properties properties, @Nonnull String name) {
+    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
         return registerBlockWithItem(block, () -> new BlockItem(block.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
     }
 
     /**
      * Same as {@link AtumBlocks#registerBaseBlock(Supplier, String)}, but allows for registering an BlockItem at the same time
      */
-    public static <T extends Block> RegistryObject<T> registerBlockWithItem(@Nonnull Supplier<T> block, Supplier<Item> blockItem, @Nonnull String name) {
+    public static RegistryObject<Block> registerBlockWithItem(@Nonnull Supplier<Block> block, Supplier<Item> blockItem, @Nonnull String name) {
         AtumItems.registerItem(blockItem, name);
         return registerBaseBlock(block, name);
     }
@@ -677,7 +677,7 @@ public class AtumBlocks {
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static <T extends Block> RegistryObject<T> registerBaseBlock(@Nonnull Supplier<T> block, @Nonnull String name) {
+    public static RegistryObject<Block> registerBaseBlock(@Nonnull Supplier<Block> block, @Nonnull String name) {
         return BLOCK_DEFERRED.register(name, block);
     }
 }

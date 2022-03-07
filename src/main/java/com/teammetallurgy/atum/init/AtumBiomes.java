@@ -8,17 +8,19 @@ import com.teammetallurgy.atum.world.biome.BiomeRegion;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumBiomes {
-    public static final List<Biome> BIOMES = Lists.newArrayList();
+    public static final DeferredRegister<Biome> BIOME_DEFERRED = DeferredRegister.create(ForgeRegistries.BIOMES, Atum.MOD_ID);
     private static final List<ResourceKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     public static final ResourceKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis("dead_oasis"), "dead_oasis", BiomeRegion.STRANGE_SANDS);  //Sub Biome
     public static final ResourceKey<Biome> DENSE_WOODS = registerBiome(AtumBiomeMaker.makeDenseWoods("dense_woods"), "dense_woods", 10, BiomeRegion.DESSICATED_WOODS);
@@ -64,9 +66,6 @@ public class AtumBiomes {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        for (Biome biome : BIOMES) {
-            event.getRegistry().register(biome);
-        }
         AtumBiomes.addBiomeTags();
     }
 
@@ -75,11 +74,9 @@ public class AtumBiomes {
      *
      * @param biome The biome to be registered
      * @param name  The name to register the biome with
-     * @return The Biome that was registered
      */
     public static void registerBiome(Biome biome, String name) {
-        biome.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
-        BIOMES.add(biome);
+        BIOME_DEFERRED.register(name, () -> biome);
     }
 
     /**
