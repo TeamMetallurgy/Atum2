@@ -37,7 +37,7 @@ public class AtumScaffoldingBlock extends ScaffoldingBlock {
         BlockState blockstate = state.setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(world, pos, i));
         if (blockstate.getValue(DISTANCE) == 7) {
             if (state.getValue(DISTANCE) == 7) {
-                world.addFreshEntity(new FallingBlockEntity(world, (double)pos.getX() + 0.5D, pos.getY(), (double)pos.getZ() + 0.5D, blockstate.setValue(WATERLOGGED, Boolean.FALSE)));
+                FallingBlockEntity.fall(world, pos, blockstate);
             } else {
                 world.destroyBlock(pos, true);
             }

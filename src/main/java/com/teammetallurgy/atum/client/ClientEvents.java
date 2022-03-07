@@ -16,7 +16,7 @@ import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -56,8 +56,8 @@ public class ClientEvents {
                 if (player.blockPosition().getY() <= 60) {
                     fogDensity += (float) (62 - player.blockPosition().getY()) * 0.00333F;
                 }
-                Optional<ResourceKey<Biome>> biome = world.getBiomeName(entity.blockPosition());
-                if (biome.isPresent() && biome.get() == AtumBiomes.OASIS) {
+                Biome biome = world.getBiome(entity.blockPosition()).value();
+                if (biome.getRegistryName() == AtumBiomes.OASIS.getRegistryName()) { //TODO Test
                     fogDensity = fogDensity / 2.0F;
                 }
 

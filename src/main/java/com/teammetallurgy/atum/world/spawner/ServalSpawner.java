@@ -41,7 +41,7 @@ public class ServalSpawner implements CustomSpawner {
                     if (!serverLevel.hasChunksAt(blockpos.getX() - 10, blockpos.getY() - 10, blockpos.getZ() - 10, blockpos.getX() + 10, blockpos.getY() + 10, blockpos.getZ() + 10)) {
                         return 0;
                     } else {
-                        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, serverLevel, blockpos, AtumEntities.SERVAL)) {
+                        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, serverLevel, blockpos, AtumEntities.SERVAL.get())) {
                             if (serverLevel.isCloseToVillage(blockpos, 2)) {
                                 return this.attemptSpawn(serverLevel, blockpos);
                             }
@@ -68,7 +68,7 @@ public class ServalSpawner implements CustomSpawner {
     }
 
     private int spawnServal(BlockPos pos, ServerLevel serverLevel) {
-        ServalEntity serval = AtumEntities.SERVAL.create(serverLevel);
+        ServalEntity serval = AtumEntities.SERVAL.get().create(serverLevel);
         if (serval == null) {
             return 0;
         } else {

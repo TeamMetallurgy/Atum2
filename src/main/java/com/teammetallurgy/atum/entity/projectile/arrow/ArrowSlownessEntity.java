@@ -20,7 +20,7 @@ public class ArrowSlownessEntity extends CustomArrow {
     private float velocity;
 
     public ArrowSlownessEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.SLOWNESS_ARROW, world);
+        this(AtumEntities.SLOWNESS_ARROW.get(), world);
     }
 
     public ArrowSlownessEntity(EntityType<? extends ArrowSlownessEntity> entityType, Level world) {
@@ -28,7 +28,7 @@ public class ArrowSlownessEntity extends CustomArrow {
     }
 
     public ArrowSlownessEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.SLOWNESS_ARROW, world, shooter);
+        super(AtumEntities.SLOWNESS_ARROW.get(), world, shooter);
         this.velocity = velocity;
     }
 

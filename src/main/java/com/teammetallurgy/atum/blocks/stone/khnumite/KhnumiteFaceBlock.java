@@ -65,7 +65,7 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
             }
 
             BlockPos stonewardenPos = patternHelper.getBlock(1, 2, 0).getPos();
-            StonewardenEntity stonewarden = AtumEntities.STONEWARDEN_FRIENDLY.create(world);
+            StonewardenEntity stonewarden = AtumEntities.STONEWARDEN_FRIENDLY.get().create(world);
             if (stonewarden != null) {
                 stonewarden.setPlayerCreated(true);
                 if (world instanceof ServerLevel) {
@@ -97,7 +97,7 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
                         }
                     }
                 }
-                StoneguardEntity stoneguard = AtumEntities.STONEGUARD_FRIENDLY.create(world);
+                StoneguardEntity stoneguard = AtumEntities.STONEGUARD_FRIENDLY.get().create(world);
                 if (stoneguard != null) {
                     stoneguard.setPlayerCreated(true);
                     if (world instanceof ServerLevel) {

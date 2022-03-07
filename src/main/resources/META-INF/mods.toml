@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[38,)"
+loaderVersion="[40,)"
 license="All Rights Reserved"
 
 [[mods]]
@@ -19,13 +19,13 @@ license="All Rights Reserved"
 [[dependencies.atum]]
     modId="forge"
     mandatory=true
-    versionRange="[39.0.75,)"
+    versionRange="[40,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.atum]]
     modId="curios"
     mandatory=true
-    versionRange="[1.18.1-5.0.3.0,)"
+    versionRange="[1.18.1-5.0.6.0,)"
     ordering="AFTER"
     side="BOTH"

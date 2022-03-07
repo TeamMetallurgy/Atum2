@@ -66,7 +66,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     public boolean canSurvive(BlockState state, @Nonnull LevelReader world, @Nonnull BlockPos pos) {
         if (state.getBlock() == this) {
             BlockState stateUp = world.getBlockState(pos.above());
-            return BlockTags.LEAVES.contains(stateUp.getBlock());
+            return stateUp.is(BlockTags.LEAVES);
         }
         return super.mayPlaceOn(world.getBlockState(pos.below()), world, pos);
     }

@@ -47,7 +47,7 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos));
+                Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos).value());
                 if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
                     world.setBlock(pos, AtumBlocks.SAND.defaultBlockState(), 2);
                 }

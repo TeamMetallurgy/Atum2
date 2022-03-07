@@ -54,12 +54,12 @@ public class DimensionHelper {
         return Mth.hsvToRgb(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
     }
 
-    public static boolean canPlaceSandLayer(WorldGenLevel world, BlockPos pos) {
+    public static boolean canPlaceSandLayer(ServerLevel world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.below());
-        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos));
+        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos).value());
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
-                && !StructureHelper.doesChunkHaveStructure(world, pos, StructureFeature.VILLAGE)
+                //&& !StructureHelper.doesChunkHaveStructure(world, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
                 && world.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED

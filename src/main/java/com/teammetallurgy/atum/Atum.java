@@ -5,6 +5,12 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
+import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
@@ -18,8 +24,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -44,8 +48,6 @@ public class Atum {
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final CreativeModeTab GROUP = new AtumItemGroup();
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "atum"));
-    public static final ResourceKey<LevelStem> ATUM_LEVEL = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, new ResourceLocation(Atum.MOD_ID, "atum"));
-    public static final ResourceKey<DimensionType> ATUM_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(Atum.MOD_ID, "atum"));
     public static final Codec<AtumBiomeSource> ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
@@ -55,11 +57,11 @@ public class Atum {
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
         modBus.addListener(this::interModComms);
+        registerDeferredRegistries(modBus);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
         AtumAPI.Tags.init();
-        AtumRegistry.registerDeferredRegistries(modBus);
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
@@ -90,5 +92,14 @@ public class Atum {
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.RING.getMessageBuilder().build());
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
+    }
+
+    public static void registerDeferredRegistries(IEventBus modBus) {
+        AtumBlocks.BLOCK_DEFERRED.register(modBus);
+        AtumItems.ITEM_DEFERRED.register(modBus);
+        AtumEntities.ENTITY_DEFERRED.register(modBus);
+        AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
+        AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
+        AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
     }
 }

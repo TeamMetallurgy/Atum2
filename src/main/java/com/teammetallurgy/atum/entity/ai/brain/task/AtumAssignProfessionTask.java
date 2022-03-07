@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.entity.ai.brain.task;
 import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
-import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.MinecraftServer;
@@ -25,7 +24,7 @@ public class AtumAssignProfessionTask extends Behavior<Villager> {
     @Override
     protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, Villager owner) {
         BlockPos pos = owner.getBrain().getMemory(MemoryModuleType.POTENTIAL_JOB_SITE).get().pos();
-        return pos.closerThan(owner.position(), 2.0D) || owner.assignProfessionWhenSpawned();
+        return pos.closerThan(owner.blockPosition(), 2.0D) || owner.assignProfessionWhenSpawned();
     }
 
     @Override
@@ -39,7 +38,7 @@ public class AtumAssignProfessionTask extends Behavior<Villager> {
             Optional.ofNullable(minecraftserver.getLevel(globalpos.dimension())).flatMap((w) -> {
                 return w.getPoiManager().getType(globalpos.pos());
             }).flatMap((poiType) -> {
-                return AtumRegistry.VILLAGER_PROFESSION.get().getValues().stream().filter((profession) -> {
+                return AtumVillagerProfession.villagerProfession.get().getValues().stream().filter((profession) -> {
                     return profession.getPointOfInterest() == poiType;
                 }).findFirst();
             }).ifPresent((profession) -> {

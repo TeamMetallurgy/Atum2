@@ -100,7 +100,7 @@ public class SandstormRendering {
 
             BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
             boolean sky = player.level.canSeeSkyFromBelowWater(playerPos);
-            Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(player.level.getBiome(playerPos));
+            Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(player.level.getBiome(playerPos).value());
             if (!sky || playerPos.getY() < 50 ||  biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) {
                 intensity -= 0.006F * partialTicks;
                 intensity = Math.max(0, intensity);

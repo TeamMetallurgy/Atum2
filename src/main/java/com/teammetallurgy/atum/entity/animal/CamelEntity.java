@@ -170,7 +170,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     @Override
     public AgeableMob getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
-        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL, this.level);
+        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL.get(), this.level);
         camel.finalizeSpawn(world, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;
     }
@@ -197,7 +197,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     private int getCamelVariantBiome() {
-        Biome biome = this.level.getBiome(this.blockPosition());
+        Biome biome = this.level.getBiome(this.blockPosition()).value();
         int chance = this.random.nextInt(100);
 
         Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
@@ -378,7 +378,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return ItemTags.CARPETS.contains(stack.getItem()) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
+        return stack.is(ItemTags.CARPETS) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
     }
 
     @Override
@@ -587,7 +587,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         int temperAmount = 0;
         Item item = stack.getItem();
 
-        if (Tags.Items.CROPS_WHEAT.contains(item)) {
+        if (stack.is(Tags.Items.CROPS_WHEAT)) {
             healAmount = 2.0F;
             growthAmount = 20;
             temperAmount = 3;

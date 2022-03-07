@@ -54,7 +54,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                             if (!serverLevel.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverLevel, mutablePos, AtumStructures.PYRAMID_STRUCTURE)*/) { //TODO Uncomment when structures are re-added
                                 return 0;
                             } else {
-                                Biome biome = serverLevel.getBiome(mutablePos);
+                                Biome biome = serverLevel.getBiome(mutablePos).value();
                                 Optional<ResourceKey<Biome>> biomeKey = serverLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
                                 if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
                                     return 0;
@@ -67,7 +67,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                                         ++amount;
                                         mutablePos.setY(serverLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                         if (size == 0) {
-                                            SergeantEntity leader = AtumEntities.SERGEANT.create(serverLevel);
+                                            SergeantEntity leader = AtumEntities.SERGEANT.get().create(serverLevel);
                                             if (leader != null) {
                                                 if (this.spawnLeader(leader, serverLevel, mutablePos, rand)) {
                                                     leadingEntity = leader;
@@ -139,11 +139,11 @@ public class BanditPatrolSpawner implements CustomSpawner {
     private EntityType<? extends BanditBaseEntity> getEntityType(Random rand) {
         double chance = rand.nextDouble();
         if (chance <= 0.5D) {
-            return AtumEntities.BRIGAND;
+            return AtumEntities.BRIGAND.get();
         } else if (chance > 0.5D && chance < 0.87D) {
-            return AtumEntities.NOMAD;
+            return AtumEntities.NOMAD.get();
         } else {
-            return AtumEntities.BARBARIAN;
+            return AtumEntities.BARBARIAN.get();
         }
     }
 }

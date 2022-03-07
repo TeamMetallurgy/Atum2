@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.misc.StackHelper;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -12,6 +14,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -61,7 +64,7 @@ public class RecipeGenerator extends RecipeProvider {
                 ShapedRecipeBuilder.shaped(getBlockFromName("ceramic_wall_" + colorName), 6).define('#', ceramic).pattern("###").pattern("###").unlockedBy("has_white_ceramic", this.has(AtumBlocks.CERAMIC_WHITE)).save(consumer);
                 ShapedRecipeBuilder.shaped(getBlockFromName("linen_carpet_" + colorName), 3).define('#', getBlockFromName("linen_" + colorName)).pattern("##").group("carpet").unlockedBy("has_white_linen", this.has(AtumBlocks.LINEN_WHITE)).save(consumer);
                 //Add tag versions of the following vanilla recipes
-                ShapelessRecipeBuilder.shapeless(StackHelper.getBlockFromName(new ResourceLocation(colorName + "_concrete_powder")), 8).requires(dye).requires(Ingredient.of(ItemTags.SAND), 4).requires(Ingredient.of(Tags.Items.GRAVEL), 4).group("concrete_powder").unlockedBy("has_sand", this.has(Tags.Items.SAND)).unlockedBy("has_gravel", this.has(Tags.Items.GRAVEL)).save(consumer);
+                ShapelessRecipeBuilder.shapeless(StackHelper.getBlockFromName(new ResourceLocation(colorName + "_concrete_powder")), 8).requires(dye).requires(Ingredient.of(ItemTags.SAND), 4).requires(Ingredient.of(Tags.Items.GRAVEL), 4).group("concrete_powder").unlockedBy("has_sand", this.hasTag(Tags.Items.SAND)).unlockedBy("has_gravel", this.hasTag(Tags.Items.GRAVEL)).save(consumer);
             }
         }
         for (God god : God.values()) {
@@ -69,5 +72,9 @@ public class RecipeGenerator extends RecipeProvider {
             ShapedRecipeBuilder.shaped(getBlockFromName("torch_of_" + godName), 4).define('S', getItemFromName(godName + "_godshard")).define('T', AtumBlocks.NEBU_TORCH).pattern(" T ").pattern("TST").pattern(" T ").unlockedBy("has_nebu_torch", this.has(AtumBlocks.NEBU_TORCH)).save(consumer);
             ShapelessRecipeBuilder.shapeless(getBlockFromName("lantern_of_" + godName)).requires(AtumBlocks.NEBU_LANTERN).requires(getItemFromName(godName + "_godshard")).unlockedBy("has_nebu_lantern", this.has(AtumBlocks.NEBU_LANTERN)).save(consumer);
         }
+    }
+
+    public static InventoryChangeTrigger.TriggerInstance hasTag(TagKey<Item> p_206407_) {
+        return inventoryTrigger(ItemPredicate.Builder.item().of(p_206407_).build());
     }
 }

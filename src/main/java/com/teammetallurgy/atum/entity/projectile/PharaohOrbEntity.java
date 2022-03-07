@@ -46,7 +46,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     private static float berserkDamage;
 
     public PharaohOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(AtumEntities.PHARAOH_ORB, world);
+        super(AtumEntities.PHARAOH_ORB.get(), world);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
         this.god = God.getGodByName(spawnEntity.getAdditionalData().readUtf());
@@ -60,7 +60,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     }
 
     public PharaohOrbEntity(Level world, PharaohEntity shooter, God god) {
-        super(AtumEntities.PHARAOH_ORB, world, shooter.getX(), shooter.getEyeY() - (double) 0.3F, shooter.getZ());
+        super(AtumEntities.PHARAOH_ORB.get(), world, shooter.getX(), shooter.getEyeY() - (double) 0.3F, shooter.getZ());
         this.setOwner(shooter);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());

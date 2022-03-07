@@ -16,7 +16,7 @@ public class ArrowRainEntity extends CustomArrow {
     private boolean isSmallArrow = false;
 
     public ArrowRainEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.RAIN_ARROW, world);
+        this(AtumEntities.RAIN_ARROW.get(), world);
     }
 
     public ArrowRainEntity(EntityType<? extends ArrowRainEntity> entityType, Level world) {
@@ -24,12 +24,12 @@ public class ArrowRainEntity extends CustomArrow {
     }
 
     public ArrowRainEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.RAIN_ARROW, world, shooter);
+        super(AtumEntities.RAIN_ARROW.get(), world, shooter);
         this.velocity = velocity;
     }
 
     public ArrowRainEntity(Level world, double x, double y, double z, boolean canPickup) { //Small arrow constructor
-        super(AtumEntities.RAIN_ARROW, world, x, y, z);
+        super(AtumEntities.RAIN_ARROW.get(), world, x, y, z);
         this.isSmallArrow = true;
         this.pickup = canPickup ? Pickup.ALLOWED : Arrow.Pickup.DISALLOWED;
     }

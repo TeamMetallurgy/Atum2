@@ -97,7 +97,7 @@ public class AtumFarmTask extends Behavior<Villager> {
 
     @Override
     protected void tick(@Nonnull ServerLevel world, @Nonnull Villager owner, long gameTime) {
-        if (this.pos == null || this.pos.closerThan(owner.position(), 1.0D)) {
+        if (this.pos == null || this.pos.closerThan(owner.blockPosition(), 1.0D)) {
             if (this.pos != null && gameTime > this.taskCooldown) {
                 BlockState blockstate = world.getBlockState(this.pos);
                 Block block = blockstate.getBlock();

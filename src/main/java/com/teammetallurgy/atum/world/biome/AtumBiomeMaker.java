@@ -231,19 +231,19 @@ public class AtumBiomeMaker { //TODO
 
     public static void addDefaultSpawns(String biomeName) {
         //Animals
-        addSpawn(biomeName, AtumEntities.DESERT_RABBIT, 5, 2, 3, MobCategory.CREATURE);
+        addSpawn(biomeName, AtumEntities.DESERT_RABBIT.get(), 5, 2, 3, MobCategory.CREATURE);
         addSpawn(biomeName, EntityType.BAT, 4, 4, 8, MobCategory.AMBIENT);
-        addSpawn(biomeName, AtumEntities.QUAIL, 3, 2, 4, MobCategory.CREATURE);
+        addSpawn(biomeName, AtumEntities.QUAIL.get(), 3, 2, 4, MobCategory.CREATURE);
 
         //Undead
-        addSpawn(biomeName, AtumEntities.BONESTORM, 5, 1, 2, MobCategory.MONSTER);
-        addSpawn(biomeName, AtumEntities.FORSAKEN, 22, 1, 4, MobCategory.MONSTER);
-        addSpawn(biomeName, AtumEntities.MUMMY, 30, 1, 3, MobCategory.MONSTER);
-        addSpawn(biomeName, AtumEntities.WRAITH, 10, 1, 2, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.BONESTORM.get(), 5, 1, 2, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.FORSAKEN.get(), 22, 1, 4, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.MUMMY.get(), 30, 1, 3, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.WRAITH.get(), 10, 1, 2, MobCategory.MONSTER);
 
         //Underground
-        addSpawn(biomeName, AtumEntities.STONEGUARD, 34, 1, 2, MobCategory.MONSTER);
-        addSpawn(biomeName, AtumEntities.TARANTULA, 20, 1, 3, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.STONEGUARD.get(), 34, 1, 2, MobCategory.MONSTER);
+        addSpawn(biomeName, AtumEntities.TARANTULA.get(), 20, 1, 3, MobCategory.MONSTER);
     }
 
     public static void addSpawn(String biomeName, EntityType<?> entityType, int weight, int min, int max, MobCategory classification) {
@@ -254,11 +254,11 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static void addCamelSpawning(String biomeName) {
-        addSpawn(biomeName, AtumEntities.CAMEL, 6, 2, 6, MobCategory.CREATURE);
+        addSpawn(biomeName, AtumEntities.CAMEL.get(), 6, 2, 6, MobCategory.CREATURE);
     }
 
     public static void addDesertWolfSpawning(String biomeName) {
-        addSpawn(biomeName, AtumEntities.DESERT_WOLF, 6, 2, 4, MobCategory.CREATURE);
+        addSpawn(biomeName, AtumEntities.DESERT_WOLF.get(), 6, 2, 4, MobCategory.CREATURE);
     }
 
     public static class Builder extends Biome.BiomeBuilder {

@@ -293,10 +293,10 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         Block block = Block.byItem(stack.getItem());
 
         return AtumRecipeTypes.kilnBlacklist.contains(item.getRegistryName()) || AtumRecipeTypes.kilnBlacklist.contains(block.getRegistryName()) ||
-                item.isEdible() || block instanceof OreBlock || ItemTags.COALS.contains(item) || ORES_COAL.contains(item) || STORAGE_BLOCKS_COAL.contains(item) ||
-                ItemTags.PLANKS.contains(item) || ItemTags.LOGS.contains(item) || RODS_WOODEN.contains(item) || ItemTags.SMALL_FLOWERS.contains(item) ||
-                ORES.contains(item) || INGOTS.contains(item) && !INGOTS_BRICK.contains(item) || NUGGETS.contains(item) || GEMS.contains(item) || DUSTS.contains(item) ||
-                DYES.contains(item) || SLIMEBALLS.contains(item) || LEATHER.contains(item) || block instanceof SpongeBlock;
+                item.isEdible() || block instanceof OreBlock || stack.is(ItemTags.COALS) ||stack.is( ORES_COAL) || stack.is(STORAGE_BLOCKS_COAL) ||
+                stack.is(ItemTags.PLANKS) || stack.is(ItemTags.LOGS) || stack.is(RODS_WOODEN) || stack.is(ItemTags.SMALL_FLOWERS) ||
+                stack.is(ORES) || stack.is(INGOTS) && !stack.is(INGOTS_BRICK) || stack.is(NUGGETS) || stack.is(GEMS) || stack.is(DUSTS) || 
+                stack.is(DYES) || stack.is(SLIMEBALLS) || stack.is(LEATHER) || block instanceof SpongeBlock;
     }
 
     @Override

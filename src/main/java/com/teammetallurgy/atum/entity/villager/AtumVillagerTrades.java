@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
@@ -87,14 +89,16 @@ public class AtumVillagerTrades {
 
     static class CoinsForMapTrade implements VillagerTrades.ItemListing {
         private final int count;
-        private final StructureFeature<?> structureName;
+        private final TagKey<ConfiguredStructureFeature<?, ?>> destination;
+        private final String displayName;
         private final MapDecoration.Type mapDecorationType;
         private final int maxUses;
         private final int xpValue;
 
-        public CoinsForMapTrade(int count, StructureFeature<?> structureName, MapDecoration.Type mapDecorationType, int maxUses, int xpValue) {
+        public CoinsForMapTrade(int count, TagKey<ConfiguredStructureFeature<?, ?>> structureName, String displayName, MapDecoration.Type mapDecorationType, int maxUses, int xpValue) {
             this.count = count;
-            this.structureName = structureName;
+            this.destination = structureName;
+            this.displayName = displayName;
             this.mapDecorationType = mapDecorationType;
             this.maxUses = maxUses;
             this.xpValue = xpValue;
@@ -102,16 +106,15 @@ public class AtumVillagerTrades {
 
         @Nullable
         public MerchantOffer getOffer(Entity trader, @Nonnull Random rand) {
-            if (!(trader.level instanceof ServerLevel)) {
+            if (!(trader.level instanceof ServerLevel serverLevel)) {
                 return null;
             } else {
-                ServerLevel serverLevel = (ServerLevel) trader.level;
-                BlockPos pos = serverLevel.findNearestMapFeature(this.structureName, trader.blockPosition(), 100, true);
+                BlockPos pos = serverLevel.findNearestMapFeature(this.destination, trader.blockPosition(), 100, true);
                 if (pos != null) {
                     ItemStack mapStack = MapItem.create(serverLevel, pos.getX(), pos.getZ(), (byte) 2, true, true);
                     MapItem.renderBiomePreviewMap(serverLevel, mapStack);
                     MapItemSavedData.addTargetDecoration(mapStack, pos, "+", this.mapDecorationType);
-                    mapStack.setHoverName(new TranslatableComponent("filled_map." + this.structureName.getFeatureName().toLowerCase(Locale.ROOT)));
+                    mapStack.setHoverName(new TranslatableComponent(this.displayName));
                     return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN, this.count), new ItemStack(Items.COMPASS), mapStack, this.maxUses, this.xpValue, 0.2F);
                 } else {
                     return null;

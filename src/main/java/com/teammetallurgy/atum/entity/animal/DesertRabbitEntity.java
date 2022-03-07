@@ -50,7 +50,7 @@ public class DesertRabbitEntity extends Rabbit {
 
     @Override
     protected int getRandomRabbitType(LevelAccessor world) {
-        Biome biome = world.getBiome(this.blockPosition());
+        Biome biome = world.getBiome(this.blockPosition()).value();
         int i = this.random.nextInt(100);
 
         Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
@@ -85,13 +85,12 @@ public class DesertRabbitEntity extends Rabbit {
 
     @Override
     public boolean isFood(@Nonnull ItemStack stack) {
-        Item item = stack.getItem();
-        return AtumAPI.Tags.CROPS_FLAX.contains(item) || super.isFood(stack);
+        return stack.is(AtumAPI.Tags.CROPS_FLAX) || super.isFood(stack);
     }
 
     @Override
     public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
-        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.level);
+        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.get().create(this.level);
         int type = this.getRandomRabbitType(this.level);
 
         if (rabbit != null) {

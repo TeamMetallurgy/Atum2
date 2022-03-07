@@ -30,12 +30,12 @@ public class CreateBabyVillagerWithGenderTask extends VillagerMakeLove {
 
     private boolean canBreed(AtumVillagerEntity villager) {
         Brain<Villager> brain = villager.getBrain();
-        Optional<AgeableMob> optional = brain.getMemory(MemoryModuleType.BREED_TARGET).filter((breedTarget) -> (villager.getType() == AtumEntities.VILLAGER_MALE && breedTarget.getType() == AtumEntities.VILLAGER_FEMALE) || villager.getType() == AtumEntities.VILLAGER_FEMALE && breedTarget.getType() == AtumEntities.VILLAGER_MALE);
+        Optional<AgeableMob> optional = brain.getMemory(MemoryModuleType.BREED_TARGET).filter((breedTarget) -> (villager.getType() == AtumEntities.VILLAGER_MALE.get() && breedTarget.getType() == AtumEntities.VILLAGER_FEMALE.get()) || villager.getType() == AtumEntities.VILLAGER_FEMALE.get() && breedTarget.getType() == AtumEntities.VILLAGER_MALE.get());
         return optional.filter(ageableMob -> isCorrectVisibleType(brain, MemoryModuleType.BREED_TARGET, villager.getType()) && villager.canBreed() && ageableMob.canBreed()).isPresent();
     }
 
     public static boolean isCorrectVisibleType(Brain<?> brains, MemoryModuleType<? extends LivingEntity> memorymodule, EntityType<?> type) {
-        return canSeeEntity(brains, memorymodule, (livingEntity) -> (livingEntity.getType() == AtumEntities.VILLAGER_MALE && type == AtumEntities.VILLAGER_FEMALE) || livingEntity.getType() == AtumEntities.VILLAGER_FEMALE && type == AtumEntities.VILLAGER_MALE);
+        return canSeeEntity(brains, memorymodule, (livingEntity) -> (livingEntity.getType() == AtumEntities.VILLAGER_MALE.get() && type == AtumEntities.VILLAGER_FEMALE.get()) || livingEntity.getType() == AtumEntities.VILLAGER_FEMALE.get() && type == AtumEntities.VILLAGER_MALE.get());
     }
 
     private static boolean canSeeEntity(Brain<?> brain, MemoryModuleType<? extends LivingEntity> memoryType, Predicate<LivingEntity> livingPredicate) {

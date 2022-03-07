@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.entity.villager.Race;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +20,7 @@ public class AtumDataSerializer {
     public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
         @Override
         public void write(FriendlyByteBuf buf, AtumVillagerData value) {
-            buf.writeUtf(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
+            buf.writeUtf(AtumVillagerProfession.villagerProfession.get().getKey(value.getAtumProfession()).toString());
             buf.writeVarInt(value.getLevel());
             buf.writeEnum(value.getRace());
         }
@@ -27,7 +28,7 @@ public class AtumDataSerializer {
         @Override
         @Nonnull
         public AtumVillagerData read(FriendlyByteBuf buf) {
-            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readUtf())), buf.readVarInt(), buf.readEnum(Race.class));
+            return new AtumVillagerData(AtumVillagerProfession.villagerProfession.get().getValue(new ResourceLocation(buf.readUtf())), buf.readVarInt(), buf.readEnum(Race.class));
         }
 
         @Override

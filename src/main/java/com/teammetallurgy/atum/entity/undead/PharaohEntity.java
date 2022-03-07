@@ -41,6 +41,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
@@ -153,7 +154,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
     @Override
     protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
+        Item scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(scepter));
         }
@@ -448,8 +449,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     private void trySpawnMummy(BlockPos pos, Direction facing) {
         BlockPos base = pos.relative(facing);
 
-        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, base, AtumEntities.MUMMY)) {
-            MummyEntity mummy = AtumEntities.MUMMY.create(this.level);
+        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, base, AtumEntities.MUMMY.get())) {
+            MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level);
 
             if (mummy != null) {
                 if (this.level instanceof ServerLevel) {
@@ -467,8 +468,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
         for (Direction offset : Direction.Plane.HORIZONTAL) {
             BlockPos newPos = base.relative(offset);
-            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, newPos, AtumEntities.MUMMY)) {
-                MummyEntity mummy = AtumEntities.MUMMY.create(this.level);
+            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, newPos, AtumEntities.MUMMY.get())) {
+                MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level);
                 if (mummy != null) {
                     if (this.level instanceof ServerLevel) {
                         mummy.finalizeSpawn((ServerLevelAccessor) level, this.level.getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);

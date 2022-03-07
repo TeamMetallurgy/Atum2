@@ -100,7 +100,7 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     }
 
     private void spawnAssassin(ServerLevel world, BlockPos pos, Random rand, LivingEntity markedTarget) {
-        EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN;
+        EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN.get();
         BlockState state = world.getBlockState(pos);
         if (NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType) && AssassinEntity.canSpawn(entityType, world, MobSpawnType.EVENT, pos, rand)) {
             AssassinEntity assassin = entityType.create(world);

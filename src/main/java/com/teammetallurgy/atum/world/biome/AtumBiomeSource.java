@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
@@ -8,15 +7,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammetallurgy.atum.Atum;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.RegistryLookupCodec;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.VisibleForDebug;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -26,28 +26,28 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class AtumBiomeSource extends BiomeSource {
-    public static final MapCodec<AtumBiomeSource> DIRECT_CODEC = RecordCodecBuilder.mapCodec((p_187070_) -> {
-        return p_187070_.group(ExtraCodecs.nonEmptyList(RecordCodecBuilder.<Pair<Climate.ParameterPoint, Supplier<Biome>>>create((p_187078_) -> {
-            return p_187078_.group(Climate.ParameterPoint.CODEC.fieldOf("parameters").forGetter(Pair::getFirst), Biome.CODEC.fieldOf("biome").forGetter(Pair::getSecond)).apply(p_187078_, Pair::of);
-        }).listOf()).xmap(Climate.ParameterList::new, Climate.ParameterList::values).fieldOf("biomes").forGetter((p_187080_) -> {
-            return p_187080_.parameters;
-        })).apply(p_187070_, AtumBiomeSource::new);
+    public static final MapCodec<AtumBiomeSource> DIRECT_CODEC = RecordCodecBuilder.mapCodec((k) -> {
+        return k.group(ExtraCodecs.nonEmptyList(RecordCodecBuilder.<Pair<Climate.ParameterPoint, Holder<Biome>>>create((p) -> {
+            return p.group(Climate.ParameterPoint.CODEC.fieldOf("parameters").forGetter(Pair::getFirst), Biome.CODEC.fieldOf("biome").forGetter(Pair::getSecond)).apply(p, Pair::of);
+        }).listOf()).xmap(Climate.ParameterList::new, Climate.ParameterList::values).fieldOf("biomes").forGetter((biomeSource) -> {
+            return biomeSource.parameters;
+        })).apply(k, AtumBiomeSource::new);
     });
-    public static final Codec<AtumBiomeSource> CODEC = Codec.mapEither(PresetInstance.CODEC, DIRECT_CODEC).xmap((p_187068_) -> {
-        return p_187068_.map(PresetInstance::biomeSource, Function.identity());
-    }, (p_187066_) -> {
-        return p_187066_.preset().map(Either::<PresetInstance, AtumBiomeSource>left).orElseGet(() -> {
-            return Either.right(p_187066_);
+    public static final Codec<AtumBiomeSource> CODEC = Codec.mapEither(PresetInstance.CODEC, DIRECT_CODEC).xmap((e) -> {
+        return e.map(PresetInstance::biomeSource, Function.identity());
+    }, (biomeSource) -> {
+        return biomeSource.preset().map(Either::<PresetInstance, AtumBiomeSource>left).orElseGet(() -> {
+            return Either.right(biomeSource);
         });
     }).codec();
-    private final Climate.ParameterList<Supplier<Biome>> parameters;
+    private final Climate.ParameterList<Holder<Biome>> parameters;
     private final Optional<PresetInstance> preset;
 
-    private AtumBiomeSource(Climate.ParameterList<Supplier<Biome>> parameters) {
+    private AtumBiomeSource(Climate.ParameterList<Holder<Biome>> parameters) {
         this(parameters, Optional.empty());
     }
 
-    AtumBiomeSource(Climate.ParameterList<Supplier<Biome>> parameters, Optional<PresetInstance> preset) {
+    AtumBiomeSource(Climate.ParameterList<Holder<Biome>> parameters, Optional<PresetInstance> preset) {
         super(parameters.values().stream().map(Pair::getSecond));
         this.preset = preset;
         this.parameters = parameters;
@@ -65,12 +65,6 @@ public class AtumBiomeSource extends BiomeSource {
         return this;
     }
 
-    @Override
-    @Nonnull
-    public Biome getNoiseBiome(int i, int i1, int i2, Climate.Sampler sampler) {
-        return this.getNoiseBiome(sampler.sample(i, i1, i2));
-    }
-
     private Optional<PresetInstance> preset() {
         return this.preset;
     }
@@ -79,40 +73,39 @@ public class AtumBiomeSource extends BiomeSource {
         return this.preset.isPresent() && Objects.equals(this.preset.get().preset(), p_187064_);
     }
 
+    @Override
+    @Nonnull
+    public Holder<Biome> getNoiseBiome(int i, int i1, int i2, Climate.Sampler sampler) {
+        return this.getNoiseBiome(sampler.sample(i, i1, i2));
+    }
+
     @VisibleForDebug
-    public Biome getNoiseBiome(Climate.TargetPoint targetPoint) {
-        return this.parameters.findValue(targetPoint, () -> net.minecraft.data.worldgen.biome.Biomes.THE_VOID).get();
+    public Holder<Biome> getNoiseBiome(Climate.TargetPoint targetPoint) {
+        return this.parameters.findValue(targetPoint);
     }
 
     public static class Preset {
         static final Map<ResourceLocation, Preset> BY_NAME = Maps.newHashMap();
-        public static final Preset ATUM = new Preset(new ResourceLocation(Atum.MOD_ID, "atum"), (p_187108_) -> {
-            ImmutableList.Builder<Pair<Climate.ParameterPoint, Supplier<Biome>>> builder = ImmutableList.builder();
-            (new AtumBiomeBuilder()).addBiomes((p_187098_) -> {
-                builder.add(p_187098_.mapSecond((p_187103_) -> () -> p_187108_.getOrThrow(p_187103_)));
-            });
-            return new Climate.ParameterList<>(builder.build());
-        });
         final ResourceLocation name;
-        private final Function<Registry<Biome>, Climate.ParameterList<Supplier<Biome>>> parameterSource;
+        private final Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> parameterSource;
 
-        public Preset(ResourceLocation p_187090_, Function<Registry<Biome>, Climate.ParameterList<Supplier<Biome>>> p_187091_) {
-            this.name = p_187090_;
-            this.parameterSource = p_187091_;
-            BY_NAME.put(p_187090_, this);
+        public Preset(ResourceLocation resourceLocation, Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> parameterSource) {
+            this.name = resourceLocation;
+            this.parameterSource = parameterSource;
+            BY_NAME.put(resourceLocation, this);
         }
 
-        AtumBiomeSource biomeSource(PresetInstance p_187093_, boolean p_187094_) {
-            Climate.ParameterList<Supplier<Biome>> parameterlist = this.parameterSource.apply(p_187093_.biomes());
-            return new AtumBiomeSource(parameterlist, p_187094_ ? Optional.of(p_187093_) : Optional.empty());
+        AtumBiomeSource biomeSource(PresetInstance presetInstance, boolean b) {
+            Climate.ParameterList<Holder<Biome>> parameterlist = this.parameterSource.apply(presetInstance.biomes());
+            return new AtumBiomeSource(parameterlist, b ? Optional.of(presetInstance) : Optional.empty());
         }
 
-        public AtumBiomeSource biomeSource(Registry<Biome> p_187105_, boolean p_187106_) {
-            return this.biomeSource(new PresetInstance(this, p_187105_), p_187106_);
+        public AtumBiomeSource biomeSource(Registry<Biome> registry, boolean b) {
+            return this.biomeSource(new PresetInstance(this, registry), b);
         }
 
-        public AtumBiomeSource biomeSource(Registry<Biome> p_187100_) {
-            return this.biomeSource(p_187100_, true);
+        public AtumBiomeSource biomeSource(Registry<Biome> registry) {
+            return this.biomeSource(registry, true);
         }
     }
 
@@ -124,7 +117,7 @@ public class AtumBiomeSource extends BiomeSource {
                 });
             }, (p_151867_) -> {
                 return DataResult.success(p_151867_.name);
-            }).fieldOf("preset").stable().forGetter(PresetInstance::preset), RegistryLookupCodec.create(Registry.BIOME_REGISTRY).forGetter(PresetInstance::biomes)).apply(p_48558_, p_48558_.stable(PresetInstance::new));
+            }).fieldOf("preset").stable().forGetter(PresetInstance::preset), RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter(PresetInstance::biomes)).apply(p_48558_, p_48558_.stable(PresetInstance::new));
         });
 
         public AtumBiomeSource biomeSource() {

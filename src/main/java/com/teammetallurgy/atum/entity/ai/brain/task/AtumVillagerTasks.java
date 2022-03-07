@@ -37,7 +37,7 @@ import java.util.Optional;
 public class AtumVillagerTasks { //Added EntityType parameter to all methods. Noted when additional changes have been made. Removed raid tasks
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> core(EntityType<? extends AtumVillagerEntity> entityType, AtumVillagerProfession profession, float f) { //SwitchAtumVillagerJobTask, AtumFindJobTask changed, AtumAssignProfessionTask, AtumChangeJobTask changed
-        return ImmutableList.of(Pair.of(0, new Swim(0.8F)), Pair.of(0, new InteractWithDoor()), Pair.of(0, new LookAtTargetSink(45, 90)), Pair.of(0, new VillagerPanicTrigger()), Pair.of(0, new WakeUp()), Pair.of(0, new ReactToBell()), Pair.of(0, new SetRaidStatus()), Pair.of(0, new ValidateNearbyPoi(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE)), Pair.of(0, new ValidateNearbyPoi(profession.getPointOfInterest(), MemoryModuleType.POTENTIAL_JOB_SITE)), Pair.of(1, new MoveToTargetSink()), Pair.of(2, new SwitchAtumVillagerJobTask(profession)), Pair.of(3, new LookAndFollowTradingPlayerSink(f)), Pair.of(3, new CuratorStartAdmiringItemTask<>()), Pair.of(3, new CuratorAdmireItemTask<>(80)), Pair.of(5, new GoToWantedItem<>(f, profession == AtumVillagerProfession.CURATOR.get(), profession == AtumVillagerProfession.CURATOR.get() ? 9 : 4)), Pair.of(6, new AcquirePoi(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())), Pair.of(7, new GoToPotentialJobSite(f)), Pair.of(8, new AtumFindJobTask(f)), Pair.of(10, new AcquirePoi(PoiType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))), Pair.of(10, new AcquirePoi(PoiType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))), Pair.of(10, new AtumAssignProfessionTask()), Pair.of(10, new AtumChangeJobTask()));
+        return ImmutableList.of(Pair.of(0, new Swim(0.8F)), Pair.of(0, new InteractWithDoor()), Pair.of(0, new LookAtTargetSink(45, 90)), Pair.of(0, new VillagerPanicTrigger()), Pair.of(0, new WakeUp()), Pair.of(0, new ReactToBell()), Pair.of(0, new SetRaidStatus()), Pair.of(0, new ValidateNearbyPoi(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE)), Pair.of(0, new ValidateNearbyPoi(profession.getPointOfInterest(), MemoryModuleType.POTENTIAL_JOB_SITE)), Pair.of(1, new MoveToTargetSink()), Pair.of(2, new SwitchAtumVillagerJobTask(profession)), Pair.of(3, new LookAndFollowTradingPlayerSink(f)), Pair.of(3, new CuratorStartAdmiringItemTask<>()), Pair.of(3, new CuratorAdmireItemTask<>(80)), Pair.of(5, new GoToWantedItem<>(f, false /*Remove false*/, /*profession == AtumVillagerProfession.CURATOR.get(), profession == AtumVillagerProfession.CURATOR.get() ? 9 :TODO*/ 4)), Pair.of(6, new AcquirePoi(profession.getPointOfInterest(), MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, true, Optional.empty())), Pair.of(7, new GoToPotentialJobSite(f)), Pair.of(8, new AtumFindJobTask(f)), Pair.of(10, new AcquirePoi(PoiType.HOME, MemoryModuleType.HOME, false, Optional.of((byte) 14))), Pair.of(10, new AcquirePoi(PoiType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))), Pair.of(10, new AtumAssignProfessionTask()), Pair.of(10, new AtumChangeJobTask()));
     }
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> work(EntityType<? extends AtumVillagerEntity> entityType, AtumVillagerProfession profession, float p_220639_1_) { //AtumFarmTask changed. GiveHeroGiftsTask removed
@@ -52,7 +52,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> play(EntityType<? extends AtumVillagerEntity> entityType, float walkingSpeed) {
-        return ImmutableList.of(Pair.of(0, new MoveToTargetSink(80, 120)), lookAtMany(entityType), Pair.of(5, new PlayTagWithOtherKids()), Pair.of(5, new RunOne<>(ImmutableMap.of(MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryStatus.VALUE_ABSENT), ImmutableList.of(Pair.of(InteractWith.of(entityType, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 2), Pair.of(InteractWith.of(AtumEntities.SERVAL, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 1), Pair.of(new VillageBoundRandomStroll(walkingSpeed), 1), Pair.of(new SetWalkTargetFromLookTarget(walkingSpeed, 2), 1), Pair.of(new JumpOnBed(walkingSpeed), 2), Pair.of(new DoNothing(20, 40), 2)))), Pair.of(99, new UpdateActivityFromSchedule()));
+        return ImmutableList.of(Pair.of(0, new MoveToTargetSink(80, 120)), lookAtMany(entityType), Pair.of(5, new PlayTagWithOtherKids()), Pair.of(5, new RunOne<>(ImmutableMap.of(MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryStatus.VALUE_ABSENT), ImmutableList.of(Pair.of(InteractWith.of(entityType, 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 2), Pair.of(InteractWith.of(AtumEntities.SERVAL.get(), 8, MemoryModuleType.INTERACTION_TARGET, walkingSpeed, 2), 1), Pair.of(new VillageBoundRandomStroll(walkingSpeed), 1), Pair.of(new SetWalkTargetFromLookTarget(walkingSpeed, 2), 1), Pair.of(new JumpOnBed(walkingSpeed), 2), Pair.of(new DoNothing(20, 40), 2)))), Pair.of(99, new UpdateActivityFromSchedule()));
     }
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> rest(EntityType<? extends AtumVillagerEntity> entityType, float walkingSpeed) {
@@ -64,7 +64,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> idle(EntityType<? extends AtumVillagerEntity> entityType, float f) { //Changed to custom Breed Task, AtumShareItemsTask
-        return ImmutableList.of(Pair.of(2, new RunOne<>(ImmutableList.of(Pair.of(InteractWith.of(entityType, 8, MemoryModuleType.INTERACTION_TARGET, f, 2), 2), Pair.of(new InteractWith<>(entityType == AtumEntities.VILLAGER_MALE ? AtumEntities.VILLAGER_FEMALE : AtumEntities.VILLAGER_MALE, 8, AgeableMob::canBreed, AgeableMob::canBreed, MemoryModuleType.BREED_TARGET, f, 2), 1), Pair.of(InteractWith.of(AtumEntities.SERVAL, 8, MemoryModuleType.INTERACTION_TARGET, f, 2), 1), Pair.of(new VillageBoundRandomStroll(f), 1), Pair.of(new SetWalkTargetFromLookTarget(f, 2), 1), Pair.of(new JumpOnBed(f), 1), Pair.of(new DoNothing(30, 60), 1)))), Pair.of(3, new GiveGiftToHero(100)), Pair.of(3, new SetLookAndInteract(EntityType.PLAYER, 4)), Pair.of(3, new ShowTradesToPlayer(400, 1600)), Pair.of(3, new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE, ImmutableList.of(Pair.of(new AtumShareItemsTask(), 1)))), Pair.of(3, new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.BREED_TARGET), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE, ImmutableList.of(Pair.of(new CreateBabyVillagerWithGenderTask(), 1)))), lookAtMany(entityType), Pair.of(99, new UpdateActivityFromSchedule()));
+        return ImmutableList.of(Pair.of(2, new RunOne<>(ImmutableList.of(Pair.of(InteractWith.of(entityType, 8, MemoryModuleType.INTERACTION_TARGET, f, 2), 2), Pair.of(new InteractWith<>(entityType == AtumEntities.VILLAGER_MALE.get() ? AtumEntities.VILLAGER_FEMALE.get() : AtumEntities.VILLAGER_MALE.get(), 8, AgeableMob::canBreed, AgeableMob::canBreed, MemoryModuleType.BREED_TARGET, f, 2), 1), Pair.of(InteractWith.of(AtumEntities.SERVAL.get(), 8, MemoryModuleType.INTERACTION_TARGET, f, 2), 1), Pair.of(new VillageBoundRandomStroll(f), 1), Pair.of(new SetWalkTargetFromLookTarget(f, 2), 1), Pair.of(new JumpOnBed(f), 1), Pair.of(new DoNothing(30, 60), 1)))), Pair.of(3, new GiveGiftToHero(100)), Pair.of(3, new SetLookAndInteract(EntityType.PLAYER, 4)), Pair.of(3, new ShowTradesToPlayer(400, 1600)), Pair.of(3, new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE, ImmutableList.of(Pair.of(new AtumShareItemsTask(), 1)))), Pair.of(3, new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.BREED_TARGET), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE, ImmutableList.of(Pair.of(new CreateBabyVillagerWithGenderTask(), 1)))), lookAtMany(entityType), Pair.of(99, new UpdateActivityFromSchedule()));
     }
 
     public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> panic(EntityType<? extends AtumVillagerEntity> entityType, float f1) {
@@ -77,7 +77,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     private static Pair<Integer, Behavior<LivingEntity>> lookAtMany(EntityType<? extends AtumVillagerEntity> entityType) {
-        return Pair.of(5, new RunOne<>(ImmutableList.of(Pair.of(new SetEntityLookTarget(AtumEntities.SERVAL, 8.0F), 8), Pair.of(new SetEntityLookTarget(entityType, 8.0F), 2), Pair.of(new SetEntityLookTarget(EntityType.PLAYER, 8.0F), 2), Pair.of(new SetEntityLookTarget(MobCategory.CREATURE, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.WATER_CREATURE, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.WATER_AMBIENT, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.MONSTER, 8.0F), 1), Pair.of(new DoNothing(30, 60), 2))));
+        return Pair.of(5, new RunOne<>(ImmutableList.of(Pair.of(new SetEntityLookTarget(AtumEntities.SERVAL.get(), 8.0F), 8), Pair.of(new SetEntityLookTarget(entityType, 8.0F), 2), Pair.of(new SetEntityLookTarget(EntityType.PLAYER, 8.0F), 2), Pair.of(new SetEntityLookTarget(MobCategory.CREATURE, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.WATER_CREATURE, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.WATER_AMBIENT, 8.0F), 1), Pair.of(new SetEntityLookTarget(MobCategory.MONSTER, 8.0F), 1), Pair.of(new DoNothing(30, 60), 2))));
     }
 
     private static Pair<Integer, Behavior<LivingEntity>> lookAtPlayerOrVillager(EntityType<? extends AtumVillagerEntity> entityType) {
@@ -89,7 +89,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         ItemStack heldStack = entity.getItemInHand(InteractionHand.OFF_HAND);
         entity.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
         if (!entity.isBaby()) {
-            boolean isCurrency = AtumAPI.Tags.RELIC_NON_DIRTY.contains(heldStack.getItem());
+            boolean isCurrency = heldStack.is(AtumAPI.Tags.RELIC_NON_DIRTY);
             if (shouldTrade && isCurrency) {
                 spawnItem(entity, getCuratorTrades(heldStack));
             } else if (!isCurrency) {
@@ -182,7 +182,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     public static boolean canPickup(Villager entity) {
-        return entity.getOffhandItem().isEmpty() || !AtumAPI.Tags.RELIC_NON_DIRTY.contains(entity.getOffhandItem().getItem());
+        return entity.getOffhandItem().isEmpty() || !entity.getOffhandItem().is(AtumAPI.Tags.RELIC_NON_DIRTY);
     }
 
     public static void putInHand(Villager entity, ItemEntity itemEntity) {
@@ -192,8 +192,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
             entity.take(itemEntity, 1);
             ItemStack stack = setEntityItemStack(itemEntity);
 
-            Item item = stack.getItem();
-            if (AtumAPI.Tags.RELIC_NON_DIRTY.contains(item)) {
+            if (stack.is(AtumAPI.Tags.RELIC_NON_DIRTY)) {
                 entity.getBrain().eraseMemory(MemoryModuleType.TIME_TRYING_TO_REACH_ADMIRE_ITEM);
                 dropOffhand((AtumVillagerEntity) entity, stack);
                 entity.getBrain().setMemoryWithExpiry(MemoryModuleType.ADMIRING_ITEM, true, 120L);
@@ -220,11 +219,10 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     public static boolean canCuratorPickup(AtumVillagerEntity entity, ItemStack stack) {
-        Item item = stack.getItem();
         if (entity.getBrain().hasMemoryValue(MemoryModuleType.ADMIRING_DISABLED) && entity.getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET)) {
             return false;
         } else {
-            if (AtumAPI.Tags.RELIC_NON_DIRTY.contains(item)) {
+            if (stack.is(AtumAPI.Tags.RELIC_NON_DIRTY)) {
                 return canPickup(entity);
             }
         }

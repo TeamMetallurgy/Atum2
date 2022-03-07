@@ -3,14 +3,15 @@ package com.teammetallurgy.atum.world.gen.feature.pool;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import com.teammetallurgy.atum.Atum;
+import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 public class GenericVillagePools {
-    public static final StructureTemplatePool POOL = Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "village/generic/town_centers"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_1", ProcessorLists.EMPTY), 60), Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_2", ProcessorLists.EMPTY), 40)), StructureTemplatePool.Projection.RIGID));
+    public static final Holder<StructureTemplatePool> POOL = Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "village/generic/town_centers"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_1", ProcessorLists.EMPTY), 60), Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_2", ProcessorLists.EMPTY), 40)), StructureTemplatePool.Projection.RIGID));
 
     public static void init() {
         ResourceLocation terminators = new ResourceLocation(Atum.MOD_ID, "village/generic/terminators");

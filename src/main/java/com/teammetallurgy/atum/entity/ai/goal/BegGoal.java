@@ -67,7 +67,7 @@ public class BegGoal extends Goal {
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack heldStack = player.getItemInHand(hand);
 
-            if (this.desertWolf.isTame() && Tags.Items.BONES.contains(heldStack.getItem())) {
+            if (this.desertWolf.isTame() && heldStack.is(Tags.Items.BONES)) {
                 return true;
             }
             if (this.desertWolf.isFood(heldStack)) {

@@ -18,7 +18,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
     private float velocity;
 
     public ArrowExplosiveEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.EXPLOSIVE_ARROW, world);
+        this(AtumEntities.EXPLOSIVE_ARROW.get(), world);
     }
 
     public ArrowExplosiveEntity(EntityType<? extends ArrowExplosiveEntity> entityType, Level world) {
@@ -26,7 +26,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
     }
 
     public ArrowExplosiveEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.EXPLOSIVE_ARROW, world, shooter);
+        super(AtumEntities.EXPLOSIVE_ARROW.get(), world, shooter);
         this.velocity = velocity;
     }
 

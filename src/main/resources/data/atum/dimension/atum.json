@@ -1,5 +1,5 @@
 {
-  "type": "atum:atum",
+  "type": "atum:dimension_type",
   "generator": {
     "biome_source": {
       "type": "atum:atum_multi_noise",
@@ -12,8 +12,8 @@
             ],
             "depth": 0.0,
             "weirdness": [
-              -1.0,
-              -0.9333
+              0.2666,
+              0.4
             ],
             "offset": 0.0,
             "temperature": [
@@ -25,7 +25,7 @@
               -0.35
             ],
             "continentalness": [
-              0.03,
+              0.1,
               0.3
             ]
           },
@@ -39,8 +39,8 @@
             ],
             "depth": 0.0,
             "weirdness": [
-              -0.9333,
-              -0.7666
+              0.2666,
+              0.4
             ],
             "offset": 0.0,
             "temperature": [
@@ -52,7 +52,7 @@
               -0.35
             ],
             "continentalness": [
-              0.03,
+              0.1,
               0.8
             ]
           },
@@ -93,8 +93,8 @@
             ],
             "depth": 0.0,
             "weirdness": [
-              -0.15,
-              0.2
+              0.2666,
+              0.4444
             ],
             "offset": 0.0,
             "temperature": [
@@ -106,7 +106,7 @@
               -0.35
             ],
             "continentalness": [
-              0.03,
+              0.2,
               1.0
             ]
           },
@@ -120,8 +120,8 @@
             ],
             "depth": 0.0,
             "weirdness": [
-              -0.15,
-              0.2
+              0.2666,
+              0.4
             ],
             "offset": 0.0,
             "temperature": [
@@ -133,7 +133,7 @@
               -0.35
             ],
             "continentalness": [
-              0.5,
+              0.2,
               1.0
             ]
           },
@@ -160,7 +160,7 @@
               -0.35
             ],
             "continentalness": [
-              -0.19,
+              0.3,
               1.0
             ]
           },
@@ -169,13 +169,13 @@
         {
           "parameters": {
             "erosion": [
-              -0.375,
-              -0.2225
+              -1.0,
+              -0.7799
             ],
             "depth": 0.0,
             "weirdness": [
-              -0.9333,
-              -0.7666
+              0.4,
+              0.5666
             ],
             "offset": 0.0,
             "temperature": [
@@ -187,7 +187,7 @@
               -0.35
             ],
             "continentalness": [
-              -0.19,
+              0.35,
               1.0
             ]
           },
@@ -197,38 +197,11 @@
           "parameters": {
             "erosion": [
               -0.375,
-              -0.2225
-            ],
-            "depth": 0.0,
-            "weirdness": [
-              -0.05,
               0.05
             ],
-            "offset": 0.0,
-            "temperature": [
-              0.55,
-              1.0
-            ],
-            "humidity": [
-              -1.0,
-              -0.35
-            ],
-            "continentalness": [
-              -0.01,
-              0.03
-            ]
-          },
-          "biome": "atum:oasis"
-        },
-        {
-          "parameters": {
-            "erosion": [
-              -0.375,
-              -0.2225
-            ],
             "depth": 0.0,
             "weirdness": [
-              0.05,
+              0.1,
               0.2666
             ],
             "offset": 0.0,
@@ -241,8 +214,35 @@
               -0.35
             ],
             "continentalness": [
-              0.0,
-              0.05
+              0.1,
+              0.2
+            ]
+          },
+          "biome": "atum:oasis"
+        },
+        {
+          "parameters": {
+            "erosion": [
+              -0.375,
+              -0.2225
+            ],
+            "depth": 0.0,
+            "weirdness": [
+              0.1,
+              0.2666
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.55,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              -0.35
+            ],
+            "continentalness": [
+              0.1,
+              0.2
             ]
           },
           "biome": "atum:dead_oasis"
@@ -268,8 +268,8 @@
               -0.35
             ],
             "continentalness": [
-              -0.19,
-              -0.11
+              -0.05,
+              0.0
             ]
           },
           "biome": "atum:dried_river"
@@ -277,7 +277,7 @@
       ]
     },
     "seed": 0,
-    "settings": "atum:atum",
+    "settings": "atum:noise_settings",
     "type": "minecraft:noise"
   },
   "forge:use_server_seed": true

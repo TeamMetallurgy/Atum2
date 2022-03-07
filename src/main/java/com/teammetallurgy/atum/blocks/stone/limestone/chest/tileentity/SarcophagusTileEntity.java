@@ -103,7 +103,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
 
     public void spawn(Player player, DifficultyInstance difficulty, @Nullable God god) {
         if (this.level != null && !this.level.isClientSide) {
-            PharaohEntity pharaoh = AtumEntities.PHARAOH.create(this.level);
+            PharaohEntity pharaoh = AtumEntities.PHARAOH.get().create(this.level);
             if (pharaoh != null) {
                 pharaoh.setDropsGodSpecificLoot(god != null);
                 pharaoh.finalizeSpawn((ServerLevelAccessor) this.level, difficulty, god == null ? MobSpawnType.TRIGGERED : MobSpawnType.CONVERSION, null, null);

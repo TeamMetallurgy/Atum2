@@ -47,7 +47,7 @@ public class ClimberGroundPathNavigator extends GroundPathNavigation {
         } else {
             if (this.targetPosition != null) {
                 float width = this.mob.getBbWidth() + 0.5F; //Added additional width, as the logic relies on the spider being more than one block wide
-                if (!this.targetPosition.closerThan(this.mob.position(), width) && (!(this.mob.getY() > (double) this.targetPosition.getY()) || !(new BlockPos(this.targetPosition.getX(), this.mob.getY(), this.targetPosition.getZ())).closerThan(this.mob.position(), width))) {
+                if (!this.targetPosition.closerThan(this.mob.blockPosition(), width) && (!(this.mob.getY() > (double) this.targetPosition.getY()) || !(new BlockPos(this.targetPosition.getX(), this.mob.getY(), this.targetPosition.getZ())).closerThan(this.mob.blockPosition(), width))) {
                     this.mob.getMoveControl().setWantedPosition(this.targetPosition.getX(), this.targetPosition.getY(), this.targetPosition.getZ(), this.speedModifier);
                 } else {
                     this.targetPosition = null;

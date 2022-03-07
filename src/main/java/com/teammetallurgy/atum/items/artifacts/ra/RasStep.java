@@ -54,7 +54,7 @@ public class RasStep extends RingItem implements IArtifact {
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
             for (BlockPos posBox : BlockPos.betweenClosed(pos.offset(-area, -1.0D, -area), pos.offset(area, -1.0D, area))) {
-                if (posBox.closerThan(living.position(), area)) {
+                if (posBox.closerThan(living.blockPosition(), area)) {
                     mutablePos.set(posBox.getX(), posBox.getY() + 1, posBox.getZ());
                     BlockState state = world.getBlockState(mutablePos);
                     if (state.isAir()) {

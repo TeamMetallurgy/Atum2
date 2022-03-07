@@ -37,7 +37,7 @@ public class TefnutsCallEntity extends AbstractArrow {
     public int returningTicks;
 
     public TefnutsCallEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.TEFNUTS_CALL, world);
+        this(AtumEntities.TEFNUTS_CALL.get(), world);
     }
 
     public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, Level world) {
@@ -45,13 +45,13 @@ public class TefnutsCallEntity extends AbstractArrow {
     }
 
     public TefnutsCallEntity(Level world, LivingEntity shooter, @Nonnull ItemStack stack) {
-        super(AtumEntities.TEFNUTS_CALL, shooter, world);
+        super(AtumEntities.TEFNUTS_CALL.get(), shooter, world);
         this.thrownStack = stack.copy();
     }
 
     @OnlyIn(Dist.CLIENT)
     public TefnutsCallEntity(Level world, double x, double y, double z) {
-        super(AtumEntities.TEFNUTS_CALL, x, y, z, world);
+        super(AtumEntities.TEFNUTS_CALL.get(), x, y, z, world);
     }
 
     @Override

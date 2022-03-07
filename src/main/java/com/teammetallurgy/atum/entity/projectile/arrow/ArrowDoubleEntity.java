@@ -13,7 +13,7 @@ import net.minecraftforge.network.PlayMessages;
 public class ArrowDoubleEntity extends CustomArrow {
 
     public ArrowDoubleEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.DOUBLE_ARROW, world);
+        this(AtumEntities.DOUBLE_ARROW.get(), world);
     }
 
     public ArrowDoubleEntity(EntityType<? extends ArrowDoubleEntity> entityType, Level world) {
@@ -22,7 +22,7 @@ public class ArrowDoubleEntity extends CustomArrow {
     }
 
     public ArrowDoubleEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.DOUBLE_ARROW, world, shooter);
+        super(AtumEntities.DOUBLE_ARROW.get(), world, shooter);
         this.pickup = Pickup.DISALLOWED;
     }
 

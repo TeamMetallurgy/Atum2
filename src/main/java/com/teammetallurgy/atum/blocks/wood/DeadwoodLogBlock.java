@@ -44,7 +44,7 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
         super.spawnAfterBreak(state, world, pos, stack);
         if (!world.isClientSide && world.getDifficulty() != Difficulty.PEACEFUL && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
             if (state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
-                ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB, world);
+                ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB.get(), world);
                 scarab.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
                 world.addFreshEntity(scarab);
                 scarab.spawnAnim();

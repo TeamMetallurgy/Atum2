@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +29,7 @@ public class RecipeHelper {
         addBrewingRecipeWithSubPotions(Ingredient.of(stack), potionType);
     }
 
-    public static void addBrewingRecipeWithSubPotions(Tags.IOptionalNamedTag<Item> tag, Potion potionType) {
+    public static void addBrewingRecipeWithSubPotions(TagKey<Item> tag, Potion potionType) {
         addBrewingRecipeWithSubPotions(Ingredient.of(tag), potionType);
     }
 

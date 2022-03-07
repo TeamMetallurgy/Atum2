@@ -9,7 +9,7 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SetTag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +30,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
         this(Ingredient.of(input), output, experience, cookTime);
     }
 
-    public KilnRecipe(SetTag<Item> input, @Nonnull ItemStack output, float experience, int cookTime) {
+    public KilnRecipe(TagKey<Item> input, @Nonnull ItemStack output, float experience, int cookTime) {
         this(Ingredient.of(input), output, experience, cookTime);
     }
 

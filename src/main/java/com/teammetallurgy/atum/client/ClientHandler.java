@@ -345,32 +345,32 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(AtumEntities.TARANTULA, TarantulaRender::new);
-        event.registerEntityRenderer(AtumEntities.ASSASSIN, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.SERGEANT, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.BRIGAND, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.BARBARIAN, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.NOMAD, context -> new AtumBipedRender<>(context, new NomadModel<>(context), false));
-        event.registerEntityRenderer(AtumEntities.BANDIT_WARLORD, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.PHARAOH, context -> new AtumBipedRender<>(context, new PharaohModel<>(context.bakeLayer(PHARAOH)), false));
-        event.registerEntityRenderer(AtumEntities.MUMMY, context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(MUMMY)), false));
-        event.registerEntityRenderer(AtumEntities.FORSAKEN, context -> new AtumBipedRender<>(context, new NonRangedSkeletonModel(context.bakeLayer(FORSAKEN)), false));
-        event.registerEntityRenderer(AtumEntities.WRAITH, context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(WRAITH)), false));
-        event.registerEntityRenderer(AtumEntities.VILLAGER_MALE, context -> new AtumVillagerRenderer(context, false));
-        event.registerEntityRenderer(AtumEntities.VILLAGER_FEMALE, context -> new AtumVillagerRenderer(context, true));
-        event.registerEntityRenderer(AtumEntities.BONESTORM, context -> new AtumMobRender<>(context, new BlazeModel<>(context.bakeLayer(BONESTORM))));
-        event.registerEntityRenderer(AtumEntities.STONEGUARD, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.STONEWARDEN, StonewardenRender::new);
-        event.registerEntityRenderer(AtumEntities.STONEGUARD_FRIENDLY, AtumBipedRender::new);
-        event.registerEntityRenderer(AtumEntities.STONEWARDEN_FRIENDLY, StonewardenRender::new);
-        event.registerEntityRenderer(AtumEntities.DESERT_WOLF, DesertWolfRender::new);
-        event.registerEntityRenderer(AtumEntities.CAMEL, CamelRender::new);
-        event.registerEntityRenderer(AtumEntities.SERVAL, ServalRenderer::new);
-        event.registerEntityRenderer(AtumEntities.SCARAB, ScarabRender::new);
-        event.registerEntityRenderer(AtumEntities.DESERT_RABBIT, DesertRabbitRender::new);
-        event.registerEntityRenderer(AtumEntities.QUAIL, QuailRender::new);
-        event.registerEntityRenderer(AtumEntities.PHARAOH_ORB, PharaohOrbRender::new);
-        for (EntityType<? extends CustomArrow> arrow : AtumRegistry.ARROWS) {
+        event.registerEntityRenderer(AtumEntities.TARANTULA.get(), TarantulaRender::new);
+        event.registerEntityRenderer(AtumEntities.ASSASSIN.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.SERGEANT.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.BRIGAND.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.BARBARIAN.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.NOMAD.get(), context -> new AtumBipedRender<>(context, new NomadModel<>(context), false));
+        event.registerEntityRenderer(AtumEntities.BANDIT_WARLORD.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.PHARAOH.get(), context -> new AtumBipedRender<>(context, new PharaohModel<>(context.bakeLayer(PHARAOH)), false));
+        event.registerEntityRenderer(AtumEntities.MUMMY.get(), context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(MUMMY)), false));
+        event.registerEntityRenderer(AtumEntities.FORSAKEN.get(), context -> new AtumBipedRender<>(context, new NonRangedSkeletonModel(context.bakeLayer(FORSAKEN)), false));
+        event.registerEntityRenderer(AtumEntities.WRAITH.get(), context -> new AtumBipedRender<>(context, new MonsterModel<>(context.bakeLayer(WRAITH)), false));
+        event.registerEntityRenderer(AtumEntities.VILLAGER_MALE.get(), context -> new AtumVillagerRenderer(context, false));
+        event.registerEntityRenderer(AtumEntities.VILLAGER_FEMALE.get(), context -> new AtumVillagerRenderer(context, true));
+        event.registerEntityRenderer(AtumEntities.BONESTORM.get(), context -> new AtumMobRender<>(context, new BlazeModel<>(context.bakeLayer(BONESTORM))));
+        event.registerEntityRenderer(AtumEntities.STONEGUARD.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.STONEWARDEN.get(), StonewardenRender::new);
+        event.registerEntityRenderer(AtumEntities.STONEGUARD_FRIENDLY.get(), AtumBipedRender::new);
+        event.registerEntityRenderer(AtumEntities.STONEWARDEN_FRIENDLY.get(), StonewardenRender::new);
+        event.registerEntityRenderer(AtumEntities.DESERT_WOLF.get(), DesertWolfRender::new);
+        event.registerEntityRenderer(AtumEntities.CAMEL.get(), CamelRender::new);
+        event.registerEntityRenderer(AtumEntities.SERVAL.get(), ServalRenderer::new);
+        event.registerEntityRenderer(AtumEntities.SCARAB.get(), ScarabRender::new);
+        event.registerEntityRenderer(AtumEntities.DESERT_RABBIT.get(), DesertRabbitRender::new);
+        event.registerEntityRenderer(AtumEntities.QUAIL.get(), QuailRender::new);
+        event.registerEntityRenderer(AtumEntities.PHARAOH_ORB.get(), PharaohOrbRender::new);
+        for (EntityType<? extends CustomArrow> arrow : AtumEntities.ARROWS) {
             event.registerEntityRenderer(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
                 @Override
                 @Nonnull
@@ -379,10 +379,10 @@ public class ClientHandler {
                 }
             });
         }
-        event.registerEntityRenderer(AtumEntities.SMALL_BONE, manager -> new ThrownItemRenderer<>(manager, 0.35F, true));
-        event.registerEntityRenderer(AtumEntities.TEFNUTS_CALL, TefnutsCallRender::new);
-        event.registerEntityRenderer(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
-        event.registerEntityRenderer(AtumEntities.QUAIL_EGG, ThrownItemRenderer::new);
+        event.registerEntityRenderer(AtumEntities.SMALL_BONE.get(), manager -> new ThrownItemRenderer<>(manager, 0.35F, true));
+        event.registerEntityRenderer(AtumEntities.TEFNUTS_CALL.get(), TefnutsCallRender::new);
+        event.registerEntityRenderer(AtumEntities.CAMEL_SPIT.get(), LlamaSpitRenderer::new);
+        event.registerEntityRenderer(AtumEntities.QUAIL_EGG.get(), ThrownItemRenderer::new);
     }
 
     @SubscribeEvent

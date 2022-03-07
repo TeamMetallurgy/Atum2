@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 public class QuailEggEntity extends ThrowableItemProjectile {
 
     public QuailEggEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.QUAIL_EGG, world);
+        this(AtumEntities.QUAIL_EGG.get(), world);
     }
 
     public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, Level world) {
@@ -32,11 +32,11 @@ public class QuailEggEntity extends ThrowableItemProjectile {
     }
 
     public QuailEggEntity(Level world, LivingEntity thrower) {
-        super(AtumEntities.QUAIL_EGG, thrower, world);
+        super(AtumEntities.QUAIL_EGG.get(), thrower, world);
     }
 
     public QuailEggEntity(Level world, double x, double y, double z) {
-        super(AtumEntities.QUAIL_EGG, x, y, z, world);
+        super(AtumEntities.QUAIL_EGG.get(), x, y, z, world);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class QuailEggEntity extends ThrowableItemProjectile {
                 }
 
                 for (int j = 0; j < i; ++j) {
-                    QuailEntity quail = AtumEntities.QUAIL.create(this.level);
+                    QuailEntity quail = AtumEntities.QUAIL.get().create(this.level);
                     quail.setAge(-24000);
                     quail.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                     this.level.addFreshEntity(quail);

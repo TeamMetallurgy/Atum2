@@ -43,8 +43,8 @@ public class VillagerLayer <T extends LivingEntity & VillagerDataHolder, M exten
             AtumVillagerProfession profession = data.getAtumProfession();
             M m = this.getParentModel();
             if (profession != AtumVillagerProfession.NONE.get() && !villager.isBaby()) {
-                ResourceLocation professionLocation = this.getLocation("profession", ((AtumVillagerEntity) villager).isFemale() ? "female" : "male", AtumRegistry.VILLAGER_PROFESSION.get().getKey(profession));
-                renderColoredCutoutModel(m, professionLocation, matrixStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);
+                /*ResourceLocation professionLocation = this.getLocation("profession", ((AtumVillagerEntity) villager).isFemale() ? "female" : "male", AtumRegistry.VILLAGER_PROFESSION.get().getKey(profession)); //TODO Uncomment when possible
+                renderColoredCutoutModel(m, professionLocation, matrixStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);*/
                 if (profession != AtumVillagerProfession.NITWIT.get()) {
                     ResourceLocation professionLevelLocation = this.getLocation("profession_level", null, TIERS.get(Mth.clamp(data.getLevel(), 1, TIERS.size())));
                     renderColoredCutoutModel(m, professionLevelLocation, matrixStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);

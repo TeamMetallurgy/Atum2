@@ -91,7 +91,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     }
 
     public boolean isFemale() {
-        return this.getType() == AtumEntities.VILLAGER_FEMALE;
+        return this.getType() == AtumEntities.VILLAGER_FEMALE.get();
     }
 
     @Override
@@ -240,9 +240,9 @@ public class AtumVillagerEntity extends Villager implements ITexture {
 
     @Override
     public Villager getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob partner) {
-        AtumVillagerEntity atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_MALE, serverLevel);
+        AtumVillagerEntity atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_MALE.get(), serverLevel);
         if (serverLevel.random.nextDouble() >= 0.5D) {
-            atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_FEMALE, serverLevel);
+            atumVillagerEntity = new AtumVillagerEntity(AtumEntities.VILLAGER_FEMALE.get(), serverLevel);
         }
         if (partner instanceof AtumVillagerEntity) {
             Race childRace = serverLevel.random.nextDouble() <= 0.5D ? ((AtumVillagerEntity) partner).getAtumVillagerData().getRace() : this.getAtumVillagerData().getRace();
@@ -319,7 +319,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        AtumVillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getAtumVillagerData()).resultOrPartial(LOGGER::error).ifPresent((data) -> {
+        AtumVillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getAtumVillagerData()).resultOrPartial(Atum.LOG::error).ifPresent((data) -> {
             compound.put("AtumVillagerData", data);
         });
         compound.putInt("Variant", this.getVariant());
@@ -330,7 +330,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         super.readAdditionalSaveData(compound);
         if (compound.contains("AtumVillagerData", 10)) {
             DataResult<AtumVillagerData> dataresult = AtumVillagerData.CODEC.parse(new Dynamic<>(NbtOps.INSTANCE, compound.get("AtumVillagerData")));
-            dataresult.resultOrPartial(LOGGER::error).ifPresent(this::setAtumVillagerData);
+            dataresult.resultOrPartial(Atum.LOG::error).ifPresent(this::setAtumVillagerData);
         }
         this.setVariant(compound.getInt("Variant"));
     }
@@ -410,7 +410,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     }
 
     public void setOffHand(@Nonnull ItemStack stack) {
-        if (AtumAPI.Tags.RELIC_NON_DIRTY.contains(stack.getItem())) {
+        if (stack.is(AtumAPI.Tags.RELIC_NON_DIRTY)) {
             this.setItemSlot(EquipmentSlot.OFFHAND, stack);
             this.setGuaranteedDrop(EquipmentSlot.OFFHAND);
         } else {

@@ -5,7 +5,6 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SerializationTags;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -58,7 +57,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
                 } else {
                     input = ingredient;
                 }
-                if (SerializationTags.getInstance().getOrEmpty(Registry.ITEM_REGISTRY).getTagOrEmpty(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag"))).getValues().size() == 0) { //Support empty tags, for mod support
+                if (Ingredient.fromJson(GsonHelper.getAsJsonObject(inputObject, "tag")).isEmpty()) { //Support empty tags, for mod support //TODO Test
                     input = Ingredient.EMPTY;
                 }
             } else if (!this.inputCanHaveCount) {

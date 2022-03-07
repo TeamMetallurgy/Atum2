@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 public class SmallBoneEntity extends Fireball {
 
     public SmallBoneEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.SMALL_BONE, world);
+        this(AtumEntities.SMALL_BONE.get(), world);
     }
 
     public SmallBoneEntity(EntityType<? extends SmallBoneEntity> entityType, Level world) {
@@ -32,11 +32,11 @@ public class SmallBoneEntity extends Fireball {
     }
 
     public SmallBoneEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ) {
-        super(AtumEntities.SMALL_BONE, shooter, accelX, accelY, accelZ, world);
+        super(AtumEntities.SMALL_BONE.get(), shooter, accelX, accelY, accelZ, world);
     }
 
     public SmallBoneEntity(Level world, double x, double y, double z, double accelX, double accelY, double accelZ) {
-        super(AtumEntities.SMALL_BONE, x, y, z, accelX, accelY, accelZ, world);
+        super(AtumEntities.SMALL_BONE.get(), x, y, z, accelX, accelY, accelZ, world);
     }
 
     @Override

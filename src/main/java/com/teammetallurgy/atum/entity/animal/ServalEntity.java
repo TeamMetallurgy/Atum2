@@ -102,7 +102,7 @@ public class ServalEntity extends Cat {
 
     @Override
     public Cat getBreedOffspring(@Nonnull ServerLevel serverLevel, @Nonnull AgeableMob ageableEntity) {
-        ServalEntity serval = AtumEntities.SERVAL.create(serverLevel);
+        ServalEntity serval = AtumEntities.SERVAL.get().create(serverLevel);
         if (serval != null && ageableEntity instanceof ServalEntity) {
             if (this.random.nextBoolean()) {
                 serval.setCatType(this.getCatType());

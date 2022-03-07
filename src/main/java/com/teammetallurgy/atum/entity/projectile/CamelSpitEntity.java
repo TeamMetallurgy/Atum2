@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 public class CamelSpitEntity extends LlamaSpit {
 
     public CamelSpitEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.CAMEL_SPIT, world);
+        this(AtumEntities.CAMEL_SPIT.get(), world);
     }
 
     public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, Level world) {
@@ -36,14 +36,14 @@ public class CamelSpitEntity extends LlamaSpit {
     }
 
     public CamelSpitEntity(Level world, CamelEntity camel) {
-        this(AtumEntities.CAMEL_SPIT, world);
+        this(AtumEntities.CAMEL_SPIT.get(), world);
         super.setOwner(camel);
         this.setPos(camel.getX() - (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.sin(camel.yBodyRot * ((float) Math.PI / 180F)), camel.getY() + (double) camel.getEyeHeight() - (double) 0.1F, camel.getZ() + (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.cos(camel.yBodyRot * ((float) Math.PI / 180F)));
     }
 
     @OnlyIn(Dist.CLIENT)
     public CamelSpitEntity(Level world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(AtumEntities.CAMEL_SPIT, world);
+        this(AtumEntities.CAMEL_SPIT.get(), world);
         this.setPos(x, y, z);
 
         for (int i = 0; i < 7; ++i) {

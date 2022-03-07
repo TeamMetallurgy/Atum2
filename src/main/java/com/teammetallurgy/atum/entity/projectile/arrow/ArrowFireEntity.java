@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 public class ArrowFireEntity extends CustomArrow {
 
     public ArrowFireEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.FIRE_ARROW, world);
+        this(AtumEntities.FIRE_ARROW.get(), world);
     }
 
     public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, Level world) {
@@ -31,7 +31,7 @@ public class ArrowFireEntity extends CustomArrow {
     }
 
     public ArrowFireEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.FIRE_ARROW, world, shooter);
+        super(AtumEntities.FIRE_ARROW.get(), world, shooter);
     }
 
     @Override

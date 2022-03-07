@@ -389,7 +389,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     public InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         Item item = heldStack.getItem();
-        boolean tameItem = Tags.Items.BONES.contains(item) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
+        boolean tameItem = heldStack.is(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
         if (this.level.isClientSide) {
             boolean flag = this.isOwnedBy(player) || this.isTame() || tameItem && !this.isTame();
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
@@ -619,7 +619,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     public DesertWolfEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
-        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.create(this.level);
+        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.get().create(this.level);
         if (desertWolf != null) {
             UUID uuid = this.getOwnerUUID();
 
@@ -1039,11 +1039,11 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
         public static ArmorType getByItemStack(@Nonnull ItemStack stack) {
             Item item = stack.getItem();
-            if (item == AtumItems.DESERT_WOLF_IRON_ARMOR) {
+            if (item == AtumItems.DESERT_WOLF_IRON_ARMOR.get()) {
                 return IRON;
-            } else if (item == AtumItems.DESERT_WOLF_GOLD_ARMOR) {
+            } else if (item == AtumItems.DESERT_WOLF_GOLD_ARMOR.get()) {
                 return GOLD;
-            } else if (item == AtumItems.DESERT_WOLF_DIAMOND_ARMOR) {
+            } else if (item == AtumItems.DESERT_WOLF_DIAMOND_ARMOR.get()) {
                 return DIAMOND;
             } else {
                 return NONE;

@@ -224,7 +224,7 @@ public class PortalBlock extends HalfTransparentBlock {
         }
 
         boolean isSandBlock(BlockState state) {
-            return Tags.Blocks.SANDSTONE.contains(state.getBlock()) || AtumAPI.Tags.LIMESTONE_BRICKS.contains(state.getBlock());
+            return state.is(Tags.Blocks.SANDSTONE) || state.is(AtumAPI.Tags.LIMESTONE_BRICKS);
         }
 
         boolean isValid() {

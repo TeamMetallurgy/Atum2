@@ -29,7 +29,7 @@ public class ArrowStraightEntity extends CustomArrow {
     private float velocity;
 
     public ArrowStraightEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.STRAIGHT_ARROW, world);
+        this(AtumEntities.STRAIGHT_ARROW.get(), world);
     }
 
     public ArrowStraightEntity(EntityType<? extends CustomArrow> entityType, Level world) {
@@ -37,7 +37,7 @@ public class ArrowStraightEntity extends CustomArrow {
     }
 
     public ArrowStraightEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.STRAIGHT_ARROW, world, shooter);
+        super(AtumEntities.STRAIGHT_ARROW.get(), world, shooter);
         this.velocity = velocity;
     }
 

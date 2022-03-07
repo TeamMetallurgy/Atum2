@@ -285,7 +285,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
                 List<BanditBaseEntity> patrollers = this.getPatrollers();
                 if (this.owner.isPatrolling() && patrollers.isEmpty()) {
                     this.owner.setPatrolling(false);
-                } else if (isLeader && this.owner.getPatrolTarget().closerThan(this.owner.position(), 10.0D)) {
+                } else if (isLeader && this.owner.getPatrolTarget().closerThan(this.owner.blockPosition(), 10.0D)) {
                     this.owner.findPatrolTarget();
                 } else {
                     BlockPos patrolTargetPos = this.owner.getPatrolTarget();

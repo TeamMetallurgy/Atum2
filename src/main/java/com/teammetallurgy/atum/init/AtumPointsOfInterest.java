@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class AtumPointsOfInterest {
     private static final List<PoiType> POINTS_OF_INTEREST = new ArrayList<>();
     private static final Supplier<Set<PoiType>> WORKSTATIONS = Suppliers.memoize(() -> {
-        return AtumRegistry.VILLAGER_PROFESSION.get().getValues().stream().map(AtumVillagerProfession::getPointOfInterest).collect(Collectors.toSet());
+        return AtumVillagerProfession.villagerProfession.get().getValues().stream().map(AtumVillagerProfession::getPointOfInterest).collect(Collectors.toSet());
     });
     public static final Predicate<PoiType> ANY_VILLAGER_WORKSTATION = (type) -> {
         return WORKSTATIONS.get().contains(type);

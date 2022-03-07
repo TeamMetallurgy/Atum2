@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,9 +19,10 @@ public class TooltipEvent {
 
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
-        if (!event.getItemStack().isEmpty()) {
+        ItemStack stack = event.getItemStack();
+        if (!stack.isEmpty()) {
             Item item = event.getItemStack().getItem();
-            if (!item.getTags().isEmpty() && AtumAPI.Tags.TOOLTIP.contains(item)) {
+            if (stack.is(AtumAPI.Tags.TOOLTIP)) {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
                     if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {

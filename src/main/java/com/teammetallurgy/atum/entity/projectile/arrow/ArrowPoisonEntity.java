@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class ArrowPoisonEntity extends CustomArrow {
 
     public ArrowPoisonEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.POISON_ARROW, world);
+        this(AtumEntities.POISON_ARROW.get(), world);
     }
 
     public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, Level world) {
@@ -27,7 +27,7 @@ public class ArrowPoisonEntity extends CustomArrow {
     }
 
     public ArrowPoisonEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.POISON_ARROW, world, shooter);
+        super(AtumEntities.POISON_ARROW.get(), world, shooter);
     }
 
     @Override
