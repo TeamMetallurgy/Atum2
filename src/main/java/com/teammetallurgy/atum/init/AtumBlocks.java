@@ -587,30 +587,31 @@ public class AtumBlocks {
     /**
      * Helper method for easily registering torches with unlit torches
      *
-     * @param lit The lit torch block to be registered
-     * @param name  The name to register the block with
+     * @param lit  The lit torch block to be registered
+     * @param name The name to register the block with
      * @return The Block that was registered
      */
     public static RegistryObject<Block> registerTorchWithUnlit(@Nonnull Supplier<Block> lit, @Nonnull String name) {
-        Supplier<Block> unlitTorch = () -> new AtumTorchUnlitBlock(lit);
-        Supplier<Block> wallTorchLit = () -> new AtumWallTorch(Block.Properties.copy(lit.get()).lootFrom(lit), ((AtumTorchBlock) lit.get()).getParticleType());
-        Supplier<Block> wallTorchUnlit = () -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.copy(unlitTorch.get()).lootFrom(unlitTorch));
-        registerBaseBlock(wallTorchLit, "wall_" + name);
-        registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");
-        registerBlockWithItem(unlitTorch, () -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties()), name + "_unlit");
-        AtumTorchUnlitBlock.ALL_TORCHES.add(lit);
+        RegistryObject<Block> litTorch = registerBaseBlock(lit, name);
+        RegistryObject<Block> unlitTorch = registerBaseBlock(() -> new AtumTorchUnlitBlock(litTorch), name + "_unlit");
+        RegistryObject<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.copy(litTorch.get()).lootFrom(litTorch), ((AtumTorchBlock) litTorch.get()).getParticleType()), "wall_" + name);
+        RegistryObject<Block> wallTorchUnlit = registerBaseBlock(() -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.copy(unlitTorch.get()).lootFrom(unlitTorch)), "wall_" + name + "_unlit");
+        AtumItems.registerItem(() -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties()), name + "_unlit");
+        AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(litTorch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(unlitTorch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
-        return registerBlockWithItem(lit, () -> new StandingAndWallBlockItem(lit.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        return litTorch;
     }
 
     public static RegistryObject<Block> registerTorch(@Nonnull Supplier<Block> torch, @Nonnull String name) {
-        Supplier<Block> wallTorchLit = () -> new AtumWallTorch(Block.Properties.copy(torch.get()).lootFrom(torch), ((AtumTorchBlock) torch.get()).getParticleType());
-        registerBaseBlock(wallTorchLit, "wall_" + name);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
+        RegistryObject<Block> torchList = registerBaseBlock(torch, name);
+        RegistryObject<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.copy(torchList.get()).lootFrom(torchList), ((AtumTorchBlock) torchList.get()).getParticleType()), "wall_" + name);
+        AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(torchList);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
-        return registerBlockWithItem(torch, () -> new StandingAndWallBlockItem(torch.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        return torchList;
     }
 
     /**
@@ -621,7 +622,9 @@ public class AtumBlocks {
      * @return The Block that was registered
      */
     public static RegistryObject<Block> registerScaffolding(@Nonnull Supplier<Block> scaffolding, @Nonnull String name) {
-        return registerBlockWithItem(scaffolding, () -> new AtumScaffoldingItem(scaffolding.get()), name);
+        RegistryObject<Block> scaffoldingBlock = registerBaseBlock(scaffolding, name);
+        AtumItems.registerItem(() -> new AtumScaffoldingItem(scaffoldingBlock.get()), name);
+        return scaffoldingBlock;
     }
 
     /**
@@ -629,9 +632,9 @@ public class AtumBlocks {
      */
     public static RegistryObject<Block> registerSign(@Nonnull Supplier<Block> signBlock, @Nonnull WoodType woodType) {
         String typeName = woodType.name().replace("atum_", "");
-        RegistryObject<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlock), woodType), typeName + "_wall_sign");
-        AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlock.get(), wallSignBlock.get()), typeName + "_sign");
         RegistryObject<Block> signBlockObject = registerBaseBlock(signBlock, typeName + "_sign");
+        RegistryObject<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlockObject), woodType), typeName + "_wall_sign");
+        AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlockObject.get(), wallSignBlock.get()), typeName + "_sign");
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlockObject, wallSignBlock);
         return signBlockObject;
     }
@@ -649,24 +652,20 @@ public class AtumBlocks {
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
     public static RegistryObject<Block> registerWithRenderer(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
-        return registerBlockWithItem(block, () -> new BlockItemWithoutLevelRenderer(block.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
+        RegistryObject<Block> registryObject = registerBaseBlock(block, name);
+        AtumItems.registerItem(() -> new BlockItemWithoutLevelRenderer(registryObject.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
+        return registryObject;
     }
 
     /**
-     * Same as {@link AtumBlocks#registerBlockWithItem(Supplier, Supplier, String)}, but have a basic BlockItem
+     * Same as {@link AtumBlocks#registerBaseBlock(Supplier, String)}, but registers a basic BlockItem at the same time
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
     public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
-        return registerBlockWithItem(block, () -> new BlockItem(block.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
-    }
-
-    /**
-     * Same as {@link AtumBlocks#registerBaseBlock(Supplier, String)}, but allows for registering an BlockItem at the same time
-     */
-    public static RegistryObject<Block> registerBlockWithItem(@Nonnull Supplier<Block> block, Supplier<Item> blockItem, @Nonnull String name) {
-        AtumItems.registerItem(blockItem, name);
-        return registerBaseBlock(block, name);
+        RegistryObject<Block> registryObject = registerBaseBlock(block, name);
+        AtumItems.registerItem(() -> new BlockItem(registryObject.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
+        return registryObject;
     }
 
     /**
