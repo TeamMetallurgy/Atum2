@@ -105,5 +105,6 @@ public class Atum {
         AtumParticles.PARTICLE_DEFERRED.register(modBus);
         AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
+        AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);
     }
 }

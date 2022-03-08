@@ -26,6 +26,6 @@ license="All Rights Reserved"
 [[dependencies.atum]]
     modId="curios"
     mandatory=true
-    versionRange="[1.18.1-5.0.6.0,)"
+    versionRange="[1.18.2-5.0.6.3,)"
     ordering="AFTER"
     side="BOTH"

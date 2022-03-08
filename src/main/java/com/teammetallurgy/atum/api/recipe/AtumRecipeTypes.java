@@ -8,15 +8,20 @@ import com.teammetallurgy.atum.integration.crafttweaker.CTKiln;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipeTypes {
-    public static final RecipeType<KilnRecipe> KILN = register("kiln");
-    public static final RecipeType<QuernRecipe> QUERN = register("quern");
-    public static final RecipeType<SpinningWheelRecipe> SPINNING_WHEEL = register("spinning_wheel");
+    public static RecipeType<KilnRecipe> KILN;
+    public static RecipeType<QuernRecipe> QUERN;
+    public static RecipeType<SpinningWheelRecipe> SPINNING_WHEEL;
     /**
      * Instance for the Kiln recipe blacklist.
      * Used to blacklist what Furnace recipes the Kiln grabs
@@ -32,5 +37,12 @@ public class AtumRecipeTypes {
                 return id.toString();
             }
         });
+    }
+
+    @SubscribeEvent
+    public static void registerRecipeTypes(RegistryEvent.Register<RecipeSerializer<?>> event) {
+        KILN = register("kiln");
+        QUERN = register("quern");
+        SPINNING_WHEEL = register("spinning_wheel");
     }
 }
