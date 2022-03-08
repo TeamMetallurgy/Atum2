@@ -52,7 +52,7 @@ public class GodforgeBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new GodforgeTileEntity(pos ,state);
+        return AtumTileEntities.GODFORGE.get().create(pos, state);
     }
 
     @Override

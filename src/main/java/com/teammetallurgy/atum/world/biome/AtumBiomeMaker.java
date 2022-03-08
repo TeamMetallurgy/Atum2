@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.resources.ResourceLocation;

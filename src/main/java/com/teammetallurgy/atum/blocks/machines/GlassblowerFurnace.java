@@ -26,7 +26,7 @@ public class GlassblowerFurnace extends AbstractFurnaceBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new GlassblowerFurnaceTileEntity(pos, state);
+        return AtumTileEntities.GLASSBLOWER_FURNACE.get().create(pos, state);
     }
 
     @Override

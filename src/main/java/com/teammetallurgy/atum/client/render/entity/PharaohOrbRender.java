@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.PharaohOrbModel;
 import com.teammetallurgy.atum.entity.projectile.PharaohOrbEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;

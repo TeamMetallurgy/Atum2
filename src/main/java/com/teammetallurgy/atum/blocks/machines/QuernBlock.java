@@ -57,7 +57,7 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
     @Override
     @Nullable
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new QuernTileEntity(pos, state);
+        return AtumTileEntities.QUERN.get().create(pos, state);
     }
 
     @Override

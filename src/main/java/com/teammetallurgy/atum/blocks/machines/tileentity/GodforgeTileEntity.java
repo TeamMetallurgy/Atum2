@@ -174,11 +174,10 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
 
     protected boolean canSmelt(@Nonnull ItemStack input) {
         if (!this.inventory.get(0).isEmpty()) {
-            if (input.isEmpty() || !(input.getItem() instanceof IArtifact)) {
+            if (input.isEmpty() || !(input.getItem() instanceof IArtifact artifact)) {
                 return false;
             } else {
                 ItemStack output = this.inventory.get(2);
-                IArtifact artifact = (IArtifact) input.getItem();
                 if (output.isEmpty()) {
                     return true;
                 } else if (!((GodshardItem) output.getItem()).getGod().equals(artifact.getGod())) {

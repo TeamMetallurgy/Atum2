@@ -34,7 +34,7 @@ public class LimestoneFurnaceBlock extends FurnaceBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new LimestoneFurnaceTileEntity(pos, state);
+        return AtumTileEntities.LIMESTONE_FURNACE.get().create(pos, state);
     }
 
     @Override

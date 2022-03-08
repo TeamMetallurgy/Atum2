@@ -55,7 +55,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ import java.util.function.Supplier;
 public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
     private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
-
     /**
      * Model Layers
      **/

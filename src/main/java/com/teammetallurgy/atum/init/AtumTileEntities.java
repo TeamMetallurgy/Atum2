@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.init;
 
-import com.mojang.datafixers.types.Type;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.curio.tileentity.*;
 import com.teammetallurgy.atum.blocks.machines.tileentity.*;
@@ -11,8 +10,6 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import net.minecraft.Util;
-import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

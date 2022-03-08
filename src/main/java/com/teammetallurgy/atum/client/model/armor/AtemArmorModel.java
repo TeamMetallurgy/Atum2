@@ -16,7 +16,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 
-/*@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)*/
 public class AtemArmorModel extends ArmorModel {
 	private boolean hasFullSet;
 	private final ModelPart leftBoot;

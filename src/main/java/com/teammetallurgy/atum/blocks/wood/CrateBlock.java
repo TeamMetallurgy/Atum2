@@ -33,9 +33,8 @@ public class CrateBlock extends ChestBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new CrateTileEntity(pos, state);
+        return AtumTileEntities.CRATE.get().create(pos, state);
     }
-
 
     @Override
     @Nonnull

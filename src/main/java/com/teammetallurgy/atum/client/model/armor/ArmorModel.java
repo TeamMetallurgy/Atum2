@@ -1,8 +1,6 @@
 package com.teammetallurgy.atum.client.model.armor;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,12 +22,11 @@ public class ArmorModel extends HumanoidModel<LivingEntity> {
 
     @Override
     public void setupAnim(@Nonnull LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) { //Fixes armor on armor stands
-        if (!(entity instanceof ArmorStand)) {
+        if (!(entity instanceof ArmorStand armorStand)) {
             super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             return;
         }
 
-        ArmorStand armorStand = (ArmorStand) entity;
         this.head.xRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getX();
         this.head.yRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getY();
         this.head.zRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getZ();

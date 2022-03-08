@@ -39,8 +39,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
 
     @Override
     public void inventoryTick(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
+        if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER.get()) {
                 HUNGER_TIMER.putIfAbsent(player, 80);
                 int hungerTimer = HUNGER_TIMER.getInt(player);

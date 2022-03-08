@@ -125,8 +125,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
                 }
             }
         }
-        if (event.getEntityLiving() instanceof Player) {
-            Player player = (Player) event.getEntityLiving();
+        if (event.getEntityLiving() instanceof Player player) {
             Inventory inv = player.getInventory();
             if (inv.contains(findAnubisWrath(player))) {
                 CompoundTag tag = StackHelper.getTag(findAnubisWrath(player));

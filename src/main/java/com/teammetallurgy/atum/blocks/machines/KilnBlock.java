@@ -44,7 +44,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
     @Override
     @Nullable
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new KilnTileEntity(pos, state);
+        return AtumTileEntities.KILN.get().create(pos, state);
     }
     
     @Override
@@ -220,8 +220,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
     @Nonnull
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         BlockEntity tileEntity = world.getBlockEntity(currentPos);
-        if (tileEntity instanceof KilnTileEntity) {
-            KilnTileEntity kiln = (KilnTileEntity) tileEntity;
+        if (tileEntity instanceof KilnTileEntity kiln) {
             if (this.getPrimaryKilnBlock(kiln.getLevel(), currentPos) != null) {
                 return state.setValue(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }

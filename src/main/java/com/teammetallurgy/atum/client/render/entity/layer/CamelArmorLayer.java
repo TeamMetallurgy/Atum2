@@ -8,7 +8,6 @@ import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.Util;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

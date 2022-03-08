@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.trap;
 
-import com.teammetallurgy.atum.blocks.trap.tileentity.SmokeTrapTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
@@ -16,7 +15,7 @@ public class SmokeTrapBlock extends TrapBlock {
     @Override
     @Nullable
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new SmokeTrapTileEntity(pos, state);
+        return getTrapBlockEntityType().create(pos, state);
     }
 
     @Override

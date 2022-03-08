@@ -57,8 +57,7 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
     @Override
     public void attack(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof CurioDisplayTileEntity) {
-            CurioDisplayTileEntity displayDisplay = (CurioDisplayTileEntity) tileEntity;
+        if (tileEntity instanceof CurioDisplayTileEntity displayDisplay) {
             if (!displayDisplay.isEmpty()) {
                 StackHelper.dropInventoryItems(world, pos, displayDisplay);
                 displayDisplay.setChanged();
@@ -74,8 +73,7 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
         ItemStack heldStack = player.getItemInHand(hand);
         BlockEntity tileEntity = world.getBlockEntity(pos);
 
-        if (tileEntity instanceof CurioDisplayTileEntity) {
-            CurioDisplayTileEntity curioDisplay = (CurioDisplayTileEntity) tileEntity;
+        if (tileEntity instanceof CurioDisplayTileEntity curioDisplay) {
             ItemStack slotStack = curioDisplay.getItem(0);
             if (slotStack.isEmpty() && curioDisplay.canPlaceItem(0, heldStack)) {
                 ItemStack copyStack = heldStack.copy();

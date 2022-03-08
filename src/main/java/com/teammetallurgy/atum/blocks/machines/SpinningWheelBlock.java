@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.ChatFormatting;
@@ -51,7 +52,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new SpinningWheelTileEntity(pos, state);
+        return AtumTileEntities.SPINNING_WHEEL.get().create(pos, state);
     }
 
     @Override
@@ -79,7 +80,6 @@ public class SpinningWheelBlock extends BaseEntityBlock {
         ItemStack heldStack = player.getItemInHand(hand);
 
         if (tileEntity instanceof SpinningWheelTileEntity spinningWheel && hand == InteractionHand.MAIN_HAND) {
-
             Direction facing = rayTraceResult.getDirection();
             if (facing == state.getValue(FACING)) {
                 this.output(world, pos, player, spinningWheel);

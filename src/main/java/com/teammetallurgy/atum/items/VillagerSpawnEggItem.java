@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import javax.annotation.Nonnull;

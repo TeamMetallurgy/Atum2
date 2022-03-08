@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.QuailModel;
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

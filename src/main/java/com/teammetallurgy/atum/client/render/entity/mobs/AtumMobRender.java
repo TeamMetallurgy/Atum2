@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.ITexture;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

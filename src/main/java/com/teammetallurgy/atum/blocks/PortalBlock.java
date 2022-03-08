@@ -61,14 +61,14 @@ public class PortalBlock extends HalfTransparentBlock {
     }
 
     public boolean trySpawnPortal(Level world, BlockPos pos) {
-        PortalBlock.Size size = new PortalBlock.Size(world, pos);
+        Size size = new Size(world, pos);
 
         if (size.isValid()) {
             size.placePortalBlocks();
             world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.7F, 1.0F);
             return true;
         } else {
-            PortalBlock.Size size1 = new PortalBlock.Size(world, pos);
+            Size size1 = new Size(world, pos);
 
             if (size1.isValid()) {
                 size1.placePortalBlocks();

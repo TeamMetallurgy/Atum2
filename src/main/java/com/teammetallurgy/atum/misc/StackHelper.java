@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -59,14 +58,6 @@ public class StackHelper {
      */
     public static boolean hasKey(@Nonnull ItemStack stack, String string) {
         return stack.getTag() != null && stack.getTag().contains(string);
-    }
-
-    public static Block getBlockFromName(String name) {
-        return getBlockFromName(new ResourceLocation(Atum.MOD_ID, name));
-    }
-
-    public static Block getBlockFromName(ResourceLocation location) {
-        return ForgeRegistries.BLOCKS.getValue(location);
     }
 
     public static Item getItemFromName(String name) {

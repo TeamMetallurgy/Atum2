@@ -58,8 +58,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
     @SubscribeEvent
     public static void onCuriosDrop(DropRulesEvent event) {
-        if (event.getEntityLiving() instanceof Player) {
-            Player player = (Player) event.getEntityLiving();
+        if (event.getEntityLiving() instanceof Player player) {
             CompoundTag playerData = getPlayerData(player);
             if (!player.level.isClientSide && playerData.contains("Inventory")) { //Keep all Curios items
                 CuriosApi.getCuriosHelper().getEquippedCurios(player).ifPresent(handler -> {

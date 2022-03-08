@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
-import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

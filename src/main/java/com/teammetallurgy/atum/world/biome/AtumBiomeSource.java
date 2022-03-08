@@ -16,14 +16,12 @@ import net.minecraft.util.VisibleForDebug;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class AtumBiomeSource extends BiomeSource {
     public static final MapCodec<AtumBiomeSource> DIRECT_CODEC = RecordCodecBuilder.mapCodec((k) -> {

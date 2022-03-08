@@ -1,10 +1,7 @@
 package com.teammetallurgy.atum.world;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nonnull;

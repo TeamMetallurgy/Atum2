@@ -29,10 +29,8 @@ public class OphidianTongueBlock extends VineBlock {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity) {
-            LivingEntity livingBase = (LivingEntity) entity;
-            if (livingBase instanceof Player) {
-                Player player = (Player) livingBase;
+        if (!world.isClientSide && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity livingBase) {
+            if (livingBase instanceof Player player) {
                 if (!player.isCreative()) {
                     player.addEffect(new MobEffectInstance(MobEffects.POISON, 35));
                 }

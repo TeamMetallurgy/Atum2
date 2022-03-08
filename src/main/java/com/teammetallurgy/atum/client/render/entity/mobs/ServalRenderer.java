@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.ServalModel;
 import com.teammetallurgy.atum.client.render.entity.layer.ServalCollorLayer;
 import com.teammetallurgy.atum.entity.animal.ServalEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;

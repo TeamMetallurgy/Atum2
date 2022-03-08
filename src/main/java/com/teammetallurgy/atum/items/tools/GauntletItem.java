@@ -39,8 +39,7 @@ public class GauntletItem extends SwordItem {
     public static void onHurt(LivingHurtEvent event) {
         LivingEntity target = event.getEntityLiving();
         Entity source = event.getSource().getEntity();
-        if (!(target instanceof StoneBaseEntity) && source instanceof LivingEntity) {
-            LivingEntity attacker = (LivingEntity) source;
+        if (!(target instanceof StoneBaseEntity) && source instanceof LivingEntity attacker) {
             if (attacker.getMainHandItem().getItem() instanceof GauntletItem) {
                 float knockback = 0.0F;
                 if (COOLDOWN.getFloat(attacker) == 1.0F) {

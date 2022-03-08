@@ -49,7 +49,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new SarcophagusTileEntity(pos, state);
+        return AtumTileEntities.SARCOPHAGUS.get().create(pos, state);
     }
 
     @SubscribeEvent

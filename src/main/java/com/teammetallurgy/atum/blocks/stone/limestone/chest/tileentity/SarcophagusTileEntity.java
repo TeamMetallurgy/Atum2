@@ -81,7 +81,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putBoolean("spawned", this.hasSpawned);
         tag.putBoolean("openable", this.isOpenable);

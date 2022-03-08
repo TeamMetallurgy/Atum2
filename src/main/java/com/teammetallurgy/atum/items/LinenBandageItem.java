@@ -27,9 +27,8 @@ public class LinenBandageItem extends Item {
 
     @Override
     @Nonnull
-    public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity livingBase) {
-        if (livingBase instanceof Player) {
-            Player player = (Player) livingBase;
+    public ItemStack finishUsingItem(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity livingBase) {
+        if (livingBase instanceof Player player) {
             for (MobEffectInstance potionEffect : player.getActiveEffects()) {
                 MobEffect potion = potionEffect.getEffect();
                 if (potion.getCategory() == MobEffectCategory.HARMFUL) {
@@ -41,12 +40,12 @@ public class LinenBandageItem extends Item {
             }
             player.heal(10);
         }
-        return super.finishUsingItem(stack, world, livingBase);
+        return super.finishUsingItem(stack, level, livingBase);
     }
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
         player.startUsingItem(hand);
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(hand));
     }

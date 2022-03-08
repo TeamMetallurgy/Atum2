@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
-import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +37,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new KilnTileEntity(pos, state);
+        return AtumTileEntities.KILN.get().create(pos, state);
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.curio.CurioDisplayBlock;
-import com.teammetallurgy.atum.blocks.curio.tileentity.*;
 import com.teammetallurgy.atum.blocks.lighting.*;
 import com.teammetallurgy.atum.blocks.linen.LinenBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
@@ -78,43 +77,43 @@ public class AtumBlocks {
     public static final RegistryObject<Block> PALM_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new PalmCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.PALM_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "palm_curio_display");
     public static final RegistryObject<Block> DEADWOOD_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new DeadwoodCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.DEADWOOD_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "deadwood_curio_display");
     public static final RegistryObject<Block> ACACIA_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.WOOD) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new AcaciaCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.ACACIA_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "acacia_curio_display");
     public static final RegistryObject<Block> LIMESTONE_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new LimestoneCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.LIMESTONE_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "limestone_curio_display");
     public static final RegistryObject<Block> ALABASTER_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new AlabasterCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.ALABASTER_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "alabaster_curio_display");
     public static final RegistryObject<Block> PORPHYRY_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.STONE) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new PorphyryCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.PORPHYRY_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "porphyry_curio_display");
     public static final RegistryObject<Block> NEBU_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(Material.METAL) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-            return new NebuCurioDisplayTileEntity(pos, state);
+            return AtumTileEntities.NEBU_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "nebu_curio_display");
     public static final RegistryObject<Block> BURNING_TRAP = registerBlock(BurningTrapBlock::new, "burning_trap");

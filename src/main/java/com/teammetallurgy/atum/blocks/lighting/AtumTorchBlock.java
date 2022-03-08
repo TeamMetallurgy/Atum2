@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks.lighting;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.Level;

@@ -21,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -102,11 +101,9 @@ public class RelicItem extends Item {
     public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         if (getQuality(stack.getItem()) == Quality.DIRTY) {
             if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY)
-                        .append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY).append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
             } else {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY)
-                        .append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY).append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
             }
         } else {
             tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.vanity").withStyle(ChatFormatting.YELLOW));

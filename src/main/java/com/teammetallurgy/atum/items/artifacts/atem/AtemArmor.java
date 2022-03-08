@@ -30,7 +30,6 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -104,8 +103,7 @@ public class AtemArmor extends ArtifactArmor {
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
         LivingEntity livingEntity = event.getEntityLiving();
-        if (livingEntity instanceof Player) {
-            Player player = (Player) livingEntity;
+        if (livingEntity instanceof Player player) {
             if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM.get(), AtumItems.BODY_OF_ATEM.get(), AtumItems.LEGS_OF_ATEM.get(), AtumItems.FEET_OF_ATEM.get())) {
                 if (!RECALL_TIMER.containsKey(player)) {
                     livingEntity.setHealth(livingEntity.getMaxHealth());

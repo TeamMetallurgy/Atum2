@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelArmorLayer;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelDecorLayer;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

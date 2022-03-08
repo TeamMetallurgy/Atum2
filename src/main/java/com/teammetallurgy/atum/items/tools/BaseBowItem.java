@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.mojang.datafixers.DataFixUtils;
-import com.teammetallurgy.atum.entity.animal.QuailEntity;
 import com.teammetallurgy.atum.entity.animal.QuailBase;
 import net.minecraft.world.entity.ai.goal.Goal;
 

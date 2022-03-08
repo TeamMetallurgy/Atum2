@@ -6,18 +6,14 @@ import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
-import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
-import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
-import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
 import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,7 +31,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +52,6 @@ public class Atum {
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
         modBus.addListener(this::interModComms);
-        modBus.addListener(this::gatherDataEvent);
         registerDeferredRegistries(modBus);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
@@ -97,18 +91,6 @@ public class Atum {
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.RING.getMessageBuilder().build());
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
-    }
-
-    public void gatherDataEvent(GatherDataEvent event) {
-        DataGenerator gen = event.getGenerator();
-
-        if (event.includeClient()) {
-            gen.addProvider(new BlockStatesGenerator(gen, event.getExistingFileHelper()));
-        }
-
-        if (event.includeServer()) {
-            gen.addProvider(new RecipeGenerator(gen));
-        }
     }
 
     public static void registerDeferredRegistries(IEventBus modBus) {
