@@ -12,4 +12,3 @@ public class AtumSurfaceBuilders { //TODO Only kept for temporary reference
     public static final SurfaceBuilderBaseConfiguration GRAVEL_CRACKED_CONFIG = new SurfaceBuilderBaseConfiguration(GRAVEL, CRACKED_LIMESTONE, GRAVEL);
     public static final SurfaceBuilderBaseConfiguration OASIS_CONFIG = new SurfaceBuilderBaseConfiguration(FERTILE_SOIL, SAND, FERTILE_SOIL);
 }*/
-z
