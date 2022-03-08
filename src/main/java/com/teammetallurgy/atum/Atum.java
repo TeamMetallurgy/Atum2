@@ -60,7 +60,6 @@ public class Atum {
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
-        ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
         AtumRecipes.addBrewingRecipes();
         IntegrationHandler.INSTANCE.init();
         event.enqueueWork(AtumBlocks::setBlockInfo);
