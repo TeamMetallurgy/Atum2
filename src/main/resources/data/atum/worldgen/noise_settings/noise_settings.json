@@ -222,20 +222,20 @@
     "continents": "minecraft:overworld/continents",
     "barrier": {
       "noise": "minecraft:aquifer_barrier",
-      "xz_scale": 1.0,
-      "y_scale": 0.5,
+      "xz_scale": 0.5,
+      "y_scale": 0.25,
       "type": "minecraft:noise"
     },
     "fluid_level_floodedness": {
       "noise": "minecraft:aquifer_fluid_level_floodedness",
-      "xz_scale": 1.0,
-      "y_scale": 0.67,
+      "xz_scale": 0.6,
+      "y_scale": 0.33,
       "type": "minecraft:noise"
     },
     "fluid_level_spread": {
       "noise": "minecraft:aquifer_fluid_level_spread",
-      "xz_scale": 1.0,
-      "y_scale": 0.7142857142857143,
+      "xz_scale": 0.4,
+      "y_scale": 0.2,
       "type": "minecraft:noise"
     }
   },

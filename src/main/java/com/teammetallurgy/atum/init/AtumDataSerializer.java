@@ -18,7 +18,7 @@ public class AtumDataSerializer {
     public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
         @Override
         public void write(FriendlyByteBuf buf, AtumVillagerData value) {
-            buf.writeUtf(AtumVillagerProfession.villagerProfession.get().getKey(value.getAtumProfession()).toString());
+            buf.writeUtf(String.valueOf(Atum.villagerProfession.get().getKey(value.getAtumProfession())));
             buf.writeVarInt(value.getLevel());
             buf.writeEnum(value.getRace());
         }
@@ -26,7 +26,7 @@ public class AtumDataSerializer {
         @Override
         @Nonnull
         public AtumVillagerData read(FriendlyByteBuf buf) {
-            return new AtumVillagerData(AtumVillagerProfession.villagerProfession.get().getValue(new ResourceLocation(buf.readUtf())), buf.readVarInt(), buf.readEnum(Race.class));
+            return new AtumVillagerData(Atum.villagerProfession.get().getValue(new ResourceLocation(buf.readUtf())), buf.readVarInt(), buf.readEnum(Race.class));
         }
 
         @Override

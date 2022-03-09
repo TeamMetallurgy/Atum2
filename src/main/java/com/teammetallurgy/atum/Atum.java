@@ -31,11 +31,16 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
+
+import java.util.function.Supplier;
 
 @Mod(value = Atum.MOD_ID)
 public class Atum {
@@ -46,6 +51,8 @@ public class Atum {
     public static Codec<AtumBiomeSource> ATUM_MULTI_NOISE;
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
+    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(AtumVillagerProfession.class, Atum.MOD_ID);
+    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry("villager_profession", () -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setType(AtumVillagerProfession.class).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -102,7 +109,7 @@ public class Atum {
         AtumPointsOfInterest.POI_DEFERRED.register(modBus);
         AtumSounds.SOUND_DEFERRED.register(modBus);
         AtumParticles.PARTICLE_DEFERRED.register(modBus);
-        AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
+        ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
         AtumDataSerializer.DATA_SERIALIZER_DEFERRED.register(modBus);
         AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);

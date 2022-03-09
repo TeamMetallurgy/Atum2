@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import net.minecraft.core.BlockPos;
@@ -38,7 +39,7 @@ public class AtumAssignProfessionTask extends Behavior<Villager> {
             Optional.ofNullable(minecraftserver.getLevel(globalpos.dimension())).flatMap((w) -> {
                 return w.getPoiManager().getType(globalpos.pos());
             }).flatMap((poiType) -> {
-                return AtumVillagerProfession.villagerProfession.get().getValues().stream().filter((profession) -> {
+                return Atum.villagerProfession.get().getValues().stream().filter((profession) -> {
                     return profession.getPointOfInterest() == poiType;
                 }).findFirst();
             }).ifPresent((profession) -> {

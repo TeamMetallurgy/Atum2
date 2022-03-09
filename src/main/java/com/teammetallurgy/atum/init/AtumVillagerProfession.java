@@ -19,10 +19,7 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumVillagerProfession extends ForgeRegistryEntry<AtumVillagerProfession> {
-    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession;
-    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(AtumVillagerProfession.class, Atum.MOD_ID);
     public static final RegistryObject<AtumVillagerProfession> NONE = register("none", AtumPointsOfInterest.UNEMPLOYED, null);
     public static final RegistryObject<AtumVillagerProfession> ALCHEMIST = register("alchemist", () -> PoiType.CLERIC, SoundEvents.VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> ARMORER = register("armorer", () -> PoiType.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);
@@ -79,11 +76,6 @@ public class AtumVillagerProfession extends ForgeRegistryEntry<AtumVillagerProfe
     }
 
     public static RegistryObject<AtumVillagerProfession> register(String name, Supplier<PoiType> pointOfInterest, ImmutableSet<Supplier<Item>> specificItems, ImmutableSet<Supplier<Block>> relatedWorldBlocks, @Nullable SoundEvent sound) {
-        return ATUM_PROFESSION_DEFERRED.register(name, () -> new AtumVillagerProfession(name, pointOfInterest.get(), specificItems, relatedWorldBlocks, sound));
-    }
-
-    @SubscribeEvent
-    public static void register(RegistryEvent.NewRegistry event) {
-        villagerProfession = AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.makeRegistry("villager_profession", () -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setType(AtumVillagerProfession.class).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
+        return Atum.ATUM_PROFESSION_DEFERRED.register(name, () -> new AtumVillagerProfession(name, pointOfInterest.get(), specificItems, relatedWorldBlocks, sound));
     }
 }

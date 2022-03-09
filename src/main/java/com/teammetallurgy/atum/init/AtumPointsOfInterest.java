@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class AtumPointsOfInterest {
     public static final DeferredRegister<PoiType> POI_DEFERRED = DeferredRegister.create(ForgeRegistries.POI_TYPES, Atum.MOD_ID);
     private static final Supplier<Set<PoiType>> WORKSTATIONS = Suppliers.memoize(() -> {
-        return AtumVillagerProfession.villagerProfession.get().getValues().stream().map(AtumVillagerProfession::getPointOfInterest).collect(Collectors.toSet());
+        return Atum.villagerProfession.get().getValues().stream().map(AtumVillagerProfession::getPointOfInterest).collect(Collectors.toSet());
     });
     public static final Predicate<PoiType> ANY_VILLAGER_WORKSTATION = (type) -> {
         return WORKSTATIONS.get().contains(type);
