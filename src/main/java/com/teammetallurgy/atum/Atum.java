@@ -52,7 +52,7 @@ public class Atum {
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
         modBus.addListener(this::interModComms);
-        registerDeferredRegistries(modBus);
+        this.registerDeferredRegistries(modBus);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
@@ -92,7 +92,7 @@ public class Atum {
         InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
     }
 
-    public static void registerDeferredRegistries(IEventBus modBus) {
+    public void registerDeferredRegistries(IEventBus modBus) {
         AtumBlocks.BLOCK_DEFERRED.register(modBus);
         AtumItems.ITEM_DEFERRED.register(modBus);
         AtumEntities.ENTITY_DEFERRED.register(modBus);
@@ -104,6 +104,7 @@ public class Atum {
         AtumParticles.PARTICLE_DEFERRED.register(modBus);
         AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
+        AtumDataSerializer.DATA_SERIALIZER_DEFERRED.register(modBus);
         AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);
     }
 }
