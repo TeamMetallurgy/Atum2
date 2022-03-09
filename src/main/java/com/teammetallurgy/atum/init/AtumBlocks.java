@@ -231,6 +231,7 @@ public class AtumBlocks {
     public static final RegistryObject<Block> LIMESTONE_CRACKED_BRICK_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CRACKED_BRICK.get())), "limestone_brick_cracked_brick_door");
     public static final RegistryObject<Block> LIMESTONE_BRICK_CHISELED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CHISELED.get())), "limestone_brick_chiseled_door");
     public static final RegistryObject<Block> LIMESTONE_BRICK_CARVED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CARVED.get())), "limestone_brick_carved_door");
+    public static final RegistryObject<Block> KARST = registerBlock(() -> new Block(copy(LIMESTONE.get()).strength(3.0F, 6.0F)), "karst");
     public static final RegistryObject<Block> ALABASTER = registerBlock(() -> new Block(of(Material.STONE, MaterialColor.QUARTZ).strength(2.0F, 8.0F)), "alabaster");
     public static final RegistryObject<Block> ALABASTER_BRICK_SMOOTH = registerBlock(() -> new Block(copy(ALABASTER.get())), "alabaster_brick_smooth");
     public static final RegistryObject<Block> ALABASTER_BRICK_POLISHED = registerBlock(() -> new Block(copy(ALABASTER.get())), "alabaster_brick_polished");

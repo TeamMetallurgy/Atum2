@@ -10,6 +10,12 @@ import net.minecraft.world.level.biome.*;
 
 public class AtumBiomeMaker { //TODO
 
+    public static Biome makeKarstCaves(String biomeName) {
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        addDefaultSpawns(biomeName);
+        return new Builder().generationSettings(biomeGen.build()).mobSpawnSettings(new MobSpawnSettings.Builder().build()).build();
+    }
+    
     public static Biome makeDeadOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED)*/);
         addDefaultSpawns(biomeName);
@@ -36,7 +42,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSparseWoods(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_DRY_GRASS_NOISE_08_2_3);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_TALL_GRASS);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_3_01_1);*/
@@ -44,7 +50,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeDenseWoods(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DENSE_DRY_GRASS_NOISE_08_5_10);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DRY_TALL_GRASS);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_20_025_3);*/
@@ -93,7 +99,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeLimestoneCrags(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         /*biomeGen.addFeature(SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE_CONFIGURED);
@@ -159,7 +165,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandDunes(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         /*iomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_01_1);
@@ -182,7 +188,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandHills(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_08_1);
@@ -203,7 +209,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandPlains(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY)*/);
+        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         /*biomeGen.addStructureStart(AtumStructures.GIRAFI_TOMB_FEATURE);

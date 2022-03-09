@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "atum:block/karst" },
+      { "model": "atum:block/karst_mirrored" },
+      { "model": "atum:block/karst", "y": 180 },
+      { "model": "atum:block/karst_mirrored", "y": 180 }
+    ]
+  }
+}
