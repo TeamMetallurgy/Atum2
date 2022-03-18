@@ -20,12 +20,12 @@ public class AtumBipedRender<T extends MobEntity & ITexture, M extends BipedMode
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public AtumBipedRender(EntityRendererManager manager) {
-        this(manager, (M) new PlayerModel(0.0F, false), (M) new PlayerModel(0.5F, false), (M) new PlayerModel(1.0F, false));
+        this(manager, (M) new PlayerModel(0.0F, false));
     }
 
-    public AtumBipedRender(EntityRendererManager renderManager, M model, M modelArmorHalf, M modelArmorFull) {
+    public AtumBipedRender(EntityRendererManager renderManager, M model) {
         super(renderManager, model, 0.5F);
-        this.addLayer(new BipedArmorLayer<>(this, modelArmorHalf, modelArmorFull));
+        this.addLayer(new BipedArmorLayer<>(this, new BipedModel<>(0.5F), new BipedModel<>(1.0F)));
     }
 
     @Override
