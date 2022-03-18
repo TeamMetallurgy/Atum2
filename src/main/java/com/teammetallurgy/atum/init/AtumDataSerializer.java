@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import javax.annotation.Nonnull;
 
 public class AtumDataSerializer {
-    public static final DeferredRegister<DataSerializerEntry> DATA_SERIALIZER_DEFERRED = DeferredRegister.create(ForgeRegistries.DATA_SERIALIZERS, Atum.MOD_ID);
+    public static final DeferredRegister<DataSerializerEntry> DATA_SERIALIZER_DEFERRED = DeferredRegister.create(ForgeRegistries.Keys.DATA_SERIALIZERS, Atum.MOD_ID);
     public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
         @Override
         public void write(FriendlyByteBuf buf, AtumVillagerData value) {

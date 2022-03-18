@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -18,12 +19,15 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumBiomes {
     public static final DeferredRegister<Biome> BIOME_DEFERRED = DeferredRegister.create(ForgeRegistries.BIOMES, Atum.MOD_ID);
     private static final HashMap<ResourceKey<Biome>, BiomeRegion> BIOME_KEYS = new HashMap<>();
+    public static final Set<ResourceKey<Biome>> BIOMES = new HashSet<>();
     public static final ResourceKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis("dead_oasis"), "dead_oasis", BiomeRegion.STRANGE_SANDS);  //Sub Biome
     public static final ResourceKey<Biome> DENSE_WOODS = registerBiome(AtumBiomeMaker.makeDenseWoods("dense_woods"), "dense_woods", 10, BiomeRegion.DESSICATED_WOODS);
     public static final ResourceKey<Biome> SPARSE_WOODS = registerBiome(AtumBiomeMaker.makeSparseWoods("sparse_woods"), "sparse_woods", 10, BiomeRegion.DESSICATED_WOODS);
@@ -74,7 +78,7 @@ public class AtumBiomes {
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         AtumBiomes.addBiomeTags();
-        Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
+        Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.ATUM_BIOME_SOURCE_CODEC);
     }
 
     /**
@@ -96,6 +100,7 @@ public class AtumBiomes {
     public static ResourceKey<Biome> registerBiomeKey(String biomeName, BiomeRegion biomeRegion) {
         ResourceKey<Biome> biomeKey = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
         BIOME_KEYS.put(biomeKey, biomeRegion);
+        BIOMES.add(biomeKey);
         return biomeKey;
     }
 

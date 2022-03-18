@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.4",
+  "package": "com.teammetallurgy.atum.mixin",
+  "refmap": "atum.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinAtumBiomeBuilder"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

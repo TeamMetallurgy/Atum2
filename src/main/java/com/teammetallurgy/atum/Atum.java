@@ -67,8 +67,8 @@ public class Atum {
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
-        AtumRecipes.addBrewingRecipes();
         IntegrationHandler.INSTANCE.init();
+        event.enqueueWork(AtumRecipes::addBrewingRecipes);
         event.enqueueWork(AtumBlocks::setBlockInfo);
         event.enqueueWork(AtumItems::setItemInfo);
         event.enqueueWork(() -> WoodType.register(PALM));

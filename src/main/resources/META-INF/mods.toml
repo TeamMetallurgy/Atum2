@@ -19,7 +19,7 @@ license="All Rights Reserved"
 [[dependencies.atum]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[40.0.18,)"
     ordering="AFTER"
     side="BOTH"
 
