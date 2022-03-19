@@ -28,6 +28,6 @@ public class WandererDyeableArmor extends TexturedArmorItem implements DyeableLe
 
     @Override
     public float getFogReduction(float fogDensity, ItemStack armorItem) {
-        return fogDensity / 2.0F;
+        return fogDensity * 2.0F;
     }
 }

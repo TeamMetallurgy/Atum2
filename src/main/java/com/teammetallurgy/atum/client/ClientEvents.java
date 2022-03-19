@@ -16,6 +16,7 @@ import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -49,15 +51,16 @@ public class ClientEvents {
         Level world = entity.level;
 
         if (world.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
-            float fogDensity = 0.05F;
+            event.setCanceled(true); //Needs to get canceled, before it can work
+            float fogDensity = 200.0F;
 
             if (entity instanceof Player player) {
                 if (player.blockPosition().getY() <= 60) {
-                    fogDensity += (float) (62 - player.blockPosition().getY()) * 0.00333F;
+                    fogDensity += (float) (62 - player.blockPosition().getY()) * 0.333F;
                 }
-                Biome biome = world.getBiome(entity.blockPosition()).value();
-                if (biome.getRegistryName() == AtumBiomes.OASIS.getRegistryName()) { //TODO Test
-                    fogDensity = fogDensity / 2.0F;
+                Holder<Biome> biome = world.getBiome(player.blockPosition());
+                if (biome.is(AtumBiomes.OASIS.location())) {
+                    fogDensity *= 2.0F;
                 }
 
                 for (ItemStack armor : player.getArmorSlots()) {
@@ -71,8 +74,7 @@ public class ClientEvents {
                 if (player.getY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);
                 }
-                event.setDensity(fogDensity); //TODO Test if this new event works properly
-                event.setResult(Event.Result.ALLOW);
+                event.setDensity(fogDensity);
             }
         }
     }
