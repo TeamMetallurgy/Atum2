@@ -35,7 +35,9 @@ public class AtumSpawnHandling {
                     int weight = AtumConfig.Helper.get(baseCategory, mobName, "weight");
                     int min = AtumConfig.Helper.get(baseCategory, mobName, "min");
                     int max = AtumConfig.Helper.get(baseCategory, mobName, "max");
-                    event.getSpawns().getSpawner(classification).add(new MobSpawnSettings.SpawnerData(entityType, weight, min, max));
+                    if (weight > 0 && min > 0) {
+                        event.getSpawns().getSpawner(classification).add(new MobSpawnSettings.SpawnerData(entityType, weight, min, max));
+                    }
                 }
             }
         }

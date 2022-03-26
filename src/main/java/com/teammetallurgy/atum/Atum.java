@@ -19,6 +19,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -45,9 +48,13 @@ import java.util.function.Supplier;
 @Mod(value = Atum.MOD_ID)
 public class Atum {
     public static final String MOD_ID = "atum";
+    public static final ResourceLocation LOCATION = new ResourceLocation(MOD_ID, "atum");
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final CreativeModeTab GROUP = new AtumItemGroup();
-    public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "atum"));
+    public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, LOCATION);
+    public static final ResourceKey<LevelStem> LEVEL_STEM = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, LOCATION);
+    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, LOCATION);
+    public static final ResourceKey<NoiseGeneratorSettings> DIMENSION_SETTINGS = ResourceKey.create(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, LOCATION);
     public static Codec<AtumBiomeSource> ATUM_MULTI_NOISE;
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");

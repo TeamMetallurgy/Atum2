@@ -78,7 +78,7 @@ public class AtumBiomes {
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         AtumBiomes.addBiomeTags();
-        Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.ATUM_BIOME_SOURCE_CODEC);
+        Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
     }
 
     /**
