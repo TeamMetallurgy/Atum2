@@ -29,16 +29,16 @@ import java.util.OptionalInt;
 @Mixin(RegistryLoader.class)
 public class MixinAtumBiomeBuilder {
 
-    @Inject(method = "overrideElementFromResources(Lnet/minecraft/core/WritableRegistry;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/DynamicOps;)Lcom/mojang/serialization/DataResult;", at = @At("HEAD"))
-    void register(WritableRegistry<?> writableRegistry, ResourceKey<? extends Registry<?>> registryResourceKey, Codec<?> codec, ResourceKey<?> resourceKey, DynamicOps<JsonElement> dynamicOps, CallbackInfoReturnable<DataResult<Holder<?>>> cir) {
-        //System.out.println(writableRegistry.get(Atum.LOCATION));
-        if (registryResourceKey == Registry.LEVEL_STEM_REGISTRY && writableRegistry.get(Atum.LOCATION) == null) {
-            System.out.println("I GOT CALLED HALLEAWUASDHCSAHBdfsa HDSAH");
-            this.addDimensions((MappedRegistry<LevelStem>) writableRegistry);
+    @Inject(method = "overrideRegistryFromResources(Lnet/minecraft/core/WritableRegistry;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/DynamicOps;)Lcom/mojang/serialization/DataResult;", at = @At("HEAD"))
+    void register(WritableRegistry<?> writableRegistry, ResourceKey<? extends Registry<?>> registryResourceKey, Codec<?> codec, DynamicOps<JsonElement> dynamicOps, CallbackInfoReturnable<DataResult<Holder<?>>> cir) {
+        //System.out.println(!writableRegistry.containsKey(Atum.LOCATION));
+        if (registryResourceKey == Registry.LEVEL_STEM_REGISTRY && !writableRegistry.containsKey(Atum.LOCATION)) {
+            System.out.println("registerLevelStem");
+            //this.registerLevelStem((MappedRegistry<LevelStem>) writableRegistry);
         }
     }
 
-    private void addDimensions(MappedRegistry<LevelStem> registry) {
+    private void registerLevelStem(MappedRegistry<LevelStem> registry) {
         RegistryAccess registryAccess = BuiltinRegistries.ACCESS;
         LevelStem dimension = createDimension(registryAccess.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY),
                 registryAccess.registryOrThrow(Registry.STRUCTURE_SET_REGISTRY),
