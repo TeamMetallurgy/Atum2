@@ -16,6 +16,7 @@ import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -42,6 +43,7 @@ import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
 
+import java.util.OptionalLong;
 import java.util.function.Supplier;
 
 @Mod(value = Atum.MOD_ID)
@@ -52,12 +54,13 @@ public class Atum {
     public static final CreativeModeTab GROUP = new AtumItemGroup();
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, LOCATION);
     public static final ResourceKey<LevelStem> LEVEL_STEM = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, LOCATION);
-    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(MOD_ID, "dimension_type"));
+    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(Atum.MOD_ID, "dimension_type"));
+    public static final DimensionType DEFAULT_ATUM = DimensionType.create(OptionalLong.empty(), true, false, false, true, 1.0D, false, false, true, false, false, -64, 384, 384, AtumAPI.Tags.INFINIBURN, DimensionType.OVERWORLD_EFFECTS, 0.0F);
     public static Codec<AtumBiomeSource> ATUM_MULTI_NOISE;
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
-    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(AtumVillagerProfession.class, Atum.MOD_ID);
-    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry("villager_profession", () -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setType(AtumVillagerProfession.class).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
+    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
+    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry(AtumVillagerProfession.class, () -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setType(AtumVillagerProfession.class).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

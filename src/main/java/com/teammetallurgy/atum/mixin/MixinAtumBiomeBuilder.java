@@ -1,58 +1,31 @@
 package com.teammetallurgy.atum.mixin;
 
-import com.google.gson.JsonElement;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.Lifecycle;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
-import net.minecraft.core.*;
-import net.minecraft.data.BuiltinRegistries;
+import com.teammetallurgy.atum.misc.MixinMethods;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.WritableRegistry;
 import net.minecraft.resources.RegistryLoader;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.OptionalInt;
+@Mixin(DimensionType.class)
+public class MixinAtumBiomeBuilder { //TODO This is basically just a workaround to get custom OverworldBiomeBuilder working with Atum. Only way I could figure out, after talking to a lot of people.
 
-@Mixin(RegistryLoader.class)
-public class MixinAtumBiomeBuilder {
-
-    @Inject(method = "overrideRegistryFromResources(Lnet/minecraft/core/WritableRegistry;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/Codec;Lnet/minecraft/resources/ResourceKey;Lcom/mojang/serialization/DynamicOps;)Lcom/mojang/serialization/DataResult;", at = @At("HEAD"))
-    void register(WritableRegistry<?> writableRegistry, ResourceKey<? extends Registry<?>> registryResourceKey, Codec<?> codec, DynamicOps<JsonElement> dynamicOps, CallbackInfoReturnable<DataResult<Holder<?>>> cir) {
-        //System.out.println(!writableRegistry.containsKey(Atum.LOCATION));
-        if (registryResourceKey == Registry.LEVEL_STEM_REGISTRY && !writableRegistry.containsKey(Atum.LOCATION)) {
-            System.out.println("registerLevelStem");
-            //this.registerLevelStem((MappedRegistry<LevelStem>) writableRegistry);
-        }
+    @Inject(method = "defaultDimensions(Lnet/minecraft/core/RegistryAccess;JZ)Lnet/minecraft/core/Registry;", at = @At("RETURN"))
+    private static void addDimension(RegistryAccess registryAccess, long seed, boolean usePreset, CallbackInfoReturnable cir) {
+        MixinMethods.registerAtumLevelStem(registryAccess, seed);
     }
 
-    private void registerLevelStem(MappedRegistry<LevelStem> registry) {
-        RegistryAccess registryAccess = BuiltinRegistries.ACCESS;
-        LevelStem dimension = createDimension(registryAccess.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY),
-                registryAccess.registryOrThrow(Registry.STRUCTURE_SET_REGISTRY),
-                registryAccess.registryOrThrow(Registry.BIOME_REGISTRY),
-                registryAccess.registryOrThrow(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY),
-                registryAccess.registryOrThrow(Registry.NOISE_REGISTRY)
-        );
-        registry.registerOrOverride(OptionalInt.empty(), Atum.LEVEL_STEM, dimension, Lifecycle.stable());
-    }
-
-    private LevelStem createDimension(Registry<DimensionType> dimensionTypeRegistry, Registry<StructureSet> structureSetRegistry, Registry<Biome> biomeRegistry, Registry<NoiseGeneratorSettings> dimensionSettingsRegistry, Registry<NormalNoise.NoiseParameters> paramRegistry) {
-        Holder<DimensionType> dimensionType = dimensionTypeRegistry.getHolderOrThrow(Atum.DIMENSION_TYPE);
-        ChunkGenerator generator = new NoiseBasedChunkGenerator(structureSetRegistry, paramRegistry, AtumBiomeSource.Preset.ATUM.biomeSource(biomeRegistry, true), 0L, dimensionSettingsRegistry.getOrCreateHolder(NoiseGeneratorSettings.OVERWORLD)); //TODO Seed for ChunkGenerator? Or is the one passed in LevelStem fine?
-
-        return new LevelStem(dimensionType, generator, true);
+    @Inject(method = "registerBuiltin(Lnet/minecraft/core/RegistryAccess$Writable;)Lnet/minecraft/core/RegistryAccess$Writable;", at = @At("RETURN"))
+    private static void register (RegistryAccess.Writable registryAccess, CallbackInfoReturnable cir) {
+        WritableRegistry<DimensionType> writableRegistry = registryAccess.ownedWritableRegistryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
+        writableRegistry.register(Atum.DIMENSION_TYPE, Atum.DEFAULT_ATUM, Lifecycle.stable());
     }
 }
