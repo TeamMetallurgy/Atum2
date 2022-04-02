@@ -34,10 +34,10 @@ public class AtumBiomeSource extends BiomeSource {
         this.seed = seed;
         this.biomeRegistry = biomeRegistry;
 
-        ImmutableList.Builder<Pair<Climate.ParameterPoint, Supplier<Biome>>> builder = ImmutableList.builder();
-        new AtumBiomeBuilder().addBiomes(consumer -> builder.add(consumer.mapSecond(key -> () -> biomeRegistry.getOrThrow(key))));
+        ImmutableList.Builder<Pair<Climate.ParameterPoint, Holder<Biome>>> builder = ImmutableList.builder();
+        new AtumBiomeBuilder().addBiomes(consumer -> builder.add(consumer.mapSecond(biomeRegistry::getOrCreateHolder)));
 
-        this.parameters = new Climate.ParameterList(builder.build());
+        this.parameters = new Climate.ParameterList<>(builder.build());
     }
 
     @Override

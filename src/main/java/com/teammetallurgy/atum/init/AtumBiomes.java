@@ -5,10 +5,12 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
 import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
 import com.teammetallurgy.atum.world.biome.BiomeRegion;
+import com.teammetallurgy.atum.world.level.levelgen.AtumChunkGenerator;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -76,6 +78,7 @@ public class AtumBiomes {
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         AtumBiomes.addBiomeTags();
         Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
+        Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(Atum.MOD_ID, "atum"), AtumChunkGenerator.CODEC);
     }
 
     /**
