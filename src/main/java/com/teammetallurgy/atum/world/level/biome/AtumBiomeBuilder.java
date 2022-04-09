@@ -6,7 +6,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.data.worldgen.TerrainProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 
 import java.util.List;
@@ -33,15 +32,15 @@ public class AtumBiomeBuilder {
     private final Climate.Parameter[] humidities = new Climate.Parameter[]{Climate.Parameter.span(-1.0F, -0.35F), Climate.Parameter.span(-0.35F, -0.1F), Climate.Parameter.span(-0.1F, 0.1F), Climate.Parameter.span(0.1F, 0.3F), Climate.Parameter.span(0.3F, 1.0F)};
     private final Climate.Parameter[] erosions = new Climate.Parameter[]{Climate.Parameter.span(-1.0F, -0.78F), Climate.Parameter.span(-0.78F, -0.375F), Climate.Parameter.span(-0.375F, -0.2225F), Climate.Parameter.span(-0.2225F, 0.05F), Climate.Parameter.span(0.05F, 0.45F), Climate.Parameter.span(0.45F, 0.55F), Climate.Parameter.span(0.55F, 1.0F)};
     private final Climate.Parameter UNFROZEN_RANGE = Climate.Parameter.span(this.temperatures[1], this.temperatures[4]);
-    private final Climate.Parameter inlandContinentalness = Climate.Parameter.span(-0.11F, 0.55F);
-    private final Climate.Parameter nearInlandContinentalness = Climate.Parameter.span(-0.11F, 0.03F);
+    private final Climate.Parameter inlandContinentalness = Climate.Parameter.span(0.0F, 0.55F);
+    private final Climate.Parameter nearInlandContinentalness = Climate.Parameter.span(0.0F, 0.03F);
     private final Climate.Parameter midInlandContinentalness = Climate.Parameter.span(0.03F, 0.3F);
     private final Climate.Parameter farInlandContinentalness = Climate.Parameter.span(0.3F, 1.0F);
-    private final ResourceKey<Biome>[][] MIDDLE_BIOMES = new ResourceKey[][]{{Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.TAIGA}, {Biomes.PLAINS, Biomes.PLAINS, Biomes.FOREST, Biomes.TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA}, {Biomes.FLOWER_FOREST, Biomes.PLAINS, Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST}, {Biomes.SAVANNA, Biomes.SAVANNA, Biomes.FOREST, Biomes.JUNGLE, Biomes.JUNGLE}, {Biomes.DESERT, Biomes.DESERT, Biomes.DESERT, Biomes.DESERT, Biomes.DESERT}};
-    private final ResourceKey<Biome>[][] MIDDLE_BIOMES_VARIANT = new ResourceKey[][]{{Biomes.ICE_SPIKES, null, Biomes.SNOWY_TAIGA, null, null}, {null, null, null, null, Biomes.OLD_GROWTH_PINE_TAIGA}, {Biomes.SUNFLOWER_PLAINS, null, null, Biomes.OLD_GROWTH_BIRCH_FOREST, null}, {null, null, Biomes.PLAINS, Biomes.SPARSE_JUNGLE, Biomes.BAMBOO_JUNGLE}, {null, null, null, null, null}};
-    private final ResourceKey<Biome>[][] PLATEAU_BIOMES = new ResourceKey[][]{{Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_PLAINS, Biomes.SNOWY_TAIGA, Biomes.SNOWY_TAIGA}, {Biomes.MEADOW, Biomes.MEADOW, Biomes.FOREST, Biomes.TAIGA, Biomes.OLD_GROWTH_SPRUCE_TAIGA}, {Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.MEADOW, Biomes.DARK_FOREST}, {Biomes.SAVANNA_PLATEAU, Biomes.SAVANNA_PLATEAU, Biomes.FOREST, Biomes.FOREST, Biomes.JUNGLE}, {Biomes.BADLANDS, Biomes.BADLANDS, Biomes.BADLANDS, Biomes.WOODED_BADLANDS, Biomes.WOODED_BADLANDS}};
-    private final ResourceKey<Biome>[][] PLATEAU_BIOMES_VARIANT = new ResourceKey[][]{{Biomes.ICE_SPIKES, null, null, null, null}, {null, null, Biomes.MEADOW, Biomes.MEADOW, Biomes.OLD_GROWTH_PINE_TAIGA}, {null, null, Biomes.FOREST, Biomes.BIRCH_FOREST, null}, {null, null, null, null, null}, {Biomes.ERODED_BADLANDS, Biomes.ERODED_BADLANDS, null, null, null}};
-    private final ResourceKey<Biome>[][] SHATTERED_BIOMES = new ResourceKey[][]{{Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_FOREST, Biomes.WINDSWEPT_FOREST}, {Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_GRAVELLY_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_FOREST, Biomes.WINDSWEPT_FOREST}, {Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_HILLS, Biomes.WINDSWEPT_FOREST, Biomes.WINDSWEPT_FOREST}, {null, null, null, null, null}, {null, null, null, null, null}};
+    private final ResourceKey<Biome>[][] MIDDLE_BIOMES = new ResourceKey[][]{{AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}, {AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}, {AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}, {AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}, {AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}};
+    private final ResourceKey<Biome>[][] MIDDLE_BIOMES_VARIANT = new ResourceKey[][]{{AtumBiomes.OASIS, null, AtumBiomes.DEAD_OASIS, null, null}, {null, null, null, null, AtumBiomes.DEAD_OASIS}, {AtumBiomes.OASIS, null, null, AtumBiomes.OASIS, null}, {null, null, null, null, null}, {null, null, null, null, null}};
+    private final ResourceKey<Biome>[][] PLATEAU_BIOMES = new ResourceKey[][]{{AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_PLAINS}, {AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES}, {AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SPARSE_WOODS}, {AtumBiomes.SPARSE_WOODS, AtumBiomes.SPARSE_WOODS, AtumBiomes.DENSE_WOODS, AtumBiomes.DENSE_WOODS, AtumBiomes.DENSE_WOODS}, {AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.LIMESTONE_CRAGS}};
+    private final ResourceKey<Biome>[][] PLATEAU_BIOMES_VARIANT = new ResourceKey[][]{{AtumBiomes.OASIS, null, null, null, null}, {null, null, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_DUNES}, {null, null, AtumBiomes.SPARSE_WOODS, AtumBiomes.DENSE_WOODS, null}, {null, null, null, null, null}, {AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.LIMESTONE_CRAGS, null, null, null}};
+    private final ResourceKey<Biome>[][] SHATTERED_BIOMES = new ResourceKey[][]{{AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS}, {AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS}, {AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_HILLS}, {null, null, null, null, null}, {null, null, null, null, null}};
 
     public List<Climate.ParameterPoint> spawnTarget() {
         Climate.Parameter climate$parameter = Climate.Parameter.point(0.0F);
@@ -220,19 +219,11 @@ public class AtumBiomeBuilder {
     }
 
     private ResourceKey<Biome> pickPeakBiome(int p_187241_, int p_187242_, Climate.Parameter p_187243_) {
-        if (p_187241_ <= 2) {
-            return p_187243_.max() < 0L ? Biomes.JAGGED_PEAKS : Biomes.FROZEN_PEAKS;
-        } else {
-            return p_187241_ == 3 ? AtumBiomes.LIMESTONE_MOUNTAINS : AtumBiomes.LIMESTONE_CRAGS;
-        }
+        return p_187241_ == 3 ? AtumBiomes.LIMESTONE_MOUNTAINS : AtumBiomes.LIMESTONE_CRAGS;
     }
 
     private ResourceKey<Biome> pickSlopeBiome(int p_187245_, int p_187246_, Climate.Parameter p_187247_) {
-        if (p_187245_ >= 3) {
-            return this.pickPlateauBiome(p_187245_, p_187246_, p_187247_);
-        } else {
-            return p_187246_ <= 1 ? Biomes.SNOWY_SLOPES : Biomes.GROVE;
-        }
+        return this.pickPlateauBiome(p_187245_, p_187246_, p_187247_);
     }
 
     private ResourceKey<Biome> pickShatteredBiome(int p_202002_, int p_202003_, Climate.Parameter p_202004_) {
