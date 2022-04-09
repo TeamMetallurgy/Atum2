@@ -35,11 +35,8 @@ public class MixinMethods {
 
     public static LevelStem createAtumDimension(Registry<DimensionType> dimensionTypeRegistry, Registry<StructureSet> structureSetRegistry, Registry<Biome> biomeRegistry, Registry<NoiseGeneratorSettings> noiseGeneratorSettingsRegistry, Registry<NormalNoise.NoiseParameters> paramRegistry, long seed) {
         Holder<DimensionType> dimensionType = dimensionTypeRegistry.getHolderOrThrow(Atum.DIMENSION_TYPE);
-        Supplier<ResourceKey<NoiseGeneratorSettings>> dimensionSettings = () -> {
-            NoiseGeneratorSettings settings = noiseGeneratorSettingsRegistry.get(Atum.NOISE_SETTINGS);
-            return settings != null ? Atum.NOISE_SETTINGS : NoiseGeneratorSettings.OVERWORLD;
-        };
-        ChunkGenerator generator = new AtumChunkGenerator(structureSetRegistry, paramRegistry, new AtumBiomeSource(seed, biomeRegistry), seed, noiseGeneratorSettingsRegistry.getOrCreateHolder(dimensionSettings.get())); //TODO Settings
+
+        ChunkGenerator generator = new AtumChunkGenerator(structureSetRegistry, paramRegistry, new AtumBiomeSource(seed, biomeRegistry), seed, noiseGeneratorSettingsRegistry.getOrCreateHolder(Atum.NOISE_SETTINGS)); //TODO Settings
         return new LevelStem(dimensionType, generator, true);
     }
 }
