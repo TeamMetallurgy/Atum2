@@ -304,12 +304,12 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SERGEANT, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BRIGAND, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BARBARIAN, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.NOMAD, manager -> new AtumBipedRender<>(manager, new NomadModel<>(), new NomadModel<>(0.5F), new NomadModel<>(1.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.NOMAD, manager -> new AtumBipedRender<>(manager, new NomadModel<>()));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BANDIT_WARLORD, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.PHARAOH, manager -> new AtumBipedRender<>(manager, new PharaohModel<>(0.0F), new PharaohModel<>(0.5F), new PharaohModel<>(1.0F)));
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.MUMMY, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.FORSAKEN, manager -> new AtumBipedRender<>(manager, new ForsakenModel(), new ForsakenModel(0.5F), new ForsakenModel(1.0F)));
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.WRAITH, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.PHARAOH, manager -> new AtumBipedRender<>(manager, new PharaohModel<>(0.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.MUMMY, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.FORSAKEN, manager -> new AtumBipedRender<>(manager, new ForsakenModel()));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.WRAITH, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.VILLAGER_MALE, manager -> new AtumVillagerRenderer(manager, false));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.VILLAGER_FEMALE, manager -> new AtumVillagerRenderer(manager, true));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BONESTORM, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));

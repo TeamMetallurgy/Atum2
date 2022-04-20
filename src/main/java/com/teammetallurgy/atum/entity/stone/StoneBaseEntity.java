@@ -50,7 +50,7 @@ public class StoneBaseEntity extends MonsterEntity {
     private void applyEntityAI() {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, input -> !isPlayerCreated()));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, 10, true, false, input -> input instanceof StoneBaseEntity && (!((StoneBaseEntity) input).isPlayerCreated() && isPlayerCreated() || ((StoneBaseEntity) input).isPlayerCreated() && !isPlayerCreated())));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, 10, true, false, input -> input instanceof StoneBaseEntity && (!((StoneBaseEntity) input).isPlayerCreated() && isPlayerCreated())));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof StoneBaseEntity) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
