@@ -243,12 +243,4 @@ public class AtumEventListener {
             event.setCanceled(true);
         }
     }
-
-    //Ra Armor
-    @SubscribeEvent
-    public static void onDamage(LivingDamageEvent event) {
-        if (StackHelper.hasFullArmorSet(event.getEntityLiving(), AtumItems.HALO_OF_RA.get(), AtumItems.BODY_OF_RA.get(), AtumItems.LEGS_OF_RA.get(), AtumItems.FEET_OF_RA.get()) && event.getSource().isFire()) {
-            event.setAmount(0.0F);
-        }
-    }
 }
