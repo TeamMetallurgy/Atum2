@@ -5,26 +5,23 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
-import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
@@ -69,59 +66,20 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     }
 
     public static BlockPos recall(World world, PlayerEntity player) {
-        BlockPos pos = null;
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            if (player instanceof ServerPlayerEntity) {
-                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-                pos = serverPlayer.func_241140_K_(); //Bed pos
-                if (pos == null) {
-                    BlockPos spawnPointPos = serverWorld.getSpawnPoint();
-                    while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.down();
-                    }
-                    while (!world.canBlockSeeSky(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.up();
-                    }
-                    pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
-                }
-            }
-        }
-        if (pos != null) {
-            teleport(world, player, pos.getX(), pos.getY(), pos.getZ());
-            onTeleport(world, player);
-        }
-        return pos;
+        if (!(world instanceof ServerWorld) || !(player instanceof ServerPlayerEntity)) return null;
+        ServerWorld serverWorld = (ServerWorld) world;
+        ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+        AbstractMap.SimpleEntry<ServerWorld, BlockPos> pair = DimensionHelper.validateAndGetSpawnPoint(serverWorld, serverPlayer, true);
+        ServerWorld spawnWorld = pair.getKey();
+        BlockPos spawnPos = pair.getValue();
+
+        playTeleportEffects(world, player);
+        serverPlayer.teleport(spawnWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, player.rotationYaw, player.rotationPitch);
+        playTeleportEffects(spawnWorld, player);
+        return spawnPos;
     }
 
-    private static void teleport(World world, Entity entity, int x, int y, int z) {
-        float yaw = entity.rotationYaw;
-        float pitch = entity.rotationPitch;
-        if (entity instanceof ServerPlayerEntity) {
-            Set<SPlayerPositionLookPacket.Flags> set = EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class);
-            float f = MathHelper.wrapDegrees(yaw);
-            float f1 = MathHelper.wrapDegrees(pitch);
-
-            entity.stopRiding();
-            onTeleport(world, entity);
-            ((ServerPlayerEntity) entity).connection.setPlayerLocation(x, y, z, f, f1, set);
-            entity.setRotationYawHead(f);
-        } else {
-            float f2 = MathHelper.wrapDegrees(yaw);
-            float f3 = MathHelper.wrapDegrees(pitch);
-            f3 = MathHelper.clamp(f3, -90.0F, 90.0F);
-            entity.setLocationAndAngles(x, y, z, f2, f3);
-            entity.setRotationYawHead(f2);
-        }
-
-        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isElytraFlying()) {
-            Vector3d motion = entity.getMotion();
-            entity.setMotion(new Vector3d(motion.x, 0.0D, motion.z));
-            entity.setOnGround(true);
-        }
-    }
-
-    private static void onTeleport(World world, Entity entity) {
+    private static void playTeleportEffects(World world, Entity entity) {
         if (world instanceof ServerWorld) {
             float timesRandom = world.rand.nextFloat() * 4.0F;
             float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
