@@ -79,7 +79,7 @@ public class DimensionHelper {
         while (pos.getY() > 1 && world.isEmptyBlock(pos.below())) {
             pos = pos.below();
         }
-        while (!world.isEmptyBlock(pos.above()) && (getSurfaceBlocks().contains(world.getBlockState(pos.below()).getBlock()) || world.getBlockState(pos.below()).getBlock() != AtumBlocks.SAND_LAYERED.get()) || pos.getY() < 60) {
+        while (!world.canSeeSky(pos)) {
             pos = pos.above();
         }
         return pos;

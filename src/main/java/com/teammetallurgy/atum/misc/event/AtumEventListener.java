@@ -11,7 +11,8 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.misc.StackHelper;
+import com.teammetallurgy.atum.misc.SpawnHelper;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -43,10 +44,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -62,7 +61,6 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumEventListener {
@@ -80,8 +78,7 @@ public class AtumEventListener {
 
         if (shouldStartInAtum && player instanceof ServerPlayer serverPlayer && player.level instanceof ServerLevel world) {
             PortalBlock.changeDimension(world, serverPlayer, new TeleporterAtumStart());
-            serverPlayer.setRespawnPosition(Atum.ATUM, serverPlayer.blockPosition(), serverPlayer.getYHeadRot(), true, false); //Set players spawn point in Atum, when starting in Atum
-            world.setDefaultSpawnPos(serverPlayer.blockPosition(), 16);
+            SpawnHelper.validateAndGetSpawnPoint(world, serverPlayer, 0);
         }
     }
 
@@ -91,13 +88,21 @@ public class AtumEventListener {
             LivingEntity livingEntity = event.getEntityLiving();
             if (livingEntity instanceof ServerPlayer serverPlayer) {
                 ServerLevel serverLevel = serverPlayer.getLevel();
-                BlockPos respawnPos = serverPlayer.getRespawnPosition();
-                if (respawnPos != null) {
-                    Optional<Vec3> bedPos = Player.findRespawnPositionAndUseSpawnBlock(serverLevel, respawnPos, serverPlayer.getRespawnAngle(), serverPlayer.isRespawnForced(), false);
-                    if (!bedPos.isPresent()) {
-                        serverPlayer.setRespawnPosition(Atum.ATUM, serverLevel.getSharedSpawnPos(), serverPlayer.getYHeadRot(), true, false); //Ensure that the player respawns in Atum, when bed is broken
-                    }
-                }
+                SpawnHelper.validateAndGetSpawnPoint(serverLevel, serverPlayer, 1);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        if (player instanceof ServerPlayer serverPlayer) {
+            CompoundTag tag = serverPlayer.getPersistentData();
+            CompoundTag persistedTag = tag.getCompound(Player.PERSISTED_NBT_TAG);
+            if (persistedTag.getBoolean(SpawnHelper.TAG_ATUM_RESPAWN)) {
+                SpawnHelper.sendBedMissingMsg(serverPlayer, 2);
+                persistedTag.remove(SpawnHelper.TAG_ATUM_RESPAWN);
+                tag.put(Player.PERSISTED_NBT_TAG, persistedTag);
             }
         }
     }
