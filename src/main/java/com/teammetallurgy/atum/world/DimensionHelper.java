@@ -93,65 +93,7 @@ public class DimensionHelper {
         return pos;
     }
 
-    private static final StringTextComponent BED_MISSING_MSG = new StringTextComponent("You have no home bed or respawn anchor, or it was obstructed");
-    /**
-     * Gets a player's spawnpoint, resetting if the bed is invalid
-     * Always returns a valid world and position which can be teleported to.
-     *
-     * @param serverWorld any world
-     * @param serverPlayer the player
-     * @param msg whether to tell the player if their bed is missing
-     * @return surface pos of the spawnpoint
-     */
-    public static AbstractMap.SimpleEntry<ServerWorld, BlockPos> validateAndGetSpawnPoint(ServerWorld serverWorld, ServerPlayerEntity serverPlayer, boolean msg) {
-        boolean atumSpawn = AtumConfig.ATUM_START.startInAtum.get();
-        boolean forcedSpawn = serverPlayer.func_241142_M_(); // if true -> don't check for valid bed
-        ServerWorld spawnWorld = serverWorld.getServer().getWorld(serverPlayer.func_241141_L_());
-        BlockPos spawnPos = serverPlayer.func_241140_K_();
 
-        Optional<Vector3d> bedPos = Optional.empty();
-        if (spawnPos != null) {
-            bedPos = PlayerEntity.func_242374_a(spawnWorld, spawnPos, serverPlayer.func_242109_L(), forcedSpawn, false);
-        }
-
-        boolean reset = false;
-        if (atumSpawn) {
-            ServerWorld atumWorld = serverWorld.getServer().getWorld(Atum.ATUM);
-            BlockPos defaultSpawnPos = DimensionHelper.getSurfacePos(atumWorld, atumWorld.getSpawnPoint()).up();
-            // best attempt at checking whether this is the default atum spawnpoint
-            boolean isSpawnPosDefault = forcedSpawn &&
-                    spawnWorld.getDimensionKey() == Atum.ATUM &&
-                    spawnPos != null &&
-                    spawnPos.getX() == defaultSpawnPos.getX() &&
-                    spawnPos.getZ() == defaultSpawnPos.getZ();
-
-            if (!bedPos.isPresent() || isSpawnPosDefault) {
-                if (msg && !forcedSpawn && spawnPos != null) {
-                    serverPlayer.sendMessage(BED_MISSING_MSG, Util.DUMMY_UUID);
-                }
-                serverPlayer.func_242111_a(Atum.ATUM, defaultSpawnPos, serverPlayer.getRotationYawHead(), true, false);
-                spawnWorld = atumWorld;
-                spawnPos = defaultSpawnPos;
-                reset = true;
-            }
-        } else {
-            if (!bedPos.isPresent()) {
-                if (msg && !forcedSpawn && spawnPos != null) {
-                    serverPlayer.sendMessage(BED_MISSING_MSG, Util.DUMMY_UUID);
-                }
-                serverPlayer.func_242111_a(World.OVERWORLD, null, serverPlayer.getRotationYawHead(), false, false);
-                spawnWorld = serverWorld.getServer().getWorld(World.OVERWORLD);
-                spawnPos = DimensionHelper.getSurfacePos(spawnWorld, spawnWorld.getSpawnPoint()).up();
-                reset = true;
-            }
-        }
-
-        if (!reset) {
-            spawnPos = spawnPos.up();
-        }
-
-        return new AbstractMap.SimpleEntry<>(spawnWorld, spawnPos);
-    }
 
     public static boolean isBeatenPyramid(ServerWorld serverWorld, MutableBoundingBox box2) {
         boolean validBox = false;
