@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.misc.SpawnHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +16,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,11 +23,9 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.AbstractMap;
 
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
@@ -73,57 +70,20 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     }
 
     public static BlockPos recall(Level world, Player player) {
-        BlockPos pos = null;
-        if (world instanceof ServerLevel serverLevel) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                pos = serverPlayer.getRespawnPosition(); //Bed pos
-                if (pos == null) {
-                    BlockPos spawnPointPos = serverLevel.getSharedSpawnPos();
-                    while (spawnPointPos.getY() > 1 && world.isEmptyBlock(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.below();
-                    }
-                    while (!world.canSeeSkyFromBelowWater(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.above();
-                    }
-                    pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
-                }
-            }
-        }
-        if (pos != null) {
-            teleport(world, player, pos.getX(), pos.getY(), pos.getZ());
-            onTeleport(world, player);
-        }
-        return pos;
+        if (!(world instanceof ServerLevel serverLevel) ||
+                !(player instanceof ServerPlayer serverPlayer))
+            return null;
+        AbstractMap.SimpleEntry<ServerLevel, BlockPos> pair = SpawnHelper.validateAndGetSpawnPoint(serverLevel, serverPlayer, 2);
+        ServerLevel spawnLevel = pair.getKey();
+        BlockPos spawnPos = pair.getValue();
+
+        playTeleportEffects(world, player);
+        serverPlayer.teleportTo(spawnLevel, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, player.getYRot(), player.getXRot());
+        playTeleportEffects(spawnLevel, player);
+        return spawnPos;
     }
 
-    private static void teleport(Level world, Entity entity, int x, int y, int z) {
-        float yaw = entity.getYRot();
-        float pitch = entity.getXRot();
-        if (entity instanceof ServerPlayer) {
-            Set<ClientboundPlayerPositionPacket.RelativeArgument> set = EnumSet.noneOf(ClientboundPlayerPositionPacket.RelativeArgument.class);
-            float f = Mth.wrapDegrees(yaw);
-            float f1 = Mth.wrapDegrees(pitch);
-
-            entity.stopRiding();
-            onTeleport(world, entity);
-            ((ServerPlayer) entity).connection.teleport(x, y, z, f, f1, set);
-            entity.setYHeadRot(f);
-        } else {
-            float f2 = Mth.wrapDegrees(yaw);
-            float f3 = Mth.wrapDegrees(pitch);
-            f3 = Mth.clamp(f3, -90.0F, 90.0F);
-            entity.moveTo(x, y, z, f2, f3);
-            entity.setYHeadRot(f2);
-        }
-
-        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isFallFlying()) {
-            Vec3 motion = entity.getDeltaMovement();
-            entity.setDeltaMovement(new Vec3(motion.x, 0.0D, motion.z));
-            entity.setOnGround(true);
-        }
-    }
-
-    private static void onTeleport(Level level, Entity entity) {
+    private static void playTeleportEffects(Level level, Entity entity) {
         if (level instanceof ServerLevel serverLevel) {
             float timesRandom = serverLevel.random.nextFloat() * 4.0F;
             float cosRandom = serverLevel.random.nextFloat() * ((float) Math.PI * 2F);
