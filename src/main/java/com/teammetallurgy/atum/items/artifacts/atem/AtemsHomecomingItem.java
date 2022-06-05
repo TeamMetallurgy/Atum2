@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.misc.SpawnHelper;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -69,7 +70,7 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
         if (!(world instanceof ServerWorld) || !(player instanceof ServerPlayerEntity)) return null;
         ServerWorld serverWorld = (ServerWorld) world;
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-        AbstractMap.SimpleEntry<ServerWorld, BlockPos> pair = DimensionHelper.validateAndGetSpawnPoint(serverWorld, serverPlayer, true);
+        AbstractMap.SimpleEntry<ServerWorld, BlockPos> pair = SpawnHelper.validateAndGetSpawnPoint(serverWorld, serverPlayer, 2);
         ServerWorld spawnWorld = pair.getKey();
         BlockPos spawnPos = pair.getValue();
 

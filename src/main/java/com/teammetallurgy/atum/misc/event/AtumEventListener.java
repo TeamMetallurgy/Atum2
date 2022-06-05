@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.misc.SpawnHelper;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;
@@ -79,7 +80,7 @@ public class AtumEventListener {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             ServerWorld world = (ServerWorld) player.world;
             PortalBlock.changeDimension(world, serverPlayer, new TeleporterAtumStart());
-            DimensionHelper.validateAndGetSpawnPoint(world, serverPlayer, false);
+            SpawnHelper.validateAndGetSpawnPoint(world, serverPlayer, 0);
         }
     }
 
@@ -90,7 +91,22 @@ public class AtumEventListener {
             if (livingEntity instanceof ServerPlayerEntity) {
                 ServerPlayerEntity serverPlayer = (ServerPlayerEntity) livingEntity;
                 ServerWorld serverWorld = serverPlayer.getServerWorld();
-                DimensionHelper.validateAndGetSpawnPoint(serverWorld, serverPlayer, true);
+                SpawnHelper.validateAndGetSpawnPoint(serverWorld, serverPlayer, 1);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        PlayerEntity player = event.getPlayer();
+        if (player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+            CompoundNBT tag = serverPlayer.getPersistentData();
+            CompoundNBT persistedTag = tag.getCompound(PlayerEntity.PERSISTED_NBT_TAG);
+            if (persistedTag.getBoolean(SpawnHelper.TAG_ATUM_RESPAWN)) {
+                SpawnHelper.sendBedMissingMsg(serverPlayer, 2);
+                persistedTag.remove(SpawnHelper.TAG_ATUM_RESPAWN);
+                tag.put(PlayerEntity.PERSISTED_NBT_TAG, persistedTag);
             }
         }
     }
