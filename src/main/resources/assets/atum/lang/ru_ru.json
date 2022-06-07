@@ -1368,7 +1368,7 @@
   "advancement.atum.kingslayer": "Убийца королей",
   "advancement.atum.kingslayer.desc": "Убить фараона",
   "advancement.atum.lawbringer": "Вестник закона",
-  "advancement.atum.lawbringer.desc": "Убить по одному из каждого вида Атумного бандита",
+  "advancement.atum.lawbringer.desc": "Убить по одному из каждого вида бандитов Атума",
   "advancement.atum.powerwasher": "Стиральная машина",
   "advancement.atum.powerwasher.desc": "Помыть все реликвии",
   "advancement.atum.pyramidscheme": "Пирамидная схема",
@@ -1390,7 +1390,7 @@
   "advancement.atum.thefullmuseum": "Полный музей",
   "advancement.atum.thefullmuseum.desc": "Получить все артефакты",
   "advancement.atum.unundead": "Не нежить",
-  "advancement.atum.unundead.desc": "Убейть по одному из каждого вида Атумного нежити",
+  "advancement.atum.unundead.desc": "Убейть по одному из каждого вида нежити Атума",
 
   "_comment": "Commands",
   "atum.commands.weather.usage": "/atumweather <clear OR sandstorm>",
@@ -1413,5 +1413,5 @@
   "atum.tip.pharaohs_abilities": "Фараоны имеют различные уникальные способности",
   "atum.tip.scarabs": "Скарабеев иногда можно найти в брёвнах мёртвого дерева",
   "atum.tip.wanderer_helmet": "Шлем странника увеличивает вашу видимость в Атуме",
-  "atum.tip.curator": "Ты можешь обменяьб реликвии у жителя - хранителя музея"
+  "atum.tip.curator": "Ты можешь обменять реликвии у жителя - хранителя музея"
 }
