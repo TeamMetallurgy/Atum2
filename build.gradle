@@ -26,7 +26,7 @@ repositories {
   }
   maven {
     name = "Hwyla"
-    url = "https://maven.tehnut.info"
+    url = "https://cursemaven.com"
   }
   maven { 
     name = "CraftTweaker2"
@@ -91,10 +91,10 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    implementation fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+    implementation fg.deobf("curse.maven:hwyla-253449:3033593")
     implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
     implementation "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
