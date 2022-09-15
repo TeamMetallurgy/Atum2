@@ -28,11 +28,13 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
     @Override
     @Nonnull
     public ResourceLocation getTextureLocation(ServalEntity entity) {
-        if (entity.hasCustomName() && entity.getCustomName().getString().equals("azure")) {
-            return AZURE;
-        } else {
-            return entity.getResourceLocation();
+        if (entity.hasCustomName() && entity.getCustomName() != null) {
+            String customName = entity.getCustomName().getString();
+            if (customName.equalsIgnoreCase("azure") || customName.equalsIgnoreCase("azu") || customName.equalsIgnoreCase("azuriuz")) {
+                return AZURE;
+            }
         }
+        return entity.getResourceLocation();
     }
 
     @Override
