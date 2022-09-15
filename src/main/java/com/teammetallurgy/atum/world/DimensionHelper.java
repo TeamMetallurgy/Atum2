@@ -5,14 +5,20 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -24,6 +30,7 @@ import net.minecraftforge.event.world.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,14 +84,16 @@ public class DimensionHelper {
      * @return surface pos
      */
     public static BlockPos getSurfacePos(World world, BlockPos pos) {
-        while (pos.getY() > 1 && world.isAirBlock(pos.down())) {
+        while (pos.getY() > 1 && world.isAirBlock(pos)) {
             pos = pos.down();
         }
-        while (!world.isAirBlock(pos.up()) && (SURFACE_BLOCKS.contains(world.getBlockState(pos.down()).getBlock()) || world.getBlockState(pos.down()).getBlock() != AtumBlocks.SAND_LAYERED) || pos.getY() < 60) {
+        while (!world.canBlockSeeSky(pos)) {
             pos = pos.up();
         }
         return pos;
     }
+
+
 
     public static boolean isBeatenPyramid(ServerWorld serverWorld, MutableBoundingBox box2) {
         boolean validBox = false;
