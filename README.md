@@ -20,3 +20,8 @@ dependencies {
 ```
 
 `${mc_version}` & `${atum2_version}` can be found [here](https://girafi.dk/maven/com/teammetallurgy/atum/), check the file name of the version you want.
+
+
+## LICENSE
+
+We use the [MIT License](https://github.com/TeamMetallurgy/Atum2/blob/master/LICENSE)
