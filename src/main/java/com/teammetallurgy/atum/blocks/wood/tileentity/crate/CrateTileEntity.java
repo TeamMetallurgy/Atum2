@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
@@ -27,6 +27,6 @@ public class CrateTileEntity extends ChestBlockEntity {
     @Override
     @Nonnull
     public Component getDefaultName() {
-        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
+        return Component.translatable(this.getBlockState().getBlock().getDescriptionId());
     }
 }

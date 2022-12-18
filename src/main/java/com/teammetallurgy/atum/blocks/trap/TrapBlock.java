@@ -33,7 +33,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
@@ -68,7 +68,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         BlockState state = event.getState();
         if (state.getBlock() instanceof TrapBlock) {
-            BlockEntity tileEntity = event.getWorld().getBlockEntity(event.getPos());
+            BlockEntity tileEntity = event.getLevel().getBlockEntity(event.getPos());
             if (tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid && !event.getPlayer().isCreative()) {
                 event.setCanceled(true);
             }
@@ -91,7 +91,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
             boolean isToolEffective = ForgeHooks.isCorrectToolForDrops(world.getBlockState(pos), player);
             if (tileEntity instanceof TrapTileEntity trap) {
                 if (!trap.isInsidePyramid) {
-                    NetworkHooks.openGui((ServerPlayer) player, trap, pos);
+                    NetworkHooks.openScreen((ServerPlayer) player, trap, pos);
                     return InteractionResult.SUCCESS;
                 }
                 if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {

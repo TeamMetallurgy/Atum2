@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,7 +38,7 @@ public class AtumWallTorch extends WallTorchBlock implements INebuTorch {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, @Nonnull Random random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, @Nonnull RandomSource random) {
         Direction direction = state.getValue(FACING);
         double d0 = (double)pos.getX() + 0.5D;
         double d1 = (double)pos.getY() + 0.7D;

@@ -29,7 +29,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -41,11 +41,11 @@ public class TefnutsCallItem extends Item implements IArtifact {
     }
 
     @Override
-    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+    public void initializeClient(@Nonnull Consumer<IClientItemExtensions> consumer) {
         if (Minecraft.getInstance() == null) return;
-        consumer.accept(new IItemRenderProperties() {
+        consumer.accept(new IClientItemExtensions() {
             @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return new ItemStackRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
             }
         });

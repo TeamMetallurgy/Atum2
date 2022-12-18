@@ -1,16 +1,7 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-		classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
+plugins {
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'maven-publish'
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
@@ -37,9 +28,6 @@ repositories {
     name = "Curios"
     url = "https://maven.theillusivec4.top/"
   }
-  maven {
-    url "https://nexus.resourcefulbees.com/repository/maven-public/"
-  }
   flatDir { dirs 'deps' }
 }
 
@@ -54,9 +42,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            arg "-mixin.config=atum.mixins.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -65,9 +50,6 @@ minecraft {
         }
         server {
             workingDirectory project.file('run')
-            arg "-mixin.config=atum.mixins.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -88,13 +70,12 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.1:${ct_version}")
-    implementation fg.deobf("curse.maven:theoneprobe-245211:3671753")
+    //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+    //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.1:${ct_version}")
+    implementation fg.deobf("curse.maven:theoneprobe-245211:4159743")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
-    //implementation fg.deobf("com.telepathicgrunt:Blame:1.16.5-3.0.2-forge")
 }
 
 jar {
@@ -136,6 +117,10 @@ artifacts {
 
 String getBuildNumber() {
     return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 processResources {

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.crafttweaker;
+/*package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
@@ -33,6 +33,6 @@ public class CTSpinningWheel implements IRecipeManager<SpinningWheelRecipe> {
 
     @Override
     public RecipeType<SpinningWheelRecipe> getRecipeType() {
-        return AtumRecipeTypes.SPINNING_WHEEL;
+        return AtumRecipeTypes.SPINNING_WHEEL.get();
     }
-}
+}*/

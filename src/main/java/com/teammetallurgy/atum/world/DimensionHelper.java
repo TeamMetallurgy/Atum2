@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.DerivedLevelData;
-import net.minecraftforge.event.world.SleepFinishedTimeEvent;
+import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -38,7 +38,7 @@ public class DimensionHelper {
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
-        LevelAccessor world = event.getWorld();
+        LevelAccessor world = event.getLevel();
         if (world instanceof ServerLevel serverLevel) {
             if (serverLevel.dimension() == Atum.ATUM) {
                 if (world.getLevelData() instanceof DerivedLevelData) {
@@ -57,7 +57,7 @@ public class DimensionHelper {
     public static boolean canPlaceSandLayer(ServerLevel world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.below());
-        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos).value());
+        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(world.getBiome(pos).value());
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
                 //&& !StructureHelper.doesChunkHaveStructure(world, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
                 && world.isEmptyBlock(pos.above())

@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
@@ -34,7 +34,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
     @Override
     @Nonnull
     protected Component getDefaultName() {
-        return new TranslatableComponent("atum.container.glassblower_furnace");
+        return Component.translatable("atum.container.glassblower_furnace");
     }
 
     @Override

@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -121,9 +122,9 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                         BlockPos rightFromPrimary = pos.relative(facing.getCounterClockWise());
                         if (door == null) {
                             Block readFromBlock = world.getBlockState(rightFromPrimary).getBlock();
-                            if (readFromBlock.getRegistryName() != null) {
-                                ResourceLocation location = readFromBlock.getRegistryName();
-                                Block doorRead = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(location.getNamespace(), location.getPath() + "_door"));
+                            ResourceLocation readFromBlockID = ForgeRegistries.BLOCKS.getKey(readFromBlock);
+                            if (readFromBlockID != null) {
+                                Block doorRead = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(readFromBlockID.getNamespace(), readFromBlockID.getPath() + "_door"));
                                 if (doorRead != null) {
                                     door = (DoorBlock) doorRead;
                                 } else {
@@ -155,26 +156,22 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                     world.getBlockState(pos.relative(facing.getCounterClockWise(), 2).below()).getBlock() == rightFromPrimary;
         }
 
-        public static boolean canSpawnPharaoh(Level world, BlockPos pos, Direction facing, Player player, SarcophagusTileEntity sarcophagus) {
+        public static boolean canSpawnPharaoh(Level world, BlockPos pos, Direction facing, Player player, RandomSource randomSource, SarcophagusTileEntity sarcophagus) {
             Block topLeftCorner = world.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing.getOpposite(), 1)).getBlock();
             Block bottomLeftCorner = world.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing, 2)).getBlock();
             Block topRightCorner = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing.getOpposite(), 1)).getBlock();
             Block bottomRightCorner = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing, 2)).getBlock();
 
-            if (topLeftCorner instanceof INebuTorch && bottomLeftCorner instanceof INebuTorch && topRightCorner instanceof INebuTorch && bottomRightCorner instanceof INebuTorch) {
-                INebuTorch torchTopLeftCorner = (INebuTorch) topLeftCorner;
-                INebuTorch torchBottomLeftCorner = (INebuTorch) bottomLeftCorner;
-                INebuTorch torchTopRightCorner = (INebuTorch) topRightCorner;
-                INebuTorch torchBottomRightCorner = (INebuTorch) bottomRightCorner;
+            if (topLeftCorner instanceof INebuTorch torchTopLeftCorner && bottomLeftCorner instanceof INebuTorch torchBottomLeftCorner && topRightCorner instanceof INebuTorch torchTopRightCorner && bottomRightCorner instanceof INebuTorch torchBottomRightCorner) {
 
                 if (torchTopLeftCorner.isNebuTorch() && torchBottomLeftCorner.isNebuTorch() && torchTopRightCorner.isNebuTorch() && torchBottomRightCorner.isNebuTorch()) {
                     playRewardDing(world, pos);
 
                     God god = torchTopLeftCorner.getGod();
                     if (god == torchBottomLeftCorner.getGod() && god == torchTopRightCorner.getGod() && god == torchBottomRightCorner.getGod()) {
-                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), god);
+                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), randomSource, god);
                     } else {
-                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), null);
+                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), randomSource, null);
                     }
                     return true;
                 }
@@ -184,7 +181,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
         }
 
         public static void playRewardDing(Level world, BlockPos pos) {
-            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME, SoundSource.BLOCKS, 1.3F, 1.0F);
+            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1.3F, 1.0F);
         }
     }
 }

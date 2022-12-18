@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -55,7 +56,7 @@ public class AtumTorchBlock extends TorchBlock implements INebuTorch {
     }
 
     @Override
-    public void animateTick(@Nonnull BlockState state, Level level, BlockPos pos, @Nonnull Random random) {
+    public void animateTick(@Nonnull BlockState state, Level level, BlockPos pos, @Nonnull RandomSource random) {
         double x = (double)pos.getX() + 0.5D;
         double y = (double)pos.getY() + 0.7D;
         double z = (double)pos.getZ() + 0.5D;

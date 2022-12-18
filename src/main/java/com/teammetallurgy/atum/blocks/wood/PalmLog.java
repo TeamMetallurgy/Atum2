@@ -22,6 +22,6 @@ public class PalmLog extends RotatedPillarBlock {
 
     @Override
     public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
-        return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_PALM_LOG.get().defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
+        return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_PALM_LOG.get().defaultBlockState() : super.getToolModifiedState(state, context, toolAction, simulate);
     }
 }

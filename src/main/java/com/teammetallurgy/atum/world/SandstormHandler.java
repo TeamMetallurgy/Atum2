@@ -20,7 +20,6 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -41,9 +40,9 @@ public class SandstormHandler {
     }
 
     @SubscribeEvent
-    public void onPreServerTick(TickEvent.WorldTickEvent event) {
-        if (event.world.dimension() == Atum.ATUM) {
-            updateWeather(event.world);
+    public void onPreServerTick(TickEvent.LevelTickEvent event) {
+        if (event.level.dimension() == Atum.ATUM) {
+            updateWeather(event.level);
         }
     }
 

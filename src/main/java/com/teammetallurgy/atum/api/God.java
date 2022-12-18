@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.api;
 
 import com.google.common.collect.Maps;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
@@ -47,8 +47,8 @@ public enum God implements StringRepresentable {
         return this.name;
     }
 
-    public TranslatableComponent getDisplayName() {
-        return new TranslatableComponent("atum.god." + this.name);
+    public Component getDisplayName() {
+        return Component.translatable("atum.god." + this.name);
     }
 
     public TextColor getColor() {

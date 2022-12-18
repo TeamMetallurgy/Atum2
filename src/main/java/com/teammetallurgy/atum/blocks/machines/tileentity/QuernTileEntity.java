@@ -58,7 +58,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
 
             if (quern.quernRotations > 0) {
                 if (level instanceof ServerLevel serverLevel) {
-                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.QUERN);
+                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.QUERN.get());
                     for (QuernRecipe quernRecipe : recipes) {
                         for (Ingredient ingredient : quernRecipe.getIngredients()) {
                             if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.getRotations() == quern.quernRotations) {
@@ -100,7 +100,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
 
     @Override
     public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.QUERN);
+        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.QUERN.get());
     }
 
     public int getRotations() {

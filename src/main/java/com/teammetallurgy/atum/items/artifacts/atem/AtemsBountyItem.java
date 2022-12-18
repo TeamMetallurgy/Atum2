@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,7 +30,7 @@ public class AtemsBountyItem extends FishingRodItem implements IArtifact {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level world, List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
         int remaining = stack.getMaxDamage() - stack.getDamageValue();
-        tooltip.add(new TranslatableComponent("atum.tooltip.uses_remaining", remaining));
+        tooltip.add(Component.translatable("atum.tooltip.uses_remaining", remaining));
     }
 
     @Override

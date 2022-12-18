@@ -49,7 +49,6 @@ public class AtumBiomeBuilder {
 
     public void addBiomes(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> p_187176_) {
         if (SharedConstants.debugGenerateSquareTerrainWithoutNoise) {
-            TerrainProvider.overworld(false).addDebugBiomesToVisualizeSplinePoints(p_187176_);
         } else {
             this.addInlandBiomes(p_187176_);
             this.addUndergroundBiomes(p_187176_);

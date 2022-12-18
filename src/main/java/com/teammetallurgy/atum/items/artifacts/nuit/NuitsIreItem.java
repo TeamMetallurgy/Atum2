@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -99,9 +100,9 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getDirectEntity();
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level.random.nextFloat() <= 0.25F) {
-            applyWither((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getMainHandItem().getItem() == AtumItems.NUITS_QUARTER.get());
+            applyWither((LivingEntity) trueSource, event.getEntity(), event.getEntity().getMainHandItem().getItem() == AtumItems.NUITS_QUARTER.get());
             IS_BLOCKING.removeBoolean(livingEntity);
         }
     }
@@ -109,7 +110,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
     private static void applyWither(LivingEntity target, LivingEntity attacker, boolean isNuitsQuarterHeld) {
         if (attacker != target) {
             if (target.level instanceof ServerLevel serverLevel) {
-                Random random = serverLevel.random;
+                RandomSource random = serverLevel.random;
                 serverLevel.sendParticles(AtumParticles.NUIT_WHITE.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
             }
             target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));

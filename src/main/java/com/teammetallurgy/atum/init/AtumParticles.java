@@ -4,13 +4,10 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.client.particle.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -57,46 +54,41 @@ public class AtumParticles {
     public static final RegistryObject<SimpleParticleType> TEFNUT_FLAME = registerGodFlame("tefnut_flame", God.TEFNUT);
 
     @SubscribeEvent
-    public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
-        registerFactory(ANUBIS.get(), SwirlParticle.Anubis::new);
-        registerFactory(ANUBIS_SKULL.get(), SwirlParticle.AnubisSkull::new);
-        registerFactory(GAS.get(), SwirlParticle.Gas::new);
-        registerFactory(GEB.get(), SwirlParticle.Geb::new);
-        registerFactory(HORUS.get(), SwirlParticle.Horus::new);
-        registerFactory(ISIS.get(), SwirlParticle.Isis::new);
-        registerFactory(LIGHT_SPARKLE.get(), LightSparkleParticle.Factory::new);
-        registerFactory(MONTU.get(), MontuParticle.Factory::new);
-        registerFactory(NEBU_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(NUIT_BLACK.get(), SwirlParticle.NuitBlack::new);
-        registerFactory(NUIT_WHITE.get(), SwirlParticle.NuitWhite::new);
-        registerFactory(RA_FIRE.get(), RaFireParticle.Factory::new);
-        registerFactory(SETH.get(), DropParticle.Seth::new);
-        registerFactory(SHU.get(), SwirlParticle.Shu::new);
-        registerFactory(TAR.get(), DropParticle.Tar::new);
-        registerFactory(TEFNUT.get(), TefnutParticle.Factory::new);
-        registerFactory(TEFNUT_DROP.get(), DropParticle.Tefnut::new);
+    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+        event.register(ANUBIS.get(), SwirlParticle.Anubis::new);
+        event.register(ANUBIS_SKULL.get(), SwirlParticle.AnubisSkull::new);
+        event.register(GAS.get(), SwirlParticle.Gas::new);
+        event.register(GEB.get(), SwirlParticle.Geb::new);
+        event.register(HORUS.get(), SwirlParticle.Horus::new);
+        event.register(ISIS.get(), SwirlParticle.Isis::new);
+        event.register(LIGHT_SPARKLE.get(), LightSparkleParticle.Factory::new);
+        event.register(MONTU.get(), MontuParticle.Factory::new);
+        event.register(NEBU_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(NUIT_BLACK.get(), SwirlParticle.NuitBlack::new);
+        event.register(NUIT_WHITE.get(), SwirlParticle.NuitWhite::new);
+        event.register(RA_FIRE.get(), RaFireParticle.Factory::new);
+        event.register(SETH.get(), DropParticle.Seth::new);
+        event.register(SHU.get(), SwirlParticle.Shu::new);
+        event.register(TAR.get(), DropParticle.Tar::new);
+        event.register(TEFNUT.get(), TefnutParticle.Factory::new);
+        event.register(TEFNUT_DROP.get(), DropParticle.Tefnut::new);
 
         //God Flames
-        registerFactory(ANPUT_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(ANUBIS_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(ATEM_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(GEB_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(HORUS_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(ISIS_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(MONTU_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(NEPTHYS_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(NUIT_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(OSIRIS_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(PTAH_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(RA_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(SETH_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(SHU_FLAME.get(), NebuFlameParticle.Nebu::new);
-        registerFactory(TEFNUT_FLAME.get(), NebuFlameParticle.Nebu::new);
-    }
-
-    public static <T extends ParticleOptions> void registerFactory(ParticleType<T> particleType, ParticleEngine.SpriteParticleRegistration<T> particleMetaFactory) {
-        ParticleEngine particleManager = Minecraft.getInstance().particleEngine;
-        particleManager.register(particleType, particleMetaFactory);
+        event.register(ANPUT_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(ANUBIS_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(ATEM_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(GEB_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(HORUS_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(ISIS_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(MONTU_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(NEPTHYS_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(NUIT_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(OSIRIS_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(PTAH_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(RA_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(SETH_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(SHU_FLAME.get(), NebuFlameParticle.Nebu::new);
+        event.register(TEFNUT_FLAME.get(), NebuFlameParticle.Nebu::new);
     }
 
     /**

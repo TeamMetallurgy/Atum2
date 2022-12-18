@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 
@@ -14,11 +13,11 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(ServerLevel serverLevel, BlockPos pos, ConfiguredStructureFeature<?, ?> structure) {
+    /*public static boolean doesChunkHaveStructure(ServerLevel serverLevel, BlockPos pos, ConfiguredStructureFeaturr<?, ?> structure) {
         return serverLevel.structureFeatureManager().startsForFeature(SectionPos.of(pos), structure).stream().findAny().isPresent();
-    }
+    }*/
 
-    public static int getYPosForStructure(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context, @Nullable Rotation rotation) {
+    /*public static int getYPosForStructure(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context, @Nullable Rotation rotation) {
         if (rotation == null) {
             Random rand = new Random();
             rotation = Rotation.getRandom(rand);
@@ -47,5 +46,5 @@ public class StructureHelper {
             case COUNTERCLOCKWISE_90 -> Direction.EAST;
             default -> Direction.SOUTH;
         };
-    }
+    }*/
 }

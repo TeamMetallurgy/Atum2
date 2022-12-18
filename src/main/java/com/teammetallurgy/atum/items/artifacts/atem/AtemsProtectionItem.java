@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -53,9 +54,9 @@ public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
     }
 
     @SubscribeEvent
-    public static void onLivingTick(LivingEvent.LivingUpdateEvent event) {
-        if (TIMER.containsKey(event.getEntityLiving())) {
-            LivingEntity livingEntity = event.getEntityLiving();
+    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+        if (TIMER.containsKey(event.getEntity())) {
+            LivingEntity livingEntity = event.getEntity();
             int timer = TIMER.getInt(livingEntity);
             if (timer == 0) {
                 TIMER.removeInt(livingEntity);
@@ -70,9 +71,9 @@ public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
     @SubscribeEvent
     public static void onLivingDamage(LivingHurtEvent event) {
         Entity source = event.getSource().getDirectEntity();
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         if (source instanceof LivingEntity && IS_BLOCKING.containsKey(livingEntity) && IS_BLOCKING.getBoolean(livingEntity)) {
-            Random random = ((LivingEntity) source).getRandom();
+            RandomSource random = ((LivingEntity) source).getRandom();
             if (random.nextDouble() <= 0.20D) {
                 TIMER.put(livingEntity, 200);
                 if (livingEntity.level instanceof ServerLevel serverLevel) {

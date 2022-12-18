@@ -26,7 +26,7 @@ public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitMo
     @Nonnull
     public ResourceLocation getTextureLocation(@Nonnull DesertRabbitEntity rabbit) {
         ResourceLocation location;
-        switch (rabbit.getRabbitType()) {
+        switch (rabbit.get()) {
             case 0:
             default:
                 location = PALE;

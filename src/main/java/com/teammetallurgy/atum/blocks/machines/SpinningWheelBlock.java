@@ -11,7 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -97,7 +97,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                             canInsert = true;
                         } else if (!inputStack.isEmpty()) {
                             if (world.isClientSide) {
-                                player.displayClientMessage(new TranslatableComponent("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getHoverName()).withStyle(ChatFormatting.RED), true);
+                                player.displayClientMessage(Component.translatable("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getHoverName()).withStyle(ChatFormatting.RED), true);
                                 world.playSound(player, player.blockPosition(), SoundEvents.HORSE_SADDLE, SoundSource.BLOCKS, 0.8F, 1.0F);
                             }
                         }
@@ -111,7 +111,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                         }
                     } else if (!spinningWheel.input.isEmpty()) {
                         ItemStack input = ItemStack.of(spinningWheel.input);
-                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(world.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL);
+                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(world.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL.get());
                         for (SpinningWheelRecipe spinningWheelRecipe : recipes) {
                             for (Ingredient ingredient : spinningWheelRecipe.getIngredients()) {
                                 for (ItemStack ingredientStack : ingredient.getItems()) {

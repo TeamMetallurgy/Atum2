@@ -8,6 +8,7 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -18,8 +19,8 @@ import javax.annotation.Nonnull;
 
 public class MapExtendingScrollRecipe extends ShapedRecipe {
 
-    public MapExtendingScrollRecipe(ResourceLocation location) {
-        super(location, "", 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get())), new ItemStack(Items.MAP));
+    public MapExtendingScrollRecipe(ResourceLocation location, CraftingBookCategory category) {
+        super(location, "", category, 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get())), new ItemStack(Items.MAP));
     }
 
     @Override

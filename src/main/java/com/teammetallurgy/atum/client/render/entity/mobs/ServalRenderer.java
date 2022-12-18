@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.ServalModel;
@@ -43,7 +43,7 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
         float f = serval.getLieDownAmount(partialTicks);
         if (f > 0.0F) {
             matrixStack.translate((0.4F * f), (0.15F * f), (0.1F * f));
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(Mth.rotLerp(f, 0.0F, 90.0F)));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(Mth.rotLerp(f, 0.0F, 90.0F)));
             BlockPos blockpos = serval.blockPosition();
 
             for (Player player : serval.level.getEntitiesOfClass(Player.class, (new AABB(blockpos)).inflate(2.0D, 2.0D, 2.0D))) {

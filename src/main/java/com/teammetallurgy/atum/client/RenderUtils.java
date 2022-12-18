@@ -1,8 +1,7 @@
 package com.teammetallurgy.atum.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,16 +17,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ToolActions;
+import org.joml.Quaternionf;
 
 import javax.annotation.Nonnull;
 
 public class RenderUtils {
 
     public static void renderItem(BlockEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, 90.0F, matrixStack, buffer, combinedLight, combinedOverlay);
+        renderItem(tileEntity, stack, Axis.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, 90.0F, matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
-    public static void renderItem(BlockEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, float eastWestDegress, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(BlockEntity tileEntity, @Nonnull ItemStack stack, Quaternionf rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, float eastWestDegress, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
             matrixStack.pushPose();
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
@@ -37,7 +37,7 @@ public class RenderUtils {
             }
 
             if (stack.getItem().canPerformAction(stack, ToolActions.SHIELD_BLOCK)) {
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
+                matrixStack.mulPose(Axis.YP.rotationDegrees(180));
                 matrixStack.translate(0.15, 0.1F, 0.15F);
             }
             BlockState state = tileEntity.getBlockState();
@@ -45,17 +45,17 @@ public class RenderUtils {
                 Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
                 if (rotateEastWest) {
                     if (facing == Direction.EAST || facing == Direction.WEST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(eastWestDegress));
+                        matrixStack.mulPose(Axis.YP.rotationDegrees(eastWestDegress));
                     }
                 } else {
                     if (facing == Direction.EAST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+                        matrixStack.mulPose(Axis.YP.rotationDegrees(90.0F));
                     }
                     if (facing == Direction.WEST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+                        matrixStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
                     }
                     if (facing == Direction.NORTH) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+                        matrixStack.mulPose(Axis.YP.rotationDegrees(180.0F));
                     }
                 }
             }
@@ -83,8 +83,8 @@ public class RenderUtils {
             matrixStack.pushPose();
             matrixStack.translate(xOffset, yOffset, zOffset);
 
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(-yaw));
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(pitch));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(-yaw));
+            matrixStack.mulPose(Axis.XP.rotationDegrees(pitch));
             matrixStack.scale(-0.015F + scaleModifier, -0.015F + scaleModifier, 0.015F + scaleModifier);
 
             font.drawInBatch(str, -font.width(str) / 2, 0, 1, false, matrixStack.last().pose(), buffer, false, 0, 0);

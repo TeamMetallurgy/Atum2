@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -33,7 +33,7 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -56,7 +56,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         BlockState state = event.getState();
         if (state.getBlock() instanceof SarcophagusBlock) {
-            BlockEntity tileEntity = event.getWorld().getBlockEntity(event.getPos());
+            BlockEntity tileEntity = event.getLevel().getBlockEntity(event.getPos());
             if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
                 event.setCanceled(true);
             }
@@ -91,10 +91,10 @@ public class SarcophagusBlock extends ChestBaseBlock {
 
         if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
             if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
-                if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, sarcophagus)) {
+                if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, world.random, sarcophagus)) {
                     return InteractionResult.PASS;
                 } else if (!sarcophagus.isOpenable) {
-                    player.displayClientMessage(new TranslatableComponent("chat.atum.cannot_spawn_pharaoh").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.translatable("chat.atum.cannot_spawn_pharaoh").withStyle(ChatFormatting.RED), true);
                     world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ZOMBIE_INFECT, SoundSource.HOSTILE, 0.7F, 0.4F, false);
                     return InteractionResult.PASS;
                 }
@@ -135,7 +135,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     public static void onPlaced(BlockEvent.EntityPlaceEvent event) { //Prevent placement, 1 block left of another block
         BlockState placedState = event.getPlacedBlock();
         if (placedState.getBlock() instanceof SarcophagusBlock) {
-            if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.getValue(FACING))) {
+            if (!canPlaceRightSac(event.getLevel(), event.getPos(), placedState.getValue(FACING))) {
                 event.setCanceled(true);
                 if (event.getEntity() instanceof ServerPlayer player) {
                     ItemStack placedStack = new ItemStack(placedState.getBlock().asItem());

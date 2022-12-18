@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -56,11 +56,11 @@ public class CoinItem extends Item {
         super.appendHoverText(stack, level, tooltip, flag);
         if (stack.getItem() == AtumItems.DIRTY_COIN.get()) {
             if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY)
-                        .append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(Component.translatable(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY)
+                        .append(Component.translatable(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
             } else {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY)
-                        .append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(Component.translatable(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY)
+                        .append(" ").append(Component.translatable(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
             }
         }
     }

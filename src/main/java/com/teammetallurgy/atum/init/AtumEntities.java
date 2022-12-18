@@ -17,6 +17,7 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.Item;
@@ -28,8 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PlayMessages;
@@ -45,7 +46,7 @@ import static net.minecraft.world.entity.EntityType.Builder;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.ENTITIES, Atum.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Atum.MOD_ID);
     //Mobs
     public static final RegistryObject<EntityType<AssassinEntity>> ASSASSIN = registerMob("assassin", 0x433731, 0xd99220, () -> Builder.of(AssassinEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
     public static final RegistryObject<EntityType<BarbarianEntity>> BARBARIAN = registerMob("barbarian", 0x9c7359, 0x8c8c8c, () -> Builder.of(BarbarianEntity::new, MobCategory.MONSTER).sized(0.6F, 1.8F).clientTrackingRange(8));
@@ -105,31 +106,31 @@ public class AtumEntities {
             .setCustomClientFactory(TefnutsCallEntity::new));
 
     @SubscribeEvent
-    public static void register(RegistryEvent.Register<EntityType<?>> event) {
-        SpawnPlacements.register(ASSASSIN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(BANDIT_WARLORD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(BARBARIAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(BONESTORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        SpawnPlacements.register(BRIGAND.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(CAMEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
-        SpawnPlacements.register(DESERT_RABBIT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
-        SpawnPlacements.register(DESERT_WOLF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DesertWolfEntity::canSpawn);
-        SpawnPlacements.register(FORSAKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        SpawnPlacements.register(MUMMY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        SpawnPlacements.register(NOMAD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(PHARAOH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        SpawnPlacements.register(QUAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
-        SpawnPlacements.register(SCARAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ScarabEntity::canSpawn);
-        SpawnPlacements.register(SERGEANT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
-        SpawnPlacements.register(SERVAL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
-        SpawnPlacements.register(STONEGUARD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
-        SpawnPlacements.register(STONEGUARD_FRIENDLY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
-        SpawnPlacements.register(STONEWARDEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
-        SpawnPlacements.register(STONEWARDEN_FRIENDLY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
-        SpawnPlacements.register(TARANTULA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TarantulaEntity::canSpawn);
-        SpawnPlacements.register(WRAITH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        SpawnPlacements.register(VILLAGER_MALE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
-        SpawnPlacements.register(VILLAGER_FEMALE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
+    public static void register(SpawnPlacementRegisterEvent event) {
+        event.register(ASSASSIN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(BANDIT_WARLORD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(BARBARIAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(BONESTORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(BRIGAND.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(CAMEL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(DESERT_RABBIT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(DESERT_WOLF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DesertWolfEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(FORSAKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(MUMMY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(NOMAD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(PHARAOH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(QUAIL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(SCARAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ScarabEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(SERGEANT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(SERVAL.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(STONEGUARD.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(STONEGUARD_FRIENDLY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(STONEWARDEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(STONEWARDEN_FRIENDLY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(TARANTULA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TarantulaEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(WRAITH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(VILLAGER_MALE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
+        event.register(VILLAGER_FEMALE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules, SpawnPlacementRegisterEvent.Operation.OR);
     }
 
     @SubscribeEvent
@@ -160,7 +161,7 @@ public class AtumEntities {
         event.put(VILLAGER_FEMALE.get(), AtumVillagerEntity.createAttributes().build());
     }
 
-    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         BlockState spawnState = world.getBlockState(pos.below());
         Block spawnBlock = spawnState.getBlock();
         return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || DimensionHelper.getSurfaceBlocks().contains(spawnBlock) ||

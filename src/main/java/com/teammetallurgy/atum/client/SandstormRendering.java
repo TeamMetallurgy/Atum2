@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -100,7 +100,7 @@ public class SandstormRendering {
 
             BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
             boolean sky = player.level.canSeeSkyFromBelowWater(playerPos);
-            Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(player.level.getBiome(playerPos).value());
+            Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(player.level.getBiome(playerPos).value());
             if (!sky || playerPos.getY() < 50 ||  biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) {
                 intensity -= 0.006F * partialTicks;
                 intensity = Math.max(0, intensity);

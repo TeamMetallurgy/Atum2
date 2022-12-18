@@ -17,7 +17,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -35,11 +34,11 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     }
 
     public KilnRecipe(Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(input.getItems()[0].getItem().getRegistryName()).getPath() + "_to_" + Objects.requireNonNull(output.getItem().getRegistryName()).getPath()), input, output, experience, cookTime);
+        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(input.getItems()[0].getItem())).getPath() + "_to_" + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(output.getItem())).getPath()), input, output, experience, cookTime);
     }
 
     public KilnRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        super(AtumRecipeTypes.KILN, id, input, output);
+        super(AtumRecipeTypes.KILN.get(), id, input, output);
         this.experience = experience;
         this.cookTime = cookTime;
     }
@@ -58,7 +57,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
         return AtumRecipeSerializers.KILN.get();
     }
 
-    public static class Serializer<T extends KilnRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
+    public static class Serializer<T extends KilnRecipe> implements RecipeSerializer<T> {
         private final Serializer.IFactory<T> factory;
         private final int cookTime;
 

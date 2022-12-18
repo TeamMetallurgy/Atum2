@@ -2,6 +2,7 @@ package com.teammetallurgy.atum;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.AtumAPI;
+import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
@@ -13,10 +14,9 @@ import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -53,16 +53,16 @@ public class Atum {
     public static final ResourceLocation LOCATION = new ResourceLocation(MOD_ID, "atum");
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final CreativeModeTab GROUP = new AtumItemGroup();
-    public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, LOCATION);
-    public static final ResourceKey<LevelStem> LEVEL_STEM = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, LOCATION);
-    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(MOD_ID, "dimension_type"));
-    public static final ResourceKey<NoiseGeneratorSettings> NOISE_SETTINGS = ResourceKey.create(Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(Atum.MOD_ID, "noise_settings"));
+    public static final ResourceKey<Level> ATUM = ResourceKey.create(Registries.DIMENSION, LOCATION);
+    public static final ResourceKey<LevelStem> LEVEL_STEM = ResourceKey.create(Registries.LEVEL_STEM, LOCATION);
+    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, new ResourceLocation(MOD_ID, "dimension_type"));
+    public static final ResourceKey<NoiseGeneratorSettings> NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(Atum.MOD_ID, "noise_settings"));
     public static final DimensionType DEFAULT_ATUM = DimensionType.create(OptionalLong.empty(), true, false, false, true, 1.0D, false, false, true, false, false, -64, 384, 384, AtumAPI.Tags.INFINIBURN, DimensionType.OVERWORLD_EFFECTS, 0.0F);
     public static Codec<AtumBiomeSource> ATUM_MULTI_NOISE;
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
     public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
-    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry(AtumVillagerProfession.class, () -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setType(AtumVillagerProfession.class).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
+    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry(() -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -122,6 +122,7 @@ public class Atum {
         ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
         AtumDataSerializer.DATA_SERIALIZER_DEFERRED.register(modBus);
+        AtumRecipeTypes.RECIPE_TYPE_DEFERRED.register(modBus);
         AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);
     }
 }

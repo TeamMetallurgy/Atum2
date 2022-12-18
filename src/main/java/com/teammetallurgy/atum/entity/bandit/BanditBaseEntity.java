@@ -9,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -131,7 +132,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
                 .addPattern(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).addPattern(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
                 .addPattern(BannerPattern.SKULL, DyeColor.BLACK).addPattern(BannerPattern.SKULL, DyeColor.WHITE).toListTag();
         nbt.put("Patterns", nbtList);
-        banner.setHoverName(new TranslatableComponent("block.atum.bandit_banner").withStyle(ChatFormatting.GOLD));
+        banner.setHoverName(Component.translatable("block.atum.bandit_banner").withStyle(ChatFormatting.GOLD));
         return banner;
     }
 
@@ -230,7 +231,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
         return super.checkSpawnRules(world, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return (spawnReason == MobSpawnType.SPAWNER || pos.getY() > 62 && world.canSeeSkyFromBelowWater(pos)) && world.getBrightness(LightLayer.BLOCK, pos) <= 8 && checkAnyLightMonsterSpawnRules(banditBase, world, spawnReason, pos, random);
     }
 

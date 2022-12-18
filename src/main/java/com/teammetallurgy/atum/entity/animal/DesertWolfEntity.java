@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.*;
@@ -56,7 +57,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenOpenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -164,7 +165,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
     }
 
-    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return pos.getY() > 62 && ((ServerLevel) world.getChunkSource().getLevel()).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && world.canSeeSkyFromBelowWater(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
     }
 
@@ -484,7 +485,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void openInventoryOverride(ScreenOpenEvent event) {
+    public static void openInventoryOverride(ScreenEvent.Opening event) {
         if (event.getScreen() instanceof EffectRenderingInventoryScreen) {
             Player player = Minecraft.getInstance().player;
             if (player != null && player.getVehicle() instanceof DesertWolfEntity desertWolf) {
@@ -501,7 +502,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     private void openGUI(Player player) {
         if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
             if (player instanceof ServerPlayer) {
-                NetworkHooks.openGui((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
+                NetworkHooks.openScreen((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
             }
         }
     }
@@ -685,9 +686,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @SubscribeEvent
     public void onTarget(LivingSetAttackTargetEvent event) {
-        if (event.getTarget() instanceof DesertWolfEntity && event.getEntityLiving() instanceof DesertWolfEntity) {
-            if (((DesertWolfEntity) event.getTarget()).isTame() && ((DesertWolfEntity) event.getEntityLiving()).isTame()) {
-                ((DesertWolfEntity) event.getEntityLiving()).setTarget(null);
+        if (event.getTarget() instanceof DesertWolfEntity && event.getEntity() instanceof DesertWolfEntity) {
+            if (((DesertWolfEntity) event.getTarget()).isTame() && ((DesertWolfEntity) event.getEntity()).isTame()) {
+                ((DesertWolfEntity) event.getEntity()).setTarget(null);
             }
         }
     }

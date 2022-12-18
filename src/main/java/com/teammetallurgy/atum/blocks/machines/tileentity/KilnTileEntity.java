@@ -22,10 +22,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SpongeBlock;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
 
-public class KilnTileEntity extends KilnBaseTileEntity {
+public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite needed, changes in vanilla
     public int burnTime;
     public int recipesUsed;
     public int cookTime;
@@ -107,7 +108,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 }
 
                 if (!kiln.isBurning() && canSmeltAny) {
-                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, AtumRecipeTypes.KILN);
+                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, AtumRecipeTypes.KILN.get());
                     kiln.recipesUsed = kiln.burnTime;
 
                     if (kiln.isBurning()) {
@@ -254,7 +255,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         if (this.level instanceof ServerLevel) {
             ServerLevel serverLevel = (ServerLevel) level;
             RecipeManager recipeManager = serverLevel.getRecipeManager();
-            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, AtumRecipeTypes.KILN));
+            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, AtumRecipeTypes.KILN.get()));
             recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager));
             for (KilnRecipe kilnRecipe : recipes) {
                 for (Ingredient ingredient : kilnRecipe.getIngredients()) {
@@ -273,7 +274,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
 
     protected int getCookTime() {
         Level world = this.level;
-        return world != null ? world.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
+        return world != null ? world.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN.get(), this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
     }
 
     @Override
@@ -292,8 +293,8 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         Item item = stack.getItem();
         Block block = Block.byItem(stack.getItem());
 
-        return AtumRecipeTypes.kilnBlacklist.contains(item.getRegistryName()) || AtumRecipeTypes.kilnBlacklist.contains(block.getRegistryName()) ||
-                item.isEdible() || block instanceof OreBlock || stack.is(ItemTags.COALS) ||stack.is( ORES_COAL) || stack.is(STORAGE_BLOCKS_COAL) ||
+        return AtumRecipeTypes.kilnBlacklist.contains(ForgeRegistries.ITEMS.getKey(item)) || AtumRecipeTypes.kilnBlacklist.contains(ForgeRegistries.BLOCKS.getKey(block)) ||
+                item.isEdible() || stack.is(ItemTags.COALS) ||stack.is( ORES_COAL) || stack.is(STORAGE_BLOCKS_COAL) ||
                 stack.is(ItemTags.PLANKS) || stack.is(ItemTags.LOGS) || stack.is(RODS_WOODEN) || stack.is(ItemTags.SMALL_FLOWERS) ||
                 stack.is(ORES) || stack.is(INGOTS) && !stack.is(INGOTS_BRICK) || stack.is(NUGGETS) || stack.is(GEMS) || stack.is(DUSTS) || 
                 stack.is(DYES) || stack.is(SLIMEBALLS) || stack.is(LEATHER) || block instanceof SpongeBlock;
@@ -305,7 +306,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         this.burnTime = tag.getInt("BurnTime");
         this.cookTime = tag.getInt("CookTime");
         this.cookTimeTotal = tag.getInt("CookTimeTotal");
-        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), AtumRecipeTypes.KILN);
+        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), AtumRecipeTypes.KILN.get());
     }
 
     @Override

@@ -52,7 +52,7 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity source = event.getSource().getDirectEntity();
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         if (source instanceof LivingEntity && IS_BLOCKING.containsKey(livingEntity) && ((LivingEntity) source).getMobType() == MobType.UNDEAD /*&& random.nextFloat() <= 0.50F*/) {
             source.setSecondsOnFire(8);
             source.hurt(DamageSource.GENERIC, 2.0F);

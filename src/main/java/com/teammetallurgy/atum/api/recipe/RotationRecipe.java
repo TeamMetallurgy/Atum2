@@ -16,7 +16,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
         return this.rotations;
     }
 
-    public static class Serializer<C extends RotationRecipe<? extends Container>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<C> {
+    public static class Serializer<C extends RotationRecipe<? extends Container>> implements RecipeSerializer<C> {
         private final Serializer.IFactory<C> factory;
         private final boolean inputCanHaveCount;
 
@@ -59,7 +58,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
                 } else {
                     input = ingredient;
                 }
-                Item tagItem = Registry.ITEM.get(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag")));
+                Item tagItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag")));
                 if (tagItem == null || tagItem == Items.AIR) { //Support empty tags, for mod support
                     input = Ingredient.EMPTY;
                 }

@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +37,7 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
         return super.hurtEnemy(stack, target, attacker);
     }
 
-    public static void knockUp(LivingEntity target, LivingEntity attacker, Random random) {
+    public static void knockUp(LivingEntity target, LivingEntity attacker, RandomSource random) {
         if (attacker != null && !(target instanceof StoneBaseEntity)) {
             if (!attacker.level.isClientSide) {
                 double dx = target.getX() - attacker.getX();

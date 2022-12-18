@@ -19,6 +19,7 @@ import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
@@ -49,9 +50,8 @@ public class RecipeHelper {
         return BrewingRecipeRegistry.addRecipe(new BrewingNBT(Ingredient.of(input), ingredient, output));
     }
 
-    public static <C extends Container, T extends Recipe<C>> Collection<T> getRecipes(RecipeManager recipeManager, RecipeType<T> recipeType) {
-        Map<ResourceLocation, Recipe<C>> recipesMap = recipeManager.byType(recipeType);
-        return (Collection<T>) recipesMap.values();
+    public static <C extends Container, T extends Recipe<C>> List<T> getRecipes(RecipeManager recipeManager, RecipeType<T> recipeType) {
+        return List.copyOf(recipeManager.byType(recipeType).values());
     }
 
     public static <C extends Container, T extends Recipe<C>> boolean isItemValidForSlot(Level level, @Nonnull ItemStack stack, RecipeType<T> recipeType) {

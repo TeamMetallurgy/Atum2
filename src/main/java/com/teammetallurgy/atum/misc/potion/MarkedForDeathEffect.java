@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
@@ -22,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
@@ -53,7 +53,7 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
         if (!world.isClientSide()) {
             if (world instanceof ServerLevel serverLevel) {
                 if (serverLevel.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
-                    Random random = serverLevel.random;
+                    RandomSource random = serverLevel.random;
                     int x = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     int z = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ())).move(x, 0, z);

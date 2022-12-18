@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
@@ -39,7 +40,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() == MobType.UNDEAD) {
             if (player.getMainHandItem().getItem() == AtumItems.NEPTHYS_BANISHING.get()) {
@@ -53,10 +54,10 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
         Entity trueSource = event.getSource().getEntity();
         if (trueSource instanceof Player && COOLDOWN.containsKey(trueSource)) {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
-                LivingEntity target = event.getEntityLiving();
+                LivingEntity target = event.getEntity();
                 event.setAmount(event.getAmount() * 2);
                 if (target.level instanceof ServerLevel serverLevel) {
-                    Random random = serverLevel.random;
+                    RandomSource random = serverLevel.random;
                     serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }
             }

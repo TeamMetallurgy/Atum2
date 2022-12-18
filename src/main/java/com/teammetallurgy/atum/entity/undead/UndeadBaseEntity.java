@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -98,7 +100,7 @@ public class UndeadBaseEntity extends Monster implements ITexture {
 
         if (this.hasSkinVariants() && spawnReason != MobSpawnType.CONVERSION) {
             final int variant = Mth.nextInt(world.getRandom(), 0, this.getVariantAmount());
-            this.setVariantWithAbilities(variant, difficulty);
+            this.setVariantWithAbilities(variant, this.random, difficulty);
         }
         return livingData;
     }
@@ -107,12 +109,12 @@ public class UndeadBaseEntity extends Monster implements ITexture {
         return 6;
     }
 
-    public void setVariantWithAbilities(int variant, DifficultyInstance difficulty) {
+    public void setVariantWithAbilities(int variant, RandomSource randomSource, DifficultyInstance difficulty) {
         this.setVariant(variant);
-        this.setVariantAbilities(difficulty, variant);
+        this.setVariantAbilities(difficulty, randomSource, variant);
     }
 
-    void setVariantAbilities(DifficultyInstance difficulty, int variant) {
+    void setVariantAbilities(DifficultyInstance difficulty, RandomSource randomSource, int variant) {
     }
 
     @Override
@@ -139,7 +141,7 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     public void tick() {
         super.tick();
         if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
+            //this.entityData.clearDirty(); //TODO?
             this.texturePath = null;
         }
     }
@@ -186,8 +188,8 @@ public class UndeadBaseEntity extends Monster implements ITexture {
         return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(world, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
-        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() > 62) && checkMonsterSpawnRules(undeadBase, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, ServerLevelAccessor levelAccessor, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() > 62) && checkMonsterSpawnRules(undeadBase, levelAccessor, spawnReason, pos, random);
     }
 
     void setVariant(int variant) {
@@ -203,7 +205,7 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
+            String entityName = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(this.getType())).getPath();
 
             if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";

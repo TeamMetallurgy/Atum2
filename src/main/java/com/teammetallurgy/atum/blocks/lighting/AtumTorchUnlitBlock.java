@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -55,20 +56,20 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
 
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent.RightClickBlock event) { //Light unlit held torch
-        BlockState state = event.getWorld().getBlockState(event.getPos());
+        BlockState state = event.getLevel().getBlockState(event.getPos());
         Block block =  Block.byItem(event.getItemStack().getItem());
-        if (block instanceof AtumTorchUnlitBlock unlit && state.getBlock().getLightEmission(state.getBlock().defaultBlockState(), event.getWorld(), event.getPos()) > 0) {
+        if (block instanceof AtumTorchUnlitBlock unlit && state.getBlock().getLightEmission(state.getBlock().defaultBlockState(), event.getLevel(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);
-            StackHelper.giveItem(event.getPlayer(), event.getHand(), new ItemStack(unlit.getLit().get()));
-            event.getWorld().playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 10.0F, 1.0F, false);
+            StackHelper.giveItem(event.getEntity(), event.getHand(), new ItemStack(unlit.getLit().get()));
+            event.getLevel().playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 10.0F, 1.0F, false);
         }
     }
 
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random random) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
     }
 }

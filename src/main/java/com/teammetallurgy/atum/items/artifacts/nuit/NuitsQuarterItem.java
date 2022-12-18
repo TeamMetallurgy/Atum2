@@ -98,9 +98,9 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getDirectEntity();
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level.random.nextFloat() <= 0.25F) {
-            applyWeakness((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getMainHandItem().getItem() == AtumItems.NUITS_IRE.get());
+            applyWeakness((LivingEntity) trueSource, event.getEntity(), event.getEntity().getMainHandItem().getItem() == AtumItems.NUITS_IRE.get());
             IS_BLOCKING.removeBoolean(livingEntity);
         }
     }

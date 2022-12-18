@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.jei.categories;
+/*package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
@@ -19,7 +19,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -55,7 +55,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     @Nonnull
     public Component getTitle() {
-        return new TranslatableComponent(Atum.MOD_ID + "." + getUid().getPath());
+        return Component.translatable(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
             if (slotIndex >= 5) {
                 boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslatableComponent("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
+                    tooltip.add(Component.translatable("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
                 }
             }
         });
@@ -101,8 +101,8 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
         float experience = recipe.getExperience();
         if (experience > 0) {
-            TranslatableComponent experienceString = new TranslatableComponent("gui.jei.category.smelting.experience", experience);
+            Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
             Minecraft.getInstance().font.draw(matrixStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
-}
+}*/

@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -47,8 +47,8 @@ public class RelicItem extends Item {
             Atum.LOG.error("Item is not a relic");
         } else {
             for (Quality quality : Quality.values()) {
-                Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Type type = Type.byString(item.getRegistryName().getPath().replace("relic_", "").replace(quality.getSerializedName(), "").replace("_", ""));
+                Preconditions.checkNotNull(ForgeRegistries.ITEMS.getKey(item), "registryName");
+                Type type = Type.byString(ForgeRegistries.ITEMS.getKey(item).getPath().replace("relic_", "").replace(quality.getSerializedName(), "").replace("_", ""));
                 if (type != null) {
                     return type;
                 }
@@ -62,8 +62,8 @@ public class RelicItem extends Item {
             Atum.LOG.error("Item is not a relic");
         } else {
             for (Type type : Type.values()) {
-                Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("relic_", "").replace(type.getSerializedName(), "").replace("_", ""));
+                Preconditions.checkNotNull(ForgeRegistries.ITEMS.getKey(item), "registryName");
+                Quality quality = Quality.byString(ForgeRegistries.ITEMS.getKey(item).getPath().replace("relic_", "").replace(type.getSerializedName(), "").replace("_", ""));
                 if (quality != null) {
                     return quality;
                 }
@@ -77,7 +77,7 @@ public class RelicItem extends Item {
         Level level = entityItem.level;
         BlockState state = level.getBlockState(new BlockPos(Mth.floor(entityItem.getX()), Mth.floor(entityItem.getY()), Mth.floor(entityItem.getZ())));
         if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof LayeredCauldronBlock && state.getValue(LayeredCauldronBlock.LEVEL) > 0) {
-            if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !level.isClientSide) {
+            if (stack.getItem() instanceof RelicItem && String.valueOf(ForgeRegistries.ITEMS.getKey(stack.getItem())).contains("dirty") && !level.isClientSide) {
                 while (stack.getCount() > 0) {
                     Optional<RelicEntry> optional = WeightedRandom.getRandomItem(level.random, RELIC_ENTRIES);
                     if (optional.isPresent()) {
@@ -101,12 +101,12 @@ public class RelicItem extends Item {
     public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         if (getQuality(stack.getItem()) == Quality.DIRTY) {
             if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY).append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(Component.translatable(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY).append(Component.translatable(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
             } else {
-                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY).append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+                tooltip.add(Component.translatable(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY).append(" ").append(Component.translatable(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
             }
         } else {
-            tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.vanity").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable(Atum.MOD_ID + ".tooltip.vanity").withStyle(ChatFormatting.YELLOW));
         }
     }
 

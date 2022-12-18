@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -52,7 +53,7 @@ public class DesertRabbitEntity extends Rabbit {
         Biome biome = world.getBiome(this.blockPosition()).value();
         int i = this.random.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
 
         if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();

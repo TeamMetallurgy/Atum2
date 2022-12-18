@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
@@ -30,7 +30,7 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
         if ((double) stonewarden.animationSpeed >= 0.01D) {
             float swingValue = stonewarden.animationPosition - stonewarden.animationSpeed * (1.0F - partialTicks) + 6.0F;
             float swing = (Math.abs(swingValue % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * swing));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(6.5F * swing));
         }
     }
 

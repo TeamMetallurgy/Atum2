@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.mixin;
+/*package com.teammetallurgy.atum.mixin;
 
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Lifecycle;
@@ -8,7 +8,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.WritableRegistry;
-import net.minecraft.resources.RegistryLoader;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,4 +28,4 @@ public class MixinAtumBiomeBuilder { //TODO This is basically just a workaround 
         WritableRegistry<DimensionType> writableRegistry = registryAccess.ownedWritableRegistryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
         writableRegistry.register(Atum.DIMENSION_TYPE, Atum.DEFAULT_ATUM, Lifecycle.stable());
     }
-}
+}*/

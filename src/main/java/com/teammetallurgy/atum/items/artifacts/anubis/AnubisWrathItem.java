@@ -17,11 +17,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -42,12 +42,12 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnubisWrathItem extends SwordItem implements IArtifact {
@@ -85,7 +85,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (player.getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH.get() && getTier(player.getMainHandItem()) == 3) {
             if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() != MobType.UNDEAD && !(event.getTarget() instanceof StoneBaseEntity)) {
@@ -100,8 +100,8 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
         if (trueSource instanceof Player && COOLDOWN.containsKey(trueSource)) {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
-                LivingEntity entity = event.getEntityLiving();
-                Random random = entity.level.random;
+                LivingEntity entity = event.getEntity();
+                RandomSource random = entity.level.random;
                 double y = Mth.nextDouble(random, 0.02D, 0.1D);
                 if (entity.level instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(AtumParticles.ANUBIS.get(), entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
@@ -121,11 +121,11 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
             if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
                 source.level.playSound(null, source.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 0.0F);
                 if (source instanceof Player) {
-                    ((Player) source).displayClientMessage(new TranslatableComponent(heldStack.getDescriptionId().replace("item.", "") + ".levelup").withStyle(ChatFormatting.DARK_PURPLE), true);
+                    ((Player) source).displayClientMessage(Component.translatable(heldStack.getDescriptionId().replace("item.", "") + ".levelup").withStyle(ChatFormatting.DARK_PURPLE), true);
                 }
             }
         }
-        if (event.getEntityLiving() instanceof Player player) {
+        if (event.getEntity() instanceof Player player) {
             Inventory inv = player.getInventory();
             if (inv.contains(findAnubisWrath(player))) {
                 CompoundTag tag = StackHelper.getTag(findAnubisWrath(player));
@@ -182,16 +182,16 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
-        String itemIdentifier = "atum." + Objects.requireNonNull(stack.getItem().getRegistryName()).getPath() + ".tooltip";
+        String itemIdentifier = "atum." + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).getPath() + ".tooltip";
         if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            tooltip.add(new TranslatableComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).withStyle(ChatFormatting.DARK_PURPLE));
-            tooltip.add(new TranslatableComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).withStyle(ChatFormatting.DARK_PURPLE));
+            tooltip.add(Component.translatable(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).withStyle(ChatFormatting.DARK_PURPLE));
+            tooltip.add(Component.translatable(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).withStyle(ChatFormatting.DARK_PURPLE));
         } else {
-            tooltip.add(new TranslatableComponent(itemIdentifier + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker"))
-                    .append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+            tooltip.add(Component.translatable(itemIdentifier + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker"))
+                    .append(" ").append(Component.translatable(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
         }
         if (tooltipType.isAdvanced()) {
-            tooltip.add(new TranslatableComponent(itemIdentifier + ".kills", getSouls(stack)).withStyle(ChatFormatting.DARK_RED));
+            tooltip.add(Component.translatable(itemIdentifier + ".kills", getSouls(stack)).withStyle(ChatFormatting.DARK_RED));
         }
     }
 }

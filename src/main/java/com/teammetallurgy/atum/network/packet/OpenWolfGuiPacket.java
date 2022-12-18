@@ -31,7 +31,7 @@ public class OpenWolfGuiPacket {
 			if (playerMP != null && !(playerMP instanceof FakePlayer)) {
 				Entity entity = playerMP.level.getEntity(message.wolfID);
 				if (entity instanceof DesertWolfEntity wolf) {
-					NetworkHooks.openGui(playerMP, wolf, buf -> buf.writeInt(wolf.getId()));
+					NetworkHooks.openScreen(playerMP, wolf, buf -> buf.writeInt(wolf.getId()));
 				}
 				ctx.get().setPacketHandled(true);
 			}

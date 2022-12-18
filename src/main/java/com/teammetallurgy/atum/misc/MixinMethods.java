@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.misc;
+/*package com.teammetallurgy.atum.misc;
 
 import com.mojang.serialization.Lifecycle;
 import com.teammetallurgy.atum.Atum;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import java.util.OptionalInt;
 import java.util.function.Supplier;
 
-public class MixinMethods {
+public class MixinMethods { //TODO. Hopefully don´t need this in 1.19
 
     public static void registerAtumLevelStem(RegistryAccess registryAccess, WritableRegistry<LevelStem> writableRegistry, long seed) {
         LevelStem dimension = createAtumDimension(registryAccess.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY),
@@ -39,4 +39,4 @@ public class MixinMethods {
         ChunkGenerator generator = new AtumChunkGenerator(structureSetRegistry, paramRegistry, new AtumBiomeSource(seed, biomeRegistry), seed, noiseGeneratorSettingsRegistry.getOrCreateHolder(Atum.NOISE_SETTINGS)); //TODO Settings
         return new LevelStem(dimensionType, generator, true);
     }
-}
+}*/

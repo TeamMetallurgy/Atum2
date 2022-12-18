@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
@@ -78,14 +78,14 @@ public class QuernRender implements BlockEntityRenderer<QuernTileEntity> {
             matrixStack.pushPose();
             matrixStack.translate(0.5D, 1.5D, 0.5D);
             matrixStack.scale(0.95F, 1.0F, 0.95F);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(-180));
             float angle = state.getValue(QuernBlock.FACING).toYRot();
             if ((double) Math.abs(angle) > 1.0E-5D) {
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(angle));
+                matrixStack.mulPose(Axis.YP.rotationDegrees(angle));
             }
 
             float quernRotation = quern.getRotations();
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(-quernRotation));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(-quernRotation));
 
             VertexConsumer builder = buffer.getBuffer(QUERN_RENDER);
             DoubleBlockCombiner.NeighborCombineResult<?> callbackWrapper = DoubleBlockCombiner.Combiner::acceptNone;

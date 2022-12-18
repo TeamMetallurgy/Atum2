@@ -56,7 +56,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
 
     @SubscribeEvent
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (event.getTarget() instanceof LivingEntity && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER.get()) {
             player.getFoodData().eat(1, 0.0F);
             ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 40));

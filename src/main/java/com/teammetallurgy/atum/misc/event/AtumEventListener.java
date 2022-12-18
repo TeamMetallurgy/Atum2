@@ -52,7 +52,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidUtil;
@@ -68,7 +68,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         CompoundTag tag = player.getPersistentData();
         CompoundTag persistedTag = tag.getCompound(Player.PERSISTED_NBT_TAG);
         boolean shouldStartInAtum = AtumConfig.ATUM_START.startInAtum.get() && !persistedTag.getBoolean(TAG_ATUM_START);
@@ -85,7 +85,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (AtumConfig.ATUM_START.startInAtum.get()) {
-            LivingEntity livingEntity = event.getEntityLiving();
+            LivingEntity livingEntity = event.getEntity();
             if (livingEntity instanceof ServerPlayer serverPlayer) {
                 ServerLevel serverLevel = serverPlayer.getLevel();
                 SpawnHelper.validateAndGetSpawnPoint(serverLevel, serverPlayer, 1);
@@ -95,7 +95,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player instanceof ServerPlayer serverPlayer) {
             CompoundTag tag = serverPlayer.getPersistentData();
             CompoundTag persistedTag = tag.getCompound(Player.PERSISTED_NBT_TAG);
@@ -131,7 +131,7 @@ public class AtumEventListener {
         BlockState state = event.getPlacedBlock();
         if (event.getEntity() != null && event.getEntity().level.dimension() == Atum.ATUM) {
             if (((state.getMaterial() == Material.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED.get())) {
-                event.getWorld().setBlock(event.getPos(), AtumBlocks.SAND.get().defaultBlockState(), 3);
+                event.getLevel().setBlock(event.getPos(), AtumBlocks.SAND.get().defaultBlockState(), 3);
             }
         }
     }
@@ -139,9 +139,9 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onArmorClean(PlayerInteractEvent.RightClickBlock event) {
         try {
-            Level world = event.getWorld();
+            Level world = event.getLevel();
             BlockPos pos = event.getPos();
-            Player player = event.getPlayer();
+            Player player = event.getEntity();
             ItemStack stack = player.getMainHandItem();
             LazyOptional<IFluidHandler> lazyTank = FluidUtil.getFluidHandler(world, pos, event.getFace());
 
@@ -182,8 +182,8 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getPlayer();
-        Level world = event.getWorld();
+        Player player = event.getEntity();
+        Level world = event.getLevel();
         if (player.level.dimension() == Atum.ATUM) {
             if (player.getItemInHand(event.getHand()).getItem() == Items.WHEAT_SEEDS && world.getBlockState(event.getPos()).getBlock() instanceof FarmBlock) {
                 event.setCanceled(true);
@@ -200,7 +200,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onFishLoot(ItemFishedEvent event) {
-        Level world = event.getPlayer().level;
+        Level world = event.getEntity().level;
         FishingHook bobber = event.getHookEntity();
         Player angler = bobber.getPlayerOwner();
         if (angler != null) {
@@ -234,8 +234,8 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void checkSpawn(LivingSpawnEvent.CheckSpawn event) { //Prevent Phantom spawning in Atum
-        LevelAccessor world = event.getWorld();
-        if ((event.getEntityLiving() instanceof Phantom || event.getEntityLiving().getType() == EntityType.CAT) && (world instanceof ServerLevel && ((ServerLevel) world).dimension() == Atum.ATUM)) {
+        LevelAccessor world = event.getLevel();
+        if ((event.getEntity() instanceof Phantom || event.getEntity().getType() == EntityType.CAT) && (world instanceof ServerLevel && ((ServerLevel) world).dimension() == Atum.ATUM)) {
             event.setResult(Event.Result.DENY);
         }
     }

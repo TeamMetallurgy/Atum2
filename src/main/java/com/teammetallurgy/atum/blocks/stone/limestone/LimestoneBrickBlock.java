@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.ItemStack;
@@ -73,7 +74,7 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.hasProperty(CAN_FALL) && state.getValue(CAN_FALL)) {
             super.tick(state, world, pos, rand);
         }
@@ -89,7 +90,7 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     }
 
     @Override
-    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.hasProperty(CAN_FALL) && state.getValue(CAN_FALL)) {
             super.animateTick(state, world, pos, rand);
         }

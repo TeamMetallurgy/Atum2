@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +30,7 @@ public class AtemsWillItem extends SwordItem implements IArtifact {
 
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        Random random = attacker.getRandom();
+        RandomSource random = attacker.getRandom();
         if (random.nextDouble() <= 0.15D) {
             attacker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, (Mth.nextInt(random, 5, 20)) * 20, 0, false, false));
         }

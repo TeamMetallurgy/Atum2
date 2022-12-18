@@ -11,8 +11,6 @@ import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -92,18 +90,18 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".armorset." + this.getSlot().getName()).withStyle(ChatFormatting.GRAY));
-            tooltip.add(new TextComponent(""));
+            tooltip.add(Component.translatable(Atum.MOD_ID + ".armorset." + this.getSlot().getName()).withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.literal(""));
             String baseLang = Atum.MOD_ID + ".armorset." + this.getGod().getName() + ".";
             ItemStack[] stacks = getArmorSet();
-            tooltip.add(new TranslatableComponent(baseLang + "name").append(" (" + getArmorPiecesEquipped(player) + "/" + stacks.length + ") ").setStyle(this.getDescription().getStyle().withColor(this.getGod().getColor()))
-                    .append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+            tooltip.add(Component.translatable(baseLang + "name").append(" (" + getArmorPiecesEquipped(player) + "/" + stacks.length + ") ").setStyle(this.getDescription().getStyle().withColor(this.getGod().getColor()))
+                    .append(Component.translatable(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
             if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
                 for (int i = 0; i < stacks.length; i++) {
                     tooltip.add(stacks[i].getHoverName().plainCopy().withStyle((hasArmorSetPiece(player, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, stacks.length - i - 1)) ? ChatFormatting.YELLOW : ChatFormatting.DARK_GRAY)));
                 }
-                tooltip.add(new TextComponent(""));
-                tooltip.add(new TranslatableComponent(baseLang + "desc").withStyle(hasFullSet(player) ? ChatFormatting.YELLOW : ChatFormatting.DARK_GRAY));
+                tooltip.add(Component.literal(""));
+                tooltip.add(Component.translatable(baseLang + "desc").withStyle(hasFullSet(player) ? ChatFormatting.YELLOW : ChatFormatting.DARK_GRAY));
             }
         }
     }
@@ -124,7 +122,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     //Artifact Legs
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         Item legs = livingEntity.getItemBySlot(EquipmentSlot.LEGS).getItem();
         if (legs instanceof ArtifactArmor && legs == ((ArtifactArmor) legs).getLeggings() && livingEntity.isOnGround()) {
             event.setStrength(event.getStrength() * 0.5F);

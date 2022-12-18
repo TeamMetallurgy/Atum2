@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class SpawnHelper {
     public static final String TAG_ATUM_RESPAWN = "atum_respawn";
-    private static final TextComponent BED_MISSING_MSG = new TextComponent("You have no home bed or respawn anchor, or it was obstructed");
+    private static final Component BED_MISSING_MSG = Component.literal("You have no home bed or respawn anchor, or it was obstructed");
 
     /**
      * Gets a player's spawnpoint, resetting if the bed is invalid
@@ -91,7 +91,7 @@ public class SpawnHelper {
             persistedTag.putBoolean(TAG_ATUM_RESPAWN, true);
             tag.put(Player.PERSISTED_NBT_TAG, persistedTag);
         } else if (msgMode == 2) {
-            serverPlayer.sendMessage(BED_MISSING_MSG, Util.NIL_UUID);
+            serverPlayer.sendSystemMessage(BED_MISSING_MSG);
         }
     }
 }

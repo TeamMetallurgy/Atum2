@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,7 +24,7 @@ public class IdolOfLaborItem extends Item {
     @Nonnull
     public InteractionResultHolder<ItemStack> use(Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
         if (level.isClientSide) {
-            player.displayClientMessage(new TranslatableComponent(this.getDescriptionId() + "." + Mth.nextInt(level.random, 1, 65)).withStyle(ChatFormatting.YELLOW), true);
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + "." + Mth.nextInt(level.random, 1, 65)).withStyle(ChatFormatting.YELLOW), true);
         }
         return super.use(level, player, hand);
     }

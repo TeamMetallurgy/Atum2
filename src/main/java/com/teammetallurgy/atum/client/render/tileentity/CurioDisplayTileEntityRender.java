@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.curio.CurioDisplayBlock;
 import com.teammetallurgy.atum.blocks.curio.tileentity.CurioDisplayTileEntity;
@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
@@ -64,9 +65,9 @@ public abstract class CurioDisplayTileEntityRender implements BlockEntityRendere
         if (block instanceof CurioDisplayBlock) {
             matrixStack.pushPose();
             matrixStack.translate(0.5D, 1.5D, 0.5D);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-180));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(-180));
 
-            RenderType CURIO_DISPLAY_RENDER = RenderType.entityCutout(new ResourceLocation(Atum.MOD_ID, "textures/block/" + getBlock().getRegistryName().getPath() + ".png"));
+            RenderType CURIO_DISPLAY_RENDER = RenderType.entityCutout(new ResourceLocation(Atum.MOD_ID, "textures/block/" + ForgeRegistries.BLOCKS.getKey(getBlock()).getPath() + ".png"));
             VertexConsumer builder = buffer.getBuffer(CURIO_DISPLAY_RENDER);
             this.displayStand.render(matrixStack, builder, combinedLight, combinedOverlay);
             this.displayStand1.render(matrixStack, builder, combinedLight, combinedOverlay);

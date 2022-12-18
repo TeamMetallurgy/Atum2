@@ -12,7 +12,6 @@ import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -44,8 +43,8 @@ public class AtumSpawnHandling {
     }
 
     @SubscribeEvent
-    public static void onWorldTick(TickEvent.WorldTickEvent event) { //Bandit spawn handling
-        if (event.world.dimension() == Atum.ATUM && event.world instanceof ServerLevel serverLevel) {
+    public static void onWorldTick(TickEvent.LevelTickEvent event) { //Bandit spawn handling
+        if (event.level.dimension() == Atum.ATUM && event.level instanceof ServerLevel serverLevel) {
             boolean doMobSpawning = serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
             if (doMobSpawning) {
                 for (CustomSpawner specialSpawner : specialSpawners) {

@@ -17,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -38,9 +38,9 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     }
 
     @SubscribeEvent
-    public static void onTarget(LivingSetAttackTargetEvent event) {
-        if (TIMER.getInt(event.getTarget()) <= 0 && INVISIBLE.getBoolean(event.getTarget()) && event.getTarget() instanceof Player && event.getEntityLiving() instanceof Mob) {
-            ((Mob) event.getEntityLiving()).setTarget(null);
+    public static void onTarget(LivingChangeTargetEvent event) { //TODO Test
+        if (TIMER.getInt(event.getOriginalTarget()) <= 0 && INVISIBLE.getBoolean(event.getOriginalTarget()) && event.getOriginalTarget() instanceof Player && event.getOriginalTarget() instanceof Mob) {
+            event.setNewTarget(null);
         }
     }
 

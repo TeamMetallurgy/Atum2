@@ -40,7 +40,7 @@ public class HammerItem extends SwordItem {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 Item heldItem = ((Player)trueSource).getMainHandItem().getItem();
                 if (heldItem instanceof HammerItem hammerItem) {
-                    LivingEntity target = event.getEntityLiving();
+                    LivingEntity target = event.getEntity();
                     AttributeInstance attribute = target.getAttribute(Attributes.MOVEMENT_SPEED);
                     if (attribute != null && !attribute.hasModifier(STUN_MODIFIER)) {
                         attribute.addTransientModifier(STUN_MODIFIER);
@@ -57,8 +57,8 @@ public class HammerItem extends SwordItem {
     }
 
     @SubscribeEvent
-    public static void livingTick(LivingEvent.LivingUpdateEvent event) {
-        LivingEntity entity = event.getEntityLiving();
+    public static void livingTick(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
         if (STUN.isEmpty()) return;
         AttributeInstance attribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (attribute != null && attribute.hasModifier(STUN_MODIFIER)) {

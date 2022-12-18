@@ -9,16 +9,17 @@ import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -31,11 +32,11 @@ public class RaArmor extends ArtifactArmor {
     }
 
     @Override
-    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties() {
+    public void initializeClient(@Nonnull Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
             @Override
-            public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return new RaArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.RA_ARMOR), armorSlot, hasFullSet(entityLiving));
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
+                return new RaArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.RA_ARMOR), equipmentSlot, hasFullSet(livingEntity));
             }
         });
     }

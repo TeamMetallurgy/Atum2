@@ -13,7 +13,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -33,7 +33,7 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        LevelAccessor world = event.getWorld();
+        LevelAccessor world = event.getLevel();
         if (world instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE.get()) {
             BlockPos pos = event.getPos();
             List<ItemStack> drops = Block.getDrops(event.getState(), serverLevel, pos, null);

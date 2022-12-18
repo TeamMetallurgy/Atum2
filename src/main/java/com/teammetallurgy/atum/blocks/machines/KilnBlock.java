@@ -58,7 +58,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
         if (tepos != null) {
             BlockEntity tileEntity = world.getBlockEntity(tepos);
             if (tileEntity instanceof KilnTileEntity kiln && player instanceof ServerPlayer) {
-                NetworkHooks.openGui((ServerPlayer) player, kiln, tepos);
+                NetworkHooks.openScreen((ServerPlayer) player, kiln, tepos);
             }
         }
     }

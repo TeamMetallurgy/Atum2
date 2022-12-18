@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -27,7 +28,7 @@ public class GebsMightItem extends HammerItem implements IArtifact {
     protected void onStun(LivingEntity target) {
         STUN.put(target, 80);
         if (target.level instanceof ServerLevel serverLevel) {
-            Random random = serverLevel.random;
+            RandomSource random = serverLevel.random;
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;

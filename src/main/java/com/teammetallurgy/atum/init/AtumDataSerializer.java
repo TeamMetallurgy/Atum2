@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.entity.villager.Race;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -14,8 +13,8 @@ import net.minecraftforge.registries.RegistryObject;
 import javax.annotation.Nonnull;
 
 public class AtumDataSerializer {
-    public static final DeferredRegister<DataSerializerEntry> DATA_SERIALIZER_DEFERRED = DeferredRegister.create(ForgeRegistries.Keys.DATA_SERIALIZERS, Atum.MOD_ID);
-    public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
+    public static final DeferredRegister<EntityDataSerializer<?>> DATA_SERIALIZER_DEFERRED = DeferredRegister.create(ForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS, Atum.MOD_ID);
+    public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<>() {
         @Override
         public void write(FriendlyByteBuf buf, AtumVillagerData value) {
             buf.writeUtf(String.valueOf(Atum.villagerProfession.get().getKey(value.getAtumProfession())));
@@ -35,9 +34,8 @@ public class AtumDataSerializer {
             return value;
         }
     };
-    private static final RegistryObject<DataSerializerEntry> VILLAGER_DATA_ENTRY = register("villager_data", new DataSerializerEntry(VILLAGER_DATA));
 
-    public static RegistryObject<DataSerializerEntry> register(String name, DataSerializerEntry dataSerializerEntry) {
+    public static RegistryObject<EntityDataSerializer<?>> register(String name, EntityDataSerializer<?> dataSerializerEntry) {
         return DATA_SERIALIZER_DEFERRED.register(name, () -> dataSerializerEntry);
     }
 }

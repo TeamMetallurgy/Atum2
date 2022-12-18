@@ -33,8 +33,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.FogType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -145,9 +143,9 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onRender(RenderPlayerEvent.Pre event) {
-        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NUITS_VANISHING.get(), event.getEntityLiving());
+        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NUITS_VANISHING.get(), event.getEntity());
         if (optional.isPresent()) {
-            if (!NuitsVanishingItem.TIMER.containsKey(event.getEntityLiving()) && !NuitsVanishingItem.isLivingEntityMoving(event.getEntityLiving())) {
+            if (!NuitsVanishingItem.TIMER.containsKey(event.getEntity()) && !NuitsVanishingItem.isLivingEntityMoving(event.getEntity())) {
                 event.setCanceled(true);
             }
         }

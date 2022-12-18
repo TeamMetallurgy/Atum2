@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -28,6 +27,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -153,7 +153,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         Item scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(scepter));
@@ -204,8 +204,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
-        super.setVariantAbilities(difficulty, variant);
+    protected void setVariantAbilities(DifficultyInstance difficulty, RandomSource randomSource, int variant) {
+        super.setVariantAbilities(difficulty, randomSource, variant);
 
         prefixID = random.nextInt(PREFIXES.length);
         suffixID = random.nextInt(SUFFIXES.length);
@@ -213,8 +213,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
         this.setPharaohName(this.prefixID, this.suffixID, this.numID);
 
-        this.populateDefaultEquipmentSlots(difficulty);
-        this.populateDefaultEquipmentEnchantments(difficulty);
+        this.populateDefaultEquipmentSlots(randomSource, difficulty);
+        this.populateDefaultEquipmentEnchantments(randomSource, difficulty);
     }
 
     @Override
@@ -304,9 +304,9 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
             if (source.msgId.equals("player")) {
                 Player slayer = (Player) source.getEntity();
                 if (!this.level.isClientSide && slayer != null) {
-                    List<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+                    List<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers(); //TODO Might not be needed, sendSystemMessage might send to all players?
                     for (Player player : players) {
-                        player.sendMessage(this.getName().copy().append(" ").append(new TranslatableComponent("chat.atum.kill_pharaoh")).append(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().withColor(God.getGod(this.getVariant()).getColor())), Util.NIL_UUID);
+                        player.sendSystemMessage(this.getName().copy().append(" ").append(Component.translatable("chat.atum.kill_pharaoh")).append(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().withColor(God.getGod(this.getVariant()).getColor())));
                     }
                 }
             }
@@ -336,7 +336,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         int p = this.entityData.get(PREFIX);
         int s = this.entityData.get(SUFFIX);
         int n = this.entityData.get(NUMERAL);
-        return new TranslatableComponent(this.getType().getDescriptionId()).append(" ").append(new TranslatableComponent("entity.atum.pharaoh." + PREFIXES[p])).append(new TranslatableComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ROOT))).append(" " + NUMERALS[n]);
+        return Component.translatable(this.getType().getDescriptionId()).append(" ").append(Component.translatable("entity.atum.pharaoh." + PREFIXES[p])).append(Component.translatable("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ROOT))).append(" " + NUMERALS[n]);
     }
 
 

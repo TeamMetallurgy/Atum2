@@ -10,11 +10,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -27,6 +28,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.DropRulesEvent;
@@ -58,7 +60,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
     @SubscribeEvent
     public static void onCuriosDrop(DropRulesEvent event) {
-        if (event.getEntityLiving() instanceof Player player) {
+        if (event.getEntity() instanceof Player player) {
             CompoundTag playerData = getPlayerData(player);
             if (!player.level.isClientSide && playerData.contains("Inventory")) { //Keep all Curios items
                 CuriosApi.getCuriosHelper().getEquippedCurios(player).ifPresent(handler -> {
@@ -73,10 +75,10 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.OSIRIS_MERCY.get(), livingEntity);
         if (optional.isPresent()) {
-            if (event.getEntityLiving() instanceof Player) {
+            if (event.getEntity() instanceof Player) {
                 ItemStack anubisMercy = optional.get().getRight();
                 Player player = (Player) livingEntity;
                 if (!player.level.isClientSide) {
@@ -95,7 +97,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
                 }
 
                 if (player.level instanceof ServerLevel serverLevel) {
-                    Random random = serverLevel.random;
+                    RandomSource random = serverLevel.random;
                     double y = Mth.nextDouble(random, 0.01D, 0.1D);
                     serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.04D, y, 0.0D, 0.075D);
                     serverLevel.sendParticles(AtumParticles.ANUBIS_SKULL.get(), player.getX() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), player.getY() + 1.0D, player.getZ() + (random.nextDouble() - 0.5D) * (double) player.getBbWidth(), 22, 0.0D, y, 0.04D, 0.075D);
@@ -109,7 +111,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
     @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         CompoundTag playerData = getPlayerData(player);
         if (!player.level.isClientSide && playerData.contains("Inventory")) {
             ListTag tagList = playerData.getList("Inventory", 10);
@@ -129,8 +131,8 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level world, List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
         int remaining = (stack.getMaxDamage() - stack.getDamageValue()) / 332;
-        tooltip.add(new TranslatableComponent("atum.tooltip.uses_remaining", remaining));
+        tooltip.add(Component.translatable("atum.tooltip.uses_remaining", remaining));
 
-        tooltip.add(new TranslatableComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").withStyle(ChatFormatting.DARK_RED));
+        tooltip.add(Component.translatable(Atum.MOD_ID + "." + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(this)).getPath() + ".disenchantment_curse").withStyle(ChatFormatting.DARK_RED));
     }
 }

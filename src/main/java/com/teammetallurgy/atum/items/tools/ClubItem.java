@@ -27,7 +27,7 @@ public class ClubItem extends SwordItem {
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
-        LivingEntity target = event.getEntityLiving();
+        LivingEntity target = event.getEntity();
         Entity source = event.getSource().getEntity();
         if (!(target instanceof StoneBaseEntity) && source instanceof LivingEntity attacker) {
             if (attacker.getMainHandItem().getItem() instanceof ClubItem) {
@@ -42,7 +42,7 @@ public class ClubItem extends SwordItem {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof StoneBaseEntity)) {
             if (player.getMainHandItem().getItem() instanceof ClubItem) {

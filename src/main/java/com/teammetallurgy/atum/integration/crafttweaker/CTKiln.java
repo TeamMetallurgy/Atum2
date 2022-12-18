@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.crafttweaker;
+/*package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.base.IAction;
@@ -45,7 +45,7 @@ public class CTKiln implements IRecipeManager<KilnRecipe> {
 
     @Override
     public RecipeType<KilnRecipe> getRecipeType() {
-        return AtumRecipeTypes.KILN;
+        return AtumRecipeTypes.KILN.get();
     }
 
     private static class Blacklist implements IAction {
@@ -68,4 +68,4 @@ public class CTKiln implements IRecipeManager<KilnRecipe> {
             return "Blacklisted " + this.id + " from being in a Kiln recipe";
         }
     }
-}
+}*/

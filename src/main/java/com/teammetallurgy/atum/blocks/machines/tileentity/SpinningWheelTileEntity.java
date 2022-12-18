@@ -34,7 +34,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.SPINNING_WHEEL);
+        return RecipeHelper.isItemValidForSlot(this.level, stack, AtumRecipeTypes.SPINNING_WHEEL.get());
     }
 
     @Override

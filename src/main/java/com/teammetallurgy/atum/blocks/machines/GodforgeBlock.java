@@ -10,6 +10,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -69,7 +70,7 @@ public class GodforgeBlock extends BaseEntityBlock {
         } else {
             BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof GodforgeTileEntity godForge && player instanceof ServerPlayer) {
-                NetworkHooks.openGui((ServerPlayer) player, godForge, pos);
+                NetworkHooks.openScreen((ServerPlayer) player, godForge, pos);
             }
             return InteractionResult.CONSUME;
         }
@@ -111,7 +112,7 @@ public class GodforgeBlock extends BaseEntityBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.getValue(LIT)) {
             double d0 = (double)pos.getX() + 0.5D;
             double d1 = pos.getY() + 0.2D;

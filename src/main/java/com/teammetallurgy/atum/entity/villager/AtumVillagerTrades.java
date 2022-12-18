@@ -11,9 +11,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -30,7 +29,6 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
@@ -113,7 +111,7 @@ public class AtumVillagerTrades {
                     ItemStack mapStack = MapItem.create(serverLevel, pos.getX(), pos.getZ(), (byte) 2, true, true);
                     MapItem.renderBiomePreviewMap(serverLevel, mapStack);
                     MapItemSavedData.addTargetDecoration(mapStack, pos, "+", this.mapDecorationType);
-                    mapStack.setHoverName(new TranslatableComponent(this.displayName));
+                    mapStack.setHoverName(Component.translatable(this.displayName));
                     return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.count), new ItemStack(Items.COMPASS), mapStack, this.maxUses, this.xpValue, 0.2F);
                 } else {
                     return null;

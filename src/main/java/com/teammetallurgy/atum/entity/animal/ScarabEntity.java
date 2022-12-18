@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -150,7 +151,7 @@ public class ScarabEntity extends Monster {
         return 0.1D;
     }
 
-    public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         if (checkAnyLightMonsterSpawnRules(scarab, world, spawnReason, pos, random)) {
             Player player = world.getNearestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
             return player == null;

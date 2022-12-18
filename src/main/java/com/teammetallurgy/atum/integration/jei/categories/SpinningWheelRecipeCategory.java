@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.jei.categories;
+/*package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
@@ -17,7 +17,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -49,7 +49,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     @Nonnull
     public Component getTitle() {
-        return new TranslatableComponent(Atum.MOD_ID + "." + getUid().getPath());
+        return Component.translatable(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslatableComponent("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
+                    tooltip.add(Component.translatable("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
                 }
             }
         });
@@ -91,6 +91,6 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     public void draw(SpinningWheelRecipe recipe, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
-        mc.font.draw(matrixStack, new TranslatableComponent("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
+        mc.font.draw(matrixStack, Component.translatable("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
     }
-}
+}*/

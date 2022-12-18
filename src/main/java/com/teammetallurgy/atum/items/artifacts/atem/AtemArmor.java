@@ -12,7 +12,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,12 +23,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -46,11 +46,11 @@ public class AtemArmor extends ArtifactArmor {
     }
 
     @Override
-    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties() {
+    public void initializeClient(@Nonnull Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
             @Override
-            public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return new AtemArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR), armorSlot, hasFullSet(entityLiving));
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
+                return new AtemArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR), equipmentSlot, hasFullSet(livingEntity));
             }
         });
     }
@@ -102,7 +102,7 @@ public class AtemArmor extends ArtifactArmor {
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
-        LivingEntity livingEntity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntity();
         if (livingEntity instanceof Player player) {
             if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM.get(), AtumItems.BODY_OF_ATEM.get(), AtumItems.LEGS_OF_ATEM.get(), AtumItems.FEET_OF_ATEM.get())) {
                 if (!RECALL_TIMER.containsKey(player)) {
@@ -124,7 +124,7 @@ public class AtemArmor extends ArtifactArmor {
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
 
-            tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".recall_cooldown", minutes + ":" + seconds).withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable(Atum.MOD_ID + ".recall_cooldown", minutes + ":" + seconds).withStyle(ChatFormatting.GRAY));
         }
     }
 }

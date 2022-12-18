@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.base.tileentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,7 +30,7 @@ public class ChestBaseTileEntity extends ChestBlockEntity {
     @Override
     @Nonnull
     protected Component getDefaultName() {
-        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
+        return Component.translatable(this.getBlockState().getBlock().getDescriptionId());
     }
 
     private boolean isChestAt(BlockPos pos) {

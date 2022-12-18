@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.items.tools.DaggerItem;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -40,7 +41,7 @@ public class SethsStingItem extends DaggerItem implements IArtifact {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getMainHandItem().getItem() == AtumItems.SETHS_STING.get()) {
@@ -54,10 +55,10 @@ public class SethsStingItem extends DaggerItem implements IArtifact {
         Entity trueSource = event.getSource().getEntity();
         if (trueSource instanceof Player && COOLDOWN.containsKey(trueSource)) {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
-                LivingEntity target = event.getEntityLiving();
+                LivingEntity target = event.getEntity();
                 target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 2));
                 if (trueSource.level instanceof ServerLevel serverLevel) {
-                    Random random = serverLevel.random;
+                    RandomSource random = serverLevel.random;
                     serverLevel.sendParticles(AtumParticles.SETH.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
                 }
             }

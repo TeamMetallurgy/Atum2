@@ -116,7 +116,7 @@ public class RaArmorModel extends ArmorModel {
 
     @SubscribeEvent
     public static void onPlayerRender(RenderPlayerEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
         if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA.get()) {
             playerModel.hat.visible = false;

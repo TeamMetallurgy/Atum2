@@ -41,7 +41,7 @@ public class KhopeshItem extends SwordItem {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getMainHandItem().getItem() instanceof KhopeshItem) {

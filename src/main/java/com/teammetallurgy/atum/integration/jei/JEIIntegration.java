@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.jei;
+/*package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
@@ -18,7 +18,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -55,10 +55,10 @@ public class JEIIntegration implements IModPlugin {
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
         ClientLevel world = Minecraft.getInstance().level;
         if (world != null) {
-            addRecipes(registry, world, AtumRecipeTypes.KILN, KILN);
+            addRecipes(registry, world, AtumRecipeTypes.KILN.get(), KILN);
             registry.addRecipes(RecipeHelper.getKilnRecipesFromFurnace(world.getRecipeManager()), KILN);
-            addRecipes(registry, world, AtumRecipeTypes.QUERN, QUERN);
-            addRecipes(registry, world, AtumRecipeTypes.SPINNING_WHEEL, SPINNING_WHEEL);
+            addRecipes(registry, world, AtumRecipeTypes.QUERN.get(), QUERN);
+            addRecipes(registry, world, AtumRecipeTypes.SPINNING_WHEEL.get(), SPINNING_WHEEL);
         }
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH.get()), registry);
     }
@@ -76,6 +76,6 @@ public class JEIIntegration implements IModPlugin {
     }
 
     private void addInfo(ItemStack stack, IRecipeRegistration registry) {
-        registry.addIngredientInfo(stack, VanillaTypes.ITEM, new TranslatableComponent("jei." + stack.getItem().getDescriptionId()));
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, Component.translatable("jei." + stack.getItem().getDescriptionId()));
     }
-}
+}*/

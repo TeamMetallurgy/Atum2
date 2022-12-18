@@ -50,7 +50,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
         if (tepos != null) {
             MenuProvider container = this.getMenuProvider(world.getBlockState(tepos), world, tepos);
             if (container != null && player instanceof ServerPlayer) {
-                NetworkHooks.openGui((ServerPlayer) player, container, tepos);
+                NetworkHooks.openScreen((ServerPlayer) player, container, tepos);
                 return InteractionResult.SUCCESS;
             }
         }

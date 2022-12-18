@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -202,7 +203,7 @@ public class StoneBaseEntity extends Monster {
         return world.getBrightness(LightLayer.SKY, pos) == 0 && world.getMaxLocalRawBrightness(pos) <= random.nextInt(10);
     }
 
-    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return isValidLightLevel(world, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, world, spawnReason, pos, random) && world instanceof ServerLevel /*&&
                 !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
     }

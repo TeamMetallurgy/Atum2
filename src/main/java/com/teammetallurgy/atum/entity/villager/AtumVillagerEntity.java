@@ -17,7 +17,7 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -282,7 +282,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     public Component getName() {
         AtumVillagerData villagerData = this.getAtumVillagerData();
         ResourceLocation profName = villagerData.getAtumProfession().getRegistryName();
-        return new TranslatableComponent(this.getType().getDescriptionId() + '.' + villagerData.getRace().getName() + "." + profName.getPath());
+        return Component.translatable(this.getType().getDescriptionId() + '.' + villagerData.getRace().getName() + "." + profName.getPath());
     }
 
     private void setVariant(int variant) {

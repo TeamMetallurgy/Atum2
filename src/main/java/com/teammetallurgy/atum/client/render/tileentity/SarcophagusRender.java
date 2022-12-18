@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
@@ -80,7 +80,7 @@ public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEnt
                 facingAngle = facing.getOpposite().toYRot();
             }
             matrixStack.translate(0.5D, 0.5D, 0.5D);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(facingAngle));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(facingAngle));
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
             DoubleBlockCombiner.NeighborCombineResult<? extends ChestBlockEntity> callbackWrapper;
             if (worldNotNull) {
@@ -91,7 +91,7 @@ public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEnt
             int light = callbackWrapper.apply(new BrightnessCombiner<>()).applyAsInt(combinedLight);
             VertexConsumer vertexBuilder = buffer.getBuffer(SARCOPHAGUS_RENDER);
             matrixStack.translate(0.0D, 1.5D, 0.5D);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
 
             if (type == ChestType.RIGHT) {
                 float lidAngle = callbackWrapper.apply(SarcophagusBlock.opennessCombiner(sarcophagus)).get(partialTicks);
