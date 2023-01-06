@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.wood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -28,7 +29,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock {
     //States
@@ -85,7 +85,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (!this.canSurviveAt(world, pos)) {
             world.destroyBlock(pos, true);
         }

@@ -29,7 +29,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class TarantulaEntity extends Monster {
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(TarantulaEntity.class, EntityDataSerializers.BYTE);

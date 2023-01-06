@@ -18,7 +18,7 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
             return data.profession;
         }), Codec.INT.fieldOf("level").orElse(1).forGetter((data) -> {
             return data.level;
-        }), StringRepresentable.fromEnum(Race::values, Race::getTypeFromName).fieldOf("race").orElse(Race.HUMAN).forGetter((data) -> {
+        }), StringRepresentable.fromEnum(Race::values).fieldOf("race").orElse(Race.HUMAN).forGetter((data) -> {
             return data.race;
         })).apply(dataInstance, AtumVillagerData::new);
     });

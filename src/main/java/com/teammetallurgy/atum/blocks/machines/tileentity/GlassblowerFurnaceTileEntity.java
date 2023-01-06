@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
@@ -13,7 +12,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -26,9 +27,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
+    private final RecipeManager.CachedCheck<Container, ? extends AbstractCookingRecipe> quickCheck;
 
     public GlassblowerFurnaceTileEntity(BlockPos pos, BlockState state) {
         super(AtumTileEntities.GLASSBLOWER_FURNACE.get(), pos, state, RecipeType.SMELTING);
+        this.quickCheck = RecipeManager.createCheck(RecipeType.SMELTING);
     }
 
     @Override
@@ -43,8 +46,8 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         return new FurnaceMenu(id, player, this, this.dataAccess);
     }
 
-    public int getGlassBlowerCookTime(Level level, @Nonnull ItemStack output, Container container) {
-        int cookTime = getTotalCookTime(level, RecipeType.SMELTING, container);
+    public int getGlassBlowerCookTime(Level level, @Nonnull ItemStack output) {
+        int cookTime = this.quickCheck.getRecipeFor(this, level).map(AbstractCookingRecipe::getCookingTime).orElse(200);;
         return isGlassOutput(output) ? cookTime / 4 : cookTime;
     }
 
@@ -62,7 +65,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         if (!level.isClientSide) {
             ItemStack itemstack = glassblower.items.get(1);
             if (glassblower.isBurning() || !itemstack.isEmpty() && !glassblower.items.get(0).isEmpty()) {
-                Recipe<?> irecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, glassblower, level).orElse(null);
+                Recipe<?> irecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, glassblower, level).orElse(null); //TODO Might have to do this the same way as vanilla. Look into. Might be able to fix Glassblower Furnace wonkyness?
                 if (irecipe != null) {
                     int maxStackSize = glassblower.getMaxStackSize();
                     if (!glassblower.isBurning() && glassblower.canBurn(irecipe, glassblower.items, maxStackSize)) {
@@ -70,12 +73,12 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
                         glassblower.litDuration = glassblower.litTime;
                         if (glassblower.isBurning()) {
                             flag1 = true;
-                            if (itemstack.hasContainerItem())
-                                glassblower.items.set(1, itemstack.getContainerItem());
+                            if (itemstack.hasCraftingRemainingItem())
+                                glassblower.items.set(1, itemstack.getCraftingRemainingItem());
                             else if (!itemstack.isEmpty()) {
                                 itemstack.shrink(1);
                                 if (itemstack.isEmpty()) {
-                                    glassblower.items.set(1, itemstack.getContainerItem());
+                                    glassblower.items.set(1, itemstack.getCraftingRemainingItem());
                                 }
                             }
                         }
@@ -85,7 +88,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
                         ++glassblower.cookingProgress;
                         if (glassblower.cookingProgress == glassblower.cookingTotalTime) {
                             glassblower.cookingProgress = 0;
-                            glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(level, irecipe.getResultItem(), glassblower);
+                            glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(level, irecipe.getResultItem());
                             glassblower.burn(irecipe, glassblower.items, maxStackSize);
                             flag1 = true;
                         }
@@ -122,7 +125,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         }
 
         if (index == 0 && !flag) {
-            this.cookingTotalTime = this.getGlassBlowerCookTime(this.level, slotStack, this);
+            this.cookingTotalTime = this.getGlassBlowerCookTime(this.level, slotStack);
             this.cookingProgress = 0;
             this.setChanged();
         }

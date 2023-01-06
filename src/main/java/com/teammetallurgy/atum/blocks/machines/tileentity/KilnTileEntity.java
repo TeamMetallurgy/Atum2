@@ -23,7 +23,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SpongeBlock;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -118,7 +117,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite 
                             fuelStack.shrink(1);
 
                             if (fuelStack.isEmpty()) {
-                                ItemStack containerStack = fuelItemCached.getContainerItem(fuelStack);
+                                ItemStack containerStack = fuelItemCached.getCraftingRemainingItem(fuelStack);
                                 kiln.inventory.set(4, containerStack);
                             }
                         }

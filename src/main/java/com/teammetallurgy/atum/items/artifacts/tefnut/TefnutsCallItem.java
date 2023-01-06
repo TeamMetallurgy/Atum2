@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
@@ -37,7 +36,7 @@ import java.util.function.Consumer;
 public class TefnutsCallItem extends Item implements IArtifact {
 
     public TefnutsCallItem() {
-        super(new Item.Properties().durability(650).rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(new Item.Properties().durability(650).rarity(Rarity.RARE));
     }
 
     @Override

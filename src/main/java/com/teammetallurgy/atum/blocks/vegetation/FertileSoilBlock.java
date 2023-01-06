@@ -5,15 +5,15 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -30,7 +30,6 @@ import net.minecraftforge.common.ToolActions;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.Random;
 
 public class FertileSoilBlock extends Block implements BonemealableBlock {
 
@@ -44,12 +43,12 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public void randomTick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random random) {
+    public void randomTick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
         if (!world.isClientSide) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos).value());
+                Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(world.getBiome(pos).value());
                 if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
                     world.setBlock(pos, AtumBlocks.SAND.get().defaultBlockState(), 2);
                 }
@@ -108,17 +107,17 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         BlockPos posUp = pos.above();
 
         for (int amount = 0; amount < 36; ++amount) {

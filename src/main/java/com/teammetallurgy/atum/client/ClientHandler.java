@@ -51,19 +51,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
-    private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
-    private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
     /**
      * Model Layers
      **/
@@ -145,14 +141,62 @@ public class ClientHandler {
 
         Sheets.addWoodType(Atum.PALM);
         Sheets.addWoodType(Atum.DEADWOOD);
+
+        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), AtumChestRenderer::new);
+        BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS.get(), SarcophagusRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.CRATE.get(), CrateRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.QUERN.get(), QuernRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.SIGN.get(), SignRenderer::new);
+        BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.PALM_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.DEADWOOD_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.DEADWOOD_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.ACACIA_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.ACACIA_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.LIMESTONE_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.ALABASTER_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.ALABASTER_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.PORPHYRY_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.PORPHYRY_CURIO_DISPLAY.get();
+            }
+        });
+        BlockEntityRenderers.register(AtumTileEntities.NEBU_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.NEBU_CURIO_DISPLAY.get();
+            }
+        });
     }
 
     @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent event) {
+    public static void registerModels(ModelEvent event) { //TODO Remove this event, when render layers have been moved
         RenderType cutout = RenderType.cutout();
         RenderType cutoutMipped = RenderType.cutoutMipped();
         RenderType translucent = RenderType.translucent();
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ANPUTS_FINGERS.get(), cutout);
+        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.ANPUTS_FINGERS.get(), cutout); //TODO Move all render layes to json. Figure out how you do that exactly
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.OASIS_GRASS.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.DRY_GRASS.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.TALL_DRY_GRASS.get(), cutout);
@@ -295,54 +339,6 @@ public class ClientHandler {
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SHU.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN.get(), cutoutMipped);
-
-        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), AtumChestRenderer::new);
-        BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS.get(), SarcophagusRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.CRATE.get(), CrateRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.QUERN.get(), QuernRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.SIGN.get(), SignRenderer::new);
-        BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.PALM_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.DEADWOOD_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.DEADWOOD_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.ACACIA_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.ACACIA_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.LIMESTONE_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.ALABASTER_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.ALABASTER_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.PORPHYRY_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.PORPHYRY_CURIO_DISPLAY.get();
-            }
-        });
-        BlockEntityRenderers.register(AtumTileEntities.NEBU_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
-            @Override
-            public Block getBlock() {
-                return AtumBlocks.NEBU_CURIO_DISPLAY.get();
-            }
-        });
     }
 
     @SubscribeEvent
@@ -441,31 +437,5 @@ public class ClientHandler {
 
     public static void registerShieldModelProperties(Item shield) {
         ItemProperties.register(shield, new ResourceLocation("blocking"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
-    }
-
-    public static void addToChestAtlas(ResourceLocation location) {
-        if (!CHEST_ATLAS_TEXTURES.contains(location)) {
-            CHEST_ATLAS_TEXTURES.add(location);
-        }
-    }
-
-    public static void addToShieldAtlas(ResourceLocation location) {
-        if (!SHIELD_ATLAS_TEXTURES.contains(location)) {
-            SHIELD_ATLAS_TEXTURES.add(location);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        if (event.getAtlas().location().equals(Sheets.CHEST_SHEET)) {
-            for (ResourceLocation location : CHEST_ATLAS_TEXTURES) {
-                event.addSprite(location);
-            }
-        }
-        if (event.getAtlas().location().equals(Sheets.SHIELD_SHEET)) {
-            for (ResourceLocation location : SHIELD_ATLAS_TEXTURES) {
-                event.addSprite(location);
-            }
-        }
     }
 }

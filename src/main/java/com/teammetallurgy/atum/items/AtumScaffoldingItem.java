@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumScaffoldingBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,7 +18,7 @@ import javax.annotation.Nullable;
 public class AtumScaffoldingItem extends ScaffoldingBlockItem {
 
     public AtumScaffoldingItem(Block block) {
-        super(block, new Properties().tab(Atum.GROUP));
+        super(block, new Properties());
     }
 
     @Nullable

@@ -21,7 +21,6 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.material.PushReaction;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class RaStoneBlock extends HalfTransparentBlock {
     private static final IntegerProperty AGE = BlockStateProperties.AGE_3;

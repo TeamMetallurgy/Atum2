@@ -27,7 +27,7 @@ public class GreatswordItem extends SwordItem {
     private static final Object2FloatMap<Player> cooldown = new Object2FloatOpenHashMap<>();
 
     public GreatswordItem(Tier tier) {
-        super(tier, 8, -3.2F, new Item.Properties().tab(Atum.GROUP));
+        super(tier, 8, -3.2F, new Item.Properties());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

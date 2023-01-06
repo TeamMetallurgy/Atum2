@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items;
 
-import com.teammetallurgy.atum.Atum;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -17,7 +16,7 @@ import javax.annotation.Nonnull;
 public class IdolOfLaborItem extends Item {
 
     public IdolOfLaborItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

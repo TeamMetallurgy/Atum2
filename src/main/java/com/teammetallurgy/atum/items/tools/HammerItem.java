@@ -30,7 +30,7 @@ public class HammerItem extends SwordItem {
     protected static final Object2IntMap<LivingEntity> STUN = new Object2IntOpenHashMap<>();
 
     protected HammerItem(Tier tier, Item.Properties properties) {
-        super(tier, 17, -3.55F, properties.tab(Atum.GROUP));
+        super(tier, 17, -3.55F, properties);
     }
 
     @SubscribeEvent
@@ -74,7 +74,7 @@ public class HammerItem extends SwordItem {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level.isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && player.getMainHandItem().getItem() instanceof HammerItem) {
             COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));

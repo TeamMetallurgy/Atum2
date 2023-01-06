@@ -7,7 +7,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -35,7 +34,7 @@ public class RelicItem extends Item {
     public static final List<RelicEntry> RELIC_ENTRIES = new ArrayList<>();
 
     public RelicItem(Item.Properties properties) {
-        super(properties.tab(Atum.GROUP));
+        super(properties);
     }
 
     public Item getRelic(Type type, Quality quality) {

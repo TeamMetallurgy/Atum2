@@ -23,6 +23,8 @@ import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.items.AtumScaffoldingItem;
 import com.teammetallurgy.atum.items.BlockItemWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
@@ -123,17 +125,17 @@ public class AtumBlocks {
     public static final RegistryObject<Block> ARROW_TRAP = registerBlock(ArrowTrapBlock::new, "arrow_trap");
     public static final RegistryObject<Block> SARCOPHAGUS = registerWithRenderer(SarcophagusBlock::new, new Item.Properties(), "sarcophagus");
     public static final RegistryObject<Block> LIMESTONE_CHEST = registerWithRenderer(LimestoneChestBlock::new, new Item.Properties(), "limestone_chest");
-    public static final RegistryObject<Block> GOLD_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "gold_ore");
-    public static final RegistryObject<Block> IRON_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "iron_ore");
-    public static final RegistryObject<Block> COAL_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "coal_ore");
-    public static final RegistryObject<Block> LAPIS_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 5)), "lapis_ore");
-    public static final RegistryObject<Block> DIAMOND_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "diamond_ore");
-    public static final RegistryObject<Block> EMERALD_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "emerald_ore");
+    public static final RegistryObject<Block> GOLD_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "gold_ore");
+    public static final RegistryObject<Block> IRON_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "iron_ore");
+    public static final RegistryObject<Block> COAL_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "coal_ore");
+    public static final RegistryObject<Block> LAPIS_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 5)), "lapis_ore");
+    public static final RegistryObject<Block> DIAMOND_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "diamond_ore");
+    public static final RegistryObject<Block> EMERALD_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "emerald_ore");
     public static final RegistryObject<Block> REDSTONE_ORE = registerBlock(() -> new RedStoneOreBlock(of(Material.STONE).requiresCorrectToolForDrops().randomTicks().lightLevel(s -> 9).strength(3.0F, 3.0F)), "redstone_ore");
     public static final RegistryObject<Block> KHNUMITE_RAW = registerBlock(() -> new Block(of(Material.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "khnumite_raw");
-    public static final RegistryObject<Block> BONE_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "bone_ore");
-    public static final RegistryObject<Block> RELIC_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "relic_ore");
-    public static final RegistryObject<Block> NEBU_ORE = registerBlock(() -> new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 6)), "nebu_ore");
+    public static final RegistryObject<Block> BONE_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "bone_ore");
+    public static final RegistryObject<Block> RELIC_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "relic_ore");
+    public static final RegistryObject<Block> NEBU_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 6)), "nebu_ore");
     public static final RegistryObject<Block> NEBU_BLOCK = registerBlock(() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
     public static final RegistryObject<Block> GODFORGED_BLOCK = registerBlock(GodforgedBlock::new, "godforged_block");
     public static final RegistryObject<Block> ANPUT_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.ANPUT), "anput_godforged_block");
@@ -224,13 +226,13 @@ public class AtumBlocks {
     public static final RegistryObject<Block> CRACKED_BRICK_WALL = registerBlock(() -> new WallBlock(copy(LIMESTONE_BRICK_CRACKED_BRICK.get())), "cracked_brick_wall");
     public static final RegistryObject<Block> CHISELED_WALL = registerBlock(() -> new WallBlock(copy(LIMESTONE_BRICK_CHISELED.get())), "chiseled_wall");
     public static final RegistryObject<Block> CARVED_WALL = registerBlock(() -> new WallBlock(copy(LIMESTONE_BRICK_CARVED.get())), "carved_wall");
-    public static final RegistryObject<Block> LIMESTONE_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE.get())), "limestone_door");
-    public static final RegistryObject<Block> LIMESTONE_CRACKED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_CRACKED.get())), "limestone_cracked_door");
-    public static final RegistryObject<Block> LIMESTONE_BRICK_SMALL_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_SMALL.get())), "limestone_brick_small_door");
-    public static final RegistryObject<Block> LIMESTONE_BRICK_LARGE_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_LARGE.get())), "limestone_brick_large_door");
-    public static final RegistryObject<Block> LIMESTONE_CRACKED_BRICK_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CRACKED_BRICK.get())), "limestone_brick_cracked_brick_door");
-    public static final RegistryObject<Block> LIMESTONE_BRICK_CHISELED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CHISELED.get())), "limestone_brick_chiseled_door");
-    public static final RegistryObject<Block> LIMESTONE_BRICK_CARVED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CARVED.get())), "limestone_brick_carved_door");
+    public static final RegistryObject<Block> LIMESTONE_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_door"); //TODO Test stone door sounds
+    public static final RegistryObject<Block> LIMESTONE_CRACKED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_CRACKED.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_cracked_door");
+    public static final RegistryObject<Block> LIMESTONE_BRICK_SMALL_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_SMALL.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_brick_small_door");
+    public static final RegistryObject<Block> LIMESTONE_BRICK_LARGE_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_LARGE.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_brick_large_door");
+    public static final RegistryObject<Block> LIMESTONE_CRACKED_BRICK_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CRACKED_BRICK.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_brick_cracked_brick_door");
+    public static final RegistryObject<Block> LIMESTONE_BRICK_CHISELED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CHISELED.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_brick_chiseled_door");
+    public static final RegistryObject<Block> LIMESTONE_BRICK_CARVED_DOOR = registerBlock(() -> new DoorAtumBlock(copy(LIMESTONE_BRICK_CARVED.get()), SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF), "limestone_brick_carved_door");
     public static final RegistryObject<Block> KARST = registerBlock(() -> new Block(copy(LIMESTONE.get()).strength(3.0F, 6.0F)), "karst");
     public static final RegistryObject<Block> ALABASTER = registerBlock(() -> new Block(of(Material.STONE, MaterialColor.QUARTZ).strength(2.0F, 8.0F)), "alabaster");
     public static final RegistryObject<Block> ALABASTER_BRICK_SMOOTH = registerBlock(() -> new Block(copy(ALABASTER.get())), "alabaster_brick_smooth");
@@ -504,7 +506,7 @@ public class AtumBlocks {
     public static final RegistryObject<Block> PALM_SLAB = registerBlock(() -> new SlabBlock(copy(PALM_PLANKS.get())), "palm_slab");
     public static final RegistryObject<Block> DEADWOOD_SLAB = registerBlock(() -> new SlabBlock(copy(DEADWOOD_PLANKS.get())), "deadwood_slab");
     public static final RegistryObject<Block> PALM_SAPLING = registerBlock(PalmSaplingBlock::new, "palm_sapling");
-    public static final RegistryObject<Block> POTTED_PALM_SAPLING = registerBaseBlock(() -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get(), PALM_SAPLING, BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()), "potted_palm_sapling");
+    public static final RegistryObject<Block> POTTED_PALM_SAPLING = registerBaseBlock(() -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, PALM_SAPLING, BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()), "potted_palm_sapling");
     public static final RegistryObject<Block> PALM_LEAVES = registerBlock(PalmLeavesBlock::new, "palm_leaves");
     public static final RegistryObject<Block> DRY_LEAVES = registerBlock(LeavesAtumBlock::new, null, "dry_leaves");
     public static final RegistryObject<Block> PALM_CRATE = registerBlock(() -> new CrateBlock(copy(PALM_PLANKS.get())), "palm_crate");
@@ -513,25 +515,25 @@ public class AtumBlocks {
     public static final RegistryObject<Block> DEADWOOD_LADDER = registerBlock(AtumLadderBlock::new, "deadwood_ladder");
     public static final RegistryObject<Block> PALM_FENCE = registerBlock(() -> new FenceBlock(copy(PALM_PLANKS.get())), "palm_fence");
     public static final RegistryObject<Block> DEADWOOD_FENCE = registerBlock(() -> new FenceBlock(copy(DEADWOOD_PLANKS.get())), "deadwood_fence");
-    public static final RegistryObject<Block> PALM_FENCE_GATE = registerBlock(() -> new FenceGateBlock(copy(PALM_PLANKS.get())), "palm_fence_gate");
-    public static final RegistryObject<Block> DEADWOOD_FENCE_GATE = registerBlock(() -> new FenceGateBlock(copy(DEADWOOD_PLANKS.get())), "deadwood_fence_gate");
-    public static final RegistryObject<Block> PALM_HATCH = registerBlock(() -> new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "palm_hatch");
-    public static final RegistryObject<Block> DEADWOOD_HATCH = registerBlock(() -> new AtumTrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "deadwood_hatch");
-    public static final RegistryObject<Block> PALM_DOOR = registerBlock(() -> new DoorAtumBlock(copy(PALM_PLANKS.get())), "palm_door");
-    public static final RegistryObject<Block> DEADWOOD_DOOR = registerBlock(() -> new DoorAtumBlock(copy(DEADWOOD_PLANKS.get())), "deadwood_door");
-    public static final RegistryObject<Block> LIMESTONE_BUTTON = registerBlock(() -> new StoneButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F)), "limestone_button");
-    public static final RegistryObject<Block> PALM_BUTTON = registerBlock(() -> new WoodButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD)), "palm_button");
-    public static final RegistryObject<Block> DEADWOOD_BUTTON = registerBlock(() -> new WoodButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD)), "deadwood_button");
-    public static final RegistryObject<Block> LIMESTONE_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().noCollission().strength(0.5F)), "limestone_pressure_plate");
-    public static final RegistryObject<Block> PALM_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, PALM_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD)), "palm_pressure_plate");
-    public static final RegistryObject<Block> DEADWOOD_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, DEADWOOD_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD)), "deadwood_pressure_plate");
+    public static final RegistryObject<Block> PALM_FENCE_GATE = registerBlock(() -> new FenceGateBlock(copy(PALM_PLANKS.get()), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN), "palm_fence_gate");
+    public static final RegistryObject<Block> DEADWOOD_FENCE_GATE = registerBlock(() -> new FenceGateBlock(copy(DEADWOOD_PLANKS.get()), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN), "deadwood_fence_gate");
+    public static final RegistryObject<Block> PALM_HATCH = registerBlock(() -> new TrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never), SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN), "palm_hatch");
+    public static final RegistryObject<Block> DEADWOOD_HATCH = registerBlock(() -> new TrapDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.PODZOL).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never), SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN), "deadwood_hatch");
+    public static final RegistryObject<Block> PALM_DOOR = registerBlock(() -> new DoorAtumBlock(copy(PALM_PLANKS.get()), SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN), "palm_door");
+    public static final RegistryObject<Block> DEADWOOD_DOOR = registerBlock(() -> new DoorAtumBlock(copy(DEADWOOD_PLANKS.get()), SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN), "deadwood_door");
+    public static final RegistryObject<Block> LIMESTONE_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F), 20, false, SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON), "limestone_button");
+    public static final RegistryObject<Block> PALM_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), 30, true, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundEvents.WOODEN_BUTTON_CLICK_ON), "palm_button");
+    public static final RegistryObject<Block> DEADWOOD_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), 30, true, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundEvents.WOODEN_BUTTON_CLICK_ON), "deadwood_button");
+    public static final RegistryObject<Block> LIMESTONE_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().noCollission().strength(0.5F), SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON), "limestone_pressure_plate");
+    public static final RegistryObject<Block> PALM_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, PALM_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON), "palm_pressure_plate");
+    public static final RegistryObject<Block> DEADWOOD_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, DEADWOOD_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON), "deadwood_pressure_plate");
     public static final RegistryObject<Block> PALM_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.PALM), Atum.PALM);
     public static final RegistryObject<Block> DEADWOOD_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.DEADWOOD), Atum.DEADWOOD);
     public static final RegistryObject<Block> PALM_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "palm_scaffolding");
     public static final RegistryObject<Block> DEADWOOD_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "deadwood_scaffolding");
 
     public static void setBlockInfo() {
-        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(PALM_SAPLING.get().getRegistryName(), () -> POTTED_PALM_SAPLING.get());
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ForgeRegistries.BLOCKS.getKey(PALM_SAPLING.get()), () -> POTTED_PALM_SAPLING.get());
         //Fire Info
         FireBlock fire = (FireBlock) Blocks.FIRE;
         fire.setFlammable(PALM_PLANKS.get(), 5, 20);
@@ -597,21 +599,23 @@ public class AtumBlocks {
         RegistryObject<Block> unlitTorch = registerBaseBlock(() -> new AtumTorchUnlitBlock(litTorch), name + "_unlit");
         RegistryObject<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.copy(litTorch.get()).lootFrom(litTorch), ((AtumTorchBlock) litTorch.get()).getParticleType()), "wall_" + name);
         RegistryObject<Block> wallTorchUnlit = registerBaseBlock(() -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.copy(unlitTorch.get()).lootFrom(unlitTorch)), "wall_" + name + "_unlit");
-        AtumItems.registerItem(() -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties()), name + "_unlit");
-        AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        AtumItems.registerItem(() -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties(), Direction.DOWN), name + "_unlit");
+        RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
         AtumTorchUnlitBlock.ALL_TORCHES.add(litTorch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(unlitTorch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
+        AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return litTorch;
     }
 
     public static RegistryObject<Block> registerTorch(@Nonnull Supplier<Block> torch, @Nonnull String name) {
         RegistryObject<Block> torchList = registerBaseBlock(torch, name);
         RegistryObject<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.copy(torchList.get()).lootFrom(torchList), ((AtumTorchBlock) torchList.get()).getParticleType()), "wall_" + name);
-        AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties().tab(Atum.GROUP)), name);
+        RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
         AtumTorchUnlitBlock.ALL_TORCHES.add(torchList);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
+        AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return torchList;
     }
 
@@ -635,8 +639,9 @@ public class AtumBlocks {
         String typeName = woodType.name().replace("atum_", "");
         RegistryObject<Block> signBlockObject = registerBaseBlock(signBlock, typeName + "_sign");
         RegistryObject<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlockObject), woodType), typeName + "_wall_sign");
-        AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlockObject.get(), wallSignBlock.get()), typeName + "_sign");
+        RegistryObject<Item> signItem = AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16), signBlockObject.get(), wallSignBlock.get()), typeName + "_sign");
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlockObject, wallSignBlock);
+        AtumItems.ITEMS_FOR_TAB_LIST.add(signItem);
         return signBlockObject;
     }
 
@@ -654,7 +659,12 @@ public class AtumBlocks {
      */
     public static RegistryObject<Block> registerWithRenderer(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
         RegistryObject<Block> registryObject = registerBaseBlock(block, name);
-        AtumItems.registerItem(() -> new BlockItemWithoutLevelRenderer(registryObject.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
+
+        if (properties == null) {
+            AtumItems.registerItem(() -> new BlockItemWithoutLevelRenderer(block.get(), new Item.Properties()), name);
+        } else {
+            AtumItems.registerItemWithTab(() -> new BlockItemWithoutLevelRenderer(block.get(), properties), name);
+        }
         return registryObject;
     }
 
@@ -665,7 +675,12 @@ public class AtumBlocks {
      */
     public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
         RegistryObject<Block> registryObject = registerBaseBlock(block, name);
-        AtumItems.registerItem(() -> new BlockItem(registryObject.get(), properties == null ? new Item.Properties() : properties.tab(Atum.GROUP)), name);
+
+        if (properties == null) {
+            AtumItems.registerItem(() -> new BlockItem(block.get(), new Item.Properties()), name);
+        } else {
+            AtumItems.registerItemWithTab(() -> new BlockItem(block.get(), properties), name);
+        }
         return registryObject;
     }
 

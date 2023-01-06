@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.level.biome;
 import com.mojang.datafixers.util.Pair;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import net.minecraft.SharedConstants;
-import net.minecraft.data.worldgen.TerrainProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;

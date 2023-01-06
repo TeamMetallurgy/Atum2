@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -21,7 +20,7 @@ public class BaseBowItem extends BowItem {
     private final Supplier<Item> repairItem;
 
     public BaseBowItem(Item.Properties properties, Supplier<Item> repairItem) {
-        super(properties.tab(Atum.GROUP));
+        super(properties);
         this.repairItem = repairItem;
     }
 

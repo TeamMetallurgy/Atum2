@@ -2,17 +2,11 @@ package com.teammetallurgy.atum.world.spawner;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.misc.AtumConfig;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -22,8 +16,8 @@ import java.util.List;
 public class AtumSpawnHandling {
     public static List<CustomSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner(), new ServalSpawner());
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) { //Passive spawns handling
+    /*@SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onBiomeLoad(BiomeLoadingEvent event) { //Passive spawns handling //TODO Move to new mob spawn system in json
         ResourceLocation name = event.getName();
         if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
             for (EntityType<?> entityType : AtumConfig.Mobs.ENTITY_TYPE.get(name)) {
@@ -40,7 +34,7 @@ public class AtumSpawnHandling {
                 }
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.LevelTickEvent event) { //Bandit spawn handling

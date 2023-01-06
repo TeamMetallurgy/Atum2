@@ -7,7 +7,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -27,7 +26,7 @@ import java.util.List;
 public class CoinItem extends Item {
 
     public CoinItem() {
-        super(new Item.Properties().tab(Atum.GROUP));
+        super(new Item.Properties());
     }
 
     @Override

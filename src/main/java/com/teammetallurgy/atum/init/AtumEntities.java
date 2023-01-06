@@ -38,7 +38,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -179,7 +178,8 @@ public class AtumEntities {
      */
     public static <T extends Mob> RegistryObject<EntityType<T>> registerMob(String name, int eggPrimary, int eggSecondary, Supplier<Builder<T>> builder) {
         RegistryObject<EntityType<T>> entityType = registerEntity(name, builder);
-        AtumItems.registerItem(() -> new ForgeSpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).tab(Atum.GROUP)), name + "_spawn_egg");
+        RegistryObject<Item> spawnEgg = AtumItems.registerItem(() -> new ForgeSpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties())), name + "_spawn_egg");
+        AtumItems.ITEMS_FOR_TAB_LIST.add(spawnEgg);
         return entityType;
     }
 

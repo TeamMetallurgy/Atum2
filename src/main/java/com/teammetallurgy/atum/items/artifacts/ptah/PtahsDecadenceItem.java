@@ -23,7 +23,7 @@ import java.util.List;
 public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
 
     public PtahsDecadenceItem() {
-        super(AtumMats.NEBU, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

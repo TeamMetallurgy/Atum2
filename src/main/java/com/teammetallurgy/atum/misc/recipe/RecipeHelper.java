@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.misc.recipe;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
@@ -20,7 +19,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
 

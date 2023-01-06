@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
@@ -15,12 +14,11 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class AtemsWillItem extends SwordItem implements IArtifact {
 
     public AtemsWillItem() {
-        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

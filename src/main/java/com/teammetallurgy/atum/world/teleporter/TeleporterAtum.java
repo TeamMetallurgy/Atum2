@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumPointsOfInterest;
+import com.teammetallurgy.atum.init.AtumPoiTypes;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -86,7 +86,7 @@ public class TeleporterAtum implements ITeleporter {
         int i = 128;
         posManager.ensureLoadedAndValid(serverLevel, pos, i);
         Optional<PoiRecord> optional = posManager.getInSquare((poiType) -> {
-            return poiType == AtumPointsOfInterest.PORTAL.get();
+            return poiType.is(AtumPoiTypes.PORTAL);
         }, pos, i, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) -> {
             return poi.getPos().distSqr(pos);
         }).thenComparingInt((poi) -> {

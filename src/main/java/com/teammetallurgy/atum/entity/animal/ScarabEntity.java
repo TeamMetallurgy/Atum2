@@ -34,7 +34,6 @@ import net.minecraftforge.event.ForgeEventFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.Random;
 
 public class ScarabEntity extends Monster {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(ScarabEntity.class, EntityDataSerializers.INT);
@@ -73,7 +72,7 @@ public class ScarabEntity extends Monster {
             this.setVariant(1);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-            this.heal(16); //Make sure Golden scarab have have full health on initial spawn
+            this.heal(16); //Make sure Golden scarab have full health on initial spawn
         } else {
             this.setVariant(0);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(8.0D);
@@ -117,7 +116,7 @@ public class ScarabEntity extends Monster {
     }
 
     @Override
-    protected int getExperienceReward(@Nonnull Player player) {
+    public int getExperienceReward() {
         return this.getVariant() == 1 ? 30 : 3;
     }
 
@@ -125,14 +124,6 @@ public class ScarabEntity extends Monster {
     @Nonnull
     protected ResourceLocation getDefaultLootTable() {
         return this.getVariant() == 1 ? AtumLootTables.SCARAB_GOLDEN : AtumLootTables.SCARAB;
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
-        }
     }
 
     @Override
@@ -194,7 +185,7 @@ public class ScarabEntity extends Monster {
             } else if (!this.mob.getNavigation().isDone()) {
                 return false;
             } else {
-                Random random = this.mob.getRandom();
+                RandomSource random = this.mob.getRandom();
 
                 if (ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob) && random.nextInt(10) == 0) {
                     this.facing = Direction.getRandom(random);

@@ -17,7 +17,7 @@ public class OasisGrassBlock extends BushBlock {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 
     public OasisGrassBlock() {
-        super(Properties.of(Material.REPLACEABLE_PLANT).noCollission().strength(0.0F).sound(SoundType.GRASS));
+        super(Properties.of(Material.REPLACEABLE_PLANT).noCollission().strength(0.0F).sound(SoundType.GRASS).offsetType(Block.OffsetType.XYZ));
     }
 
     @Override
@@ -29,11 +29,5 @@ public class OasisGrassBlock extends BushBlock {
     @Override
     public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull BlockPlaceContext context) {
         return true;
-    }
-
-    @Override
-    @Nonnull
-    public Block.OffsetType getOffsetType() {
-        return Block.OffsetType.XYZ;
     }
 }

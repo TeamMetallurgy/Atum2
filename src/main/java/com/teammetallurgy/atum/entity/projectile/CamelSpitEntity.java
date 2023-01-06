@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -55,7 +56,7 @@ public class CamelSpitEntity extends LlamaSpit {
 
     @Override
     @Nonnull
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

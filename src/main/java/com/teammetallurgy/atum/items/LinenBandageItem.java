@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.Atum;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -22,7 +21,7 @@ public class LinenBandageItem extends Item {
     private List<MobEffectInstance> badEffects = Lists.newArrayList();
 
     public LinenBandageItem() {
-        super(new Item.Properties().tab(Atum.GROUP));
+        super(new Item.Properties());
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.teammetallurgy.atum.misc;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
-import com.google.common.collect.HashMultimap;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
-import java.util.HashMap;
 
 public class AtumConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -153,11 +148,6 @@ public class AtumConfig {
 
     public static class Mobs {
         public static final String MOBS = "mobs";
-        public static HashMap<EntityType<?>, MobCategory> ENTITY_CLASSIFICATION = new HashMap<>();
-        public static HashMultimap<ResourceLocation, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
-        public ForgeConfigSpec.IntValue min;
-        public ForgeConfigSpec.IntValue max;
-        public ForgeConfigSpec.IntValue weight;
         public ForgeConfigSpec.IntValue banditPatrolFrequency;
         public ForgeConfigSpec.IntValue markedForDeathTimeBaseValue;
         public ForgeConfigSpec.BooleanValue displayPharaohSlainMessage;
@@ -171,17 +161,6 @@ public class AtumConfig {
             this.displayPharaohSlainMessage = builder.comment("Whether a message should be broadcast to everybody, when a Pharaoh have been killed")
                     .define("displayPharaohSlainMessage", true);
             builder.pop();
-        }
-
-        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, MobCategory classification, ResourceLocation biomeName) {
-            ENTITY_CLASSIFICATION.put(entityType, classification);
-            ENTITY_TYPE.put(biomeName, entityType);
-            builder.push(MOBS);
-            builder.push(mobName);
-            this.min = builder.defineInRange("min", min, -1, 63);
-            this.max = builder.defineInRange("max", max, 1, 64);
-            this.weight = builder.defineInRange("weight", weight, -1, 1000);
-            builder.pop(2);
         }
     }
 

@@ -7,10 +7,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -40,10 +39,10 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     }
 
     @Override
-    public void spawnAfterBreak(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
-        super.spawnAfterBreak(state, world, pos, stack);
+    public void spawnAfterBreak(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull ItemStack stack, boolean b) {
+        super.spawnAfterBreak(state, world, pos, stack, b);
         if (!world.isClientSide && world.getDifficulty() != Difficulty.PEACEFUL && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-            if (state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
+            if (state.getValue(HAS_SCARAB) && world.random.nextDouble() <= 0.40D) {
                 ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB.get(), world);
                 scarab.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
                 world.addFreshEntity(scarab);
@@ -56,8 +55,9 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
         container.add(AXIS, HAS_SCARAB);
     }
+
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
         if (this.canBeStripped) {
             return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_DEADWOOD_LOG.get().defaultBlockState() : super.getToolModifiedState(state, context, toolAction, simulate);
         } else {

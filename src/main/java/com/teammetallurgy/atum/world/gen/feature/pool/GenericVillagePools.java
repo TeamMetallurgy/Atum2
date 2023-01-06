@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature.pool;
 
 import com.google.common.collect.ImmutableList;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-public class GenericVillagePools {
+public class GenericVillagePools { //TODO
     public static final Holder<StructureTemplatePool> POOL = Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "village/generic/town_centers"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_1", ProcessorLists.EMPTY), 60), Pair.of(StructurePoolElement.legacy("atum:village/generic/town_centers/town_center_2", ProcessorLists.EMPTY), 40)), StructureTemplatePool.Projection.RIGID));
 
     public static void init() {
@@ -29,4 +30,4 @@ public class GenericVillagePools {
         Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "village/desert_wolfs"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:village/animals/desert_wolf"), 10), Pair.of(StructurePoolElement.legacy("atum:village/animals/alpha_desert_wolf"), 1)), StructureTemplatePool.Projection.RIGID));
         Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "village/spawner/bandits"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:village/spawner/bandits/barbarian"), 2), Pair.of(StructurePoolElement.legacy("atum:village/spawner/bandits/brigand"), 5), Pair.of(StructurePoolElement.legacy("atum:village/spawner/bandits/nomad"), 5)), StructureTemplatePool.Projection.RIGID));
     }
-}
+}*/

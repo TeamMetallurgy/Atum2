@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +14,7 @@ import javax.annotation.Nonnull;
 public class AmuletItem extends Item implements ICurioItem {
 
     public AmuletItem(Item.Properties properties) {
-        super(properties.rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(properties.rarity(Rarity.RARE));
     }
 
     @Override
@@ -24,7 +23,7 @@ public class AmuletItem extends Item implements ICurioItem {
     }
 
     @Override
-    public int getItemEnchantability(@Nonnull ItemStack stack) {
+    public int getEnchantmentValue(@Nonnull ItemStack stack) {
         return 1;
     }
 

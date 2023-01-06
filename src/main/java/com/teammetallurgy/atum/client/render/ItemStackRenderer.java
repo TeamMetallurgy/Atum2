@@ -59,7 +59,8 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
     @Override
     public void renderByItem(@Nonnull ItemStack stack, @Nonnull ItemTransforms.TransformType transformType, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         Item item = stack.getItem();
-        BlockEntityRenderDispatcher dispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();;
+        BlockEntityRenderDispatcher dispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
+        ;
 
         if (item instanceof BlockItem) {
             Block block = ((BlockItem) item).getBlock();
@@ -92,7 +93,7 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
                 renderShield(stack, atemsProtection, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } /*else if (item == AtumItems.NEPTHYS_CONSECRATION) {
                 renderShield(stack, NEPTHYS_CONSECRATION, NEPTHYS_CONSECRATION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
-            } */else if (item == AtumItems.TEFNUTS_CALL.get()) {
+            } */ else if (item == AtumItems.TEFNUTS_CALL.get()) {
                 matrixStack.pushPose();
                 matrixStack.scale(1.0F, -1.0F, -1.0F);
                 VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, this.tefnutsCall.renderType(TefnutsCallRender.TEFNUTS_CALL_TEXTURE), false, stack.hasFoil());
@@ -113,8 +114,6 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
             shieldTexture = new ResourceLocation(Atum.MOD_ID, "shield/" + fileName);
             SHIELD_CACHE.put(fileName, shieldTexture);
         }
-
-        ClientHandler.addToShieldAtlas(shieldTexture);
         return new Material(Sheets.SHIELD_SHEET, shieldTexture);
     }
 }

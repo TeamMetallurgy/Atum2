@@ -155,7 +155,7 @@ public class WraithEntity extends UndeadBaseEntity {
 
         @Override
         public boolean canContinueToUse() {
-            float brightness = this.mob.getBrightness();
+            float brightness = this.mob.getLightLevelDependentMagicValue();
             if (brightness >= 0.5F && this.mob.getRandom().nextInt(100) == 0) {
                 this.mob.setTarget(null);
                 return false;
@@ -177,7 +177,7 @@ public class WraithEntity extends UndeadBaseEntity {
 
         @Override
         public boolean canUse() {
-            float f = this.mob.getBrightness();
+            float f = this.mob.getLightLevelDependentMagicValue();
             return f < 0.5F && super.canUse();
         }
     }

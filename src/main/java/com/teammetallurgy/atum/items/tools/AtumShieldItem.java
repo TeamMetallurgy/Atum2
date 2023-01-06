@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -26,7 +25,7 @@ public class AtumShieldItem extends ShieldItem {
     }
 
     public AtumShieldItem(int maxDamage, Item.Properties properties) {
-        super(properties.defaultDurability(maxDamage).tab(Atum.GROUP));
+        super(properties.defaultDurability(maxDamage));
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 

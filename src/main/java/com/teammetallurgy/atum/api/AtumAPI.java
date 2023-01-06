@@ -1,6 +1,9 @@
 package com.teammetallurgy.atum.api;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.entity.animal.ServalEntity;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -9,6 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class AtumAPI {
+    public static final ResourceKey<Registry<ServalEntity.ServalVariant>> SERVAL_VARIANT = createRegistryKey("serval_variant");
+
+    private static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
+        return ResourceKey.createRegistryKey(new ResourceLocation(Atum.MOD_ID, name));
+    }
 
     public static class Tags {
         //Flowers

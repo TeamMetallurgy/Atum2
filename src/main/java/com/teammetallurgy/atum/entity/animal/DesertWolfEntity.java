@@ -60,17 +60,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -252,7 +251,6 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     public void tick() {
         super.tick();
         if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
             this.texturePath = null;
         }
 
@@ -273,7 +271,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
             } else if ((this.isWet || this.isShaking) && this.isShaking) {
                 if (this.shakeAnim == 0.0F) {
                     this.playSound(SoundEvents.WOLF_SHAKE, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-                    this.gameEvent(GameEvent.WOLF_SHAKING);
+                    this.gameEvent(GameEvent.ENTITY_SHAKE);
                 }
 
                 this.shakeAnimO = this.shakeAnim;
@@ -314,8 +312,8 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getShadingWhileWet(float shading) {
-        return 0.75F + (this.shakeAnimO + (this.shakeAnim - this.shakeAnimO) * shading) / 2.0F * 0.25F;
+    public float getWetShade(float shading) {
+        return Math.min(0.5F + Mth.lerp(shading, this.shakeAnimO, this.shakeAnim) / 2.0F * 0.5F, 1.0F);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -824,10 +822,10 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
-    @Override
-    public boolean canBeControlledByRider() {
+    /*@Override
+    public boolean canBeControlledByRider() { //TODO?
         return true;
-    }
+    }*/
 
     @Override
     public double getPassengersRidingOffset() {
@@ -853,65 +851,63 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     public void travel(@Nonnull Vec3 travelVec) {
-        if (this.isAlive()) {
-            if (this.isVehicle() && this.canBeControlledByRider() && this.isSaddled()) {
-                LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
-                if (livingBase != null) {
-                    this.setYRot(livingBase.getYRot());
-                    this.yRotO = this.getYRot();
-                    this.setXRot(livingBase.getXRot() * 0.5F);
-                    this.setRot(this.getYRot(), this.getXRot());
-                    this.yBodyRot = this.getYRot();
-                    this.yHeadRot = this.yBodyRot;
-                    float strafe = livingBase.xxa * 0.5F;
-                    float forward = livingBase.zza;
+        if (this.isEffectiveAi() || this.isControlledByLocalInstance()) {
+            LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
+            if (livingBase != null) {
+                this.setYRot(livingBase.getYRot());
+                this.yRotO = this.getYRot();
+                this.setXRot(livingBase.getXRot() * 0.5F);
+                this.setRot(this.getYRot(), this.getXRot());
+                this.yBodyRot = this.getYRot();
+                this.yHeadRot = this.yBodyRot;
+                float strafe = livingBase.xxa * 0.5F;
+                float forward = livingBase.zza;
 
-                    if (forward <= 0.0F) {
-                        forward *= 0.25F;
-                    }
-
-                    if (this.jumpPower > 0.0F && !this.isJumping() && this.onGround) {
-                        double wolfJumpStrength = this.getWolfJumpStrength() * (double) this.jumpPower;
-                        double jumpY;
-
-                        if (this.hasEffect(MobEffects.JUMP)) {
-                            MobEffectInstance jumpBoost = this.getEffect(MobEffects.JUMP);
-                            jumpY = wolfJumpStrength + (jumpBoost != null ? (double) ((float) (jumpBoost.getAmplifier() + 1) * 0.1F) : 0);
-                        } else {
-                            jumpY = wolfJumpStrength;
-                        }
-
-                        Vec3 motion = this.getDeltaMovement();
-                        this.setDeltaMovement(motion.x, jumpY, motion.z);
-                        this.setWolfJumping(true);
-                        this.hasImpulse = true;
-
-                        if (forward > 0.0F) {
-                            float f2 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
-                            float f3 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-                            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f2 * this.jumpPower, 0.0D, 0.4F * f3 * this.jumpPower));
-                            this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
-                        }
-                        this.jumpPower = 0.0F;
-                    }
-                    this.flyingSpeed = this.getSpeed() * 0.1F;
-
-                    if (this.isControlledByLocalInstance()) {
-                        this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.80F);
-                        super.travel(new Vec3(strafe, travelVec.y, forward));
-                    } else if (livingBase instanceof Player) {
-                        this.setDeltaMovement(Vec3.ZERO);
-                    }
-
-                    if (this.onGround) {
-                        this.jumpPower = 0.0F;
-                        this.setWolfJumping(false);
-                    }
+                if (forward <= 0.0F) {
+                    forward *= 0.25F;
                 }
-            } else {
-                this.flyingSpeed = 0.02F;
-                super.travel(travelVec);
+
+                if (this.jumpPower > 0.0F && !this.isJumping() && this.onGround) {
+                    double wolfJumpStrength = this.getWolfJumpStrength() * (double) this.jumpPower;
+                    double jumpY;
+
+                    if (this.hasEffect(MobEffects.JUMP)) {
+                        MobEffectInstance jumpBoost = this.getEffect(MobEffects.JUMP);
+                        jumpY = wolfJumpStrength + (jumpBoost != null ? (double) ((float) (jumpBoost.getAmplifier() + 1) * 0.1F) : 0);
+                    } else {
+                        jumpY = wolfJumpStrength;
+                    }
+
+                    Vec3 motion = this.getDeltaMovement();
+                    this.setDeltaMovement(motion.x, jumpY, motion.z);
+                    this.setWolfJumping(true);
+                    this.hasImpulse = true;
+
+                    if (forward > 0.0F) {
+                        float f2 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
+                        float f3 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
+                        this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f2 * this.jumpPower, 0.0D, 0.4F * f3 * this.jumpPower));
+                        this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
+                    }
+                    this.jumpPower = 0.0F;
+                }
+                this.flyingSpeed = this.getSpeed() * 0.1F;
+
+                if (this.isControlledByLocalInstance()) {
+                    this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.80F);
+                    super.travel(new Vec3(strafe, travelVec.y, forward));
+                } else if (livingBase instanceof Player) {
+                    this.setDeltaMovement(Vec3.ZERO);
+                }
+
+                if (this.onGround) {
+                    this.jumpPower = 0.0F;
+                    this.setWolfJumping(false);
+                }
             }
+        } else {
+            this.flyingSpeed = 0.02F;
+            super.travel(travelVec);
         }
     }
 
@@ -950,6 +946,11 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 this.jumpPower = 0.4F + 0.4F * (float) jumpPower / 90.0F;
             }
         }
+    }
+
+    @Override
+    public boolean canJump(Player player) {
+        return true;
     }
 
     public boolean canJump() {
@@ -999,7 +1000,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-        if (this.isAlive() && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && itemHandler != null) {
+        if (this.isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null) {
             return itemHandler.cast();
         }
         return super.getCapability(capability, facing);

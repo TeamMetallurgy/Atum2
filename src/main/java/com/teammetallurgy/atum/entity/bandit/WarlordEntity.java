@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -37,12 +38,12 @@ public class WarlordEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON.get()));
     }
 
     @Override
-    protected void populateDefaultEquipmentEnchantments(DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentEnchantments(RandomSource randomSource, DifficultyInstance difficulty) {
         float additionalDifficulty = difficulty.getSpecialMultiplier();
         EnchantmentHelper.enchantItem(this.random, this.getMainHandItem(), (int) (5.0F + additionalDifficulty * (float) this.random.nextInt(6)), false);
     }

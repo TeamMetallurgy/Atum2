@@ -20,6 +20,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -33,8 +34,8 @@ public class SandstormHandler {
     private long lastUpdateTime;
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onWorldLoad(WorldEvent.Load event) { // calculateInitialWeather
-        if (event.getWorld() instanceof ServerLevel serverLevel && serverLevel.dimension() == Atum.ATUM && DimensionHelper.getData(serverLevel).isStorming()) {
+    public void onWorldLoad(LevelEvent.Load event) { // calculateInitialWeather
+        if (event.getLevel() instanceof ServerLevel serverLevel && serverLevel.dimension() == Atum.ATUM && DimensionHelper.getData(serverLevel).isStorming()) {
             this.stormStrength = 1.0F;
         }
     }

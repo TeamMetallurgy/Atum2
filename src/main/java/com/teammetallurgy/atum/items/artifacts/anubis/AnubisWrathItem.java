@@ -55,7 +55,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     private float attackDamage = 5.0F;
 
     public AnubisWrathItem() {
-        super(AtumMats.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.misc.potion;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.bandit.AssassinEntity;
-import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -14,7 +13,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -23,12 +21,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty & level 1 Marked For Death, make sure to have it at least at 51 seconds
     private static final Object2IntMap<LivingEntity> NEXT_SPAWN = new Object2IntOpenHashMap<>();
@@ -83,8 +79,8 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
         }
     }
 
-    @SubscribeEvent
-    public void onEffectExpired(PotionEvent.PotionExpiryEvent event) {
+    /*@SubscribeEvent
+    public void onEffectExpired(PotionEvent.PotionExpiryEvent event) { //TODO Figure out a way to do this now
         MobEffectInstance effectInstance = event.getPotionEffect();
         if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH.get()) {
             NEXT_SPAWN.removeInt(event.getEntityLiving());
@@ -97,9 +93,9 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
         if (effectInstance != null && effectInstance.getEffect() == AtumEffects.MARKED_FOR_DEATH.get()) {
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
-    }
+    }*/
 
-    private void spawnAssassin(ServerLevel world, BlockPos pos, Random rand, LivingEntity markedTarget) {
+    private void spawnAssassin(ServerLevel world, BlockPos pos, RandomSource rand, LivingEntity markedTarget) {
         EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN.get();
         BlockState state = world.getBlockState(pos);
         if (NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType) && AssassinEntity.canSpawn(entityType, world, MobSpawnType.EVENT, pos, rand)) {

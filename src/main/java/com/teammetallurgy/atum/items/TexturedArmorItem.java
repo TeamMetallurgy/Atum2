@@ -16,11 +16,11 @@ public class TexturedArmorItem extends ArmorItem {
     private int damageModifier;
 
     public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot) {
-        this(material, name, slot, new Item.Properties().tab(Atum.GROUP));
+        this(material, name, slot, new Item.Properties());
     }
 
     public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot, Item.Properties properties) {
-        super(material, slot, properties.tab(Atum.GROUP));
+        super(material, slot, properties);
         this.armorPieceName = name;
     }
 

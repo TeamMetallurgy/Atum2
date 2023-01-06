@@ -17,7 +17,6 @@ import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -77,7 +76,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     }, MemoryModuleType.JOB_SITE, (villager, poiType) -> {
         return villager.getAtumVillagerData().getAtumProfession().getPointOfInterest() == poiType;
     }, MemoryModuleType.POTENTIAL_JOB_SITE, (villager, poiType) -> {
-        return AtumPointsOfInterest.ANY_VILLAGER_WORKSTATION.test(poiType);
+        return AtumPoiTypes.ANY_VILLAGER_WORKSTATION.test(poiType);
     }, MemoryModuleType.MEETING_POINT, (villager, poiType) -> {
         return poiType == PoiType.MEETING;
     });
@@ -266,7 +265,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     @Override
     public void tick() {
         super.tick();
-        if (this.getVariant() == -1) {
+        if (this.getVillagerVariant() == -1) {
             Race race = this.getAtumVillagerData().getRace();
             this.setRandomVariant(race);
         }
@@ -290,7 +289,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         this.texturePath = null;
     }
 
-    private int getVariant() {
+    private int getVillagerVariant() {
         return this.entityData.get(VARIANT);
     }
 
@@ -300,14 +299,14 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         if (this.texturePath == null) {
             AtumVillagerData atumVillagerData = this.getAtumVillagerData();
             String gender = this.isFemale() ? "female" : "male";
-            this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/villager/" + atumVillagerData.getRace().getName() + "/" + gender + "_" + this.getVariant()) + ".png";
+            this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/villager/" + atumVillagerData.getRace().getName() + "/" + gender + "_" + this.getVillagerVariant()) + ".png";
         }
         return this.texturePath;
     }
 
     @Override
     public void playWorkSound() {
-        SoundEvent soundEvent = this.getAtumVillagerData().getAtumProfession().getSound();
+        SoundEvent soundEvent = this.getAtumVillagerData().getAtumProfession().sound();
         if (soundEvent != null) {
             this.playSound(soundEvent, this.getSoundVolume(), this.getVoicePitch());
         }
@@ -319,7 +318,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         AtumVillagerData.CODEC.encodeStart(NbtOps.INSTANCE, this.getAtumVillagerData()).resultOrPartial(Atum.LOG::error).ifPresent((data) -> {
             compound.put("AtumVillagerData", data);
         });
-        compound.putInt("Variant", this.getVariant());
+        compound.putInt("Variant", this.getVillagerVariant());
     }
 
     @Override

@@ -23,14 +23,12 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Random;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NepthysBanishingItem extends SwordItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public NepthysBanishingItem() {
-        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

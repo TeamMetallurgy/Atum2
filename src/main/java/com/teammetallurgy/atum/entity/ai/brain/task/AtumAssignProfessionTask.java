@@ -40,7 +40,7 @@ public class AtumAssignProfessionTask extends Behavior<Villager> {
                 return w.getPoiManager().getType(globalpos.pos());
             }).flatMap((poiType) -> {
                 return Atum.villagerProfession.get().getValues().stream().filter((profession) -> {
-                    return profession.getPointOfInterest() == poiType;
+                    return profession.heldJobSite().test(poiType);
                 }).findFirst();
             }).ifPresent((profession) -> {
                 ((AtumVillagerEntity) entity).setAtumVillagerData(((AtumVillagerEntity) entity).getAtumVillagerData().withProfession(profession));

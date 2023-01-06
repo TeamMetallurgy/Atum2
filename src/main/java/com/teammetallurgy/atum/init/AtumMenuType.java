@@ -18,7 +18,7 @@ import net.minecraftforge.registries.RegistryObject;
 import javax.annotation.Nonnull;
 
 public class AtumMenuType {
-    public static final DeferredRegister<MenuType<?>> MENU_TYPE_DEFERRED = DeferredRegister.create(ForgeRegistries.CONTAINERS, Atum.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> MENU_TYPE_DEFERRED = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Atum.MOD_ID);
     public static final RegistryObject<MenuType<AlphaDesertWolfContainer>> ALPHA_DESERT_WOLF = register(IForgeMenuType.create((windowID, inv, data) -> {
         int entityID = data.readInt();
         return new AlphaDesertWolfContainer(windowID, inv, entityID);

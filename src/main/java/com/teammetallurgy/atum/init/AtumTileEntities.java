@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class AtumTileEntities {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Atum.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_DEFERRED = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Atum.MOD_ID);
     //Chests
     public static final RegistryObject<BlockEntityType<LimestoneChestTileEntity>> LIMESTONE_CHEST = register("limestone_chest", () -> BlockEntityType.Builder.of(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST.get()));
     public static final RegistryObject<BlockEntityType<SarcophagusTileEntity>> SARCOPHAGUS = register("sarcophagus", () -> BlockEntityType.Builder.of(SarcophagusTileEntity::new, AtumBlocks.SARCOPHAGUS.get()));

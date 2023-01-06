@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
@@ -20,7 +19,7 @@ import javax.annotation.Nonnull;
 public class GebsToilItem extends ShovelItem implements IArtifact {
 
     public GebsToilItem() {
-        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

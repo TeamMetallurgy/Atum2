@@ -17,7 +17,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -32,8 +31,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -123,7 +122,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
                     God godVariant = God.getGod(pharaoh.getVariant());
                     Style pharaohStyle = pharaoh.getName().getStyle();
                     for (ServerPlayer playerMP : serverLevel.getServer().getPlayerList().getPlayers()) {
-                        playerMP.sendSystemMessage(pharaoh.getName().copy().setStyle(pharaohStyle.withColor(godVariant.getColor())).append(Component.translatable("chat.atum.pharaoh_worshiper").withStyle(ChatFormatting.WHITE)).append(godVariant.getDisplayName().setStyle(pharaohStyle.withColor(godVariant.getColor()))).append(Component.translatable("chat.atum.pharaoh_awakened").withStyle(ChatFormatting.WHITE)).append(player.getName().copy().withStyle(ChatFormatting.YELLOW)), Util.NIL_UUID);
+                        playerMP.sendSystemMessage(pharaoh.getName().copy().setStyle(pharaohStyle.withColor(godVariant.getColor())).append(Component.translatable("chat.atum.pharaoh_worshiper").withStyle(ChatFormatting.WHITE)).append(godVariant.getDisplayName().setStyle(pharaohStyle.withColor(godVariant.getColor()))).append(Component.translatable("chat.atum.pharaoh_awakened").withStyle(ChatFormatting.WHITE)).append(player.getName().copy().withStyle(ChatFormatting.YELLOW)));
                     }
                 }
             }
@@ -153,7 +152,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (capability == ForgeCapabilities.ITEM_HANDLER) {
             return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();
         } else {
             return super.getCapability(capability, direction);

@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
@@ -54,7 +55,7 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW.get()));
     }
 

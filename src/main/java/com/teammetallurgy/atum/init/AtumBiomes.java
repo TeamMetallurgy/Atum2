@@ -2,17 +2,11 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.misc.NoiseGeneratorHelper;
 import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
-import com.teammetallurgy.atum.world.biome.AtumBiomeSource;
 import com.teammetallurgy.atum.world.biome.BiomeRegion;
-import com.teammetallurgy.atum.world.level.levelgen.AtumChunkGenerator;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -50,7 +44,7 @@ public class AtumBiomes {
         return registerBiomeKey(biomeName, biomeRegion);
     }
 
-    public static void addBiomeTags() {
+    /*public static void addBiomeTags() { //TODO Move to json tags
         for (ResourceKey<Biome> biome : BIOME_KEYS.keySet()) {
             BiomeDictionary.addTypes(biome, BiomeTags.ATUM);
             if (biome != AtumBiomes.OASIS) {
@@ -71,15 +65,14 @@ public class AtumBiomes {
         BiomeDictionary.addTypes(SAND_HILLS, BiomeDictionary.Type.HILLS);
         BiomeDictionary.addTypes(SAND_PLAINS, BiomeDictionary.Type.PLAINS);
         BiomeDictionary.addTypes(KARST_CAVES, BiomeDictionary.Type.UNDERGROUND);
-    }
+    }*/
 
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        AtumBiomes.addBiomeTags();
+    /*@SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) { //TODO Figure out how this is done now
         Atum.ATUM_MULTI_NOISE = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(Atum.MOD_ID, "atum_multi_noise"), AtumBiomeSource.CODEC);
         Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(Atum.MOD_ID, "atum"), AtumChunkGenerator.CODEC);
         NoiseGeneratorSettings.register(Atum.NOISE_SETTINGS, NoiseGeneratorHelper.atum(false, false));
-    }
+    }*/
 
     /**
      * Registers a biome
@@ -104,8 +97,8 @@ public class AtumBiomes {
         return biomeKey;
     }
 
-    public static class BiomeTags {
+    /*public static class BiomeTags { //TODO Add new biome tags in json
         public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
         public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
-    }
+    }*/
 }

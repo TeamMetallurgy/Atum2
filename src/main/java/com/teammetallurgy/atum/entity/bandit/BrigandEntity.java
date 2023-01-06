@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +36,7 @@ public class BrigandEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON.get()));
         this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD.get()));
     }

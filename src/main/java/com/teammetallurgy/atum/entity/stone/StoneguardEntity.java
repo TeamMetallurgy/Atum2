@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -68,8 +69,8 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        int randomWeapon = Mth.nextInt(this.random, 0, 3);
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
+        int randomWeapon = Mth.nextInt(randomSource, 0, 3);
         this.setStoneguardEquipment(randomWeapon);
     }
 
@@ -100,7 +101,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
-            this.populateDefaultEquipmentSlots(difficulty);
+            this.populateDefaultEquipmentSlots(world.getRandom(), difficulty);
             final int variant = Mth.nextInt(random, 0, 7);
             this.setVariant(variant);
         } else {

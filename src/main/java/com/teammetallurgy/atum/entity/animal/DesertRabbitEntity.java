@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

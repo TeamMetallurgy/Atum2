@@ -1,9 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
@@ -11,13 +8,13 @@ import net.minecraft.world.level.biome.*;
 public class AtumBiomeMaker { //TODO
 
     public static Biome makeKarstCaves(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         addDefaultSpawns(biomeName);
         return new Builder().generationSettings(biomeGen.build()).mobSpawnSettings(new MobSpawnSettings.Builder().build()).build();
     }
     
     public static Biome makeDeadOasis(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED)*/);
+        BiomeGenerationSettings.Builder biomeGen = (null/*.surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED)*/);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_DRY_GRASS_SPREAD_5);
@@ -42,7 +39,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSparseWoods(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_DRY_GRASS_NOISE_08_2_3);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_TALL_GRASS);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_3_01_1);*/
@@ -50,7 +47,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeDenseWoods(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DENSE_DRY_GRASS_NOISE_08_5_10);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DRY_TALL_GRASS);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_20_025_3);*/
@@ -80,7 +77,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeDriedRiver(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED)*/);
+        BiomeGenerationSettings.Builder biomeGen = (null/*.surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED)*/);
         /*biomeGen.addFeature(UNDERGROUND_ORES, AtumFeatures.MARL_DRIED_RIVER);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
@@ -99,7 +96,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeLimestoneCrags(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         /*biomeGen.addFeature(SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE_CONFIGURED);
@@ -121,7 +118,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeLimestoneMountain(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE)*/);
+        BiomeGenerationSettings.Builder biomeGen = (null/*.surfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE)*/);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_01_1);
@@ -142,7 +139,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeOasis(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder()/*.surfaceBuilder(AtumSurfaceBuilders.OASIS)*/);
+        BiomeGenerationSettings.Builder biomeGen = (null/*.surfaceBuilder(AtumSurfaceBuilders.OASIS)*/);
         addCamelSpawning(biomeName);
         /*biomeGen.addCarver(GenerationStep.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
         biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.OASIS_GRASS);
@@ -165,7 +162,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandDunes(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         /*iomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_01_1);
@@ -188,7 +185,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandHills(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         /*biomeGen.addFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_08_1);
@@ -209,7 +206,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static Biome makeSandPlains(String biomeName) {
-        BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder());
+        BiomeGenerationSettings.Builder biomeGen = null;
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         /*biomeGen.addStructureStart(AtumStructures.GIRAFI_TOMB_FEATURE);
@@ -236,7 +233,7 @@ public class AtumBiomeMaker { //TODO
 
     public static void addDefaultSpawns(String biomeName) {
         /*//Animals
-        addSpawn(biomeName, AtumEntities.DESERT_RABBIT.get(), 5, 2, 3, MobCategory.CREATURE); //TODO
+        addSpawn(biomeName, AtumEntities.DESERT_RABBIT.get(), 5, 2, 3, MobCategory.CREATURE); //TODO Move to new mob spawn jsons
         addSpawn(biomeName, EntityType.BAT, 4, 4, 8, MobCategory.AMBIENT);
         addSpawn(biomeName, AtumEntities.QUAIL.get(), 3, 2, 4, MobCategory.CREATURE);
 
@@ -252,10 +249,7 @@ public class AtumBiomeMaker { //TODO
     }
 
     public static void addSpawn(String biomeName, EntityType<?> entityType, int weight, int min, int max, MobCategory classification) {
-        ResourceLocation location = entityType.getRegistryName();
-        if (location != null) {
-            new AtumConfig.Mobs(AtumConfig.BUILDER, location.getPath(), min, max, weight, entityType, classification, new ResourceLocation(Atum.MOD_ID, biomeName)); //Write config
-        }
+
     }
 
     public static void addCamelSpawning(String biomeName) {
@@ -270,7 +264,6 @@ public class AtumBiomeMaker { //TODO
 
         public Builder() {
             this.precipitation(Biome.Precipitation.NONE);
-            this.biomeCategory(Biome.BiomeCategory.DESERT);
             this.temperature(2.0F);
             this.downfall(0.0F);
             this.specialEffects(getBaseEffects().build());

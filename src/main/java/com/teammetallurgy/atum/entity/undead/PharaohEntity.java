@@ -12,7 +12,6 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

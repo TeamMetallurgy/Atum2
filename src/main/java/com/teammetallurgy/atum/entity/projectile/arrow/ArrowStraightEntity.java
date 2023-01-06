@@ -93,7 +93,7 @@ public class ArrowStraightEntity extends CustomArrow {
 
     public void projectileTick() {
         if (!this.hasBeenShot) {
-            this.gameEvent(GameEvent.PROJECTILE_SHOOT, this.getOwner(), this.blockPosition());
+            this.gameEvent(GameEvent.PROJECTILE_SHOOT, this.getOwner());
             this.hasBeenShot = true;
         }
 

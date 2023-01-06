@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.Atum;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -13,11 +12,11 @@ import javax.annotation.Nonnull;
 public class DaggerItem extends SwordItem {
 
     public DaggerItem(Tier itemTier) {
-        this(itemTier, new Item.Properties().tab(Atum.GROUP));
+        this(itemTier, new Item.Properties());
     }
 
     public DaggerItem(Tier itemTier, Item.Properties properties) {
-        super(itemTier, 2, -2.0F, properties.tab(Atum.GROUP));
+        super(itemTier, 2, -2.0F, properties);
     }
 
     @Override

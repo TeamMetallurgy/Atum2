@@ -1,16 +1,5 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.SectionPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-
 public class StructureHelper {
 
     /*public static boolean doesChunkHaveStructure(ServerLevel serverLevel, BlockPos pos, ConfiguredStructureFeaturr<?, ?> structure) {

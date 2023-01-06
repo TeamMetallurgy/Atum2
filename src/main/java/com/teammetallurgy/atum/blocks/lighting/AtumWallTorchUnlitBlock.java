@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +20,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Random;
 
 public class AtumWallTorchUnlitBlock extends AtumWallTorch {
     protected final Block litWallBlock;
@@ -48,6 +48,6 @@ public class AtumWallTorchUnlitBlock extends AtumWallTorch {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
     }
 }

@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.client.render.tileentity;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
-import com.teammetallurgy.atum.client.ClientHandler;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
@@ -20,9 +19,9 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class AtumChestRenderer extends ChestRenderer<ChestBaseTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-    private static final Material LIMESTONE_CHEST = getChestMaterial("limestone_chest");
-    private static final Material LIMESTONE_CHEST_LEFT = getChestMaterial("limestone_chest_left");
-    private static final Material LIMESTONE_CHEST_RIGHT = getChestMaterial("limestone_chest_right");
+    private static final Material LIMESTONE_CHEST = chestMaterial("limestone_chest");
+    private static final Material LIMESTONE_CHEST_LEFT = chestMaterial("limestone_chest_left");
+    private static final Material LIMESTONE_CHEST_RIGHT = chestMaterial("limestone_chest_right");
 
     public AtumChestRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
@@ -46,14 +45,7 @@ public class AtumChestRenderer extends ChestRenderer<ChestBaseTileEntity> {
         }
     }
 
-    public static Material getChestMaterial(String fileName) { //Copied from Atlases
-        ResourceLocation chestTexture = CACHE.get(fileName);
-        if (chestTexture == null) {
-            chestTexture = new ResourceLocation(Atum.MOD_ID, "entity/chest/" + fileName);
-            CACHE.put(fileName, chestTexture);
-        }
-
-        ClientHandler.addToChestAtlas(chestTexture);
-        return new Material(Sheets.CHEST_SHEET, chestTexture);
+    private static Material chestMaterial(String fileName) {
+        return new Material(Sheets.CHEST_SHEET, new ResourceLocation(Atum.MOD_ID, "entity/chest/" + fileName));
     }
 }

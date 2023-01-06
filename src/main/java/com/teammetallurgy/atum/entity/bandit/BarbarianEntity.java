@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,7 +31,7 @@ public class BarbarianEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.GREATSWORD_IRON.get()));
     }
 

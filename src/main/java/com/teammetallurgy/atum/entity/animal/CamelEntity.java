@@ -9,8 +9,8 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -179,7 +179,6 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     public void tick() {
         super.tick();
         if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
             this.textureName = null;
         }
         if (this.getVariant() == -1) {
@@ -200,7 +199,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         Biome biome = this.level.getBiome(this.blockPosition()).value();
         int chance = this.random.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
 
         if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
@@ -225,7 +224,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         if (this.textureName == null) {
             this.textureName = String.valueOf(this.getVariant());
             if (this.hasCustomName() && this.getCustomName() != null) {
-                String customName = this.getCustomName().getContents();
+                String customName = this.getCustomName().getString();
                 if (customName.equalsIgnoreCase("girafi")) {
                     this.textureName = "girafi";
                 }
@@ -256,7 +255,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public boolean canJump() {
+    public boolean canJump(Player player) {
         return false;
     }
 
@@ -378,7 +377,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return stack.is(ItemTags.CARPETS) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
+        return stack.is(ItemTags.WOOL_CARPETS) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
     }
 
     @Override
@@ -392,10 +391,10 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public void openInventory(@Nonnull Player player) {
+    public void openCustomInventoryScreen(@Nonnull Player player) {
         if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTamed()) {
             if (player instanceof ServerPlayer) {
-                NetworkHooks.openGui((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
+                NetworkHooks.openScreen((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
             }
         }
     }
@@ -520,19 +519,19 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
                 }
 
                 if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.byItem(heldStack.getItem()) instanceof CrateBlock) {
-                    this.openInventory(player);
+                    this.openCustomInventoryScreen(player);
                     return InteractionResult.SUCCESS;
                 }
                 if (!eating && this.getArmor().isEmpty() && this.isArmor(heldStack)) {
-                    this.openInventory(player);
+                    this.openCustomInventoryScreen(player);
                     return InteractionResult.SUCCESS;
                 }
                 if (!eating && this.inventory.getItem(2).isEmpty() && this.isValidCarpet(heldStack)) {
-                    this.openInventory(player);
+                    this.openCustomInventoryScreen(player);
                     return InteractionResult.SUCCESS;
                 }
                 if (!eating && !this.isBaby() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem) {
-                    this.openInventory(player);
+                    this.openCustomInventoryScreen(player);
                     return InteractionResult.SUCCESS;
                 }
                 if (!eating && heldStack.getItem() == Items.BUCKET && !this.isBaby() && this.isTamed()) {
@@ -561,7 +560,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
             if (!this.isBaby()) {
                 if (this.isTamed() && player.isSecondaryUseActive()) {
-                    this.openInventory(player);
+                    this.openCustomInventoryScreen(player);
                     return InteractionResult.sidedSuccess(this.level.isClientSide);
                 }
 

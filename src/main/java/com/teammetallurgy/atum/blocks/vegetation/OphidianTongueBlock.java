@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +18,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class OphidianTongueBlock extends VineBlock {
     private static final BooleanProperty HAS_FLOWERS = BooleanProperty.create("flowers");
@@ -41,7 +41,7 @@ public class OphidianTongueBlock extends VineBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         super.tick(state, world, pos, rand);
         if (!world.isClientSide && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
             world.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);

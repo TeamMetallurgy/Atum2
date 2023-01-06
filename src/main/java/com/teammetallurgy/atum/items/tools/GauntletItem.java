@@ -27,7 +27,7 @@ public class GauntletItem extends SwordItem {
     protected static final Object2FloatMap<LivingEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     protected GauntletItem(Tier tier, Item.Properties properties) {
-        super(tier, 2, -2.2F, properties.tab(Atum.GROUP));
+        super(tier, 2, -2.2F, properties);
     }
 
     @Override

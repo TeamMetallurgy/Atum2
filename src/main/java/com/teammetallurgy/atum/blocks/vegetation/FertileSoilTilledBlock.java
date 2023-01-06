@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -26,7 +27,6 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class FertileSoilTilledBlock extends FarmBlock {
     public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
@@ -43,14 +43,14 @@ public class FertileSoilTilledBlock extends FarmBlock {
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel serverLevel, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(BlockState state, @Nonnull ServerLevel serverLevel, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (!state.canSurvive(serverLevel, pos)) {
             turnToSoil(serverLevel, pos, AtumBlocks.FERTILE_SOIL.get());
         }
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, @Nonnull Random rand) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, @Nonnull RandomSource rand) {
         int moisture = state.getValue(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.above()).getBlock();
@@ -76,7 +76,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.getValue(BLESSED) && !world.getBlockState(pos.above()).isRedstoneConductor(world, pos.above())) {
             if (rand.nextDouble() <= 0.15D) {
                 double d0 = rand.nextGaussian() * 0.01D;

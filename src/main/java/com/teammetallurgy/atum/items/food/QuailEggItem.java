@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.food;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.QuailEggEntity;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,7 +17,7 @@ import javax.annotation.Nonnull;
 public class QuailEggItem extends EggItem {
 
     public QuailEggItem() {
-        super(new Item.Properties().stacksTo(16).tab(Atum.GROUP));
+        super(new Item.Properties().stacksTo(16));
     }
 
     @Override

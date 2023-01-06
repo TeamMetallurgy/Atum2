@@ -11,8 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
-import java.util.Random;
-
 public class GebsMightItem extends HammerItem implements IArtifact {
 
     public GebsMightItem() {

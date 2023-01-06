@@ -1,0 +1,7 @@
+{
+    "sources": [
+        { "type": "single", "resource": "atum:entity/chest/limestone_chest" },
+        { "type": "single", "resource": "atum:entity/chest/limestone_chest_left" },
+        { "type": "single", "resource": "atum:entity/chest/limestone_chest_right" }
+    ]
+}

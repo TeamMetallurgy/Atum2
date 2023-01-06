@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 public class GebsUndoingItem extends PickaxeItem implements IArtifact {
 
     public GebsUndoingItem() {
-        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

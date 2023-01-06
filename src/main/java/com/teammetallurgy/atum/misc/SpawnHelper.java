@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.misc;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.world.DimensionHelper;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

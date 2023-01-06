@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class AtumWallTorch extends WallTorchBlock implements INebuTorch {

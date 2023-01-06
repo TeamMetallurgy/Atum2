@@ -10,10 +10,12 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -29,6 +31,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
@@ -36,7 +39,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class AtumVillagerTrades {
@@ -78,7 +80,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             ItemStack tradeStack = new ItemStack(this.tradeItem, this.count);
             return new MerchantOffer(tradeStack, new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount), this.maxUses, this.xpValue, this.priceMultiplier);
         }
@@ -86,13 +88,13 @@ public class AtumVillagerTrades {
 
     static class CoinsForMapTrade implements VillagerTrades.ItemListing {
         private final int count;
-        private final TagKey<ConfiguredStructureFeature<?, ?>> destination;
+        private final TagKey<Structure> destination;
         private final String displayName;
         private final MapDecoration.Type mapDecorationType;
         private final int maxUses;
         private final int xpValue;
 
-        public CoinsForMapTrade(int count, TagKey<ConfiguredStructureFeature<?, ?>> structureName, String displayName, MapDecoration.Type mapDecorationType, int maxUses, int xpValue) {
+        public CoinsForMapTrade(int count, TagKey<Structure> structureName, String displayName, MapDecoration.Type mapDecorationType, int maxUses, int xpValue) {
             this.count = count;
             this.destination = structureName;
             this.displayName = displayName;
@@ -102,11 +104,11 @@ public class AtumVillagerTrades {
         }
 
         @Nullable
-        public MerchantOffer getOffer(Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(Entity trader, @Nonnull RandomSource rand) {
             if (!(trader.level instanceof ServerLevel serverLevel)) {
                 return null;
             } else {
-                BlockPos pos = serverLevel.findNearestMapFeature(this.destination, trader.blockPosition(), 100, true);
+                BlockPos pos = serverLevel.findNearestMapStructure(this.destination, trader.blockPosition(), 100, true);
                 if (pos != null) {
                     ItemStack mapStack = MapItem.create(serverLevel, pos.getX(), pos.getZ(), (byte) 2, true, true);
                     MapItem.renderBiomePreviewMap(serverLevel, mapStack);
@@ -128,8 +130,8 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, Random rand) {
-            List<Enchantment> enchantments = Registry.ENCHANTMENT.stream().filter(Enchantment::isTradeable).collect(Collectors.toList());
+        public MerchantOffer getOffer(@Nonnull Entity trader, RandomSource rand) {
+            List<Enchantment> enchantments = BuiltInRegistries.ENCHANTMENT.stream().filter(Enchantment::isTradeable).collect(Collectors.toList());
             Enchantment enchantment = enchantments.get(rand.nextInt(enchantments.size()));
             int level = Mth.nextInt(rand, enchantment.getMinLevel(), enchantment.getMaxLevel());
             ItemStack enchantedStack = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, level));
@@ -165,7 +167,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, RandomSource rand) {
             int i = 5 + rand.nextInt(15);
             ItemStack enchantedStack = EnchantmentHelper.enchantItem(rand, new ItemStack(this.sellingStack.getItem()), i, false);
             int j = Math.min(this.coinCount + i, 64);
@@ -196,9 +198,9 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, RandomSource rand) {
             ItemStack coinStack = new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount);
-            List<Potion> potions = Registry.POTION.stream().filter((potion) -> !potion.getEffects().isEmpty() && PotionBrewing.isBrewablePotion(potion)).collect(Collectors.toList());
+            List<Potion> potions = BuiltInRegistries.POTION.stream().filter((potion) -> !potion.getEffects().isEmpty() && PotionBrewing.isBrewablePotion(potion)).collect(Collectors.toList());
             Potion potion = potions.get(rand.nextInt(potions.size()));
             ItemStack potionStack = PotionUtils.setPotion(new ItemStack(this.potionStack.getItem(), this.potionCount), potion);
             return new MerchantOffer(coinStack, new ItemStack(this.buyingItem, this.buyingItemCount), potionStack, this.maxUses, this.xpValue, this.priceMultiplier);
@@ -227,7 +229,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount), new ItemStack(this.buyingItem.getItem(), this.buyingItemCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }
@@ -266,7 +268,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }
@@ -287,7 +289,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             ItemStack stewStack = new ItemStack(Items.SUSPICIOUS_STEW, 1);
             SuspiciousStewItem.saveMobEffect(stewStack, this.effect, this.duration);
             return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.cointCount), stewStack, 12, this.xpValue, this.priceMultiplier);
@@ -312,7 +314,7 @@ public class AtumVillagerTrades {
         }
 
         @Override
-        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             ItemStack coinStack = new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount);
             ItemStack tradeStack = new ItemStack(this.tradeItem);
             if (this.tradeItem instanceof DyeableArmorItem) {
@@ -331,7 +333,7 @@ public class AtumVillagerTrades {
             return new MerchantOffer(coinStack, tradeStack, this.maxUses, this.xpValue, 0.2F);
         }
 
-        private static DyeItem getRandomDyeItem(Random random) {
+        private static DyeItem getRandomDyeItem(RandomSource random) {
             return DyeItem.byColor(DyeColor.byId(random.nextInt(16)));
         }
     }

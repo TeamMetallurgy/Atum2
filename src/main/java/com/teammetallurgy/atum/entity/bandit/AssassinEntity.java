@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -31,7 +32,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class AssassinEntity extends BanditBaseEntity {
     private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
@@ -124,7 +124,7 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER.get()));
     }
 
@@ -160,7 +160,7 @@ public class AssassinEntity extends BanditBaseEntity {
         }
     }
 
-    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return spawnReason == MobSpawnType.EVENT ? world.canSeeSkyFromBelowWater(pos) && world.getBrightness(LightLayer.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
     }
 

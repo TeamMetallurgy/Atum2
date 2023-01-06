@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature.pool;
 
 import com.google.common.collect.ImmutableList;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-public class GatehousePools {
+public class GatehousePools { //TODO
     public static final Holder<StructureTemplatePool> POOL = Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "ruinedwalls/gatehouses"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:ruinedwalls/gatehouses/gatehouse", ProcessorLists.EMPTY), 98)), StructureTemplatePool.Projection.TERRAIN_MATCHING));
 
     public static void init() {
@@ -18,4 +19,4 @@ public class GatehousePools {
         Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "ruinedwalls/terminators"), new ResourceLocation("empty"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:ruinedwalls/terminators/terminator1"), 1)), StructureTemplatePool.Projection.TERRAIN_MATCHING));
         Pools.register(new StructureTemplatePool(new ResourceLocation(Atum.MOD_ID, "ruinedwalls/roads"), new ResourceLocation(Atum.MOD_ID, "ruinedwalls/terminators"), ImmutableList.of(Pair.of(StructurePoolElement.legacy("atum:ruinedwalls/roads/road1"), 3), Pair.of(StructurePoolElement.legacy("atum:ruinedwalls/roads/road2"), 3)), StructureTemplatePool.Projection.TERRAIN_MATCHING));
     }
-}
+}*/

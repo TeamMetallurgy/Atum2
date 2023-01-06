@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
@@ -23,7 +24,6 @@ import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
 
 public class AnputsFingersBlock extends CropBlock {
@@ -70,7 +70,7 @@ public class AnputsFingersBlock extends CropBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.setValue(this.getAgeProperty(), age + 1);
@@ -95,12 +95,12 @@ public class AnputsFingersBlock extends CropBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader levelReader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return false;
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return false;
     }
 

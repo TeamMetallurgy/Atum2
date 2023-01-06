@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +14,7 @@ import java.util.Random;
 public class VillagerSpawnEggItem extends ForgeSpawnEggItem {
 
     public VillagerSpawnEggItem() {
-        super(AtumEntities.VILLAGER_MALE, 0x9D7A62, 0x452D25, new Item.Properties().tab(Atum.GROUP));
+        super(AtumEntities.VILLAGER_MALE, 0x9D7A62, 0x452D25, new Item.Properties());
         //BY_ID.put(AtumEntities.VILLAGER_FEMALE.get(), this);
     }
 

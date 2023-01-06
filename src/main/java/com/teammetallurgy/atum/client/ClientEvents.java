@@ -7,32 +7,23 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.IFogReductionItem;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
-import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.DimensionHelper;
-import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.FogType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -45,8 +36,8 @@ import java.util.Optional;
 public class ClientEvents {
     private static final ResourceLocation MUMMY_BLUR_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/hud/mummyblur.png");
 
-    @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    /*@SubscribeEvent
+    public static void renderFog(RenderFogEvent event) { //TODO Is there a replacement for this?
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         LocalPlayer clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
@@ -90,7 +81,7 @@ public class ClientEvents {
                 }
             }
         }
-    }
+    }*/
 
     public static void setupFog(float baseFog, Camera p_109025_, FogRenderer.FogMode p_109026_, float p_109027_, boolean p_109028_) {
         FogType fogtype = p_109025_.getFluidInCamera();
@@ -152,11 +143,11 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void renderMummyHelmet(RenderGameOverlayEvent event) {
+    public static void renderMummyHelmet(RenderGuiOverlayEvent event) { //TODO Test if this works
         LocalPlayer player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
 
-        if (player != null && mc.options.getCameraType().isFirstPerson() && event.getType() == RenderGameOverlayEvent.ElementType.LAYER && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET.get()) {
+        if (player != null && mc.options.getCameraType().isFirstPerson() && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET.get()) {
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
 

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -30,7 +29,7 @@ import java.util.AbstractMap;
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
     public AtemsHomecomingItem() {
-        super(new Item.Properties().durability(20).tab(Atum.GROUP).rarity(Rarity.RARE));
+        super(new Item.Properties().durability(20).rarity(Rarity.RARE));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     }
 
     @Override
-    public int getItemEnchantability(@Nonnull ItemStack stack) {
+    public int getEnchantmentValue(@Nonnull ItemStack stack) {
         return 1;
     }
 

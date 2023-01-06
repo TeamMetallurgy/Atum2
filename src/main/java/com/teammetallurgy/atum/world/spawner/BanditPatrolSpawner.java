@@ -6,9 +6,10 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.Random;
 
 public class BanditPatrolSpawner implements CustomSpawner {
     private int timer;
@@ -33,7 +33,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
         } else if (AtumConfig.MOBS.banditPatrolFrequency.get() < 1) {
             return 0;
         } else {
-            Random rand = serverLevel.random;
+            RandomSource rand = serverLevel.random;
             --this.timer;
             if (this.timer > 0) {
                 return 0;
@@ -55,7 +55,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                                 return 0;
                             } else {
                                 Biome biome = serverLevel.getBiome(mutablePos).value();
-                                Optional<ResourceKey<Biome>> biomeKey = serverLevel.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+                                Optional<ResourceKey<Biome>> biomeKey = serverLevel.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
                                 if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
                                     return 0;
                                 } else {
@@ -95,7 +95,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
         }
     }
 
-    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerLevel world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
+    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerLevel world, BlockPos pos, RandomSource rand, @Nullable BanditBaseEntity leadingEntity) {
         BlockState state = world.getBlockState(pos);
         if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType)) {
             return false;
@@ -118,7 +118,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
         }
     }
 
-    private boolean spawnLeader(BanditBaseEntity leader, ServerLevel world, BlockPos pos, Random rand) {
+    private boolean spawnLeader(BanditBaseEntity leader, ServerLevel world, BlockPos pos, RandomSource rand) {
         BlockState state = world.getBlockState(pos);
         EntityType<? extends BanditBaseEntity> type = (EntityType<? extends BanditBaseEntity>) leader.getType();
         if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), type)) {
@@ -136,7 +136,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
         }
     }
 
-    private EntityType<? extends BanditBaseEntity> getEntityType(Random rand) {
+    private EntityType<? extends BanditBaseEntity> getEntityType(RandomSource rand) {
         double chance = rand.nextDouble();
         if (chance <= 0.5D) {
             return AtumEntities.BRIGAND.get();

@@ -42,7 +42,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.Random;
 
 public class UndeadBaseEntity extends Monster implements ITexture {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(UndeadBaseEntity.class, EntityDataSerializers.INT);

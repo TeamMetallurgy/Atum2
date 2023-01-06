@@ -32,7 +32,7 @@ public class KhopeshItem extends SwordItem {
     }
 
     public KhopeshItem(Tier itemTier, Item.Properties properties) {
-        super(itemTier, 3, -2.6F, properties.tab(Atum.GROUP));
+        super(itemTier, 3, -2.6F, properties);
     }
 
     public boolean getIsOffHand(@Nonnull ItemStack stack) {

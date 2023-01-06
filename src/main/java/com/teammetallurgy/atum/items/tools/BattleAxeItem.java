@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.Atum;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +12,7 @@ import javax.annotation.Nonnull;
 public class BattleAxeItem extends AxeItem {
 
     public BattleAxeItem(Tier tier, float attackDamage, float attackSpeed, Item.Properties properties) {
-        super(tier, attackDamage, attackSpeed, properties.tab(Atum.GROUP));
+        super(tier, attackDamage, attackSpeed, properties);
     }
 
     @Override

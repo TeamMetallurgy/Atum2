@@ -22,7 +22,7 @@ public class ClubItem extends SwordItem {
     private static final Object2FloatMap<LivingEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public ClubItem(Tier itemTier) {
-        super(itemTier, 13, -3.4F, new Item.Properties().tab(Atum.GROUP));
+        super(itemTier, 13, -3.4F, new Item.Properties());
     }
 
     @SubscribeEvent

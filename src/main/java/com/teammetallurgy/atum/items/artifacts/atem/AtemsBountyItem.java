@@ -1,10 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -18,7 +16,7 @@ import java.util.List;
 public class AtemsBountyItem extends FishingRodItem implements IArtifact {
 
     public AtemsBountyItem() {
-        super(new Item.Properties().durability(100).rarity(Rarity.RARE).tab(Atum.GROUP));
+        super(new Item.Properties().durability(100).rarity(Rarity.RARE));
     }
 
     @Override

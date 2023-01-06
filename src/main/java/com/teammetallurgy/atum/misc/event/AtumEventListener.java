@@ -12,7 +12,6 @@ import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.SpawnHelper;
-import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

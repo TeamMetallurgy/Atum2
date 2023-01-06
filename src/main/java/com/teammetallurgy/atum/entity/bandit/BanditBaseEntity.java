@@ -38,14 +38,19 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(BanditBaseEntity.class, EntityDataSerializers.INT);
@@ -97,8 +102,8 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     @Nullable
     public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
         spawnData = mobInitialSpawn(spawnData);
-        this.populateDefaultEquipmentEnchantments(difficulty);
-        this.populateDefaultEquipmentSlots(difficulty);
+        this.populateDefaultEquipmentEnchantments(world.getRandom(), difficulty);
+        this.populateDefaultEquipmentSlots(world.getRandom(), difficulty);
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * difficulty.getSpecialMultiplier());
 
         if (this.isPatrolLeader()) {
@@ -126,11 +131,11 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     public static ItemStack createBanditBanner() {
         ItemStack banner = new ItemStack(Items.WHITE_BANNER);
         CompoundTag nbt = banner.getOrCreateTagElement("BlockEntityTag");
-        ListTag nbtList = new BannerPattern.Builder().addPattern(BannerPattern.BASE, DyeColor.WHITE).addPattern(BannerPattern.STRIPE_DOWNLEFT, DyeColor.GRAY)
-                .addPattern(BannerPattern.STRIPE_DOWNRIGHT, DyeColor.GRAY).addPattern(BannerPattern.CROSS, DyeColor.RED)
-                .addPattern(BannerPattern.FLOWER, DyeColor.BLACK).addPattern(BannerPattern.FLOWER, DyeColor.ORANGE)
-                .addPattern(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).addPattern(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
-                .addPattern(BannerPattern.SKULL, DyeColor.BLACK).addPattern(BannerPattern.SKULL, DyeColor.WHITE).toListTag();
+        ListTag nbtList = new BannerPattern.Builder().addPattern(BannerPatterns.BASE, DyeColor.WHITE).addPattern(BannerPatterns.STRIPE_DOWNLEFT, DyeColor.GRAY)
+                .addPattern(BannerPatterns.STRIPE_DOWNRIGHT, DyeColor.GRAY).addPattern(BannerPatterns.CROSS, DyeColor.RED)
+                .addPattern(BannerPatterns.FLOWER, DyeColor.BLACK).addPattern(BannerPatterns.FLOWER, DyeColor.ORANGE)
+                .addPattern(BannerPatterns.CIRCLE_MIDDLE, DyeColor.BLACK).addPattern(BannerPatterns.CIRCLE_MIDDLE, DyeColor.YELLOW)
+                .addPattern(BannerPatterns.SKULL, DyeColor.BLACK).addPattern(BannerPatterns.SKULL, DyeColor.WHITE).toListTag();
         nbt.put("Patterns", nbtList);
         banner.setHoverName(Component.translatable("block.atum.bandit_banner").withStyle(ChatFormatting.GOLD));
         return banner;
@@ -142,7 +147,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, @Nonnull DifficultyInstance difficulty) {
         //Don't use for now, might do something with it later
     }
 
@@ -151,7 +156,6 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
         super.tick();
 
         if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
             this.texturePath = null;
         }
     }
@@ -194,7 +198,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
+            String entityName = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(this.getType())).getPath();
 
             if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
@@ -319,7 +323,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
         }
 
         private boolean tryMoveTo() {
-            Random random = this.owner.getRandom();
+            RandomSource random = this.owner.getRandom();
             BlockPos pos = this.owner.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (this.owner.blockPosition()).offset(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
             return this.owner.getNavigation().moveTo(pos.getX(), pos.getY(), pos.getZ(), this.patrollerSpeed);
         }

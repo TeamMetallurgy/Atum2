@@ -16,7 +16,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class HorusAscensionItem extends GauntletItem implements IArtifact {
 

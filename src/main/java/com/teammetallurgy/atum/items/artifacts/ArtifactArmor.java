@@ -40,7 +40,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Artifact boots speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
     public ArtifactArmor(ArmorMaterial material, String name, EquipmentSlot slot, Properties properties) {
-        super(material, name, slot, properties.tab(Atum.GROUP));
+        super(material, name, slot, properties);
     }
 
     public abstract Item getHelmet();

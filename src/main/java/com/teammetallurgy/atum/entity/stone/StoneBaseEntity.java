@@ -35,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class StoneBaseEntity extends Monster {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(StoneBaseEntity.class, EntityDataSerializers.INT);
@@ -95,15 +94,6 @@ public class StoneBaseEntity extends Monster {
 
     public int getVariant() {
         return this.entityData.get(VARIANT);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
-        }
     }
 
     @Override
@@ -199,7 +189,7 @@ public class StoneBaseEntity extends Monster {
         this.playSound(SoundEvents.STONE_STEP, 0.15F, 1.0F);
     }
 
-    public static boolean isValidLightLevel(LevelAccessor world, @Nonnull BlockPos pos, Random random) {
+    public static boolean isValidLightLevel(LevelAccessor world, @Nonnull BlockPos pos, RandomSource random) {
         return world.getBrightness(LightLayer.SKY, pos) == 0 && world.getMaxLocalRawBrightness(pos) <= random.nextInt(10);
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.CatVariant;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -81,11 +83,11 @@ public class ServalEntity extends Cat {
     @Override
     @Nonnull
     public ResourceLocation getResourceLocation() {
-        return SERVAL_TEXTURE_BY_ID.getOrDefault(this.getCatType(), SERVAL_TEXTURE_BY_ID.get(0));
+        return SERVAL_TEXTURE_BY_ID.getOrDefault(this.getVariant(), SERVAL_TEXTURE_BY_ID.get(0));
     }
 
     @Override
-    public void setCatType(int type) {
+    public void setVariant(CatVariant catVariant) {
         if (type < 0 || type > SERVAL_TEXTURE_BY_ID.size()) {
             type = this.random.nextInt(SERVAL_TEXTURE_BY_ID.size());
         }
@@ -145,7 +147,7 @@ public class ServalEntity extends Cat {
         }
 
         private void giveGift() {
-            Random random = this.cat.getRandom();
+            RandomSource random = this.cat.getRandom();
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
             mutablePos.set(this.cat.blockPosition());
             this.cat.randomTeleport(mutablePos.getX() + random.nextInt(11) - 5, mutablePos.getY() + random.nextInt(5) - 2, mutablePos.getZ() + random.nextInt(11) - 5, false);

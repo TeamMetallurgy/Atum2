@@ -4,10 +4,11 @@ import com.teammetallurgy.atum.entity.animal.ServalEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.GameRules;
@@ -17,7 +18,6 @@ import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Random;
 
 public class ServalSpawner implements CustomSpawner {
     private int timer;
@@ -34,7 +34,7 @@ public class ServalSpawner implements CustomSpawner {
                 if (randomPlayer == null) {
                     return 0;
                 } else {
-                    Random random = serverLevel.random;
+                    RandomSource random = serverLevel.random;
                     int i = (8 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     int j = (8 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     BlockPos blockpos = randomPlayer.blockPosition().offset(i, 0, j);
@@ -57,7 +57,7 @@ public class ServalSpawner implements CustomSpawner {
     }
 
     private int attemptSpawn(ServerLevel serverLevel, BlockPos pos) {
-        if (serverLevel.getPoiManager().getCountInRange(PoiType.HOME.getPredicate(), pos, 48, PoiManager.Occupancy.IS_OCCUPIED) > 4L) {
+        if (serverLevel.getPoiManager().getCountInRange((poiTypeHolder -> poiTypeHolder.is(PoiTypes.HOME)), pos, 48, PoiManager.Occupancy.IS_OCCUPIED) > 4L) {
             List<ServalEntity> list = serverLevel.getEntitiesOfClass(ServalEntity.class, (new AABB(pos)).inflate(48.0D, 8.0D, 48.0D));
             if (list.size() < 5) {
                 return this.spawnServal(pos, serverLevel);

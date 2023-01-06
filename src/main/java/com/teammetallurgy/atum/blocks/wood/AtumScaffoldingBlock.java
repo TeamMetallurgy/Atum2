@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class AtumScaffoldingBlock extends ScaffoldingBlock {
 
@@ -32,7 +32,7 @@ public class AtumScaffoldingBlock extends ScaffoldingBlock {
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         int i = getDistance(world, pos);
         BlockState blockstate = state.setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(world, pos, i));
         if (blockstate.getValue(DISTANCE) == 7) {

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.food;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.BlockPos;
@@ -26,7 +25,7 @@ import javax.annotation.Nonnull;
 public class EmmerFlourItem extends Item {
 
     public EmmerFlourItem() {
-        super(new Item.Properties().tab(Atum.GROUP));
+        super(new Item.Properties());
     }
 
     @Override

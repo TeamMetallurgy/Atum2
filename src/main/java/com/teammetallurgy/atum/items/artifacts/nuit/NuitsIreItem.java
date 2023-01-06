@@ -33,7 +33,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NuitsIreItem extends KhopeshItem implements IArtifact {

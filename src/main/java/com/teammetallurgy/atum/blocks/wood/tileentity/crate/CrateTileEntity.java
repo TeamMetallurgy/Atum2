@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
