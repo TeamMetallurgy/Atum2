@@ -1230,7 +1230,7 @@
   "atum.god.tefnut": "테프누트",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "아툼",
+  "tabs.atum.tab": "아툼",
 
   "_comment": "Chat",
   "chat.atum.disabled": "스크라베 차원문 제작에 실패했습니다",

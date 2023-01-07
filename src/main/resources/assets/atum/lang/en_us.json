@@ -1231,7 +1231,7 @@
   "atum.god.tefnut": "Tefnut",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "Atum",
+  "tabs.atum.tab": "Atum",
 
   "_comment": "Chat",
   "chat.atum.disabled": "Scarab portal creation is disabled",

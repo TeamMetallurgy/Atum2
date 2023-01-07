@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -58,9 +57,9 @@ public class DimensionHelper {
         BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.below());
         Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(world.getBiome(pos).value());
-        return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
+        return /*(biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)*/ //TODO Readd when biomes is fixed
                 //&& !StructureHelper.doesChunkHaveStructure(world, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
-                && world.isEmptyBlock(pos.above())
+                world.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED.get()
                 && Block.canSupportRigidBlock(world, pos.below())

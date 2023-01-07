@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.api.AtumAPI;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -88,7 +87,7 @@ public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially imp
 
         if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
-            if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
+            /*if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) { //TODO Readd when biomes is fixed
                 return i <= 80 ? 0 : 1;
             } else if (biomeKey.equals(AtumBiomes.SAND_DUNES)) {
                 return i <= 60 ? 1 : 2;
@@ -106,9 +105,9 @@ public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially imp
                 return i <= 33 ? 2 : (i <= 66 ? 3 : 4);
             } else if (biomeKey.equals(AtumBiomes.DRIED_RIVER)) {
                 return i <= 50 ? 1 : 2;
-            } else {
+            } else {*/
                 return 0;
-            }
+            //}
         } else {
             return 0;
         }

@@ -1230,7 +1230,7 @@
   "atum.god.tefnut": "Тефнут",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "Atum",
+  "tabs.atum.tab": "Atum",
 
   "_comment": "Chat", 
   "chat.atum.disabled": "Создание портала скарабеем отключено",

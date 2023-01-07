@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
@@ -202,7 +201,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
 
         if (optional.isPresent()) {
-            ResourceKey<Biome> biomeKey = optional.get();
+            /*ResourceKey<Biome> biomeKey = optional.get(); //TODO readd when biomes are fixed
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return chance <= 50 ? 0 : 5;
             } else if (biomeKey.equals(AtumBiomes.SAND_DUNES)) {
@@ -211,9 +210,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
                 return chance <= 50 ? 0 : 1;
             } else if (biomeKey.equals(AtumBiomes.DEAD_OASIS)) {
                 return chance <= 50 ? 3 : 4;
-            } else {
+            } else {*/
                 return 0;
-            }
+            //}
         } else {
             return Mth.nextInt(random, 0, 5);
         }

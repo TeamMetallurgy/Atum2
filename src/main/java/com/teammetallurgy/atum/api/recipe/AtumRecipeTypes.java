@@ -27,11 +27,10 @@ public class AtumRecipeTypes {
     public static final List<ResourceLocation> kilnBlacklist = new ArrayList<>();
 
     static <T extends Recipe<?>> RegistryObject<RecipeType<T>> register(final String key) {
-        ResourceLocation id = new ResourceLocation(Atum.MOD_ID, key);
-        return RECIPE_TYPE_DEFERRED.register(id.toString(), () -> new RecipeType<T>() {
+        return RECIPE_TYPE_DEFERRED.register(key, () -> new RecipeType<T>() {
             @Override
             public String toString() {
-                return id.toString();
+                return new ResourceLocation(Atum.MOD_ID, key).toString();
             }
         });
     }

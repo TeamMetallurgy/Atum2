@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
@@ -49,9 +48,9 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
 
             if (!hasWater(world, pos)) {
                 Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(world.getBiome(pos).value());
-                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
+                /*if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) { //TODO Readd when biomes is fixed
                     world.setBlock(pos, AtumBlocks.SAND.get().defaultBlockState(), 2);
-                }
+                }*/
             } else if (Block.isFaceFull(world.getBlockState(pos.above()).getCollisionShape(world, pos), Direction.DOWN)) {
                 if (world.random.nextDouble() >= 0.5D) {
                     world.setBlock(pos, AtumBlocks.SAND.get().defaultBlockState(), 2);

@@ -1230,7 +1230,7 @@
   "atum.god.tefnut": "Téfnis",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "Atum",
+  "tabs.atum.tab": "Atum",
 
   "_comment": "Chat",
   "chat.atum.disabled": "A criação de portais com escaravelhos está desativada",

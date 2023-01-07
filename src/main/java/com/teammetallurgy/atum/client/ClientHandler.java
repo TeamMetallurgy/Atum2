@@ -191,7 +191,7 @@ public class ClientHandler {
         });
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void registerModels(ModelEvent event) { //TODO Remove this event, when render layers have been moved
         RenderType cutout = RenderType.cutout();
         RenderType cutoutMipped = RenderType.cutoutMipped();
@@ -339,7 +339,7 @@ public class ClientHandler {
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_SHU.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT.get(), cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN.get(), cutoutMipped);
-    }
+    }*/
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {

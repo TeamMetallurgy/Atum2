@@ -128,7 +128,7 @@ public class AtumItems {
     public static final RegistryObject<Item> ANPUTS_GROUNDING = registerItemWithTab(AnputsGroundingItem::new, "anputs_grounding");
     public static final RegistryObject<Item> ANPUTS_HUNGER = registerItemWithTab(AnputsHungerItem::new, "anputs_hunger");
     public static final RegistryObject<Item> ANUBIS_WRATH = registerItemWithTab(AnubisWrathItem::new, "anubis_wrath");
-    public static final RegistryObject<Item> EYES_OF_ATEM = registerItem(() -> new AtemArmor(EquipmentSlot.HEAD), "eyes_of_atem");
+    public static final RegistryObject<Item> EYES_OF_ATEM = registerItemWithTab(() -> new AtemArmor(EquipmentSlot.HEAD), "eyes_of_atem");
     public static final RegistryObject<Item> BODY_OF_ATEM = registerItemWithTab(() ->new AtemArmor(EquipmentSlot.CHEST), "body_of_atem");
     public static final RegistryObject<Item> LEGS_OF_ATEM = registerItemWithTab(() ->new AtemArmor(EquipmentSlot.LEGS), "legs_of_atem");
     public static final RegistryObject<Item> FEET_OF_ATEM = registerItemWithTab(() ->new AtemArmor(EquipmentSlot.FEET), "feet_of_atem");
@@ -187,7 +187,7 @@ public class AtumItems {
     public static final RegistryObject<Item> DESERT_CHEST_DIAMOND = registerItemWithTab(() -> new WandererDyeableArmor(ArmorMaterials.DIAMOND, "desert_diamond_armor", EquipmentSlot.CHEST).setDamageModifier(15), "desert_chest_diamond");
     public static final RegistryObject<Item> DESERT_LEGS_DIAMOND = registerItemWithTab(() -> new WandererDyeableArmor(ArmorMaterials.DIAMOND, "desert_diamond_armor", EquipmentSlot.LEGS).setDamageModifier(15), "desert_legs_diamond");
     public static final RegistryObject<Item> DESERT_BOOTS_DIAMOND = registerItemWithTab(() -> new WandererDyeableArmor(ArmorMaterials.DIAMOND, "desert_diamond_armor", EquipmentSlot.FEET).setDamageModifier(15), "desert_boots_diamond");
-    public static final RegistryObject<Item> DESERT_WOLF_IRON_ARMOR = registerItem(NonStackableItem::new, "desert_wolf_iron_armor");
+    public static final RegistryObject<Item> DESERT_WOLF_IRON_ARMOR = registerItemWithTab(NonStackableItem::new, "desert_wolf_iron_armor");
     public static final RegistryObject<Item> DESERT_WOLF_GOLD_ARMOR = registerItemWithTab(NonStackableItem::new, "desert_wolf_gold_armor");
     public static final RegistryObject<Item> DESERT_WOLF_DIAMOND_ARMOR = registerItemWithTab(NonStackableItem::new, "desert_wolf_diamond_armor");
     public static final RegistryObject<Item> CAMEL_IRON_ARMOR = registerItemWithTab(NonStackableItem::new, "camel_iron_armor");

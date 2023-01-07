@@ -802,7 +802,7 @@
   "entity.atum.pharaoh.moret": "moret",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "Atum",
+  "tabs.atum.tab": "Atum",
 
   "_comment": "Chat",
   "chat.atum.disabled": "La création de portail scarabée est désactivée",

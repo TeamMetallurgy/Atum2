@@ -1,6 +1,6 @@
 {
   "parent": "forge:item/default",
-  "loader": "forge:item-layers",
+  "loader": "forge:item_layers",
   "textures": {
     "layer0": "atum:item/tefnuts_call"
   }

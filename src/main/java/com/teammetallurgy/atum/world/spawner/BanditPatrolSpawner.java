@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.spawner;
 
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.bandit.SergeantEntity;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.core.BlockPos;
@@ -56,7 +55,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                             } else {
                                 Biome biome = serverLevel.getBiome(mutablePos).value();
                                 Optional<ResourceKey<Biome>> biomeKey = serverLevel.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
-                                if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
+                                if (false/*biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)*/) { //TODO Readd when biomes is fixed
                                     return 0;
                                 } else {
                                     int amount = 0;

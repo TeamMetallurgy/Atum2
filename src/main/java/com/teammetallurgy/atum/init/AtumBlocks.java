@@ -648,8 +648,8 @@ public class AtumBlocks {
     /**
      * Same as {@link AtumBlocks#registerBlock(Supplier, Item.Properties, String)}, but have an empty Item.Properties set
      */
-    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nonnull String name) {
-        return registerBlock(block, new Item.Properties(), name);
+    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> supplier, @Nonnull String name) {
+        return registerBlock(supplier, new Item.Properties(), name);
     }
 
     /**
@@ -657,15 +657,15 @@ public class AtumBlocks {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static RegistryObject<Block> registerWithRenderer(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
-        RegistryObject<Block> registryObject = registerBaseBlock(block, name);
+    public static RegistryObject<Block> registerWithRenderer(@Nonnull Supplier<Block> supplier, @Nullable Item.Properties properties, @Nonnull String name) {
+        RegistryObject<Block> block = registerBaseBlock(supplier, name);
 
         if (properties == null) {
             AtumItems.registerItem(() -> new BlockItemWithoutLevelRenderer(block.get(), new Item.Properties()), name);
         } else {
             AtumItems.registerItemWithTab(() -> new BlockItemWithoutLevelRenderer(block.get(), properties), name);
         }
-        return registryObject;
+        return block;
     }
 
     /**
@@ -673,15 +673,15 @@ public class AtumBlocks {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> block, @Nullable Item.Properties properties, @Nonnull String name) {
-        RegistryObject<Block> registryObject = registerBaseBlock(block, name);
+    public static RegistryObject<Block> registerBlock(@Nonnull Supplier<Block> supplier, @Nullable Item.Properties properties, @Nonnull String name) {
+        RegistryObject<Block> block = registerBaseBlock(supplier, name);
 
         if (properties == null) {
             AtumItems.registerItem(() -> new BlockItem(block.get(), new Item.Properties()), name);
         } else {
             AtumItems.registerItemWithTab(() -> new BlockItem(block.get(), properties), name);
         }
-        return registryObject;
+        return block;
     }
 
     /**
@@ -691,7 +691,7 @@ public class AtumBlocks {
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static RegistryObject<Block> registerBaseBlock(@Nonnull Supplier<Block> block, @Nonnull String name) {
-        return BLOCK_DEFERRED.register(name, block);
+    public static RegistryObject<Block> registerBaseBlock(@Nonnull Supplier<Block> supplier, @Nonnull String name) {
+        return BLOCK_DEFERRED.register(name, supplier);
     }
 }

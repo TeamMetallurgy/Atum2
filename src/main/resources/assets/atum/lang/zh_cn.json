@@ -1230,7 +1230,7 @@
   "atum.god.tefnut": "泰夫努特",
 
   "_comment": "Creative Tab",
-  "itemGroup.atum": "阿图姆",
+  "tabs.atum.tab": "阿图姆",
 
   "_comment": "Chat",
   "chat.atum.disabled": "圣甲虫传送门的创建现已被禁止",
