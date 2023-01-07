@@ -10,10 +10,11 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
-import com.teammetallurgy.atum.entity.ai.brain.task.AtumVillagerTasks;
+import com.teammetallurgy.atum.entity.ai.brain.task.AtumVillagerGoalPackages;
 import com.teammetallurgy.atum.init.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -37,11 +38,9 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.entity.npc.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
@@ -71,14 +70,14 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     private String texturePath;
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.JOB_SITE, MemoryModuleType.POTENTIAL_JOB_SITE, MemoryModuleType.MEETING_POINT, MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.VISIBLE_VILLAGER_BABIES, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_BED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE, MemoryModuleType.HEARD_BELL_TIME, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModuleType.LAST_WOKEN, MemoryModuleType.LAST_WORKED_AT_POI, MemoryModuleType.GOLEM_DETECTED_RECENTLY, MemoryModuleType.ADMIRING_ITEM, MemoryModuleType.ADMIRING_DISABLED, MemoryModuleType.DISABLE_WALK_TO_ADMIRE_ITEM); //No changes
     private static final ImmutableList<SensorType<? extends Sensor<? super Villager>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.NEAREST_BED, SensorType.HURT_BY, SensorType.VILLAGER_HOSTILES, SensorType.VILLAGER_BABIES, AtumSensorTypes.SECONDARY_POIS.get(), SensorType.GOLEM_DETECTED); //Added Atum secondary pois
-    public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<AtumVillagerEntity, PoiType>> JOB_SITE_PREDICATE_MAP = ImmutableMap.of(MemoryModuleType.HOME, (villager, poiType) -> {
-        return poiType == PoiType.HOME;
-    }, MemoryModuleType.JOB_SITE, (villager, poiType) -> {
-        return villager.getAtumVillagerData().getAtumProfession().getPointOfInterest() == poiType;
-    }, MemoryModuleType.POTENTIAL_JOB_SITE, (villager, poiType) -> {
-        return AtumPoiTypes.ANY_VILLAGER_WORKSTATION.test(poiType);
-    }, MemoryModuleType.MEETING_POINT, (villager, poiType) -> {
-        return poiType == PoiType.MEETING;
+    public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<AtumVillagerEntity, Holder<PoiType>>> POI_MEMORIES = ImmutableMap.of(MemoryModuleType.HOME, (p_219625_, p_219626_) -> {
+        return p_219626_.is(PoiTypes.HOME);
+    }, MemoryModuleType.JOB_SITE, (p_219622_, p_219623_) -> {
+        return p_219622_.getAtumVillagerData().getAtumProfession().heldJobSite().test(p_219623_);
+    }, MemoryModuleType.POTENTIAL_JOB_SITE, (p_219619_, p_219620_) -> {
+        return AtumVillagerProfession.ALL_ACQUIRABLE_JOBS.test(p_219620_);
+    }, MemoryModuleType.MEETING_POINT, (p_219616_, p_219617_) -> {
+        return p_219617_.is(PoiTypes.MEETING);
     });
 
     public AtumVillagerEntity(EntityType<? extends AtumVillagerEntity> type, Level world) {
@@ -125,18 +124,18 @@ public class AtumVillagerEntity extends Villager implements ITexture {
 
         if (this.isBaby()) {
             brain.setSchedule(Schedule.VILLAGER_BABY);
-            brain.addActivity(Activity.PLAY, AtumVillagerTasks.play(entityType, 0.5F));
+            brain.addActivity(Activity.PLAY, AtumVillagerGoalPackages.play(entityType, 0.5F));
         } else {
             brain.setSchedule(Schedule.VILLAGER_DEFAULT);
-            brain.addActivityWithConditions(Activity.WORK, AtumVillagerTasks.work(entityType, profession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_PRESENT)));
+            brain.addActivityWithConditions(Activity.WORK, AtumVillagerGoalPackages.work(entityType, profession, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_PRESENT)));
         }
 
-        brain.addActivity(Activity.CORE, AtumVillagerTasks.core(entityType, profession, 0.5F));
-        brain.addActivityWithConditions(Activity.MEET, AtumVillagerTasks.meet(entityType, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryStatus.VALUE_PRESENT)));
-        brain.addActivity(Activity.REST, AtumVillagerTasks.rest(entityType, 0.5F));
-        brain.addActivity(Activity.IDLE, AtumVillagerTasks.idle(entityType, 0.5F));
-        brain.addActivity(Activity.PANIC, AtumVillagerTasks.panic(entityType, 0.5F));
-        brain.addActivity(Activity.HIDE, AtumVillagerTasks.hide(entityType, 0.5F));
+        brain.addActivity(Activity.CORE, AtumVillagerGoalPackages.core(profession, 0.5F));
+        brain.addActivityWithConditions(Activity.MEET, AtumVillagerGoalPackages.meet(entityType, 0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryStatus.VALUE_PRESENT)));
+        brain.addActivity(Activity.REST, AtumVillagerGoalPackages.rest(entityType, 0.5F));
+        brain.addActivity(Activity.IDLE, AtumVillagerGoalPackages.idle(entityType, 0.5F));
+        brain.addActivity(Activity.PANIC, AtumVillagerGoalPackages.panic(entityType, 0.5F));
+        brain.addActivity(Activity.HIDE, AtumVillagerGoalPackages.hide(entityType, 0.5F));
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
@@ -151,8 +150,8 @@ public class AtumVillagerEntity extends Villager implements ITexture {
                 ServerLevel serverLevel = server.getLevel(jobSitePos.dimension());
                 if (serverLevel != null) {
                     PoiManager posManger = serverLevel.getPoiManager();
-                    Optional<PoiType> optional = posManger.getType(jobSitePos.pos());
-                    BiPredicate<AtumVillagerEntity, PoiType> p = JOB_SITE_PREDICATE_MAP.get(moduleType);
+                    Optional<Holder<PoiType>> optional = posManger.getType(jobSitePos.pos());
+                    BiPredicate<AtumVillagerEntity, Holder<PoiType>> p = POI_MEMORIES.get(moduleType);
                     if (optional.isPresent() && p.test(this, optional.get())) {
                         posManger.release(jobSitePos.pos());
                         DebugPackets.sendPoiTicketCountPacket(serverLevel, jobSitePos.pos());
@@ -280,8 +279,8 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     @Nonnull
     public Component getName() {
         AtumVillagerData villagerData = this.getAtumVillagerData();
-        ResourceLocation profName = villagerData.getAtumProfession().getRegistryName();
-        return Component.translatable(this.getType().getDescriptionId() + '.' + villagerData.getRace().getName() + "." + profName.getPath());
+        String profName = villagerData.getAtumProfession().name();
+        return Component.translatable(this.getType().getDescriptionId() + '.' + villagerData.getRace().getName() + "." + profName);
     }
 
     private void setVariant(int variant) {
@@ -374,7 +373,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     public boolean wantsToPickUp(ItemStack stack) {
         Item item = stack.getItem();
         AtumVillagerProfession profession = this.getAtumVillagerData().getAtumProfession();
-        return (ALLOWED_INVENTORY_ITEMS.contains(item) || (profession.getSpecificItems().contains(item) || (profession == AtumVillagerProfession.CURATOR.get() && (AtumVillagerTasks.canCuratorPickup(this, stack) || ALLOWED_INVENTORY_ITEMS.contains(item)))) && this.getInventory().canAddItem(stack));
+        return (ALLOWED_INVENTORY_ITEMS.contains(item) || (profession.getSpecificItems().contains(item) || (profession == AtumVillagerProfession.CURATOR.get() && (AtumVillagerGoalPackages.canCuratorPickup(this, stack) || ALLOWED_INVENTORY_ITEMS.contains(item)))) && this.getInventory().canAddItem(stack));
     }
 
     @Override
@@ -399,7 +398,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
     protected void pickUpItem(@Nonnull ItemEntity itemEntity) {
         if (this.getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.CURATOR.get()) {
             this.onItemPickup(itemEntity);
-            AtumVillagerTasks.putInHand(this, itemEntity);
+            AtumVillagerGoalPackages.putInHand(this, itemEntity);
         } else {
             super.pickUpItem(itemEntity);
         }

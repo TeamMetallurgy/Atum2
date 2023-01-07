@@ -23,6 +23,6 @@ public class CuratorStartAdmiringItemTask <E extends Villager> extends Behavior<
 
     @Override
     protected void start(@Nonnull ServerLevel world, @Nonnull E entity, long gameTimeIn) {
-        AtumVillagerTasks.trade(entity, true);
+        AtumVillagerGoalPackages.trade(entity, true);
     }
 }

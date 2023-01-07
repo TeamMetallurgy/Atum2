@@ -113,7 +113,7 @@ public class Atum {
         AtumItems.ITEM_DEFERRED.register(modBus);
         AtumEntities.ENTITY_DEFERRED.register(modBus);
         AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
-        AtumBiomes.BIOME_DEFERRED.register(modBus);
+        //AtumBiomes.BIOME_DEFERRED.register(modBus); //TODO
         AtumMenuType.MENU_TYPE_DEFERRED.register(modBus);
         AtumPoiTypes.POI_DEFERRED.register(modBus);
         AtumSounds.SOUND_DEFERRED.register(modBus);

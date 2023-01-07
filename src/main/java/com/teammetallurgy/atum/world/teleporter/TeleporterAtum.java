@@ -86,7 +86,7 @@ public class TeleporterAtum implements ITeleporter {
         int i = 128;
         posManager.ensureLoadedAndValid(serverLevel, pos, i);
         Optional<PoiRecord> optional = posManager.getInSquare((poiType) -> {
-            return poiType.is(AtumPoiTypes.PORTAL);
+            return poiType.is(AtumPoiTypes.PORTAL.getKey());
         }, pos, i, PoiManager.Occupancy.ANY).sorted(Comparator.<PoiRecord>comparingDouble((poi) -> {
             return poi.getPos().distSqr(pos);
         }).thenComparingInt((poi) -> {

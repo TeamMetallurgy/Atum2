@@ -7,6 +7,9 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -19,11 +22,11 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.animal.Cat;
-import net.minecraft.world.entity.animal.CatVariant;
 import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -36,7 +39,8 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Random;
 
-public class ServalEntity extends Cat {
+public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert Rabbits
+    private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(ServalEntity.class, EntityDataSerializers.INT);
     private static final Ingredient BREEDING_ITEMS = Ingredient.of(AtumItems.SKELETAL_FISH.get());
     private CatTemptGoal temptGoal;
     public static final Map<Integer, ResourceLocation> SERVAL_TEXTURE_BY_ID = Util.make(Maps.newHashMap(), (m) -> {
@@ -83,15 +87,24 @@ public class ServalEntity extends Cat {
     @Override
     @Nonnull
     public ResourceLocation getResourceLocation() {
-        return SERVAL_TEXTURE_BY_ID.getOrDefault(this.getVariant(), SERVAL_TEXTURE_BY_ID.get(0));
+        return SERVAL_TEXTURE_BY_ID.getOrDefault(this.getAtumCatType(), SERVAL_TEXTURE_BY_ID.get(0));
     }
 
-    @Override
-    public void setVariant(CatVariant catVariant) {
+    public int getAtumCatType() {
+        return this.entityData.get(DATA_TYPE_ID);
+    }
+
+    public void setAtumCatType(int type) {
         if (type < 0 || type > SERVAL_TEXTURE_BY_ID.size()) {
             type = this.random.nextInt(SERVAL_TEXTURE_BY_ID.size());
         }
         this.entityData.set(DATA_TYPE_ID, type);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_TYPE_ID, 1);
     }
 
     @Override
@@ -107,9 +120,9 @@ public class ServalEntity extends Cat {
         ServalEntity serval = AtumEntities.SERVAL.get().create(serverLevel);
         if (serval != null && ageableEntity instanceof ServalEntity) {
             if (this.random.nextBoolean()) {
-                serval.setCatType(this.getCatType());
+                serval.setAtumCatType(this.getAtumCatType());
             } else {
-                serval.setCatType(((ServalEntity) ageableEntity).getCatType());
+                serval.setAtumCatType(((ServalEntity) ageableEntity).getAtumCatType());
             }
 
             if (this.isTame()) {

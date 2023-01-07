@@ -29,10 +29,10 @@ public record AtumVillagerProfession(String name, Predicate<Holder<PoiType>> hel
     public static final RegistryObject<AtumVillagerProfession> ARMORER = register("armorer", PoiTypes.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);
     public static final RegistryObject<AtumVillagerProfession> BUTCHER = register("butcher", PoiTypes.BUTCHER, SoundEvents.VILLAGER_WORK_BUTCHER);
     public static final RegistryObject<AtumVillagerProfession> CARTOGRAPHER = register("cartographer", PoiTypes.CARTOGRAPHER, SoundEvents.VILLAGER_WORK_CARTOGRAPHER);
-    public static final RegistryObject<AtumVillagerProfession> CURATOR = register("curator", AtumPoiTypes.CURATOR, SoundEvents.VILLAGER_WORK_CARTOGRAPHER);
+    public static final RegistryObject<AtumVillagerProfession> CURATOR = register("curator", AtumPoiTypes.CURATOR.getKey(), SoundEvents.VILLAGER_WORK_CARTOGRAPHER);
     public static final RegistryObject<AtumVillagerProfession> FARMER = register("farmer", PoiTypes.FARMER, ImmutableSet.of(AtumItems.EMMER_EAR, AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS, () -> Items.WHEAT, () -> Items.WHEAT_SEEDS, () -> Items.BEETROOT_SEEDS, () -> Items.BONE_MEAL), ImmutableSet.of(AtumBlocks.FERTILE_SOIL_TILLED, () -> Blocks.FARMLAND), SoundEvents.VILLAGER_WORK_FARMER);
     public static final RegistryObject<AtumVillagerProfession> FLETCHER = register("fletcher", PoiTypes.FLETCHER, SoundEvents.VILLAGER_WORK_FLETCHER);
-    public static final RegistryObject<AtumVillagerProfession> GLASSBLOWER = register("glassblower", AtumPoiTypes.GLASSBLOWER, SoundEvents.VILLAGER_WORK_CLERIC);
+    public static final RegistryObject<AtumVillagerProfession> GLASSBLOWER = register("glassblower", AtumPoiTypes.GLASSBLOWER.getKey(), SoundEvents.VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> HUNTER = register("hunter", PoiTypes.LEATHERWORKER, SoundEvents.VILLAGER_WORK_LEATHERWORKER);
     public static final RegistryObject<AtumVillagerProfession> LIBRARIAN = register("librarian", PoiTypes.LIBRARIAN, SoundEvents.VILLAGER_WORK_LIBRARIAN);
     public static final RegistryObject<AtumVillagerProfession> MASON = register("mason", PoiTypes.MASON, SoundEvents.VILLAGER_WORK_MASON);

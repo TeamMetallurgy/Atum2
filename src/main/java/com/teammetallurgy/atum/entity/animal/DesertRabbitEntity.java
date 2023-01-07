@@ -4,12 +4,15 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -19,12 +22,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class DesertRabbitEntity extends Rabbit {
+public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially implemented old way of defining rabbit type. Rabbits are now using a custom variant, which we probably shouldn´t extend (Although test to make sure)
+    private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(DesertRabbitEntity.class, EntityDataSerializers.INT);
 
     public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, Level world) {
         super(entityType, world);
@@ -48,7 +54,33 @@ public class DesertRabbitEntity extends Rabbit {
     }
 
     @Override
-    protected int getRandomRabbitType(LevelAccessor world) {
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_TYPE_ID, 0);
+    }
+    
+    public int getAtumRabbitType() {
+        return this.entityData.get(DATA_TYPE_ID);
+    }
+
+    public void setAtumRabbitType(int id) {
+        this.entityData.set(DATA_TYPE_ID, id);
+    }
+
+    @Nullable
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor serverLevelAccessor, @Nonnull DifficultyInstance difficultyInstance, @Nonnull MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag nbt) {
+        int i = this.getRandomAtumRabbitType(serverLevelAccessor);
+        if (spawnGroupData instanceof AtumRabbitGroupData) {
+            i = ((AtumRabbitGroupData) spawnGroupData).rabbitType;
+        } else {
+            spawnGroupData = new AtumRabbitGroupData(i);
+        }
+
+        this.setAtumRabbitType(i);
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, spawnType, spawnGroupData, nbt);
+    }
+    
+    public int getRandomAtumRabbitType(LevelAccessor world) {
         Biome biome = world.getBiome(this.blockPosition()).value();
         int i = this.random.nextInt(100);
 
@@ -90,18 +122,27 @@ public class DesertRabbitEntity extends Rabbit {
     @Override
     public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
         DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.get().create(this.level);
-        int type = this.getRandomRabbitType(this.level);
+        int type = this.getRandomAtumRabbitType(this.level);
 
         if (rabbit != null) {
             if (this.random.nextInt(20) != 0) {
                 if (ageable instanceof DesertRabbitEntity && this.random.nextBoolean()) {
-                    type = ((DesertRabbitEntity) ageable).getRabbitType();
+                    type = ((DesertRabbitEntity) ageable).getAtumRabbitType();
                 } else {
-                    type = this.getRabbitType();
+                    type = this.getAtumRabbitType();
                 }
             }
-            rabbit.setRabbitType(type);
+            rabbit.setAtumRabbitType(type);
         }
         return rabbit;
+    }
+
+    public static class AtumRabbitGroupData extends AgeableMob.AgeableMobGroupData {
+        public final int rabbitType;
+
+        public AtumRabbitGroupData(int rabbitType) {
+            super(1.0F);
+            this.rabbitType = rabbitType;
+        }
     }
 }
