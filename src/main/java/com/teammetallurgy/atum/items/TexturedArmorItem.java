@@ -15,12 +15,12 @@ public class TexturedArmorItem extends ArmorItem {
     private boolean hasRender = false;
     private int damageModifier;
 
-    public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot) {
-        this(material, name, slot, new Item.Properties());
+    public TexturedArmorItem(ArmorMaterial material, String name, Type type) {
+        this(material, name, type, new Item.Properties());
     }
 
-    public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot, Item.Properties properties) {
-        super(material, slot, properties);
+    public TexturedArmorItem(ArmorMaterial material, String name, Type type, Item.Properties properties) {
+        super(material, type, properties);
         this.armorPieceName = name;
     }
 

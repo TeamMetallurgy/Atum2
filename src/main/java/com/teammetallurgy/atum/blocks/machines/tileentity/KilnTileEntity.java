@@ -255,7 +255,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite 
             ServerLevel serverLevel = (ServerLevel) level;
             RecipeManager recipeManager = serverLevel.getRecipeManager();
             List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, AtumRecipeTypes.KILN.get()));
-            recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager));
+            recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager, this.level));
             for (KilnRecipe kilnRecipe : recipes) {
                 for (Ingredient ingredient : kilnRecipe.getIngredients()) {
                     if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {

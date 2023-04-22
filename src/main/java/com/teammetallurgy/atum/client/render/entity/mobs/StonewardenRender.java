@@ -27,10 +27,10 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
     @Override
     protected void setupRotations(@Nonnull StonewardenEntity stonewarden, @Nonnull PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(stonewarden, poseStack, ageInTicks, rotationYaw, partialTicks);
-        if ((double) stonewarden.animationSpeed >= 0.01D) {
-            float swingValue = stonewarden.animationPosition - stonewarden.animationSpeed * (1.0F - partialTicks) + 6.0F;
-            float swing = (Math.abs(swingValue % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            poseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * swing));
+        if (!((double) stonewarden.walkAnimation.speed() >= 0.01D)) {
+            float f1 = stonewarden.walkAnimation.position(partialTicks) + 6.0F;
+            float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
+            poseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
         }
     }
 

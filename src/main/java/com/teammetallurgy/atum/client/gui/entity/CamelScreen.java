@@ -50,7 +50,7 @@ public class CamelScreen extends AbstractContainerScreen<CamelContainer> {
             if (this.menu.camel.hasRightCrate()) {
                 this.blit(poseStack, width + 97, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Right Crate
             }
-            InventoryScreen.renderEntityInInventory(poseStack, width + 88, height + 50, 17, (float) (width + 51) - this.mousePosX, (float) (height + 75 - 50) - this.mousePosY, this.menu.camel);
+            InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, width + 88, height + 50, 17, (float) (width + 51) - this.mousePosX, (float) (height + 75 - 50) - this.mousePosY, this.menu.camel);
         }
     }
 

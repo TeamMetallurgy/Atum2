@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.init.AtumDamageTypes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,6 +17,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -114,10 +116,6 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         }
     }
 
-    public static DamageSource causeOrbDamage(PharaohOrbEntity pharaohOrbEntity, @Nullable Entity indirectEntity) {
-        return (new IndirectEntityDamageSource("atum_pharaoh_orb", pharaohOrbEntity, indirectEntity)).setScalesWithDifficulty().setProjectile();
-    }
-
     @Override
     protected void onHitEntity(EntityHitResult rayTrace) {
         Entity entity = rayTrace.getEntity();
@@ -125,14 +123,13 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         int i = Mth.ceil(Mth.clamp((double) f * this.getBaseDamage(), 0.0D, 2.147483647E9D));
 
         Entity entity1 = this.getOwner();
-        DamageSource damagesource = causeOrbDamage(this, entity1);
         if (entity1 instanceof LivingEntity) {
             ((LivingEntity) entity1).setLastHurtMob(entity);
         }
 
         int fireTimer = entity.getRemainingFireTicks();
 
-        if (!(entity instanceof PharaohEntity) && entity.hurt(damagesource, (float) i)) {
+        if (!(entity instanceof PharaohEntity) && entity.hurt(this.level.damageSources().source(AtumDamageTypes.PHARAOH_ORB), (float) i)) {
             if (entity instanceof LivingEntity livingEntity) {
 
                 if (this.getKnockback() > 0) {

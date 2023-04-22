@@ -39,8 +39,8 @@ import java.util.UUID;
 public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifact, IFogReductionItem {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Artifact boots speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
-    public ArtifactArmor(ArmorMaterial material, String name, EquipmentSlot slot, Properties properties) {
-        super(material, name, slot, properties);
+    public ArtifactArmor(ArmorMaterial material, String name, Type type, Properties properties) {
+        super(material, name, type, properties);
     }
 
     public abstract Item getHelmet();
@@ -90,7 +90,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            tooltip.add(Component.translatable(Atum.MOD_ID + ".armorset." + this.getSlot().getName()).withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable(Atum.MOD_ID + ".armorset." + this.getType().getName()).withStyle(ChatFormatting.GRAY));
             tooltip.add(Component.literal(""));
             String baseLang = Atum.MOD_ID + ".armorset." + this.getGod().getName() + ".";
             ItemStack[] stacks = getArmorSet();

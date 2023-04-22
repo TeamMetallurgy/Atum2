@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -60,7 +59,7 @@ public class BrigandEntity extends BanditBaseEntity {
                     entity.setSecondsOnFire(fireAspect * 4);
                 }
 
-                boolean attackEntity = entity.hurt(DamageSource.mobAttack(this), attackDamage);
+                boolean attackEntity = entity.hurt(this.damageSources().mobAttack(this), attackDamage);
                 if (attackEntity) {
                     if (knockback > 0.0F && entity instanceof LivingEntity) {
                         ((LivingEntity) entity).knockback(knockback * 0.5F, Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(this.getYRot() * ((float) Math.PI / 180F)));

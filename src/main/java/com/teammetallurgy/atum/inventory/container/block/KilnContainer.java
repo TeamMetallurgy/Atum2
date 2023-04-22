@@ -125,7 +125,7 @@ public class KilnContainer extends AbstractContainerMenu {
     protected boolean getRecipe(@Nonnull ItemStack stack) {
         Level level = this.kilnInventory.getLevel();
         RecipeManager recipeManager = level.getRecipeManager();
-        return recipeManager.getRecipeFor((RecipeType) AtumRecipeTypes.KILN.get(), new SimpleContainer(stack), level).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager), stack);
+        return recipeManager.getRecipeFor((RecipeType) AtumRecipeTypes.KILN.get(), new SimpleContainer(stack), level).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager, level), stack);
     }
 
     public int getCookProgressionScaled() {

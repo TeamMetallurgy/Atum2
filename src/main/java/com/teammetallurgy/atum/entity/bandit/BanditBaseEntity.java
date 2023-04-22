@@ -299,7 +299,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
                     Vec3 vec3d2 = vec3d1.subtract(vec3d);
                     vec3d = vec3d2.yRot(90.0F).scale(0.4D).add(vec3d);
                     Vec3 vec3d3 = vec3d.subtract(vec3d1).normalize().scale(10.0D).add(vec3d1);
-                    BlockPos pos = new BlockPos(vec3d3);
+                    BlockPos pos = BlockPos.containing(vec3d3);
                     pos = this.owner.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                     if (!navigator.moveTo(pos.getX(), pos.getY(), pos.getZ(), isLeader ? this.leaderSpeed : this.patrollerSpeed)) {
                         this.tryMoveTo();

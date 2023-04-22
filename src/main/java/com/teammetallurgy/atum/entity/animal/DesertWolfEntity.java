@@ -31,8 +31,6 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.ai.goal.*;
@@ -826,6 +824,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 return (LivingEntity)entity;
             }
         }
+        return null;
     }
 
     /*@Override
@@ -857,7 +856,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     public void travel(@Nonnull Vec3 travelVec) {
-        if (this.isEffectiveAi() || this.isControlledByLocalInstance()) {
+        /*if (this.isEffectiveAi() || this.isControlledByLocalInstance()) { //TODO Move to new methods
             LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
             if (livingBase != null) {
                 this.setYRot(livingBase.getYRot());
@@ -914,7 +913,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         } else {
             this.flyingSpeed = 0.02F;
             super.travel(travelVec);
-        }
+        }*/
     }
 
     @Override

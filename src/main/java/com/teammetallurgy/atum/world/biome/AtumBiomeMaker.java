@@ -263,7 +263,7 @@ public class AtumBiomeMaker { //TODO
     public static class Builder extends Biome.BiomeBuilder {
 
         public Builder() {
-            this.precipitation(Biome.Precipitation.NONE);
+            //this.precipitation(Biome.Precipitation.NONE);
             this.temperature(2.0F);
             this.downfall(0.0F);
             this.specialEffects(getBaseEffects().build());

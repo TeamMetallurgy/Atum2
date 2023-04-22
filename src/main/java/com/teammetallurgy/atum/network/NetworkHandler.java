@@ -34,7 +34,7 @@ public class NetworkHandler {
     }
 
     public static void sendTo(ServerPlayer playerMP, Object toSend) {
-        CHANNEL.sendTo(toSend, playerMP.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+        CHANNEL.sendTo(toSend, playerMP.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     public static void sendToServer(Object msg) {

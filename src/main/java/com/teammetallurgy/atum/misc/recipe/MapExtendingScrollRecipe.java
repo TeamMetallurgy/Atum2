@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.misc.recipe;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -61,7 +62,7 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
 
     @Override
     @Nonnull
-    public ItemStack assemble(@Nonnull CraftingContainer container) {
+    public ItemStack assemble(@Nonnull CraftingContainer container, RegistryAccess registryAccess) {
         ItemStack stack = ItemStack.EMPTY;
 
         for(int i = 0; i < container.getContainerSize() && stack.isEmpty(); ++i) {

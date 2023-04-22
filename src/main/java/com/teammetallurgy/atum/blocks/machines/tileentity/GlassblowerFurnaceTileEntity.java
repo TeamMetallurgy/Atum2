@@ -88,7 +88,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
                         ++glassblower.cookingProgress;
                         if (glassblower.cookingProgress == glassblower.cookingTotalTime) {
                             glassblower.cookingProgress = 0;
-                            glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(level, irecipe.getResultItem());
+                            glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(level, irecipe.getResultItem(level.registryAccess()));
                             glassblower.burn(irecipe, glassblower.items, maxStackSize);
                             flag1 = true;
                         }
@@ -133,9 +133,9 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
     //Copied from AbstractFurnaceBlockEntity
     private boolean burn(@Nullable Recipe<?> p_155027_, NonNullList<ItemStack> p_155028_, int p_155029_) {
-        if (p_155027_ != null && this.canBurn(p_155027_, p_155028_, p_155029_)) {
+        if (p_155027_ != null && this.canBurn(p_155027_, p_155028_, p_155029_) && this.level != null) {
             ItemStack itemstack = p_155028_.get(0);
-            ItemStack itemstack1 = ((Recipe<WorldlyContainer>) p_155027_).assemble(this);
+            ItemStack itemstack1 = ((Recipe<WorldlyContainer>) p_155027_).assemble(this, this.level.registryAccess());
             ItemStack itemstack2 = p_155028_.get(2);
             if (itemstack2.isEmpty()) {
                 p_155028_.set(2, itemstack1.copy());
@@ -156,8 +156,8 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
     //Copied from AbstractFurnaceBlockEntity
     public boolean canBurn(@Nullable Recipe<?> p_155006_, NonNullList<ItemStack> p_155007_, int p_155008_) {
-        if (!p_155007_.get(0).isEmpty() && p_155006_ != null) {
-            ItemStack itemstack = ((Recipe<WorldlyContainer>) p_155006_).assemble(this);
+        if (!p_155007_.get(0).isEmpty() && p_155006_ != null && this.level != null) {
+            ItemStack itemstack = ((Recipe<WorldlyContainer>) p_155006_).assemble(this, this.level.registryAccess());
             if (itemstack.isEmpty()) {
                 return false;
             } else {

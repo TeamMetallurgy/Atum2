@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
+import com.teammetallurgy.atum.api.material.AtumArmorMaterials;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.RaArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -26,8 +26,8 @@ import java.util.function.Consumer;
 
 public class RaArmor extends ArtifactArmor {
 
-    public RaArmor(EquipmentSlot slot) {
-        super(AtumMaterialTiers.NEBU_ARMOR, "ra_armor", slot, new Item.Properties().rarity(Rarity.RARE));
+    public RaArmor(Type type) {
+        super(AtumArmorMaterials.NEBU, "ra_armor", type, new Item.Properties().rarity(Rarity.RARE));
         this.setHasRender();
     }
 

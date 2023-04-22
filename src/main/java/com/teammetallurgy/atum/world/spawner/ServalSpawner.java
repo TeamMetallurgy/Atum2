@@ -14,7 +14,6 @@ import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -72,11 +71,8 @@ public class ServalSpawner implements CustomSpawner {
         if (serval == null) {
             return 0;
         } else {
-            if (ForgeHooks.canEntitySpawn(serval, serverLevel, pos.getX(), pos.getY(), pos.getZ(), null, MobSpawnType.NATURAL) == -1) {
-                return 0;
-            }
-            serval.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
             serval.moveTo(pos, 0.0F, 0.0F);
+            serval.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
             serverLevel.addFreshEntityWithPassengers(serval);
             return 1;
         }

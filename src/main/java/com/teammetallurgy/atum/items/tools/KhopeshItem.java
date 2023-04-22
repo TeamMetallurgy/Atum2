@@ -6,7 +6,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -61,7 +60,7 @@ public class KhopeshItem extends SwordItem {
                 for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.25D, 0.25D, 1.25D))) {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 10.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), (-Mth.cos(player.getYRot() * 0.017453292F)));
-                        entity.hurt(DamageSource.playerAttack(player), sweeping);
+                        entity.hurt(entity.damageSources().playerAttack(player), sweeping);
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
                     }
                 }

@@ -12,7 +12,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -68,7 +67,7 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
                 for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 12.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
-                        entity.hurt(DamageSource.playerAttack(player), damage);
+                        entity.hurt(entity.damageSources().playerAttack(player), damage);
                         if (entity.level instanceof ServerLevel serverLevel) {
                             double d0 = -Mth.sin(player.getYRot() * 0.017453292F);
                             double d1 = Mth.cos(player.getYRot() * 0.017453292F);

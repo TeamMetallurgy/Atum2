@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
+import com.teammetallurgy.atum.init.AtumDamageTypes;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +13,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -33,7 +35,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class AssassinEntity extends BanditBaseEntity {
-    private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(AssassinEntity.class, EntityDataSerializers.BYTE);
     private LivingEntity markedTarget;
 
@@ -133,7 +134,7 @@ public class AssassinEntity extends BanditBaseEntity {
             return false;
         } else {
             if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER.get() && entity instanceof LivingEntity) {
-                entity.hurt(ASSASSINATED, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                entity.hurt(this.level.damageSources().source(AtumDamageTypes.ASSASSINATED), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 (((LivingEntity) entity)).addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
             }
             return true;

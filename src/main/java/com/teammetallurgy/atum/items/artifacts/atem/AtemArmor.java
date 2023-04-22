@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
+import com.teammetallurgy.atum.api.material.AtumArmorMaterials;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -40,8 +40,8 @@ import java.util.function.Consumer;
 public class AtemArmor extends ArtifactArmor {
     protected static final HashMap<Player, Integer> RECALL_TIMER = new HashMap<>();
 
-    public AtemArmor(EquipmentSlot slot) {
-        super(AtumMaterialTiers.NEBU_ARMOR, "atem_armor", slot, new Item.Properties().rarity(Rarity.RARE));
+    public AtemArmor(Type type) {
+        super(AtumArmorMaterials.NEBU, "atem_armor", type, new Item.Properties().rarity(Rarity.RARE));
         this.setHasRender();
     }
 
