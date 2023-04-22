@@ -26,30 +26,30 @@ public class AtumScaffoldingBlock extends ScaffoldingBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockpos = context.getClickedPos();
-        Level world = context.getLevel();
-        int i = getDistance(world, blockpos);
-        return this.defaultBlockState().setValue(WATERLOGGED, world.getFluidState(blockpos).getType() == Fluids.WATER).setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(world, blockpos, i));
+        Level level = context.getLevel();
+        int i = getDistance(level, blockpos);
+        return this.defaultBlockState().setValue(WATERLOGGED, level.getFluidState(blockpos).getType() == Fluids.WATER).setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(level, blockpos, i));
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        int i = getDistance(world, pos);
-        BlockState blockstate = state.setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(world, pos, i));
+    public void tick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        int i = getDistance(level, pos);
+        BlockState blockstate = state.setValue(DISTANCE, i).setValue(BOTTOM, this.hasScaffoldingBelow(level, pos, i));
         if (blockstate.getValue(DISTANCE) == 7) {
             if (state.getValue(DISTANCE) == 7) {
-                FallingBlockEntity.fall(world, pos, blockstate);
+                FallingBlockEntity.fall(level, pos, blockstate);
             } else {
-                world.destroyBlock(pos, true);
+                level.destroyBlock(pos, true);
             }
         } else if (state != blockstate) {
-            world.setBlock(pos, blockstate, 3);
+            level.setBlock(pos, blockstate, 3);
         }
 
     }
 
     @Override
-    public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, @Nonnull BlockPos pos) {
-        return getDistance(world, pos) < 7;
+    public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
+        return getDistance(level, pos) < 7;
     }
 
     private boolean hasScaffoldingBelow(BlockGetter blockReader, BlockPos pos, int distance) {
@@ -79,7 +79,7 @@ public class AtumScaffoldingBlock extends ScaffoldingBlock {
     }
 
     @Override
-    public boolean isScaffolding(BlockState state, LevelReader world, BlockPos pos, LivingEntity entity) {
+    public boolean isScaffolding(BlockState state, LevelReader level, BlockPos pos, LivingEntity entity) {
         return true;
     }
 }

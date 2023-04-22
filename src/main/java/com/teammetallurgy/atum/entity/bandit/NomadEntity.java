@@ -39,8 +39,8 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
         }
     };
 
-    public NomadEntity(EntityType<? extends NomadEntity> entityType, Level world) {
-        super(entityType, world);
+    public NomadEntity(EntityType<? extends NomadEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 6;
         this.setCombatTask();
     }
@@ -61,8 +61,8 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
         this.setCombatTask();
 
         return livingdata;

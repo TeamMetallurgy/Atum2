@@ -25,13 +25,13 @@ public class ShrubBlock extends DeadBushBlock {
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
         return state.is(BlockTags.SAND);
     }
 
     @Override
     @Nonnull
-    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack stack, Level world, BlockPos pos, int fortune) {
+    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack stack, Level level, BlockPos pos, int fortune) {
         return Collections.singletonList(new ItemStack(this));
     }
 }

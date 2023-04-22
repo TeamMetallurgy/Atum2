@@ -160,11 +160,11 @@ public class AtumEntities {
         event.put(VILLAGER_FEMALE.get(), AtumVillagerEntity.createAttributes().build());
     }
 
-    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        BlockState spawnState = world.getBlockState(pos.below());
+    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        BlockState spawnState = level.getBlockState(pos.below());
         Block spawnBlock = spawnState.getBlock();
         return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || DimensionHelper.getSurfaceBlocks().contains(spawnBlock) ||
-                spawnBlock == Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8;
+                spawnBlock == Blocks.GRASS_BLOCK) && level.getRawBrightness(pos, 0) > 8;
     }
 
     /**

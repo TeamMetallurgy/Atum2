@@ -1,23 +1,15 @@
 package com.teammetallurgy.atum.entity.ai.brain.task;
 
-import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.init.AtumVillagerProfession;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
 
-import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class AtumAssignProfessionFromJobSite {

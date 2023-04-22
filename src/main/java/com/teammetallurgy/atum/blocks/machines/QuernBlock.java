@@ -67,12 +67,12 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
     }
 
     @Override
-    public void attack(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void attack(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof QuernTileEntity quern) {
             if (!quern.isEmpty()) {
                 if (player.isCrouching()) {
-                    StackHelper.dropInventoryItems(world, pos, quern);
+                    StackHelper.dropInventoryItems(level, pos, quern);
                 } else {
                     ItemStack slotStack = quern.getItem(0);
                     ItemStack copyStack = new ItemStack(slotStack.getItem());
@@ -82,15 +82,15 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
                 quern.setChanged();
             }
         }
-        super.attack(state, world, pos, player);
+        super.attack(state, level, pos, player);
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
         if (player == null || player instanceof FakePlayer) return InteractionResult.PASS;
         ItemStack heldStack = player.getItemInHand(hand);
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+        BlockEntity tileEntity = level.getBlockEntity(pos);
 
         if (tileEntity instanceof QuernTileEntity) {
             QuernTileEntity quern = (QuernTileEntity) tileEntity;
@@ -105,29 +105,29 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
                     heldStack.shrink(1);
                 }
             } else {
-                if (world.isClientSide) {
-                    world.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.1F, 0.4F, true);
+                if (level.isClientSide) {
+                    level.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.1F, 0.4F, true);
                 } else {
                     quern.setRotations(quern.getRotations() + 24);
                 }
             }
             quern.setChanged();
-            return InteractionResult.sidedSuccess(world.isClientSide());
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
         return InteractionResult.PASS;
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             if (newState.getBlock() != state.getBlock()) {
-                BlockEntity tileEntity = world.getBlockEntity(pos);
+                BlockEntity tileEntity = level.getBlockEntity(pos);
                 if (tileEntity instanceof QuernTileEntity) {
-                    Containers.dropContents(world, pos, (Container) tileEntity);
+                    Containers.dropContents(level, pos, (Container) tileEntity);
                 }
-                world.removeBlockEntity(pos);
+                level.removeBlockEntity(pos);
             }
-            super.onRemove(state, world, pos, newState, isMoving);
+            super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 
@@ -139,11 +139,11 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
 
     @Override
     @Nonnull
-    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rot) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="[45,)"
 license="All Rights Reserved"
 
 [[mods]]
@@ -11,7 +11,7 @@ license="All Rights Reserved"
     authors="Shadowclaimer, Girafi"
     credits="RebelKeithy, lclc98, Glassmaker, KanonBaum, Logomaster256 & DragonChef"
     description='''
-    Atum 2 is a dimension mod that opens up a whole new desert dimension that contains an eternal world full of sand, temples, and tons of new foes.
+    Atum 2 is a dimension mod that opens up a whole new desert dimension that contains an eternal level full of sand, temples, and tons of new foes.
     Journey into Atum and discover ancient artifacts as you battle your way through vicious new enemies!
     Atum is not for the faint of heart! Bring your best armor, weapon, and food/torches before you embark!
     '''
@@ -19,13 +19,13 @@ license="All Rights Reserved"
 [[dependencies.atum]]
     modId="forge"
     mandatory=true
-    versionRange="[40.0.41,)"
+    versionRange="[45,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.atum]]
     modId="curios"
     mandatory=true
-    versionRange="[1.18.2-5.0.6.3,)"
+    versionRange="[1.19.5-5.1.0.0,)"
     ordering="AFTER"
     side="BOTH"

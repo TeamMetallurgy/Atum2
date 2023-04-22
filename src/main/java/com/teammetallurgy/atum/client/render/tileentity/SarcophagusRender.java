@@ -66,60 +66,60 @@ public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEnt
     }
 
     @Override
-    public void render(SarcophagusTileEntity sarcophagus, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        Level world = sarcophagus.getLevel();
-        boolean worldNotNull = world != null;
+    public void render(SarcophagusTileEntity sarcophagus, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+        Level level = sarcophagus.getLevel();
+        boolean worldNotNull = level != null;
         BlockState state = worldNotNull ? sarcophagus.getBlockState() : AtumBlocks.SARCOPHAGUS.get().defaultBlockState().setValue(SarcophagusBlock.FACING, Direction.SOUTH);
         ChestType type = state.hasProperty(SarcophagusBlock.TYPE) ? state.getValue(SarcophagusBlock.TYPE) : ChestType.SINGLE;
         Block block = state.getBlock();
         if (block instanceof SarcophagusBlock sarcophagusBlock) { //Actually left side, but whatever
-            matrixStack.pushPose();
+            poseStack.pushPose();
             Direction facing = state.getValue(SarcophagusBlock.FACING);
             float facingAngle = facing.toYRot();
             if (facing == Direction.NORTH || facing == Direction.SOUTH) {
                 facingAngle = facing.getOpposite().toYRot();
             }
-            matrixStack.translate(0.5D, 0.5D, 0.5D);
-            matrixStack.mulPose(Axis.YP.rotationDegrees(facingAngle));
-            matrixStack.translate(-0.5D, -0.5D, -0.5D);
+            poseStack.translate(0.5D, 0.5D, 0.5D);
+            poseStack.mulPose(Axis.YP.rotationDegrees(facingAngle));
+            poseStack.translate(-0.5D, -0.5D, -0.5D);
             DoubleBlockCombiner.NeighborCombineResult<? extends ChestBlockEntity> callbackWrapper;
             if (worldNotNull) {
-                callbackWrapper = sarcophagusBlock.combine(state, world, sarcophagus.getBlockPos(), true);
+                callbackWrapper = sarcophagusBlock.combine(state, level, sarcophagus.getBlockPos(), true);
             } else {
                 callbackWrapper = DoubleBlockCombiner.Combiner::acceptNone;
             }
             int light = callbackWrapper.apply(new BrightnessCombiner<>()).applyAsInt(combinedLight);
             VertexConsumer vertexBuilder = buffer.getBuffer(SARCOPHAGUS_RENDER);
-            matrixStack.translate(0.0D, 1.5D, 0.5D);
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+            poseStack.translate(0.0D, 1.5D, 0.5D);
+            poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
 
             if (type == ChestType.RIGHT) {
                 float lidAngle = callbackWrapper.apply(SarcophagusBlock.opennessCombiner(sarcophagus)).get(partialTicks);
                 lidAngle = 1.0F - lidAngle;
                 lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
-                renderSarcophagus(matrixStack, vertexBuilder, this.sarcophagusBase, this.sarcophagusLid, this.sarcophagusLiddeco1, this.sarcophagusLiddeco2, this.sarcophagusLiddeco3, this.sarcophagusGemhead, this.sarcophagusGemchest, lidAngle, light, combinedOverlay);
-            } else if (world == null) { //Inventory render
-                matrixStack.scale(0.75F, 0.75F, 0.75F);
-                matrixStack.translate(-0.7D, 0.3D, 0.0D);
-                renderSarcophagus(matrixStack, vertexBuilder, this.sarcophagusBase, this.sarcophagusLid, this.sarcophagusLiddeco1, this.sarcophagusLiddeco2, this.sarcophagusLiddeco3, this.sarcophagusGemhead, this.sarcophagusGemchest, 0, light, combinedOverlay);
+                renderSarcophagus(poseStack, vertexBuilder, this.sarcophagusBase, this.sarcophagusLid, this.sarcophagusLiddeco1, this.sarcophagusLiddeco2, this.sarcophagusLiddeco3, this.sarcophagusGemhead, this.sarcophagusGemchest, lidAngle, light, combinedOverlay);
+            } else if (level == null) { //Inventory render
+                poseStack.scale(0.75F, 0.75F, 0.75F);
+                poseStack.translate(-0.7D, 0.3D, 0.0D);
+                renderSarcophagus(poseStack, vertexBuilder, this.sarcophagusBase, this.sarcophagusLid, this.sarcophagusLiddeco1, this.sarcophagusLiddeco2, this.sarcophagusLiddeco3, this.sarcophagusGemhead, this.sarcophagusGemchest, 0, light, combinedOverlay);
             }
-            matrixStack.popPose();
+            poseStack.popPose();
         }
     }
 
-    private void renderSarcophagus(PoseStack matrixStack, VertexConsumer vertexBuilder, ModelPart base, ModelPart lid, ModelPart liddeco1, ModelPart liddeco2, ModelPart liddeco3, ModelPart gemhead, ModelPart gemchest, float lidAngle, int light, int combinedOverlay) {
+    private void renderSarcophagus(PoseStack poseStack, VertexConsumer vertexBuilder, ModelPart base, ModelPart lid, ModelPart liddeco1, ModelPart liddeco2, ModelPart liddeco3, ModelPart gemhead, ModelPart gemchest, float lidAngle, int light, int combinedOverlay) {
         lid.yRot = -lidAngle / 2;
         liddeco1.yRot = -lidAngle / 2;
         liddeco2.yRot = -lidAngle / 2;
         liddeco3.yRot = -lidAngle / 2;
         gemhead.yRot = -lidAngle / 2;
         gemchest.yRot = -lidAngle / 2;
-        base.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        lid.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        liddeco1.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        liddeco2.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        liddeco3.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        gemhead.render(matrixStack, vertexBuilder, light, combinedOverlay);
-        gemchest.render(matrixStack, vertexBuilder, light, combinedOverlay);
+        base.render(poseStack, vertexBuilder, light, combinedOverlay);
+        lid.render(poseStack, vertexBuilder, light, combinedOverlay);
+        liddeco1.render(poseStack, vertexBuilder, light, combinedOverlay);
+        liddeco2.render(poseStack, vertexBuilder, light, combinedOverlay);
+        liddeco3.render(poseStack, vertexBuilder, light, combinedOverlay);
+        gemhead.render(poseStack, vertexBuilder, light, combinedOverlay);
+        gemchest.render(poseStack, vertexBuilder, light, combinedOverlay);
     }
 }

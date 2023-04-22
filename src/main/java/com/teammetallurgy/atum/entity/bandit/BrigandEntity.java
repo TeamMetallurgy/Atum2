@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 
 public class BrigandEntity extends BanditBaseEntity {
 
-    public BrigandEntity(EntityType<? extends BrigandEntity> entityType, Level world) {
-        super(entityType, world);
+    public BrigandEntity(EntityType<? extends BrigandEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 8;
     }
 

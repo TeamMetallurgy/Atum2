@@ -33,12 +33,12 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof Player player) {
             boolean infinity = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
             ItemStack ammoStack = player.getProjectile(stack);
             int maxUses = this.getUseDuration(stack) - timeLeft;
-            maxUses = ForgeEventFactory.onArrowLoose(stack, world, player, maxUses, !ammoStack.isEmpty() || infinity);
+            maxUses = ForgeEventFactory.onArrowLoose(stack, level, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
 
             if (!ammoStack.isEmpty() || infinity) {
@@ -47,18 +47,18 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
                 }
                 float velocity = getPowerForTime(maxUses);
 
-                this.onVelocity(world, player, velocity);
+                this.onVelocity(level, player, velocity);
 
                 if (!((double) velocity < 0.1D)) {
                     boolean hasArrow = player.getAbilities().instabuild || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
-                    if (!world.isClientSide) {
-                        ArrowDoubleEntity doubleShotLower = new ArrowDoubleEntity(world, player);
+                    if (!level.isClientSide) {
+                        ArrowDoubleEntity doubleShotLower = new ArrowDoubleEntity(level, player);
                         doubleShotLower.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity * 2.0F, 1.0F);
-                        ArrowDoubleEntity doubleShotHigher = new ArrowDoubleEntity(world, player);
+                        ArrowDoubleEntity doubleShotHigher = new ArrowDoubleEntity(level, player);
                         doubleShotHigher.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity * 2.0F, 1.0F);
-                        doubleShotLower.getDeltaMovement().add(Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)), 0.0F, Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)));
-                        doubleShotHigher.getDeltaMovement().add(Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)), 0.2D, Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)));
+                        doubleShotLower.getDeltaMovement().add(Mth.floor(Mth.nextDouble(level.random, Math.random(), 0.3D)), 0.0F, Mth.floor(Mth.nextDouble(level.random, Math.random(), 0.3D)));
+                        doubleShotHigher.getDeltaMovement().add(Mth.floor(Mth.nextDouble(level.random, Math.random(), 0.3D)), 0.2D, Mth.floor(Mth.nextDouble(level.random, Math.random(), 0.3D)));
 
                         if (velocity == 1.0F) {
                             doubleShotLower.setCritArrow(true);
@@ -88,10 +88,10 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
                             doubleShotLower.pickup = CustomArrow.Pickup.CREATIVE_ONLY;
                             doubleShotHigher.pickup = CustomArrow.Pickup.CREATIVE_ONLY;
                         }
-                        world.addFreshEntity(doubleShotLower);
-                        world.addFreshEntity(doubleShotHigher);
+                        level.addFreshEntity(doubleShotLower);
+                        level.addFreshEntity(doubleShotHigher);
                     }
-                    world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (world.random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
                     if (!hasArrow && !player.getAbilities().instabuild) {
                         ammoStack.shrink(2);
@@ -107,7 +107,7 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowDoubleEntity(world, player);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowDoubleEntity(level, player);
     }
 }

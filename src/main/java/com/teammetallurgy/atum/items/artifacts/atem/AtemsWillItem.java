@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 public class AtemsWillItem extends SwordItem implements IArtifact {
 
     public AtemsWillItem() {
-        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

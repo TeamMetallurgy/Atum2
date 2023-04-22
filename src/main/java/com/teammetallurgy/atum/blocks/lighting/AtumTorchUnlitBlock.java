@@ -39,15 +39,15 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
         ItemStack heldStack = player.getItemInHand(hand);
         Block block = Block.byItem(heldStack.getItem());
-        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightEmission(block.defaultBlockState(), world, pos) > 0)) {
+        if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightEmission(block.defaultBlockState(), level, pos) > 0)) {
             if (heldStack.getItem().canBeDepleted()) {
                 heldStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
             }
-            world.setBlockAndUpdate(pos, this.getLit().get().defaultBlockState());
-            world.playSound(null, pos, SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS, 2.5F, 1.0F);
+            level.setBlockAndUpdate(pos, this.getLit().get().defaultBlockState());
+            level.playSound(null, pos, SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS, 2.5F, 1.0F);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
@@ -69,6 +69,6 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
     }
 }

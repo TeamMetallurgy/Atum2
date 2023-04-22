@@ -19,16 +19,16 @@ import javax.annotation.Nonnull;
 public class ArrowSlownessEntity extends CustomArrow {
     private float velocity;
 
-    public ArrowSlownessEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.SLOWNESS_ARROW.get(), world);
+    public ArrowSlownessEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.SLOWNESS_ARROW.get(), level);
     }
 
-    public ArrowSlownessEntity(EntityType<? extends ArrowSlownessEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowSlownessEntity(EntityType<? extends ArrowSlownessEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowSlownessEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.SLOWNESS_ARROW.get(), world, shooter);
+    public ArrowSlownessEntity(Level level, LivingEntity shooter, float velocity) {
+        super(AtumEntities.SLOWNESS_ARROW.get(), level, shooter);
         this.velocity = velocity;
     }
 

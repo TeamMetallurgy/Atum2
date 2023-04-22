@@ -38,8 +38,8 @@ import java.util.EnumSet;
 public class ScarabEntity extends Monster {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(ScarabEntity.class, EntityDataSerializers.INT);
 
-    public ScarabEntity(EntityType<? extends ScarabEntity> entityType, Level world) {
-        super(entityType, world);
+    public ScarabEntity(EntityType<? extends ScarabEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class ScarabEntity extends Monster {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
         if (random.nextDouble() <= 0.002D) {
             this.setVariant(1);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
@@ -142,9 +142,9 @@ public class ScarabEntity extends Monster {
         return 0.1D;
     }
 
-    public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        if (checkAnyLightMonsterSpawnRules(scarab, world, spawnReason, pos, random)) {
-            Player player = world.getNearestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
+    public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        if (checkAnyLightMonsterSpawnRules(scarab, level, spawnReason, pos, random)) {
+            Player player = level.getNearestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
             return player == null;
         } else {
             return false;
@@ -189,7 +189,7 @@ public class ScarabEntity extends Monster {
 
                 if (ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob) && random.nextInt(10) == 0) {
                     this.facing = Direction.getRandom(random);
-                    BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
+                    BlockPos pos = (new BlockPos((int) this.mob.getX(), (int) (this.mob.getY() + 0.5D), (int) this.mob.getZ())).relative(this.facing);
                     BlockState state = this.mob.level.getBlockState(pos);
 
                     if (state.getBlock() == AtumBlocks.LIMESTONE.get() || state.getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
@@ -212,17 +212,17 @@ public class ScarabEntity extends Monster {
             if (!this.doMerge) {
                 super.start();
             } else {
-                Level world = this.mob.level;
-                BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
-                BlockState state = world.getBlockState(pos);
+                Level level = this.mob.level;
+                BlockPos pos = (new BlockPos((int) this.mob.getX(), (int) (this.mob.getY() + 0.5D), (int) this.mob.getZ())).relative(this.facing);
+                BlockState state = level.getBlockState(pos);
 
                 if (state.getBlock() == AtumBlocks.LIMESTONE.get()) {
-                    world.setBlock(pos, AtumBlocks.LIMESTONE.get().defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
+                    level.setBlock(pos, AtumBlocks.LIMESTONE.get().defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
                     this.mob.discard();
                 }
                 if (state.getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
-                    world.setBlock(pos, AtumBlocks.DEADWOOD_LOG.get().defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
+                    level.setBlock(pos, AtumBlocks.DEADWOOD_LOG.get().defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
                     this.mob.discard();
                 }

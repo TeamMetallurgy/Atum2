@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.anput;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.DaggerItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -29,7 +29,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
     protected static final Object2IntMap<Player> HUNGER_TIMER = new Object2IntOpenHashMap<>();
 
     public AnputsHungerItem() {
-        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class AnputsHungerItem extends DaggerItem implements IArtifact {
     }
 
     @Override
-    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof Player player) {
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER.get()) {
                 HUNGER_TIMER.putIfAbsent(player, 80);

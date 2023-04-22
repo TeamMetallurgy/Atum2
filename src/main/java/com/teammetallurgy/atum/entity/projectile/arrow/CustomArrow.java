@@ -17,17 +17,17 @@ import javax.annotation.Nonnull;
 
 public abstract class CustomArrow extends Arrow {
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world) {
-        super(entityType, world);
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world, double x, double y, double z) {
-        this(entityType, world);
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level level, double x, double y, double z) {
+        this(entityType, level);
         this.setPos(x, y, z);
     }
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world, LivingEntity shooter) {
-        this(entityType, world, shooter.getX(), shooter.getEyeY() - (double) 0.1F, shooter.getZ());
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level level, LivingEntity shooter) {
+        this(entityType, level, shooter.getX(), shooter.getEyeY() - (double) 0.1F, shooter.getZ());
         this.setOwner(shooter);
         if (shooter instanceof Player) {
             this.pickup = AbstractArrow.Pickup.ALLOWED;

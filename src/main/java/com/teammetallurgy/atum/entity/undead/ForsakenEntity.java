@@ -16,8 +16,8 @@ import javax.annotation.Nonnull;
 
 public class ForsakenEntity extends UndeadBaseEntity {
 
-    public ForsakenEntity(EntityType<? extends ForsakenEntity> entityType, Level world) {
-        super(entityType, world);
+    public ForsakenEntity(EntityType<? extends ForsakenEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 6;
     }
 

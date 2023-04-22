@@ -49,34 +49,34 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        if (!world.isClientSide) {
-            super.tick(state, world, pos, rand);
-            if (!world.isAreaLoaded(pos, 1)) return;
+    public void tick(@Nonnull BlockState state, ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        if (!level.isClientSide) {
+            super.tick(state, level, pos, rand);
+            if (!level.isAreaLoaded(pos, 1)) return;
             if (state.getValue(AGE) != 7) {
-                if (ForgeHooks.onCropsGrowPre(world, pos, state, world.random.nextDouble() <= 0.12F)) {
-                    world.setBlock(pos, state.cycle(AGE), 2);
-                    ForgeHooks.onCropsGrowPost(world, pos, state);
+                if (ForgeHooks.onCropsGrowPre(level, pos, state, level.random.nextDouble() <= 0.12F)) {
+                    level.setBlock(pos, state.cycle(AGE), 2);
+                    ForgeHooks.onCropsGrowPost(level, pos, state);
                 }
             }
         }
     }
 
     @Override
-    public boolean canSurvive(BlockState state, @Nonnull LevelReader world, @Nonnull BlockPos pos) {
+    public boolean canSurvive(BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
         if (state.getBlock() == this) {
-            BlockState stateUp = world.getBlockState(pos.above());
+            BlockState stateUp = level.getBlockState(pos.above());
             return stateUp.is(BlockTags.LEAVES);
         }
-        return super.mayPlaceOn(world.getBlockState(pos.below()), world, pos);
+        return super.mayPlaceOn(level.getBlockState(pos.below()), level, pos);
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+    public InteractionResult use(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
         if (state.getValue(AGE) == 7) {
-            dropResources(state, world, pos);
-            return world.setBlockAndUpdate(pos, this.defaultBlockState()) ? InteractionResult.SUCCESS : InteractionResult.PASS;
+            dropResources(state, level, pos);
+            return level.setBlockAndUpdate(pos, this.defaultBlockState()) ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
         return InteractionResult.PASS;
     }
@@ -93,17 +93,17 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull LevelReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return state.getValue(AGE) != 7;
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void performBonemeal(@Nonnull ServerLevel level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         int growth = state.getValue(AGE) + Mth.nextInt(rand, 1, 2);
         int maxAge = 7;
 
@@ -112,7 +112,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
         }
 
         if (state.getValue(AGE) != 7) {
-            world.setBlock(pos, this.defaultBlockState().setValue(AGE, growth), 2);
+            level.setBlock(pos, this.defaultBlockState().setValue(AGE, growth), 2);
         }
     }
 }

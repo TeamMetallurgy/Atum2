@@ -60,19 +60,19 @@ public class PortalBlock extends HalfTransparentBlock {
         return false;
     }
 
-    public boolean trySpawnPortal(Level world, BlockPos pos) {
-        Size size = new Size(world, pos);
+    public boolean trySpawnPortal(Level level, BlockPos pos) {
+        Size size = new Size(level, pos);
 
         if (size.isValid()) {
             size.placePortalBlocks();
-            world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.7F, 1.0F);
+            level.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.7F, 1.0F);
             return true;
         } else {
-            Size size1 = new Size(world, pos);
+            Size size1 = new Size(level, pos);
 
             if (size1.isValid()) {
                 size1.placePortalBlocks();
-                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             } else {
                 return false;
@@ -81,20 +81,20 @@ public class PortalBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
-        Size size = new Size(world, pos);
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
+        Size size = new Size(level, pos);
         BlockPos posUp = pos.above();
         if (neighborBlock == this || !(neighborPos.getX() == posUp.getX() && neighborPos.getY() == posUp.getY() && neighborPos.getZ() == posUp.getZ())) {
             if (!size.isValid()) {
-                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
         }
     }
 
     @Override
-    public void entityInside(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (world instanceof ServerLevel) {
-           changeDimension((ServerLevel) world, entity, new TeleporterAtum());
+    public void entityInside(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Entity entity) {
+        if (level instanceof ServerLevel) {
+           changeDimension((ServerLevel) level, entity, new TeleporterAtum());
         }
     }
 
@@ -120,11 +120,11 @@ public class PortalBlock extends HalfTransparentBlock {
         return ItemStack.EMPTY;
     }
 
-    public static BlockPattern.BlockPatternMatch createPatternHelper(LevelAccessor world, BlockPos pos) {
-        Size size = new Size(world, pos);
-        LoadingCache<BlockPos, BlockInWorld> cache = BlockPattern.createLevelCache(world, true);
+    public static BlockPattern.BlockPatternMatch createPatternHelper(LevelAccessor level, BlockPos pos) {
+        Size size = new Size(level, pos);
+        LoadingCache<BlockPos, BlockInWorld> cache = BlockPattern.createLevelCache(level, true);
         if (!size.isValid()) {
-            size = new Size(world, pos);
+            size = new Size(level, pos);
         }
 
         if (!size.isValid()) {
@@ -138,15 +138,15 @@ public class PortalBlock extends HalfTransparentBlock {
         private static final int MAX_SIZE = 9;
         private static final int MIN_SIZE = 3;
 
-        private final LevelAccessor world;
+        private final LevelAccessor level;
         private boolean valid = false;
         private BlockPos nw;
         private BlockPos se;
         private int width;
         private int length;
 
-        public Size(LevelAccessor world, BlockPos pos) {
-            this.world = world;
+        public Size(LevelAccessor level, BlockPos pos) {
+            this.level = level;
 
             int east = getDistanceUntilEdge(pos, Direction.EAST);
             int west = getDistanceUntilEdge(pos, Direction.WEST);
@@ -179,7 +179,7 @@ public class PortalBlock extends HalfTransparentBlock {
                 for (int x = 0; x < wallWidth; x++) {
                     for (int z = 0; z < wallLength; z++) {
                         if (y == 0 || x == 0 || z == 0 || x == wallWidth - 1 || z == wallLength - 1) {
-                            if (!isSandBlock(world.getBlockState(nwCorner.below().offset(x, y, z)))) {
+                            if (!isSandBlock(level.getBlockState(nwCorner.below().offset(x, y, z)))) {
                                 return;
                             }
                         }
@@ -188,16 +188,16 @@ public class PortalBlock extends HalfTransparentBlock {
             }
 
             for (int y = 0; y < 2; y++) {
-                if (!isSandBlock(world.getBlockState(neCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(level.getBlockState(neCorner.offset(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(nwCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(level.getBlockState(nwCorner.offset(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(seCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(level.getBlockState(seCorner.offset(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(swCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(level.getBlockState(swCorner.offset(0, y + 1, 0)))) {
                     return;
                 }
             }
@@ -210,12 +210,12 @@ public class PortalBlock extends HalfTransparentBlock {
             for (i = 0; i < 9; ++i) {
                 BlockPos blockpos = pos.relative(facing, i);
 
-                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || !isSandBlock(this.world.getBlockState(blockpos.below()))) {
+                if (!this.isEmptyBlock(this.level.getBlockState(blockpos)) || !isSandBlock(this.level.getBlockState(blockpos.below()))) {
                     break;
                 }
             }
 
-            BlockState state = this.world.getBlockState(pos.relative(facing, i));
+            BlockState state = this.level.getBlockState(pos.relative(facing, i));
             return isSandBlock(state) ? i : 0;
         }
 
@@ -233,7 +233,7 @@ public class PortalBlock extends HalfTransparentBlock {
 
         void placePortalBlocks() {
             for (BlockPos portalPos : BlockPos.MutableBlockPos.betweenClosed(nw, se)) {
-                this.world.setBlock(portalPos, AtumBlocks.PORTAL.get().defaultBlockState(), 2);
+                this.level.setBlock(portalPos, AtumBlocks.PORTAL.get().defaultBlockState(), 2);
             }
         }
     }

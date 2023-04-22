@@ -37,11 +37,11 @@ public class DimensionHelper {
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
-        LevelAccessor world = event.getLevel();
-        if (world instanceof ServerLevel serverLevel) {
+        LevelAccessor level = event.getLevel();
+        if (level instanceof ServerLevel serverLevel) {
             if (serverLevel.dimension() == Atum.ATUM) {
-                if (world.getLevelData() instanceof DerivedLevelData) {
-                    ((DerivedLevelData) world.getLevelData()).wrapped.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
+                if (level.getLevelData() instanceof DerivedLevelData) {
+                    ((DerivedLevelData) level.getLevelData()).wrapped.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
                 }
             }
         }
@@ -53,32 +53,32 @@ public class DimensionHelper {
         return Mth.hsvToRgb(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
     }
 
-    public static boolean canPlaceSandLayer(ServerLevel world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-        BlockState stateDown = world.getBlockState(pos.below());
-        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(world.getBiome(pos).value());
+    public static boolean canPlaceSandLayer(ServerLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        BlockState stateDown = level.getBlockState(pos.below());
+        Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(level.getBiome(pos).value());
         return /*(biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)*/ //TODO Readd when biomes is fixed
-                //&& !StructureHelper.doesChunkHaveStructure(world, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
-                world.isEmptyBlock(pos.above())
+                //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
+                level.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED.get()
-                && Block.canSupportRigidBlock(world, pos.below())
+                && Block.canSupportRigidBlock(level, pos.below())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)
                 && !(state.getBlock() instanceof SandLayersBlock);
     }
 
     /**
-     * Only use when world#getHeight is not working
+     * Only use when level#getHeight is not working
      *
-     * @param world the world
+     * @param level the level
      * @param pos original pos
      * @return surface pos
      */
-    public static BlockPos getSurfacePos(Level world, BlockPos pos) {
-        while (pos.getY() > 1 && world.isEmptyBlock(pos.below())) {
+    public static BlockPos getSurfacePos(Level level, BlockPos pos) {
+        while (pos.getY() > 1 && level.isEmptyBlock(pos.below())) {
             pos = pos.below();
         }
-        while (!world.canSeeSky(pos)) {
+        while (!level.canSeeSky(pos)) {
             pos = pos.above();
         }
         return pos;

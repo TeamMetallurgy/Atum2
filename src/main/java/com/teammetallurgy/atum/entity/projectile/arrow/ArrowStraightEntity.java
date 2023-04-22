@@ -28,16 +28,16 @@ import net.minecraftforge.network.PlayMessages;
 public class ArrowStraightEntity extends CustomArrow {
     private float velocity;
 
-    public ArrowStraightEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.STRAIGHT_ARROW.get(), world);
+    public ArrowStraightEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.STRAIGHT_ARROW.get(), level);
     }
 
-    public ArrowStraightEntity(EntityType<? extends CustomArrow> entityType, Level world) {
-        super(entityType, world);
+    public ArrowStraightEntity(EntityType<? extends CustomArrow> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowStraightEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.STRAIGHT_ARROW.get(), world, shooter);
+    public ArrowStraightEntity(Level level, LivingEntity shooter, float velocity) {
+        super(AtumEntities.STRAIGHT_ARROW.get(), level, shooter);
         this.velocity = velocity;
     }
 

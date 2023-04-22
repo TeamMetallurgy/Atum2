@@ -13,8 +13,8 @@ public class DropParticle extends TextureSheetParticle {
     public float dropGravity;
     private int bobTimer;
 
-    protected DropParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet) {
-        super(world, xCoord, yCoord, zCoord, 0.0D, 0.0D, 0.0D);
+    protected DropParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet) {
+        super(level, xCoord, yCoord, zCoord, 0.0D, 0.0D, 0.0D);
         this.xd = 0.0D;
         this.yd = 0.0D;
         this.zd = 0.0D;
@@ -70,8 +70,8 @@ public class DropParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            DropParticle particle = new DropParticle(level, x, y, z, this.spriteSet);
             particle.quadSize = 0.05F;
             particle.dropGravity = 8.0F;
             particle.setLifetime((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
@@ -88,8 +88,8 @@ public class DropParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            DropParticle particle = new DropParticle(level, x, y, z, this.spriteSet);
             particle.quadSize = 0.05F;
             particle.dropGravity = 8.0F;
             particle.setLifetime((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
@@ -106,8 +106,8 @@ public class DropParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            DropParticle particle = new DropParticle(level, x, y, z, this.spriteSet);
             particle.quadSize = 0.15F;
             particle.dropGravity = 4.0F;
             particle.setLifetime((int) (16.0D / (Math.random() * 0.8D + 0.2D)));

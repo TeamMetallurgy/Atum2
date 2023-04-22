@@ -39,13 +39,13 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     }
 
     @Override
-    public void spawnAfterBreak(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull ItemStack stack, boolean b) {
-        super.spawnAfterBreak(state, world, pos, stack, b);
-        if (!world.isClientSide && world.getDifficulty() != Difficulty.PEACEFUL && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-            if (state.getValue(HAS_SCARAB) && world.random.nextDouble() <= 0.40D) {
-                ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB.get(), world);
+    public void spawnAfterBreak(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull ItemStack stack, boolean b) {
+        super.spawnAfterBreak(state, level, pos, stack, b);
+        if (!level.isClientSide && level.getDifficulty() != Difficulty.PEACEFUL && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+            if (state.getValue(HAS_SCARAB) && level.random.nextDouble() <= 0.40D) {
+                ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB.get(), level);
                 scarab.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
-                world.addFreshEntity(scarab);
+                level.addFreshEntity(scarab);
                 scarab.spawnAnim();
             }
         }

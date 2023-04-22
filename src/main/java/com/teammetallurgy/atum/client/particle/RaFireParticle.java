@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 public class RaFireParticle extends TextureSheetParticle {
     private final float flameScale;
 
-    private RaFireParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
+    private RaFireParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+        super(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.xd = this.xd * 0.009999999776482582D + xSpeed;
         this.yd = this.yd * 0.009999999776482582D + ySpeed;
         this.zd = this.zd * 0.009999999776482582D + zSpeed;
@@ -95,8 +95,8 @@ public class RaFireParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
-            return new RaFireParticle(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
+            return new RaFireParticle(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

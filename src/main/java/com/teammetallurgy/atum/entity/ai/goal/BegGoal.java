@@ -14,14 +14,14 @@ import java.util.EnumSet;
 public class BegGoal extends Goal {
     private final DesertWolfEntity desertWolf;
     private Player player;
-    private final Level world;
+    private final Level level;
     private final float minPlayerDistance;
     private int timeoutCounter;
     private final TargetingConditions predicate;
 
     public BegGoal(DesertWolfEntity desertWolf, float minDistance) {
         this.desertWolf = desertWolf;
-        this.world = desertWolf.level;
+        this.level = desertWolf.level;
         this.minPlayerDistance = minDistance;
         this.predicate = TargetingConditions.forNonCombat().range(minDistance);
         this.setFlags(EnumSet.of(Flag.LOOK));
@@ -29,7 +29,7 @@ public class BegGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        this.player = this.world.getNearestPlayer(predicate, this.desertWolf);
+        this.player = this.level.getNearestPlayer(predicate, this.desertWolf);
         return this.player != null && this.hasTemptationItemInHand(this.player);
     }
 

@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -55,7 +55,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     private float attackDamage = 5.0F;
 
     public AnubisWrathItem() {
-        super(AtumMats.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -181,7 +181,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
+    public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
         String itemIdentifier = "atum." + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).getPath() + ".tooltip";
         if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             tooltip.add(Component.translatable(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).withStyle(ChatFormatting.DARK_PURPLE));

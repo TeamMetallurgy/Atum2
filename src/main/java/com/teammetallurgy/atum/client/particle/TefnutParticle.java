@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class TefnutParticle extends TextureSheetParticle {
 
-    public TefnutParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, SpriteSet spriteSet) {
-        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, speed);
+    public TefnutParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, SpriteSet spriteSet) {
+        super(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, speed);
         this.setSize(0.02F, 0.02F);
         this.quadSize *= this.random.nextFloat() * 0.6F;
         this.xd *= 0.019999999552965164D;
@@ -58,8 +58,8 @@ public class TefnutParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new TefnutParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new TefnutParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

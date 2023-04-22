@@ -23,35 +23,35 @@ public class GodforgeScreen extends AbstractContainerScreen<GodforgeContainer> {
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(poseStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GODFORGE_GUI);
         int width = (this.width - this.imageWidth) / 2;
         int height = (this.height - this.imageHeight) / 2;
-        this.blit(matrixStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(poseStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.isBurning()) {
             int burnLeft = this.menu.getBurnLeftScaled();
-            this.blit(matrixStack, width + 57, height + 49 - burnLeft, 176, 13 - burnLeft, 14, burnLeft + 1);
+            this.blit(poseStack, width + 57, height + 49 - burnLeft, 176, 13 - burnLeft, 14, burnLeft + 1);
         }
 
         int l = this.menu.getCookProgressionScaled();
-        this.blit(matrixStack, width + 80, height + 35, 176, 14, l + 1, 24);
+        this.blit(poseStack, width + 80, height + 35, 176, 14, l + 1, 24);
 
         if (this.menu.fuelSlot.hasItem()) {
-            this.renderEmptySlot(matrixStack, width + 55, height + 52);
+            this.renderEmptySlot(poseStack, width + 55, height + 52);
         }
     }
 
-    private void renderEmptySlot(@Nonnull PoseStack matrixStack, int x, int y) {
-        this.blit(matrixStack, x, y, 7, 83, 18, 18);
+    private void renderEmptySlot(@Nonnull PoseStack poseStack, int x, int y) {
+        this.blit(poseStack, x, y, 7, 83, 18, 18);
     }
 }

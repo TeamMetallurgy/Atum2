@@ -42,9 +42,9 @@ public class ClientEvents {
         LocalPlayer clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
         Entity entity = event.getCamera().getEntity();
-        Level world = entity.level;
+        Level level = entity.level;
 
-        if (world.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
+        if (level.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
             if (event.getMode() == FogRenderer.FogMode.FOG_SKY) {
                 event.setCanceled(true); //Needs to get canceled, before it can work
                 event.setFarPlaneDistance(100.0F);
@@ -56,7 +56,7 @@ public class ClientEvents {
                     if (player.blockPosition().getY() <= 60) {
                         fogDensity += (float) (62 - player.blockPosition().getY()) * 0.333F;
                     }
-                    Holder<Biome> biome = world.getBiome(player.blockPosition());
+                    Holder<Biome> biome = level.getBiome(player.blockPosition());
                     if (biome.is(AtumBiomes.OASIS.location())) {
                         fogDensity *= 2.0F;
                     }

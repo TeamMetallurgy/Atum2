@@ -11,7 +11,10 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.entity.ai.brain.task.AtumVillagerGoalPackages;
-import com.teammetallurgy.atum.init.*;
+import com.teammetallurgy.atum.init.AtumDataSerializer;
+import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
@@ -40,7 +43,10 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.*;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerData;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
@@ -80,8 +86,8 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         return p_219617_.is(PoiTypes.MEETING);
     });
 
-    public AtumVillagerEntity(EntityType<? extends AtumVillagerEntity> type, Level world) {
-        super(type, world, VillagerType.DESERT); //Type not used, by Atum villagers
+    public AtumVillagerEntity(EntityType<? extends AtumVillagerEntity> type, Level level) {
+        super(type, level, VillagerType.DESERT); //Type not used, by Atum villagers
         this.setAtumVillagerData(this.getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
     }
 
@@ -249,7 +255,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         Race race = Race.getRandomRaceWeighted();
         this.setAtumVillagerData(this.getAtumVillagerData().withRace(race));
         this.setRandomVariant(race);
@@ -258,7 +264,7 @@ public class AtumVillagerEntity extends Villager implements ITexture {
             this.setAtumVillagerData(this.getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
         }
 
-        return super.finalizeSpawn(world, difficulty, reason, spawnData, dataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
     @Override

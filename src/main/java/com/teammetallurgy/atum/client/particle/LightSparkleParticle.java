@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 public class LightSparkleParticle extends TextureSheetParticle {
     private final float particleScaleOverTime;
 
-    public LightSparkleParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
+    public LightSparkleParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd *= 0.009999999776482582D;
         this.yd *= 0.009999999776482582D;
         this.zd *= 0.009999999776482582D;
@@ -77,8 +77,8 @@ public class LightSparkleParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new LightSparkleParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new LightSparkleParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

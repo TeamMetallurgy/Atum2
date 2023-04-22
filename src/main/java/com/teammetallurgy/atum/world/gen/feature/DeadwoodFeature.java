@@ -35,12 +35,12 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
     @Override
     public boolean place(@Nonnull WorldGenLevel genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoneFeatureConfiguration config) {
         if (genReader instanceof WorldGenRegion) {
-            WorldGenRegion world = (WorldGenRegion) genReader;
+            WorldGenRegion level = (WorldGenRegion) genReader;
             Set<BlockPos> logs = Sets.newHashSet();
             int baseHeight = rand.nextInt(5) + 3;
             boolean generate = true;
 
-            if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= world.getMaxBuildHeight()) {
+            if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= level.getMaxBuildHeight()) {
                 for (int y = pos.getY(); y <= pos.getY() + 1 + baseHeight; ++y) {
                     int k = 1;
 
@@ -55,9 +55,9 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
 
                     for (int x = pos.getX() - k; x <= pos.getX() + k && generate; ++x) {
                         for (int z = pos.getZ() - k; z <= pos.getZ() + k && generate; ++z) {
-                            if (y >= 0 && y < world.getMaxBuildHeight()) {
+                            if (y >= 0 && y < level.getMaxBuildHeight()) {
                                 BlockPos checkPos = mutable.set(x, y, z);
-                                if (!TreeFeature.isAirOrLeaves(world, checkPos)) {
+                                if (!TreeFeature.isAirOrLeaves(level, checkPos)) {
                                     generate = false;
                                 }
                             } else {
@@ -71,11 +71,11 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
                     return false;
                 } else {
                     BlockPos down = pos.below();
-                    BlockState state = world.getBlockState(down);
+                    BlockState state = level.getBlockState(down);
                     boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
                     if (genReader.isAreaLoaded(pos, 16)) {
-                        if (isSoil && pos.getY() < world.getMaxBuildHeight() - baseHeight - 1) {
+                        if (isSoil && pos.getY() < level.getMaxBuildHeight() - baseHeight - 1) {
                             for (int height = 0; height < baseHeight; ++height) {
                                 BlockPos upN = pos.above(height);
 
@@ -86,7 +86,7 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
                                     }
                                 }
                             }
-                            buildBranches(world, genReader, logs, rand);
+                            buildBranches(level, genReader, logs, rand);
                             return true;
                         } else {
                             return false;
@@ -100,7 +100,7 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
         return false;
     }
 
-    public void buildBranches(LevelReader world, LevelSimulatedRW genReader, Set<BlockPos> logs, Random random) {
+    public void buildBranches(LevelReader level, LevelSimulatedRW genReader, Set<BlockPos> logs, Random random) {
         // Keep track of branches to be generated using a Queue
         Queue<Pair<BlockPos, Integer>> queue = new LinkedList<>();
         List<BlockPos> placedBranches = new ArrayList<>();
@@ -134,9 +134,9 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
                 }
 
                 // Prevent branches 3 blocks in the same direction
-                BlockState curr = world.getBlockState(pos);
+                BlockState curr = level.getBlockState(pos);
                 if (curr.getBlock() == BRANCH.getBlock() && curr.getValue(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
-                    BlockState prev = world.getBlockState(pos.offset(facing.getOpposite().getNormal()));
+                    BlockState prev = level.getBlockState(pos.offset(facing.getOpposite().getNormal()));
                     if (prev.getBlock() == BRANCH.getBlock() && prev.getValue(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
                         continue;
                     }
@@ -148,7 +148,7 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
                     probability *= 1.5;
 
                     // Stop branches from growing from the top of logs
-                    if (world.getBlockState(pos).getBlock() == LOG.getBlock()) {
+                    if (level.getBlockState(pos).getBlock() == LOG.getBlock()) {
                         probability = 0;
                     }
                 } else if (facing == Direction.DOWN) {
@@ -162,9 +162,9 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
 
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.offset(facing.getNormal());
-                    if (world.isEmptyBlock(nextPos) && world.isAreaLoaded(nextPos, 8)) {
+                    if (level.isEmptyBlock(nextPos) && level.isAreaLoaded(nextPos, 8)) {
                         DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
-                        this.setBlock(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
+                        this.setBlock(genReader, nextPos, branch.makeConnections(level, nextPos, facing));
                         placedBranches.add(nextPos);
 
                         // Add this branch onto the queue to spawn new branches from
@@ -191,7 +191,7 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
             for (BlockPos placedLocation : placedBranches) {
                 if (!genReader.isStateAtPosition(placedLocation, BlockState::isAir)) {
                     DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
-                    this.setBlock(genReader, placedLocation, branch.makeConnections(world, placedLocation));
+                    this.setBlock(genReader, placedLocation, branch.makeConnections(level, placedLocation));
                 }
             }
 

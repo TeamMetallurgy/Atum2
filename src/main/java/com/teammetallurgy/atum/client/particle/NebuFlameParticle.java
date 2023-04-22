@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 public class NebuFlameParticle extends RisingParticle {
 
-    public NebuFlameParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public NebuFlameParticle(ClientLevel level, double x, double y, double z, double motionX, double motionY, double motionZ) {
+        super(level, x, y, z, motionX, motionY, motionZ);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class NebuFlameParticle extends RisingParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType type, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            NebuFlameParticle nebuFireParticle = new NebuFlameParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
+        public Particle createParticle(@Nonnull SimpleParticleType type, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            NebuFlameParticle nebuFireParticle = new NebuFlameParticle(level, x, y, z, xSpeed, ySpeed, zSpeed);
             nebuFireParticle.pickSprite(this.spriteSet);
             return nebuFireParticle;
         }

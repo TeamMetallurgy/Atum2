@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -41,7 +41,7 @@ public class AtemArmor extends ArtifactArmor {
     protected static final HashMap<Player, Integer> RECALL_TIMER = new HashMap<>();
 
     public AtemArmor(EquipmentSlot slot) {
-        super(AtumMats.NEBU_ARMOR, "atem_armor", slot, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU_ARMOR, "atem_armor", slot, new Item.Properties().rarity(Rarity.RARE));
         this.setHasRender();
     }
 
@@ -116,8 +116,8 @@ public class AtemArmor extends ArtifactArmor {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-        super.appendHoverText(stack, world, tooltip, flag);
+    public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
         Player player = Minecraft.getInstance().player;
         if (player != null && RECALL_TIMER.containsKey(player)) {
             int totalSeconds = RECALL_TIMER.get(player) / 20;

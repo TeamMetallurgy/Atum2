@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
@@ -38,7 +38,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
     private static final Object2BooleanMap<LivingEntity> IS_BLOCKING = new Object2BooleanOpenHashMap<>();
 
     public NuitsQuarterItem() {
-        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
         CompoundTag tag = StackHelper.getTag(player.getItemInHand(hand));
         if (hand == InteractionHand.OFF_HAND) {
             player.startUsingItem(InteractionHand.OFF_HAND);
@@ -72,7 +72,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(InteractionHand.OFF_HAND));
         }
         tag.putBoolean("is_offhand", false);
-        return super.use(world, player, hand);
+        return super.use(level, player, hand);
     }
 
     @Override
@@ -84,14 +84,14 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
     }
 
     @Override
-    public void onUseTick(@Nonnull Level world, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
-        super.onUseTick(world, livingEntity, stack, count);
+    public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
+        super.onUseTick(level, livingEntity, stack, count);
         IS_BLOCKING.putIfAbsent(livingEntity, true);
     }
 
     @Override
-    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity livingEntity, int timeLeft) {
-        super.releaseUsing(stack, world, livingEntity, timeLeft);
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity livingEntity, int timeLeft) {
+        super.releaseUsing(stack, level, livingEntity, timeLeft);
         IS_BLOCKING.removeBoolean(livingEntity);
     }
 

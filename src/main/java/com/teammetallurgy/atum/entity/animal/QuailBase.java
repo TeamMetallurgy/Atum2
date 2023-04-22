@@ -107,13 +107,13 @@ public abstract class QuailBase extends Animal { //Needed to get Follow Goal wor
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         if (spawnData == null) {
             spawnData = new QuailBase.GroupData(this);
         } else {
             this.addToFlock(((QuailBase.GroupData) spawnData).flockLeader);
         }
-        return super.finalizeSpawn(world, difficulty, reason, spawnData, dataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
     public static class GroupData extends AgeableMobGroupData {

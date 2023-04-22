@@ -27,8 +27,8 @@ public class ShusBreathItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowQuickdrawEntity(world, player);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowQuickdrawEntity(level, player);
     }
 
     @Override

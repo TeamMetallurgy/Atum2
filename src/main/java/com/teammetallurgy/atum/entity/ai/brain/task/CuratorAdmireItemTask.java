@@ -20,13 +20,13 @@ public class CuratorAdmireItemTask<E extends Villager> extends Behavior<E> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, E owner) {
+    protected boolean checkExtraStartConditions(@Nonnull ServerLevel level, E owner) {
         ItemEntity itemEntity = owner.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM).get();
         return itemEntity.getItem().is(AtumAPI.Tags.RELIC_NON_DIRTY);
     }
 
     @Override
-    protected void start(@Nonnull ServerLevel world, @Nonnull E entity, long gameTime) {
+    protected void start(@Nonnull ServerLevel level, @Nonnull E entity, long gameTime) {
         entity.getBrain().setMemoryWithExpiry(MemoryModuleType.ADMIRING_ITEM, true, this.admireTime);
     }
 }

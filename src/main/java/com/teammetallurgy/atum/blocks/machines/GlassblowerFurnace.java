@@ -35,8 +35,8 @@ public class GlassblowerFurnace extends AbstractFurnaceBlock {
     }
 
     @Override
-    protected void openContainer(Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    protected void openContainer(Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof GlassblowerFurnaceTileEntity) {
             player.openMenu((MenuProvider) tileEntity);
             player.awardStat(Stats.INTERACT_WITH_FURNACE);

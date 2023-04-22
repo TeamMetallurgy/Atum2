@@ -259,7 +259,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite 
             for (KilnRecipe kilnRecipe : recipes) {
                 for (Ingredient ingredient : kilnRecipe.getIngredients()) {
                     if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {
-                        return kilnRecipe.assemble(this);
+                        return kilnRecipe.assemble(this, this.level.registryAccess());
                     }
                 }
             }
@@ -272,8 +272,8 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite 
     }
 
     protected int getCookTime() {
-        Level world = this.level;
-        return world != null ? world.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN.get(), this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
+        Level level = this.level;
+        return level != null ? level.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN.get(), this, level).map(KilnRecipe::getCookTime).orElse(200) : 200;
     }
 
     @Override

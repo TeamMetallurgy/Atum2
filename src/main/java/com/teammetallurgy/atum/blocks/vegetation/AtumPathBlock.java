@@ -26,7 +26,7 @@ public class AtumPathBlock extends DirtPathBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        world.setBlockAndUpdate(pos, pushEntitiesUp(state, this.baseBlock.defaultBlockState(), world, pos));
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        level.setBlockAndUpdate(pos, pushEntitiesUp(state, this.baseBlock.defaultBlockState(), level, pos));
     }
 }

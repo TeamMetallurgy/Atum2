@@ -67,29 +67,29 @@ public class TefnutsCallItem extends Item implements IArtifact {
     }
 
     @Override
-    public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, Player player) {
+    public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, Player player) {
         return !player.isCreative();
     }
 
     @Override
-    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof Player player) {
             int useDuration = this.getUseDuration(stack) - timeLeft;
             if (useDuration >= 21) {
-                if (!world.isClientSide) {
+                if (!level.isClientSide) {
                     stack.hurtAndBreak(1, player, (entity) -> {
                         entity.broadcastBreakEvent(entityLiving.getUsedItemHand());
                     });
 
-                    TefnutsCallEntity spear = new TefnutsCallEntity(world, player, stack);
+                    TefnutsCallEntity spear = new TefnutsCallEntity(level, player, stack);
                     spear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
                     spear.setBaseDamage(spear.getBaseDamage() * 2.0D);
                     if (player.getAbilities().instabuild) {
                         spear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                     }
 
-                    world.addFreshEntity(spear);
-                    world.playSound(null, spear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.addFreshEntity(spear);
+                    level.playSound(null, spear, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (!player.getAbilities().instabuild) {
                         player.getInventory().removeItem(stack);
                     }
@@ -101,7 +101,7 @@ public class TefnutsCallItem extends Item implements IArtifact {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         if (heldStack.getDamageValue() >= heldStack.getMaxDamage() - 1) {
             return InteractionResultHolder.fail(heldStack);
@@ -120,8 +120,8 @@ public class TefnutsCallItem extends Item implements IArtifact {
     }
 
     @Override
-    public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level world, BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
-        if ((double) state.getDestroySpeed(world, pos) != 0.0D) {
+    public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level level, BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
+        if ((double) state.getDestroySpeed(level, pos) != 0.0D) {
             stack.hurtAndBreak(2, entityLiving, (entity) -> {
                 entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
             });

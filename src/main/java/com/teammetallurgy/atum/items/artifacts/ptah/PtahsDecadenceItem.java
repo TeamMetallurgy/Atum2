@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +23,7 @@ import java.util.List;
 public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
 
     public PtahsDecadenceItem() {
-        super(AtumMats.NEBU, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -33,8 +33,8 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        LevelAccessor world = event.getLevel();
-        if (world instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE.get()) {
+        LevelAccessor level = event.getLevel();
+        if (level instanceof ServerLevel serverLevel && event.getPlayer().getMainHandItem().getItem() == AtumItems.PTAHS_DECADENCE.get()) {
             BlockPos pos = event.getPos();
             List<ItemStack> drops = Block.getDrops(event.getState(), serverLevel, pos, null);
             if (!drops.isEmpty()) {
@@ -42,7 +42,7 @@ public class PtahsDecadenceItem extends PickaxeItem implements IArtifact {
                     Item dropItem = itemDropped.getItem();
                     if ((dropItem == Items.RAW_IRON) && serverLevel.random.nextFloat() <= 0.35F) {
                         event.setCanceled(true);
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                         Block.popResource(serverLevel, pos, new ItemStack(Items.RAW_GOLD));
                         serverLevel.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                     }

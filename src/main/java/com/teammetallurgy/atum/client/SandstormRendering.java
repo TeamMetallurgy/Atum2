@@ -64,14 +64,14 @@ public class SandstormRendering {
         if (player == null) return;
 
         if (mc.level != null && mc.level.dimension() == Atum.ATUM) {
-            Level world = mc.level;
+            Level level = mc.level;
             float stormStrength = SandstormHandler.INSTANCE.stormStrength;
 
             if (stormStrength < 0.0001F) {
                 return;
             }
 
-            float light = getSunBrightness(world, partialTicks);
+            float light = getSunBrightness(level, partialTicks);
 
             poseStack.pushPose();
 
@@ -97,9 +97,9 @@ public class SandstormRendering {
             BufferBuilder bufferbuilder = tessellator.getBuilder();
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            BlockPos playerPos = new BlockPos(player.getX(), player.getY(), player.getZ());
+            BlockPos playerPos = new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ());
             boolean sky = player.level.canSeeSkyFromBelowWater(playerPos);
-            Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(player.level.getBiome(playerPos).value());
+            Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(player.level.getBiome(playerPos).value());
             if (!sky || playerPos.getY() < 50 /*||  biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS*/) { //TODO Readd when biomes is fixed
                 intensity -= 0.006F * partialTicks;
                 intensity = Math.max(0, intensity);
@@ -148,13 +148,13 @@ public class SandstormRendering {
         }
     }
 
-    public static float getSunBrightness(Level world, float partialTicks) {
-        float celestialAngle = world.getSunAngle(partialTicks);
+    public static float getSunBrightness(Level level, float partialTicks) {
+        float celestialAngle = level.getSunAngle(partialTicks);
         float f1 = 1.0F - (celestialAngle) * 2.0F + 0.2F;
         f1 = Mth.clamp(f1, 0.0F, 1.0F);
         f1 = 1.0F - f1;
-        f1 = (float) ((double) f1 * (1.0D - (double) (world.getRainLevel(partialTicks) * 5.0F) / 16.0D));
-        f1 = (float) ((double) f1 * (1.0D - (double) (world.getThunderLevel(partialTicks) * 5.0F) / 16.0D));
+        f1 = (float) ((double) f1 * (1.0D - (double) (level.getRainLevel(partialTicks) * 5.0F) / 16.0D));
+        f1 = (float) ((double) f1 * (1.0D - (double) (level.getThunderLevel(partialTicks) * 5.0F) / 16.0D));
         return f1 * 0.8F + 0.2F;
     }
 }

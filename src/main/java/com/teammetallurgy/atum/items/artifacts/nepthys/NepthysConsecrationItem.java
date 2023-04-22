@@ -38,14 +38,14 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
     }
 
     @Override
-    public void onUseTick(@Nonnull Level world, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
-        super.onUseTick(world, livingEntity, stack, count);
+    public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
+        super.onUseTick(level, livingEntity, stack, count);
         IS_BLOCKING.putIfAbsent(livingEntity, true);
     }
 
     @Override
-    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity livingEntity, int timeLeft) {
-        super.releaseUsing(stack, world, livingEntity, timeLeft);
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity livingEntity, int timeLeft) {
+        super.releaseUsing(stack, level, livingEntity, timeLeft);
         IS_BLOCKING.removeBoolean(livingEntity);
     }
 

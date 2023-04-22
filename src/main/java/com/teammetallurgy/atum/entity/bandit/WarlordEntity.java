@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 public class WarlordEntity extends BanditBaseEntity {
     private final ServerBossEvent bossInfo = (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS));
 
-    public WarlordEntity(EntityType<? extends WarlordEntity> entityType, Level world) {
-        super(entityType, world);
+    public WarlordEntity(EntityType<? extends WarlordEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 16;
         this.setCanPatrol(false);
     }

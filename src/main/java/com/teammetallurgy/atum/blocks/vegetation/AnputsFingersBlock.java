@@ -37,7 +37,7 @@ public class AnputsFingersBlock extends CropBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE[this.getAge(state)];
     }
 
@@ -59,30 +59,30 @@ public class AnputsFingersBlock extends CropBlock {
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
         return state.getBlock() == AtumBlocks.SAND.get();
     }
 
     @Override
-    public boolean canSurvive(@Nonnull BlockState state, LevelReader world, @Nonnull BlockPos pos) {
-        BlockState stateDown = world.getBlockState(pos.below());
-        return this.mayPlaceOn(stateDown, world, pos.below()) && world.getBrightness(LightLayer.SKY, pos) < 14;
+    public boolean canSurvive(@Nonnull BlockState state, LevelReader level, @Nonnull BlockPos pos) {
+        BlockState stateDown = level.getBlockState(pos.below());
+        return this.mayPlaceOn(stateDown, level, pos.below()) && level.getBrightness(LightLayer.SKY, pos) < 14;
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         int age = this.getAge(state);
-        if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
+        if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(level, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.setValue(this.getAgeProperty(), age + 1);
-            world.setBlock(pos, newState, 2);
-            ForgeHooks.onCropsGrowPost(world, pos, state);
+            level.setBlock(pos, newState, 2);
+            ForgeHooks.onCropsGrowPost(level, pos, state);
         }
     }
 
     @Override
-    public void entityInside(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (!world.isClientSide && entity instanceof Player player) {
-            MinecraftServer server = world.getServer();
+    public void entityInside(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Entity entity) {
+        if (!level.isClientSide && entity instanceof Player player) {
+            MinecraftServer server = level.getServer();
             Integer lastTouched = this.lastTouchedTick.get(player.getUUID());
             if (server != null) {
                 if (lastTouched != null && server.getTickCount() - lastTouched < 35) return;
@@ -100,7 +100,7 @@ public class AnputsFingersBlock extends CropBlock {
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return false;
     }
 

@@ -26,8 +26,8 @@ public class HorusSoaringItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowStraightEntity(world, player, velocity);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowStraightEntity(level, player, velocity);
     }
 
     @Override

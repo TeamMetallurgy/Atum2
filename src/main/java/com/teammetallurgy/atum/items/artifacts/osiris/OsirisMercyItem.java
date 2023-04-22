@@ -127,7 +127,7 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level world, List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
+    public void appendHoverText(@Nonnull ItemStack stack, @Nullable Level level, List<Component> tooltip, @Nonnull TooltipFlag tooltipType) {
         int remaining = (stack.getMaxDamage() - stack.getDamageValue()) / 332;
         tooltip.add(Component.translatable("atum.tooltip.uses_remaining", remaining));
 

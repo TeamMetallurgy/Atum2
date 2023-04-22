@@ -69,28 +69,28 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStack, @Nonnull VertexConsumer vertexBuilder, int limbSwing, int limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch, float scale) {
+    public void renderToBuffer(@Nonnull PoseStack poseStack, @Nonnull VertexConsumer vertexBuilder, int limbSwing, int limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch, float scale) {
         if (this.young) {
-            matrixStack.pushPose();
-            matrixStack.scale(0.71428573F, 0.64935064F, 0.7936508F);
-            matrixStack.translate(0.0D, 1.3125D, 0.2199999988079071D);
-            this.head.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
-            matrixStack.popPose();
-            matrixStack.pushPose();
-            matrixStack.scale(0.625F, 0.45454544F, 0.45454544F);
-            matrixStack.translate(0.0D, 2.0625D, 0.0D);
-            this.body.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
-            matrixStack.popPose();
-            matrixStack.pushPose();
-            matrixStack.scale(0.45454544F, 0.41322312F, 0.45454544F);
-            matrixStack.translate(0.0D, 2.0625D, 0.0D);
+            poseStack.pushPose();
+            poseStack.scale(0.71428573F, 0.64935064F, 0.7936508F);
+            poseStack.translate(0.0D, 1.3125D, 0.2199999988079071D);
+            this.head.render(poseStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            poseStack.popPose();
+            poseStack.pushPose();
+            poseStack.scale(0.625F, 0.45454544F, 0.45454544F);
+            poseStack.translate(0.0D, 2.0625D, 0.0D);
+            this.body.render(poseStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            poseStack.popPose();
+            poseStack.pushPose();
+            poseStack.scale(0.45454544F, 0.41322312F, 0.45454544F);
+            poseStack.translate(0.0D, 2.0625D, 0.0D);
             ImmutableList.of(this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft, this.chestLeft, this.chestRight, this.saddle1, this.saddle2).forEach((model) -> {
-                model.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+                model.render(poseStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
             });
-            matrixStack.popPose();
+            poseStack.popPose();
         } else {
             ImmutableList.of(this.head, this.body, this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft, this.chestLeft, this.chestRight, this.saddle1, this.saddle2).forEach((model) -> {
-                model.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+                model.render(poseStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
             });
         }
     }

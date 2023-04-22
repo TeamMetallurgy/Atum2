@@ -97,8 +97,8 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     private UUID angryAt;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
-    public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, Level world) {
-        super(entityType, world);
+    public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 6;
         this.maxUpStep = 1.1F;
         this.initInventory();
@@ -131,8 +131,8 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttributes().getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
 
@@ -164,8 +164,8 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
     }
 
-    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        return pos.getY() > 62 && ((ServerLevel) world.getChunkSource().getLevel()).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && world.canSeeSkyFromBelowWater(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return pos.getY() > 62 && ((ServerLevel) level.getChunkSource().getLevel()).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && level.canSeeSkyFromBelowWater(pos) && AtumEntities.canAnimalSpawn(animal, level, spawnReason, pos, random);
     }
 
     @Override
@@ -365,7 +365,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     public boolean doHurtTarget(@Nonnull Entity entity) {
-        boolean shouldAttack = entity.hurt(DamageSource.mobAttack(this), (float) ((int) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        boolean shouldAttack = entity.hurt(this.damageSources().mobAttack(this), (float) ((int) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
 
         if (shouldAttack) {
             this.doEnchantDamageEffects(this, entity);
@@ -817,9 +817,15 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         return this.entityData.get(VARIANT);
     }
 
+    @Override
     @Nullable
-    public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
+    public LivingEntity getControllingPassenger() {
+        if (this.isSaddled()) {
+            Entity entity = this.getFirstPassenger();
+            if (entity instanceof LivingEntity) {
+                return (LivingEntity)entity;
+            }
+        }
     }
 
     /*@Override
@@ -949,10 +955,6 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public boolean canJump(Player player) {
-        return true;
-    }
-
     public boolean canJump() {
         return this.isSaddled();
     }

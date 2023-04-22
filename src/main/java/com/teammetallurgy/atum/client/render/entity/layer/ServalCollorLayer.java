@@ -22,10 +22,10 @@ public class ServalCollorLayer extends RenderLayer<ServalEntity, ServalModel<Ser
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight, ServalEntity serval, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int packedLight, ServalEntity serval, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (serval.isTame()) {
             float[] color = serval.getCollarColor().getTextureDiffuseColors();
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, CAT_COLLAR, matrixStack, buffer, packedLight, serval, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, color[0], color[1], color[2]);
+            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, CAT_COLLAR, poseStack, buffer, packedLight, serval, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, color[0], color[1], color[2]);
         }
     }
 }

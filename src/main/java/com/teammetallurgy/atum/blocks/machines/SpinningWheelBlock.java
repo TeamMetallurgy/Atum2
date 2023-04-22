@@ -56,8 +56,8 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void attack(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void attack(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
 
         if (tileEntity instanceof SpinningWheelTileEntity spinningWheel) {
             if (player.isCrouching()) {
@@ -67,7 +67,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                 spinningWheel.removeItem(1, spinningWheel.getMaxStackSize());
                 spinningWheel.input = new CompoundTag();
                 spinningWheel.rotations = 0;
-                world.setBlock(pos, world.getBlockState(pos).setValue(SPOOL, 0).setValue(WHEEL, false), 2);
+                level.setBlock(pos, level.getBlockState(pos).setValue(SPOOL, 0).setValue(WHEEL, false), 2);
                 spinningWheel.setChanged();
             }
         }
@@ -75,14 +75,14 @@ public class SpinningWheelBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         ItemStack heldStack = player.getItemInHand(hand);
 
         if (tileEntity instanceof SpinningWheelTileEntity spinningWheel && hand == InteractionHand.MAIN_HAND) {
             Direction facing = rayTraceResult.getDirection();
             if (facing == state.getValue(FACING)) {
-                this.output(world, pos, player, spinningWheel);
+                this.output(level, pos, player, spinningWheel);
             } else {
                 if (facing == Direction.UP) {
                     if (spinningWheel.isEmpty() && !heldStack.isEmpty() && spinningWheel.canPlaceItem(0, heldStack) && state.getValue(SPOOL) < 3) {
@@ -96,9 +96,9 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                         if (StackHelper.areStacksEqualIgnoreSize(inputStack, heldStack)) {
                             canInsert = true;
                         } else if (!inputStack.isEmpty()) {
-                            if (world.isClientSide) {
+                            if (level.isClientSide) {
                                 player.displayClientMessage(Component.translatable("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getHoverName()).withStyle(ChatFormatting.RED), true);
-                                world.playSound(player, player.blockPosition(), SoundEvents.HORSE_SADDLE, SoundSource.BLOCKS, 0.8F, 1.0F);
+                                level.playSound(player, player.blockPosition(), SoundEvents.HORSE_SADDLE, SoundSource.BLOCKS, 0.8F, 1.0F);
                             }
                         }
 
@@ -111,7 +111,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                         }
                     } else if (!spinningWheel.input.isEmpty()) {
                         ItemStack input = ItemStack.of(spinningWheel.input);
-                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(world.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL.get());
+                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL.get());
                         for (SpinningWheelRecipe spinningWheelRecipe : recipes) {
                             for (Ingredient ingredient : spinningWheelRecipe.getIngredients()) {
                                 for (ItemStack ingredientStack : ingredient.getItems()) {
@@ -119,7 +119,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                                         boolean isSpoolFull = false;
                                         if (!spinningWheel.isEmpty()) {
                                             //Spin wheel
-                                            world.setBlock(pos, state.cycle(WHEEL), 2);
+                                            level.setBlock(pos, state.cycle(WHEEL), 2);
 
                                             if (state.getValue(SPOOL) < 3) {
                                                 if (spinningWheelRecipe.getRotations() == spinningWheel.rotations) {
@@ -128,20 +128,20 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                                                     int count = ingredientStack.getCount();
                                                     float precentage = (float) 3 / count;
                                                     int spoolSize = state.getValue(SPOOL) + Math.round(precentage);
-                                                    world.setBlock(pos, state.setValue(SPOOL, Math.min(3, spoolSize)).setValue(WHEEL, false), 2);
+                                                    level.setBlock(pos, state.setValue(SPOOL, Math.min(3, spoolSize)).setValue(WHEEL, false), 2);
                                                     if (spoolSize >= 3) {
                                                         isSpoolFull = true;
                                                     }
                                                 } else if (!state.getValue(WHEEL)) {
                                                     spinningWheel.rotations += 1;
-                                                    if (world.isClientSide) {
-                                                        world.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.LADDER_FALL, SoundSource.BLOCKS, 0.55F, 0.4F, true);
+                                                    if (level.isClientSide) {
+                                                        level.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.LADDER_FALL, SoundSource.BLOCKS, 0.55F, 0.4F, true);
                                                     }
                                                 }
                                             }
                                         }
                                         if (isSpoolFull) {
-                                            ItemStack copyOutput = spinningWheelRecipe.assemble(spinningWheel);
+                                            ItemStack copyOutput = spinningWheelRecipe.assemble(spinningWheel, level.registryAccess());
                                             ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount());
                                             spinningWheel.setItem(1, output);
                                             spinningWheel.input = new CompoundTag();
@@ -158,15 +158,15 @@ public class SpinningWheelBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    public void output(Level world, BlockPos pos, @Nullable Player player, SpinningWheelTileEntity spinningWheel) {
-        BlockState state = world.getBlockState(pos);
+    public void output(Level level, BlockPos pos, @Nullable Player player, SpinningWheelTileEntity spinningWheel) {
+        BlockState state = level.getBlockState(pos);
         if (state.getValue(SPOOL) == 3) {
-            if (!world.isClientSide && player != null) {
+            if (!level.isClientSide && player != null) {
                 StackHelper.giveItem(player, InteractionHand.MAIN_HAND, spinningWheel.getItem(1));
                 spinningWheel.removeItem(1, spinningWheel.getMaxStackSize());
             }
             spinningWheel.input = new CompoundTag();
-            world.setBlock(pos, state.cycle(SPOOL).setValue(WHEEL, false), 2);
+            level.setBlock(pos, state.cycle(SPOOL).setValue(WHEEL, false), 2);
             spinningWheel.setChanged();
         }
     }
@@ -178,13 +178,13 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (newState.getBlock() != state.getBlock()) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof SpinningWheelTileEntity) {
-                Containers.dropContents(world, pos, (Container) tileEntity);
+                Containers.dropContents(level, pos, (Container) tileEntity);
             }
-            world.removeBlockEntity(pos);
+            level.removeBlockEntity(pos);
         }
     }
 
@@ -200,7 +200,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 

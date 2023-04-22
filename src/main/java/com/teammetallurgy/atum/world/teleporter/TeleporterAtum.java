@@ -42,8 +42,8 @@ public class TeleporterAtum implements ITeleporter {
         }
     }
 
-    public boolean placeInPortal(ServerLevel world, Entity entity, float yaw) {
-        PortalInfo portalInfo = this.getPortalInfo(entity, world, null);
+    public boolean placeInPortal(ServerLevel level, Entity entity, float yaw) {
+        PortalInfo portalInfo = this.getPortalInfo(entity, level, null);
         if (portalInfo == null) {
             return false;
         } else {
@@ -100,23 +100,23 @@ public class TeleporterAtum implements ITeleporter {
         });
     }
 
-    public Optional<BlockUtil.FoundRectangle> makePortal(ServerLevel world, @Nonnull Entity entity) {
-        return createPortal(world, new BlockPos(Mth.floor(entity.getX()), Mth.floor(entity.getY()), Mth.floor(entity.getZ())));
+    public Optional<BlockUtil.FoundRectangle> makePortal(ServerLevel level, @Nonnull Entity entity) {
+        return createPortal(level, new BlockPos(Mth.floor(entity.getX()), Mth.floor(entity.getY()), Mth.floor(entity.getZ())));
     }
 
-    public Optional<BlockUtil.FoundRectangle> createPortal(Level world, BlockPos pos) {
+    public Optional<BlockUtil.FoundRectangle> createPortal(Level level, BlockPos pos) {
         BlockState portalState = AtumBlocks.PORTAL.get().defaultBlockState();
         BlockState sandState;
 
-        while (pos.getY() > 1 && world.isEmptyBlock(pos)) {
+        while (pos.getY() > 1 && level.isEmptyBlock(pos)) {
             pos = pos.below();
         }
 
-        while (!world.isEmptyBlock(pos.above()) && (world.getBlockState(pos).getBlock() != AtumBlocks.SAND.get() || world.getBlockState(pos).getBlock() != Blocks.GRASS)) {
+        while (!level.isEmptyBlock(pos.above()) && (level.getBlockState(pos).getBlock() != AtumBlocks.SAND.get() || level.getBlockState(pos).getBlock() != Blocks.GRASS)) {
             pos = pos.above();
         }
 
-        if (world.dimension() == Level.OVERWORLD) {
+        if (level.dimension() == Level.OVERWORLD) {
             sandState = Blocks.SANDSTONE.defaultBlockState();
         } else {
             sandState = AtumBlocks.LIMESTONE_BRICK_LARGE.get().defaultBlockState();
@@ -125,25 +125,25 @@ public class TeleporterAtum implements ITeleporter {
 
         //Bottom layers
         for (BlockPos basePos : BlockPos.MutableBlockPos.betweenClosed(pos.offset(-2, 0, -2), pos.offset(2, 1, 2))) {
-            world.setBlock(basePos, sandState, 2);
+            level.setBlock(basePos, sandState, 2);
         }
 
         //Pillars
         for (int y = 2; y < 4; y++) {
-            world.setBlock(pos.offset(-2, y, -2), sandState, 2);
-            world.setBlock(pos.offset(2, y, -2), sandState, 2);
-            world.setBlock(pos.offset(-2, y, 2), sandState, 2);
-            world.setBlock(pos.offset(2, y, 2), sandState, 2);
+            level.setBlock(pos.offset(-2, y, -2), sandState, 2);
+            level.setBlock(pos.offset(2, y, -2), sandState, 2);
+            level.setBlock(pos.offset(-2, y, 2), sandState, 2);
+            level.setBlock(pos.offset(2, y, 2), sandState, 2);
         }
 
         //Portal blocks
         for (BlockPos portalPos : BlockPos.MutableBlockPos.betweenClosed(pos.offset(-1, 1, -1), pos.offset(1, 1, 1))) {
-            world.setBlock(portalPos, portalState, 2);
+            level.setBlock(portalPos, portalState, 2);
         }
 
         //Set air above portal blocks
         for (BlockPos airPos : BlockPos.MutableBlockPos.betweenClosed(pos.offset(-2, 2, -1), pos.offset(2, 3, 1))) {
-            world.setBlock(airPos, Blocks.AIR.defaultBlockState(), 2);
+            level.setBlock(airPos, Blocks.AIR.defaultBlockState(), 2);
         }
         return Optional.of(new BlockUtil.FoundRectangle(pos.immutable(), 3, 3));
     }

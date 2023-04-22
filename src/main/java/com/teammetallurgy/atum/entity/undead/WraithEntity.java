@@ -30,8 +30,8 @@ public class WraithEntity extends UndeadBaseEntity {
     private int cycleHeight;
     private final int cycleTime;
 
-    public WraithEntity(EntityType<? extends WraithEntity> entityType, Level world) {
-        super(entityType, world);
+    public WraithEntity(EntityType<? extends WraithEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 6;
         this.setCanPickUpLoot(false);
 
@@ -62,8 +62,8 @@ public class WraithEntity extends UndeadBaseEntity {
 
     @Override
     @Nonnull
-    protected PathNavigation createNavigation(@Nonnull Level world) {
-        return new ClimberGroundPathNavigator(this, world);
+    protected PathNavigation createNavigation(@Nonnull Level level) {
+        return new ClimberGroundPathNavigator(this, level);
     }
 
     @Override

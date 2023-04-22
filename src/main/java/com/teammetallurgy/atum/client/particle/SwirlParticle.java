@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 public class SwirlParticle extends TextureSheetParticle {
     private float scale;
 
-    protected SwirlParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
+    protected SwirlParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+        super(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.xd = this.xd * 0.009999999776482582D + xSpeed;
         this.yd = this.yd * 0.009999999776482582D + ySpeed;
         this.zd = this.zd * 0.009999999776482582D + zSpeed;
@@ -79,8 +79,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -93,8 +93,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -107,9 +107,9 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = Mth.nextFloat(world.random, 0.05F, 0.18F);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SwirlParticle particle = new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+            particle.scale = Mth.nextFloat(level.random, 0.05F, 0.18F);
             particle.hasPhysics = true;
             return particle;
         }
@@ -124,8 +124,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -138,8 +138,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -152,9 +152,9 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = Mth.nextFloat(world.random, 0.05F, 0.15F);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SwirlParticle particle = new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+            particle.scale = Mth.nextFloat(level.random, 0.05F, 0.15F);
             return particle;
         }
     }
@@ -168,8 +168,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -182,8 +182,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
@@ -196,8 +196,8 @@ public class SwirlParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new SwirlParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

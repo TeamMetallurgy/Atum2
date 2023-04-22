@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.nepthys;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
@@ -28,7 +28,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public NepthysBanishingItem() {
-        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 3, -2.4F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

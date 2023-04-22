@@ -35,7 +35,7 @@ public class DesertWolfArmorLayer extends RenderLayer<DesertWolfEntity, DesertWo
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight, DesertWolfEntity desertWolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int packedLight, DesertWolfEntity desertWolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack armor = desertWolf.getArmor();
         if (!armor.isEmpty()) {
             DesertWolfEntity.ArmorType armorType = DesertWolfEntity.ArmorType.getByItemStack(armor);
@@ -43,7 +43,7 @@ public class DesertWolfArmorLayer extends RenderLayer<DesertWolfEntity, DesertWo
             this.model.prepareMobModel(desertWolf, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(desertWolf, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             VertexConsumer ivertexbuilder = buffer.getBuffer(RenderType.entityCutoutNoCull(CACHE.get(armorType)));
-            this.model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.model.renderToBuffer(poseStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

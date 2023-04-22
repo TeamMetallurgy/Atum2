@@ -37,13 +37,13 @@ public class SandLayersBlock extends FallingBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SAND_SHAPE[state.getValue(LAYERS)];
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SAND_SHAPE[state.getValue(LAYERS) - 1];
     }
 
@@ -74,11 +74,11 @@ public class SandLayersBlock extends FallingBlock {
     }
 
     @Override
-    public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
-        BlockState stateDown = world.getBlockState(pos.below());
+    public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, BlockPos pos) {
+        BlockState stateDown = level.getBlockState(pos.below());
         if (!stateDown.is(Blocks.ICE) && !stateDown.is(Blocks.PACKED_ICE) && !stateDown.is(Blocks.BARRIER)) {
             if (!stateDown.is(Blocks.HONEY_BLOCK) && !stateDown.is(Blocks.SOUL_SAND)) {
-                return Block.isFaceFull(stateDown.getCollisionShape(world, pos.below()), Direction.UP) || stateDown.getBlock() == this && stateDown.getValue(LAYERS) == 8;
+                return Block.isFaceFull(stateDown.getCollisionShape(level, pos.below()), Direction.UP) || stateDown.getBlock() == this && stateDown.getValue(LAYERS) == 8;
             } else {
                 return true;
             }
@@ -89,8 +89,8 @@ public class SandLayersBlock extends FallingBlock {
 
     @Override
     @Nonnull
-    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-        return !state.canSurvive(world, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, facingState, world, currentPos, facingPos);
+    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        return !state.canSurvive(level, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, facingState, level, currentPos, facingPos);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 public class HorusAscensionItem extends GauntletItem implements IArtifact {
 
     public HorusAscensionItem() {
-        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

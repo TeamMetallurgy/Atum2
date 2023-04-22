@@ -52,28 +52,28 @@ public class GirafiTombPieces { //TODO
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
             if (function.equals("Crate")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             } else if (function.equals("GirafiSarcophagus")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.GIRAFI_TOMB);
-                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.GIRAFI_TOMB);
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                 }
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
-                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PHARAOH);
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                 }
             }
         }

@@ -26,7 +26,7 @@ public class RasFuryItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected CustomArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowFireEntity(world, player);
+    protected CustomArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowFireEntity(level, player);
     }
 }

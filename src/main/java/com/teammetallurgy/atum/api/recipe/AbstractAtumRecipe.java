@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.api.recipe;
 
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -35,12 +36,12 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(@Nonnull RegistryAccess registryAccess) {
         return this.output;
     }
 
     @Override
-    public boolean matches(@Nonnull C inv, @Nonnull Level world) {
+    public boolean matches(@Nonnull C inv, @Nonnull Level level) {
         for (Ingredient ingredient : this.getIngredients()) {
             if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, inv.getItem(0))) {
                 return true;
@@ -51,7 +52,7 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ItemStack assemble(@Nonnull C inv) {
+    public ItemStack assemble(@Nonnull C inv, RegistryAccess registryAccess) {
         return this.output.copy();
     }
 

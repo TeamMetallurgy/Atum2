@@ -80,28 +80,28 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     @Override
-    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, EntityType<?> entityType) {
+    public boolean isValidSpawn(BlockState state, BlockGetter level, BlockPos pos, SpawnPlacements.Type type, EntityType<?> entityType) {
         return false;
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        if (!this.canSurviveAt(world, pos)) {
-            world.destroyBlock(pos, true);
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        if (!this.canSurviveAt(level, pos)) {
+            level.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        if (!this.canSurviveAt(world, pos)) {
-            world.scheduleTick(pos, this, 1);
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        if (!this.canSurviveAt(level, pos)) {
+            level.scheduleTick(pos, this, 1);
         }
     }
 
-    private boolean canSurviveAt(Level world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
+    private boolean canSurviveAt(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
         Direction facing = state.getValue(FACING);
-        BlockState neighbor = world.getBlockState(pos.offset(facing.getNormal()));
+        BlockState neighbor = level.getBlockState(pos.offset(facing.getNormal()));
         return neighbor.getMaterial() == Material.WOOD;
     }
 
@@ -129,11 +129,11 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     @Nonnull
-    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, direction, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, direction, facingState, level, currentPos, facingPos);
     }
 
     @Override
@@ -147,29 +147,29 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
         container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN, WATERLOGGED);
     }
 
-    public BlockState makeConnections(LevelReader world, BlockPos pos) {
-        return makeConnections(world, pos, world.getBlockState(pos).getValue(FACING).getOpposite());
+    public BlockState makeConnections(LevelReader level, BlockPos pos) {
+        return makeConnections(level, pos, level.getBlockState(pos).getValue(FACING).getOpposite());
     }
 
-    public BlockState makeConnections(LevelReader world, BlockPos pos, Direction direction) {
+    public BlockState makeConnections(LevelReader level, BlockPos pos, Direction direction) {
         return this.defaultBlockState().setValue(FACING, direction.getOpposite())
-                .setValue(NORTH, shouldCheckDirection(world, pos, direction, Direction.NORTH))
-                .setValue(EAST, shouldCheckDirection(world, pos, direction, Direction.EAST))
-                .setValue(SOUTH, shouldCheckDirection(world, pos, direction, Direction.SOUTH))
-                .setValue(WEST, shouldCheckDirection(world, pos, direction, Direction.WEST))
-                .setValue(UP, shouldCheckDirection(world, pos, direction, Direction.UP))
-                .setValue(DOWN, shouldCheckDirection(world, pos, direction, Direction.DOWN));
+                .setValue(NORTH, shouldCheckDirection(level, pos, direction, Direction.NORTH))
+                .setValue(EAST, shouldCheckDirection(level, pos, direction, Direction.EAST))
+                .setValue(SOUTH, shouldCheckDirection(level, pos, direction, Direction.SOUTH))
+                .setValue(WEST, shouldCheckDirection(level, pos, direction, Direction.WEST))
+                .setValue(UP, shouldCheckDirection(level, pos, direction, Direction.UP))
+                .setValue(DOWN, shouldCheckDirection(level, pos, direction, Direction.DOWN));
     }
 
-    private boolean shouldCheckDirection(LevelReader world, BlockPos pos, Direction direction, Direction directionToCheck) {
-        if (direction != directionToCheck) return shouldConnect(world, pos, directionToCheck);
-        if (direction != directionToCheck.getOpposite()) return shouldConnect(world, pos, directionToCheck);
+    private boolean shouldCheckDirection(LevelReader level, BlockPos pos, Direction direction, Direction directionToCheck) {
+        if (direction != directionToCheck) return shouldConnect(level, pos, directionToCheck);
+        if (direction != directionToCheck.getOpposite()) return shouldConnect(level, pos, directionToCheck);
 
         return false;
     }
 
-    public boolean shouldConnect(LevelReader world, BlockPos pos, Direction direction) {
-        BlockState neighborState = world.getBlockState(pos.offset(direction.getNormal()));
+    public boolean shouldConnect(LevelReader level, BlockPos pos, Direction direction) {
+        BlockState neighborState = level.getBlockState(pos.offset(direction.getNormal()));
         if (neighborState.getBlock() == this) {
             return neighborState.getValue(FACING) == direction.getOpposite();
         }
@@ -177,7 +177,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rotation) {
         switch (rotation) {
             case CLOCKWISE_180:
                 return state.setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));

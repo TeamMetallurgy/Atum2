@@ -22,8 +22,8 @@ public class LimestoneGravelBlock extends GravelBlock {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter world, BlockPos pos, @Nonnull Direction facing, IPlantable plantable) {
-        PlantType plantType = plantable.getPlantType(world, pos.relative(facing));
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter level, BlockPos pos, @Nonnull Direction facing, IPlantable plantable) {
+        PlantType plantType = plantable.getPlantType(level, pos.relative(facing));
         return plantType == PlantType.DESERT;
     }
 

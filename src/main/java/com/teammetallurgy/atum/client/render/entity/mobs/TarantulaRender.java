@@ -27,8 +27,8 @@ public class TarantulaRender<T extends TarantulaEntity> extends MobRenderer<T, S
     }
 
     @Override
-    protected void scale(@Nonnull T tarantula, PoseStack matrixStack, float partialTickTime) {
-        matrixStack.scale(0.6F, 0.6F, 0.6F);
+    protected void scale(@Nonnull T tarantula, PoseStack poseStack, float partialTickTime) {
+        poseStack.scale(0.6F, 0.6F, 0.6F);
     }
 
     @Override

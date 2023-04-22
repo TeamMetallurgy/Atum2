@@ -87,7 +87,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
+    public void appendHoverText(@Nonnull ItemStack stack, Level level, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             tooltip.add(Component.translatable(Atum.MOD_ID + ".armorset." + this.getSlot().getName()).withStyle(ChatFormatting.GRAY));

@@ -37,22 +37,22 @@ public class TefnutsCallEntity extends AbstractArrow {
     private boolean dealtDamage;
     public int returningTicks;
 
-    public TefnutsCallEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.TEFNUTS_CALL.get(), world);
+    public TefnutsCallEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
+        this(AtumEntities.TEFNUTS_CALL.get(), level);
     }
 
-    public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, Level world) {
-        super(entityType, world);
+    public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public TefnutsCallEntity(Level world, LivingEntity shooter, @Nonnull ItemStack stack) {
-        super(AtumEntities.TEFNUTS_CALL.get(), shooter, world);
+    public TefnutsCallEntity(Level level, LivingEntity shooter, @Nonnull ItemStack stack) {
+        super(AtumEntities.TEFNUTS_CALL.get(), shooter, level);
         this.thrownStack = stack.copy();
     }
 
     @OnlyIn(Dist.CLIENT)
-    public TefnutsCallEntity(Level world, double x, double y, double z) {
-        super(AtumEntities.TEFNUTS_CALL.get(), x, y, z, world);
+    public TefnutsCallEntity(Level level, double x, double y, double z) {
+        super(AtumEntities.TEFNUTS_CALL.get(), x, y, z, level);
     }
 
     @Override
@@ -136,9 +136,9 @@ public class TefnutsCallEntity extends AbstractArrow {
             DamageSource damagesource;
 
             if (shooter == null) {
-                damagesource = DamageSource.arrow(this, this);
+                damagesource = this.damageSources().arrow(this, this);
             } else {
-                damagesource = DamageSource.arrow(this, shooter);
+                damagesource = this.damageSources().arrow(this, shooter);
             }
 
             if (this.isOnFire() && !(entity instanceof EnderMan)) {

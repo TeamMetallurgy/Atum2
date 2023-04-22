@@ -10,7 +10,7 @@ public class DryGrassBlock extends OasisGrassBlock {
 
     @Override
     @Nonnull
-    public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
         return PlantType.DESERT;
     }
 }

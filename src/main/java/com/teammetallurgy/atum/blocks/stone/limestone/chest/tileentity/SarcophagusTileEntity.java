@@ -10,7 +10,6 @@ import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

@@ -24,20 +24,20 @@ import javax.annotation.Nonnull;
 
 public class SmallBoneEntity extends Fireball {
 
-    public SmallBoneEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.SMALL_BONE.get(), world);
+    public SmallBoneEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
+        this(AtumEntities.SMALL_BONE.get(), level);
     }
 
-    public SmallBoneEntity(EntityType<? extends SmallBoneEntity> entityType, Level world) {
-        super(entityType, world);
+    public SmallBoneEntity(EntityType<? extends SmallBoneEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public SmallBoneEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ) {
-        super(AtumEntities.SMALL_BONE.get(), shooter, accelX, accelY, accelZ, world);
+    public SmallBoneEntity(Level level, LivingEntity shooter, double accelX, double accelY, double accelZ) {
+        super(AtumEntities.SMALL_BONE.get(), shooter, accelX, accelY, accelZ, level);
     }
 
-    public SmallBoneEntity(Level world, double x, double y, double z, double accelX, double accelY, double accelZ) {
-        super(AtumEntities.SMALL_BONE.get(), x, y, z, accelX, accelY, accelZ, world);
+    public SmallBoneEntity(Level level, double x, double y, double z, double accelX, double accelY, double accelZ) {
+        super(AtumEntities.SMALL_BONE.get(), x, y, z, accelX, accelY, accelZ, level);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SmallBoneEntity extends Fireball {
         if (!this.level.isClientSide) {
             Entity entity = rayTraceResult.getEntity();
             Entity shootingEntity = this.getOwner();
-            boolean flag = entity.hurt(DamageSource.fireball(this, shootingEntity), 5.0F);
+            boolean flag = entity.hurt(this.damageSources().fireball(this, shootingEntity), 5.0F);
             if (shootingEntity instanceof LivingEntity && flag) {
                 this.doEnchantDamageEffects((LivingEntity) shootingEntity, entity);
             }

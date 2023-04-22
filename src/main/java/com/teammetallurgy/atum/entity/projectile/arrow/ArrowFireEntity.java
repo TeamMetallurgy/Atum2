@@ -22,16 +22,16 @@ import javax.annotation.Nonnull;
 
 public class ArrowFireEntity extends CustomArrow {
 
-    public ArrowFireEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.FIRE_ARROW.get(), world);
+    public ArrowFireEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.FIRE_ARROW.get(), level);
     }
 
-    public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowFireEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.FIRE_ARROW.get(), world, shooter);
+    public ArrowFireEntity(Level level, LivingEntity shooter) {
+        super(AtumEntities.FIRE_ARROW.get(), level, shooter);
     }
 
     @Override

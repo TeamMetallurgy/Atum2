@@ -53,10 +53,10 @@ public class KilnBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    protected void openContainer(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockPos tepos = getPrimaryKilnBlock(world, pos);
+    protected void openContainer(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockPos tepos = getPrimaryKilnBlock(level, pos);
         if (tepos != null) {
-            BlockEntity tileEntity = world.getBlockEntity(tepos);
+            BlockEntity tileEntity = level.getBlockEntity(tepos);
             if (tileEntity instanceof KilnTileEntity kiln && player instanceof ServerPlayer) {
                 NetworkHooks.openScreen((ServerPlayer) player, kiln, tepos);
             }
@@ -64,43 +64,43 @@ public class KilnBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (newState.getBlock() != state.getBlock()) {
             if (state.getValue(MULTIBLOCK_PRIMARY)) {
-                this.destroyMultiblock(world, pos, state.getValue(FACING));
+                this.destroyMultiblock(level, pos, state.getValue(FACING));
             } else {
                 BlockPos primaryPos = pos.relative(state.getValue(FACING).getCounterClockWise());
-                BlockState primaryState = world.getBlockState(primaryPos);
+                BlockState primaryState = level.getBlockState(primaryPos);
                 if (primaryState.getBlock() == AtumBlocks.KILN.get() && primaryState.getValue(MULTIBLOCK_PRIMARY)) {
-                    this.destroyMultiblock(world, primaryPos, primaryState.getValue(FACING));
+                    this.destroyMultiblock(level, primaryPos, primaryState.getValue(FACING));
                 }
             }
-            world.removeBlockEntity(pos);
+            level.removeBlockEntity(pos);
         }
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
-        super.setPlacedBy(world, pos, state, placer, stack);
-        tryMakeMultiblock(world, pos, world.getBlockState(pos));
+    public void setPlacedBy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        tryMakeMultiblock(level, pos, level.getBlockState(pos));
     }
 
-    public void tryMakeMultiblock(Level world, BlockPos pos, BlockState state) {
+    public void tryMakeMultiblock(Level level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(FACING);
-        if (checkMultiblock(world, pos, facing)) {
-            world.setBlockAndUpdate(pos, state.setValue(MULTIBLOCK_PRIMARY, true));
-            world.setBlockAndUpdate(pos.relative(facing.getClockWise()), state.setValue(MULTIBLOCK_PRIMARY, false));
-            createMultiblock(world, pos);
-        } else if (checkMultiblock(world, pos.relative(facing.getCounterClockWise()), facing)) {
-            world.setBlockAndUpdate(pos, state.setValue(MULTIBLOCK_PRIMARY, false));
-            world.setBlockAndUpdate(pos.relative(facing.getCounterClockWise()), state.setValue(MULTIBLOCK_PRIMARY, true));
-            createMultiblock(world, pos.relative(facing.getCounterClockWise()));
+        if (checkMultiblock(level, pos, facing)) {
+            level.setBlockAndUpdate(pos, state.setValue(MULTIBLOCK_PRIMARY, true));
+            level.setBlockAndUpdate(pos.relative(facing.getClockWise()), state.setValue(MULTIBLOCK_PRIMARY, false));
+            createMultiblock(level, pos);
+        } else if (checkMultiblock(level, pos.relative(facing.getCounterClockWise()), facing)) {
+            level.setBlockAndUpdate(pos, state.setValue(MULTIBLOCK_PRIMARY, false));
+            level.setBlockAndUpdate(pos.relative(facing.getCounterClockWise()), state.setValue(MULTIBLOCK_PRIMARY, true));
+            createMultiblock(level, pos.relative(facing.getCounterClockWise()));
         }
     }
 
-    public static BlockPos getSecondaryKilnFromPrimary(Level world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public static BlockPos getSecondaryKilnFromPrimary(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof KilnTileEntity) {
             if (state.getBlock() == AtumBlocks.KILN.get() && ((KilnTileEntity) tileEntity).isPrimary()) {
                 return pos.relative(state.getValue(FACING).getClockWise());
@@ -109,13 +109,13 @@ public class KilnBlock extends AbstractFurnaceBlock {
         return null;
     }
 
-    private BlockPos getPrimaryKilnBlock(Level world, BlockPos pos) {
-        if (world != null && !world.isEmptyBlock(pos)) {
-            BlockState state = world.getBlockState(pos);
+    private BlockPos getPrimaryKilnBlock(Level level, BlockPos pos) {
+        if (level != null && !level.isEmptyBlock(pos)) {
+            BlockState state = level.getBlockState(pos);
             if (state.getBlock() == AtumBlocks.KILN.get() && state.getValue(MULTIBLOCK_PRIMARY)) {
                 return pos;
             } else {
-                state = world.getBlockState(pos.relative(state.getValue(FACING).getCounterClockWise()));
+                state = level.getBlockState(pos.relative(state.getValue(FACING).getCounterClockWise()));
                 if (state.getBlock() == AtumBlocks.KILN.get() && state.getValue(MULTIBLOCK_PRIMARY)) {
                     return pos.relative(state.getValue(FACING).getCounterClockWise());
                 }
@@ -124,77 +124,77 @@ public class KilnBlock extends AbstractFurnaceBlock {
         return null;
     }
 
-    private void createMultiblock(Level world, BlockPos primaryPos) {
-        List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, world.getBlockState(primaryPos).getValue(FACING));
+    private void createMultiblock(Level level, BlockPos primaryPos) {
+        List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, level.getBlockState(primaryPos).getValue(FACING));
         for (BlockPos brickPos : brickPositions) {
-            world.setBlockAndUpdate(brickPos, AtumBlocks.KILN_FAKE.get().defaultBlockState().setValue(KilnFakeBlock.UP, primaryPos.getY() - 1 == brickPos.getY()));
-            BlockEntity tileEntity = world.getBlockEntity(brickPos);
+            level.setBlockAndUpdate(brickPos, AtumBlocks.KILN_FAKE.get().defaultBlockState().setValue(KilnFakeBlock.UP, primaryPos.getY() - 1 == brickPos.getY()));
+            BlockEntity tileEntity = level.getBlockEntity(brickPos);
             if (tileEntity != null) {
                 ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
             }
         }
-        BlockEntity tileEntity = world.getBlockEntity(primaryPos);
+        BlockEntity tileEntity = level.getBlockEntity(primaryPos);
         if (tileEntity instanceof KilnBaseTileEntity) {
             ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
         }
 
-        BlockPos secondaryPos = getSecondaryKilnFromPrimary(world, primaryPos);
+        BlockPos secondaryPos = getSecondaryKilnFromPrimary(level, primaryPos);
 
         if (secondaryPos != null) {
-            tileEntity = world.getBlockEntity(secondaryPos);
+            tileEntity = level.getBlockEntity(secondaryPos);
             if (tileEntity instanceof KilnBaseTileEntity) {
                 ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
             }
         }
     }
 
-    void destroyMultiblock(Level world, BlockPos primaryPos, Direction facing) {
+    void destroyMultiblock(Level level, BlockPos primaryPos, Direction facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
-        BlockState primaryState = world.getBlockState(primaryPos);
+        BlockState primaryState = level.getBlockState(primaryPos);
         BlockPos secondaryPos = primaryPos.relative(facing.getClockWise());
-        BlockState secondaryState = world.getBlockState(secondaryPos);
+        BlockState secondaryState = level.getBlockState(secondaryPos);
         BlockPos dropPos = primaryPos;
 
         if (primaryState.getBlock() == AtumBlocks.KILN.get()) {
-            world.setBlockAndUpdate(primaryPos, primaryState.setValue(MULTIBLOCK_PRIMARY, false).setValue(LIT, false));
+            level.setBlockAndUpdate(primaryPos, primaryState.setValue(MULTIBLOCK_PRIMARY, false).setValue(LIT, false));
         }
         if (secondaryState.getBlock() == AtumBlocks.KILN.get()) {
-            world.setBlockAndUpdate(secondaryPos, secondaryState.setValue(LIT, false));
+            level.setBlockAndUpdate(secondaryPos, secondaryState.setValue(LIT, false));
         } else {
             dropPos = secondaryPos;
         }
         for (BlockPos brickPos : brickPositions) {
-            if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE.get()) {
-                world.removeBlockEntity(brickPos);
-                world.setBlockAndUpdate(brickPos, AtumBlocks.LIMESTONE_BRICK_SMALL.get().defaultBlockState());
+            if (level.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE.get()) {
+                level.removeBlockEntity(brickPos);
+                level.setBlockAndUpdate(brickPos, AtumBlocks.LIMESTONE_BRICK_SMALL.get().defaultBlockState());
             } else {
                 dropPos = brickPos;
             }
         }
 
-        BlockEntity tileEntity = world.getBlockEntity(primaryPos);
+        BlockEntity tileEntity = level.getBlockEntity(primaryPos);
         if (tileEntity instanceof KilnBaseTileEntity kilnBase) {
             kilnBase.setPrimaryPos(null);
-            Containers.dropContents(world, dropPos, kilnBase);
+            Containers.dropContents(level, dropPos, kilnBase);
             kilnBase.setRemoved();
         }
 
-        tileEntity = world.getBlockEntity(secondaryPos);
+        tileEntity = level.getBlockEntity(secondaryPos);
         if (tileEntity instanceof KilnBaseTileEntity kilnBase) {
             kilnBase.setPrimaryPos(null);
         }
     }
 
-    private boolean checkMultiblock(Level world, BlockPos primaryPos, Direction facing) {
+    private boolean checkMultiblock(Level level, BlockPos primaryPos, Direction facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
-        if (world.getBlockState(primaryPos).getBlock() != AtumBlocks.KILN.get()) {
+        if (level.getBlockState(primaryPos).getBlock() != AtumBlocks.KILN.get()) {
             return false;
         }
-        if (world.getBlockState(primaryPos.relative(facing.getClockWise())).getBlock() != AtumBlocks.KILN.get()) {
+        if (level.getBlockState(primaryPos.relative(facing.getClockWise())).getBlock() != AtumBlocks.KILN.get()) {
             return false;
         }
         for (BlockPos brickPos : brickPositions) {
-            BlockState brickState = world.getBlockState(brickPos);
+            BlockState brickState = level.getBlockState(brickPos);
             if (brickState.getBlock() != AtumBlocks.LIMESTONE_BRICK_SMALL.get()) {
                 return false;
             }
@@ -218,14 +218,14 @@ public class KilnBlock extends AbstractFurnaceBlock {
 
     @Override
     @Nonnull
-    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-        BlockEntity tileEntity = world.getBlockEntity(currentPos);
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        BlockEntity tileEntity = level.getBlockEntity(currentPos);
         if (tileEntity instanceof KilnTileEntity kiln) {
             if (this.getPrimaryKilnBlock(kiln.getLevel(), currentPos) != null) {
                 return state.setValue(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }
         }
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
     @Override

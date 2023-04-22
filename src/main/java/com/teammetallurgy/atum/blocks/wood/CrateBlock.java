@@ -38,18 +38,18 @@ public class CrateBlock extends ChestBlock {
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTrace) {
-        if (world.isClientSide) {
+    public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTrace) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else if (!ChestBlock.isChestBlockedAt(world, pos)) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+        } else if (!ChestBlock.isChestBlockedAt(level, pos)) {
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
                 player.openMenu((CrateTileEntity) tileEntity);
                 player.awardStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
             }
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, world, pos, player, hand, rayTrace);
+        return super.use(state, level, pos, player, hand, rayTrace);
     }
 
     @Override
@@ -60,9 +60,9 @@ public class CrateBlock extends ChestBlock {
 
     @Override
     @Nonnull
-    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
         return state;
     }

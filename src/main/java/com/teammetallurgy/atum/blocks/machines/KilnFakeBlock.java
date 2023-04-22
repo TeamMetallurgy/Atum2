@@ -42,35 +42,35 @@ public class KilnFakeBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
-        if (world.isClientSide) {
+    public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+        if (level.isClientSide) {
             return InteractionResult.PASS;
         }
-        BlockPos tepos = getPrimaryKilnBlock(world, pos);
+        BlockPos tepos = getPrimaryKilnBlock(level, pos);
         if (tepos != null) {
-            MenuProvider container = this.getMenuProvider(world.getBlockState(tepos), world, tepos);
+            MenuProvider container = this.getMenuProvider(level.getBlockState(tepos), level, tepos);
             if (container != null && player instanceof ServerPlayer) {
                 NetworkHooks.openScreen((ServerPlayer) player, container, tepos);
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.use(state, world, pos, player, hand, rayTraceResult);
+        return super.use(state, level, pos, player, hand, rayTraceResult);
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos);
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        BlockPos primaryPos = this.getPrimaryKilnBlock(level, pos);
         if (primaryPos != null) {
-            BlockState primaryState = world.getBlockState(primaryPos);
+            BlockState primaryState = level.getBlockState(primaryPos);
             if (primaryState.getBlock() == AtumBlocks.KILN.get() && primaryState.getValue(KilnBlock.MULTIBLOCK_PRIMARY)) {
-                ((KilnBlock) AtumBlocks.KILN.get()).destroyMultiblock(world, primaryPos, primaryState.getValue(KilnBlock.FACING));
+                ((KilnBlock) AtumBlocks.KILN.get()).destroyMultiblock(level, primaryPos, primaryState.getValue(KilnBlock.FACING));
             }
         }
-        super.onRemove(state, world, pos, newState, isMoving);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
-    private BlockPos getPrimaryKilnBlock(Level world, BlockPos pos) {
-        BlockEntity te = world.getBlockEntity(pos);
+    private BlockPos getPrimaryKilnBlock(Level level, BlockPos pos) {
+        BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof KilnBaseTileEntity tekb) {
             return tekb.getPrimaryPos();
         }

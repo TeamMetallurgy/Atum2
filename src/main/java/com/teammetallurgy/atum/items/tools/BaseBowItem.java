@@ -25,13 +25,13 @@ public class BaseBowItem extends BowItem {
     }
 
     @Override
-    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof Player player) {
             boolean infinity = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
             ItemStack ammoStack = player.getProjectile(stack);
 
             int maxUses = this.getArrowLoose(stack, timeLeft);
-            maxUses = ForgeEventFactory.onArrowLoose(stack, world, player, maxUses, !ammoStack.isEmpty() || infinity);
+            maxUses = ForgeEventFactory.onArrowLoose(stack, level, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
 
             if (!ammoStack.isEmpty() || infinity) {
@@ -40,13 +40,13 @@ public class BaseBowItem extends BowItem {
                 }
                 float velocity = getPowerForTime(maxUses);
 
-                this.onVelocity(world, player, velocity);
+                this.onVelocity(level, player, velocity);
 
                 if (!((double) velocity < 0.1D)) {
                     boolean hasArrow = player.getAbilities().instabuild || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
-                    if (!world.isClientSide) {
-                        AbstractArrow arrow = setArrow(ammoStack, world, player, velocity);
+                    if (!level.isClientSide) {
+                        AbstractArrow arrow = setArrow(ammoStack, level, player, velocity);
                         onShoot(arrow, player, velocity);
 
                         if (velocity == 1.0F) {
@@ -72,9 +72,9 @@ public class BaseBowItem extends BowItem {
                         if (hasArrow || player.getAbilities().instabuild && (ammoStack.getItem() == Items.SPECTRAL_ARROW || ammoStack.getItem() == Items.TIPPED_ARROW)) {
                             arrow.pickup = CustomArrow.Pickup.CREATIVE_ONLY;
                         }
-                        world.addFreshEntity(arrow);
+                        level.addFreshEntity(arrow);
                     }
-                    world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (world.random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
                     if (!hasArrow && !player.getAbilities().instabuild) {
                         ammoStack.shrink(1);
@@ -89,12 +89,12 @@ public class BaseBowItem extends BowItem {
         }
     }
 
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
         ArrowItem ArrowItem = (ArrowItem) (stack.getItem() instanceof ArrowItem ? stack.getItem() : Items.ARROW);
-        return ArrowItem.createArrow(world, stack, player);
+        return ArrowItem.createArrow(level, stack, player);
     }
 
-    protected void onVelocity(Level world, Player player, float velocity) {
+    protected void onVelocity(Level level, Player player, float velocity) {
     }
 
     protected void onShoot(AbstractArrow arrow, Player player, float velocity) {

@@ -45,9 +45,9 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity livingEntity, int amplifier) {
-        Level world = livingEntity.level;
-        if (!world.isClientSide()) {
-            if (world instanceof ServerLevel serverLevel) {
+        Level level = livingEntity.level;
+        if (!level.isClientSide()) {
+            if (level instanceof ServerLevel serverLevel) {
                 if (serverLevel.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
                     RandomSource random = serverLevel.random;
                     int x = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
@@ -95,16 +95,16 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
         }
     }*/
 
-    private void spawnAssassin(ServerLevel world, BlockPos pos, RandomSource rand, LivingEntity markedTarget) {
+    private void spawnAssassin(ServerLevel level, BlockPos pos, RandomSource rand, LivingEntity markedTarget) {
         EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN.get();
-        BlockState state = world.getBlockState(pos);
-        if (NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType) && AssassinEntity.canSpawn(entityType, world, MobSpawnType.EVENT, pos, rand)) {
-            AssassinEntity assassin = entityType.create(world);
+        BlockState state = level.getBlockState(pos);
+        if (NaturalSpawner.isValidEmptySpawnBlock(level, pos, state, state.getFluidState(), entityType) && AssassinEntity.canSpawn(entityType, level, MobSpawnType.EVENT, pos, rand)) {
+            AssassinEntity assassin = entityType.create(level);
             if (assassin != null) {
                 assassin.setPos(pos.getX() + rand.nextInt(5) - rand.nextInt(5), pos.getY(), pos.getZ() + rand.nextInt(5) - rand.nextInt(5));
-                assassin.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
+                assassin.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
                 assassin.setMarkedTarget(markedTarget);
-                world.addFreshEntity(assassin);
+                level.addFreshEntity(assassin);
             }
         }
     }

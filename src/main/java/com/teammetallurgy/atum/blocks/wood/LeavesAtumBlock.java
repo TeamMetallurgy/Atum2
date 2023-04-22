@@ -19,10 +19,10 @@ public class LeavesAtumBlock extends LeavesBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+    public void randomTick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
         if (!state.getValue(PERSISTENT) && state.getValue(DISTANCE) >= 3) {
-            dropResources(state, world, pos);
-            world.removeBlock(pos, false);
+            dropResources(state, level, pos);
+            level.removeBlock(pos, false);
         }
     }
 }

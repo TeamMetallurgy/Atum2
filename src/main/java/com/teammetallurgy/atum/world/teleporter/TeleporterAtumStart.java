@@ -22,12 +22,12 @@ public class TeleporterAtumStart implements ITeleporter {
         return this.onAtumJoining(destWorld, repositionEntity.apply(false), spawnPos, yaw);
     }
 
-    private Entity onAtumJoining(ServerLevel world, Entity entity, BlockPos spawnPos, float yaw) {
-        if (world.dimension() == Atum.ATUM) {
+    private Entity onAtumJoining(ServerLevel level, Entity entity, BlockPos spawnPos, float yaw) {
+        if (level.dimension() == Atum.ATUM) {
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 TeleporterAtum teleporterAtum = TeleporterAtum.INSTANCE;
-                teleporterAtum.makePortal(world, entity);
-                teleporterAtum.placeInPortal(world, entity, yaw);
+                teleporterAtum.makePortal(level, entity);
+                teleporterAtum.placeInPortal(level, entity, yaw);
             } else {
                 entity.setYRot(yaw);
                 entity.moveTo(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
@@ -36,18 +36,18 @@ public class TeleporterAtumStart implements ITeleporter {
         return entity;
     }
 
-    private void onInitialAtumJoining(ServerLevel world, BlockPos spawnPos) {
-        /*if (world.dimension() == Atum.ATUM) { //TODO Requires AtumFeatures to function
+    private void onInitialAtumJoining(ServerLevel level, BlockPos spawnPos) {
+        /*if (level.dimension() == Atum.ATUM) { //TODO Requires AtumFeatures to function
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 spawnPos = spawnPos.offset(4, 0, 4);
             }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE_CONFIGURED;
-                startStructure.place(world, world.getChunkSource().getGenerator(), world.random, spawnPos);
+                startStructure.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
             }
-            if (world.getServer().getWorldData().worldGenSettings().generateBonusChest()) {
+            if (level.getServer().getWorldData().worldGenSettings().generateBonusChest()) {
                 ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE_CONFIGURED;
-                bonusCrate.place(world, world.getChunkSource().getGenerator(), world.random, spawnPos);
+                bonusCrate.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
             }
         }*/
     }

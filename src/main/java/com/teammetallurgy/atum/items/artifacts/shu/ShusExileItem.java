@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -26,7 +26,7 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public ShusExileItem() {
-        super(AtumMats.NEBU, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

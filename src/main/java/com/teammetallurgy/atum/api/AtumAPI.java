@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.api;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.animal.ServalEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

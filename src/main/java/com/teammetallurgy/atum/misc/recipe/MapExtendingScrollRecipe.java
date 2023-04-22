@@ -30,8 +30,8 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
     }
 
     @Override
-    public boolean matches(@Nonnull CraftingContainer inv, @Nonnull Level world) {
-        if (!super.matches(inv, world)) {
+    public boolean matches(@Nonnull CraftingContainer inv, @Nonnull Level level) {
+        if (!super.matches(inv, level)) {
             return false;
         } else {
             ItemStack stack = ItemStack.EMPTY;
@@ -46,7 +46,7 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
             if (stack.isEmpty()) {
                 return false;
             } else {
-                MapItemSavedData mapdata = MapItem.getSavedData(stack, world);
+                MapItemSavedData mapdata = MapItem.getSavedData(stack, level);
 
                 if (mapdata == null) {
                     return false;

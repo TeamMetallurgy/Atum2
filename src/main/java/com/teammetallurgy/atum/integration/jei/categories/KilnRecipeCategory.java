@@ -95,14 +95,14 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     }
 
     @Override
-    public void draw(KilnRecipe recipe, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
-        animatedFlame.draw(matrixStack, 1, 17);
-        arrow.draw(matrixStack, 43, 38);
+    public void draw(KilnRecipe recipe, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
+        animatedFlame.draw(poseStack, 1, 17);
+        arrow.draw(poseStack, 43, 38);
 
         float experience = recipe.getExperience();
         if (experience > 0) {
             Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
-            Minecraft.getInstance().font.draw(matrixStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            Minecraft.getInstance().font.draw(poseStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
 }*/

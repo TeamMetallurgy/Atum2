@@ -33,8 +33,8 @@ import javax.annotation.Nonnull;
 public class TarantulaEntity extends Monster {
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(TarantulaEntity.class, EntityDataSerializers.BYTE);
 
-    public TarantulaEntity(EntityType<? extends Monster> entityType, Level world) {
-        super(entityType, world);
+    public TarantulaEntity(EntityType<? extends Monster> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 5;
     }
 
@@ -57,13 +57,13 @@ public class TarantulaEntity extends Monster {
     }
 
     @Override
-    public boolean checkSpawnRules(@Nonnull LevelAccessor world, @Nonnull MobSpawnType spawnReason) {
-        return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(world, spawnReason);
+    public boolean checkSpawnRules(@Nonnull LevelAccessor level, @Nonnull MobSpawnType spawnReason) {
+        return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(level, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canSeeSkyFromBelowWater(pos.below())) && checkMonsterSpawnRules(tarantula, world, spawnReason, pos, random) &&
-                world instanceof ServerLevel /*&& !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
+    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, ServerLevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !level.canSeeSkyFromBelowWater(pos.below())) && checkMonsterSpawnRules(tarantula, level, spawnReason, pos, random) &&
+                level instanceof ServerLevel /*&& !StructureHelper.doesChunkHaveStructure((ServerLevel) level, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
     }
 
     @Override
@@ -73,8 +73,8 @@ public class TarantulaEntity extends Monster {
 
     @Override
     @Nonnull
-    protected PathNavigation createNavigation(@Nonnull Level world) {
-        return new WallClimberNavigation(this, world);
+    protected PathNavigation createNavigation(@Nonnull Level level) {
+        return new WallClimberNavigation(this, level);
     }
 
     @Override

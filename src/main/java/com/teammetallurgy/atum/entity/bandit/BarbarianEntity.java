@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 
 public class BarbarianEntity extends BanditBaseEntity {
 
-    public BarbarianEntity(EntityType<? extends BarbarianEntity> entityType, Level world) {
-        super(entityType, world);
+    public BarbarianEntity(EntityType<? extends BarbarianEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 9;
     }
 

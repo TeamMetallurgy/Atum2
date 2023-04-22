@@ -30,8 +30,8 @@ public class PapyrusBlock extends SugarCaneBlock {
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        BlockState soil = world.getBlockState(pos.below());
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState soil = level.getBlockState(pos.below());
         Block block = soil.getBlock();
 
         if (block == this) {
@@ -41,7 +41,7 @@ public class PapyrusBlock extends SugarCaneBlock {
                 BlockPos powDown = pos.below();
 
                 for (Direction direction : Direction.Plane.HORIZONTAL) {
-                    FluidState fluidState = world.getFluidState(powDown.relative(direction));
+                    FluidState fluidState = level.getFluidState(powDown.relative(direction));
                     if (fluidState.is(FluidTags.WATER)) {
                         return true;
                     }
@@ -52,26 +52,26 @@ public class PapyrusBlock extends SugarCaneBlock {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
-        BlockState plant = plantable.getPlant(world, pos.relative(direction));
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter level, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
+        BlockState plant = plantable.getPlant(level, pos.relative(direction));
         if (plant.getBlock() == AtumBlocks.PAPYRUS.get() && this == AtumBlocks.PAPYRUS.get()) {
             return true;
         }
-        return super.canSustainPlant(state, world, pos, direction, plantable);
+        return super.canSustainPlant(state, level, pos, direction, plantable);
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
-        world.setBlockAndUpdate(pos, state.setValue(TOP, world.isEmptyBlock(pos.above())));
-        if (world.getBlockState(pos.below()).equals(state.setValue(TOP, true))) { //Correct non-top papyrus, when manually placed
-            world.setBlockAndUpdate(pos.below(), state.setValue(TOP, false));
+    public void onPlace(BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
+        level.setBlockAndUpdate(pos, state.setValue(TOP, level.isEmptyBlock(pos.above())));
+        if (level.getBlockState(pos.below()).equals(state.setValue(TOP, true))) { //Correct non-top papyrus, when manually placed
+            level.setBlockAndUpdate(pos.below(), state.setValue(TOP, false));
         }
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (world.getBlockState(pos.below()).getBlock() == this) {
-            world.setBlockAndUpdate(pos.below(), state.setValue(TOP, world.isEmptyBlock(pos.above()))); //Fix new top, when top gets removed
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (level.getBlockState(pos.below()).getBlock() == this) {
+            level.setBlockAndUpdate(pos.below(), state.setValue(TOP, level.isEmptyBlock(pos.above()))); //Fix new top, when top gets removed
         }
     }
 

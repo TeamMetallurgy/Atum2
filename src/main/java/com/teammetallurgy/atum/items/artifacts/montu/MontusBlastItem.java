@@ -27,8 +27,8 @@ public class MontusBlastItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowExplosiveEntity(world, player, velocity);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowExplosiveEntity(level, player, velocity);
     }
 
     @Override

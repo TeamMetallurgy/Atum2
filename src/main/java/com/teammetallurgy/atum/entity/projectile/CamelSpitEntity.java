@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,28 +27,28 @@ import javax.annotation.Nonnull;
 
 public class CamelSpitEntity extends LlamaSpit {
 
-    public CamelSpitEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.CAMEL_SPIT.get(), world);
+    public CamelSpitEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
+        this(AtumEntities.CAMEL_SPIT.get(), level);
     }
 
-    public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, Level world) {
-        super(entityType, world);
+    public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public CamelSpitEntity(Level world, CamelEntity camel) {
-        this(AtumEntities.CAMEL_SPIT.get(), world);
+    public CamelSpitEntity(Level level, CamelEntity camel) {
+        this(AtumEntities.CAMEL_SPIT.get(), level);
         super.setOwner(camel);
         this.setPos(camel.getX() - (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.sin(camel.yBodyRot * ((float) Math.PI / 180F)), camel.getY() + (double) camel.getEyeHeight() - (double) 0.1F, camel.getZ() + (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.cos(camel.yBodyRot * ((float) Math.PI / 180F)));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public CamelSpitEntity(Level world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(AtumEntities.CAMEL_SPIT.get(), world);
+    public CamelSpitEntity(Level level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        this(AtumEntities.CAMEL_SPIT.get(), level);
         this.setPos(x, y, z);
 
         for (int i = 0; i < 7; ++i) {
             double d0 = 0.4D + 0.1D * (double) i;
-            world.addParticle(ParticleTypes.SPIT, x, y, z, xSpeed * d0, ySpeed, zSpeed * d0);
+            level.addParticle(ParticleTypes.SPIT, x, y, z, xSpeed * d0, ySpeed, zSpeed * d0);
         }
         this.setDeltaMovement(xSpeed, ySpeed, zSpeed);
     }
@@ -93,7 +92,7 @@ public class CamelSpitEntity extends LlamaSpit {
         super.onHitEntity(rayTraceResult);
         Entity entity = this.getOwner();
         if (entity instanceof LivingEntity) {
-            rayTraceResult.getEntity().hurt(DamageSource.indirectMobAttack(this, (LivingEntity) entity).setProjectile(), 1.0F);
+            rayTraceResult.getEntity().hurt(this.damageSources().mobProjectile(this, (LivingEntity) entity), 1.0F);
         }
     }
 

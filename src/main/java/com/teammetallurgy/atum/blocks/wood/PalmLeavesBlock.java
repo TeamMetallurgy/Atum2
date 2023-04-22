@@ -20,12 +20,12 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        super.randomTick(state, world, pos, rand);
-        if (!world.isClientSide) {
-            if (world.random.nextDouble() <= 0.05F) {
-                if (isValidBonemealTarget(world, pos, state, false)) {
-                    world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
+    public void randomTick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        super.randomTick(state, level, pos, rand);
+        if (!level.isClientSide) {
+            if (level.random.nextDouble() <= 0.05F) {
+                if (isValidBonemealTarget(level, pos, state, false)) {
+                    level.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
                 }
             }
         }
@@ -48,14 +48,14 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        if (isValidBonemealTarget(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
-            world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
+    public void performBonemeal(@Nonnull ServerLevel level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+        if (isValidBonemealTarget(level, pos, state, false) && rand.nextDouble() <= 0.5D) {
+            level.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
         }
     }
 }

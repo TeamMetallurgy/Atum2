@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -38,10 +37,10 @@ public class AssassinEntity extends BanditBaseEntity {
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(AssassinEntity.class, EntityDataSerializers.BYTE);
     private LivingEntity markedTarget;
 
-    public AssassinEntity(EntityType<? extends AssassinEntity> entityType, Level world) {
-        super(entityType, world);
+    public AssassinEntity(EntityType<? extends AssassinEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 12;
-        (new ClimberGroundPathNavigator(this, world)).setCanOpenDoors(true);
+        (new ClimberGroundPathNavigator(this, level)).setCanOpenDoors(true);
         this.setCanPatrol(false);
     }
 
@@ -76,8 +75,8 @@ public class AssassinEntity extends BanditBaseEntity {
 
     @Override
     @Nonnull
-    protected PathNavigation createNavigation(@Nonnull Level world) {
-        return new ClimberGroundPathNavigator(this, world);
+    protected PathNavigation createNavigation(@Nonnull Level level) {
+        return new ClimberGroundPathNavigator(this, level);
     }
 
     @Override
@@ -160,8 +159,8 @@ public class AssassinEntity extends BanditBaseEntity {
         }
     }
 
-    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        return spawnReason == MobSpawnType.EVENT ? world.canSeeSkyFromBelowWater(pos) && world.getBrightness(LightLayer.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return spawnReason == MobSpawnType.EVENT ? level.canSeeSkyFromBelowWater(pos) && level.getBrightness(LightLayer.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, level, spawnReason, pos, random);
     }
 
     public void setMarkedTarget(LivingEntity livingEntity) {

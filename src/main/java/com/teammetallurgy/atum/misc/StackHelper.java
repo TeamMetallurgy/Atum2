@@ -79,26 +79,26 @@ public class StackHelper {
         }
     }
 
-    public static void dropInventoryItems(Level world, BlockPos pos, Container inventory) {
+    public static void dropInventoryItems(Level level, BlockPos pos, Container inventory) {
         for (int slot = 0; slot < inventory.getContainerSize(); ++slot) {
             ItemStack stack = inventory.getItem(slot);
             if (!stack.isEmpty()) {
-                spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+                spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
         }
     }
 
-    public static void spawnItemStack(Level world, double x, double y, double z, @Nonnull ItemStack stack) {
+    public static void spawnItemStack(Level level, double x, double y, double z, @Nonnull ItemStack stack) {
         final Random random = new Random();
         float xOffset = random.nextFloat() * 0.8F + 0.1F;
         float yOffset = random.nextFloat() * 0.8F + 0.1F;
         float zOffset = random.nextFloat() * 0.8F + 0.1F;
         while (!stack.isEmpty()) {
-            ItemEntity itemEntity = new ItemEntity(world, x + (double) xOffset, y + (double) yOffset, z + (double) zOffset, stack.split(random.nextInt(21) + 10));
+            ItemEntity itemEntity = new ItemEntity(level, x + (double) xOffset, y + (double) yOffset, z + (double) zOffset, stack.split(random.nextInt(21) + 10));
             itemEntity.setDefaultPickUpDelay();
             itemEntity.setDeltaMovement(random.nextGaussian() * 0.05000000074505806D, random.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D, random.nextGaussian() * 0.05000000074505806D);
-            if (!world.isClientSide) {
-                world.addFreshEntity(itemEntity);
+            if (!level.isClientSide) {
+                level.addFreshEntity(itemEntity);
             }
         }
     }

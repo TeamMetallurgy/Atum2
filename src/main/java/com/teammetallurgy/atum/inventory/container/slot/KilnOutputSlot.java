@@ -55,10 +55,10 @@ public class KilnOutputSlot extends Slot {
     @Override
     protected void checkTakeAchievements(@Nonnull ItemStack stack) {
         stack.onCraftedBy(this.player.level, this.player, this.removeCount);
-        Level world = player.level;
+        Level level = player.level;
 
-        if (!world.isClientSide() && world instanceof ServerLevel) {
-            this.spawnAllOrbs((ServerLevel) world, stack, this.removeCount);
+        if (!level.isClientSide() && level instanceof ServerLevel) {
+            this.spawnAllOrbs((ServerLevel) level, stack, this.removeCount);
         }
         this.removeCount = 0;
     }

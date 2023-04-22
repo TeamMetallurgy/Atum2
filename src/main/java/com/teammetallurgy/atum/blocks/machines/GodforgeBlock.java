@@ -63,11 +63,11 @@ public class GodforgeBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-        if (world.isClientSide) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof GodforgeTileEntity godForge && player instanceof ServerPlayer) {
                 NetworkHooks.openScreen((ServerPlayer) player, godForge, pos);
             }
@@ -78,8 +78,8 @@ public class GodforgeBlock extends BaseEntityBlock {
     /**
      * Helper method to make sure the Godforge is always set to lit, when a God is being set
      */
-    public static boolean setLitGod(Level world, BlockPos pos, BlockState originalState, boolean isLit, God god) {
-        return world.setBlock(pos, originalState.setValue(LIT, isLit).setValue(GOD, god), 3);
+    public static boolean setLitGod(Level level, BlockPos pos, BlockState originalState, boolean isLit, God god) {
+        return level.setBlock(pos, originalState.setValue(LIT, isLit).setValue(GOD, god), 3);
     }
 
     @Override
@@ -88,9 +88,9 @@ public class GodforgeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void setPlacedBy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasCustomHoverName()) {
-            BlockEntity tileentity = world.getBlockEntity(pos);
+            BlockEntity tileentity = level.getBlockEntity(pos);
             if (tileentity instanceof GodforgeTileEntity) {
                 ((GodforgeTileEntity) tileentity).setCustomName(stack.getHoverName());
             }
@@ -98,26 +98,26 @@ public class GodforgeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof GodforgeTileEntity) {
-                Containers.dropContents(world, pos, (GodforgeTileEntity) tileEntity);
-                world.updateNeighbourForOutputSignal(pos, this);
+                Containers.dropContents(level, pos, (GodforgeTileEntity) tileEntity);
+                level.updateNeighbourForOutputSignal(pos, this);
             }
-            super.onRemove(state, world, pos, newState, isMoving);
+            super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.getValue(LIT)) {
             double d0 = (double)pos.getX() + 0.5D;
             double d1 = pos.getY() + 0.2D;
             double d2 = (double)pos.getZ() + 0.5D;
             if (rand.nextDouble() < 0.1D) {
-                world.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                level.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
             }
 
             Direction direction = state.getValue(FACING);
@@ -126,8 +126,8 @@ public class GodforgeBlock extends BaseEntityBlock {
             double d5 = axis == Direction.Axis.X ? (double)direction.getStepX() * 0.52D : d4;
             double d6 = rand.nextDouble() * 6.0D / 16.0D;
             double d7 = axis == Direction.Axis.Z ? (double)direction.getStepZ() * 0.52D : d4;
-            world.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
-            world.addParticle(AtumTorchBlock.GOD_FLAMES.get(state.getValue(GOD)).get(), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+            level.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+            level.addParticle(AtumTorchBlock.GOD_FLAMES.get(state.getValue(GOD)).get(), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -137,8 +137,8 @@ public class GodforgeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level world, @Nonnull BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level level, @Nonnull BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override

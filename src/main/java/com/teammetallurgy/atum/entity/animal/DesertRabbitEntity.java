@@ -31,8 +31,8 @@ import java.util.Optional;
 public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially implemented old way of defining rabbit type. Rabbits are now using a custom variant, which we probably shouldn´t extend (Although test to make sure)
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(DesertRabbitEntity.class, EntityDataSerializers.INT);
 
-    public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, Level world) {
-        super(entityType, world);
+    public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -79,11 +79,11 @@ public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially imp
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, spawnType, spawnGroupData, nbt);
     }
     
-    public int getRandomAtumRabbitType(LevelAccessor world) {
-        Biome biome = world.getBiome(this.blockPosition()).value();
+    public int getRandomAtumRabbitType(LevelAccessor level) {
+        Biome biome = level.getBiome(this.blockPosition()).value();
         int i = this.random.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
 
         if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
@@ -119,7 +119,7 @@ public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially imp
     }
 
     @Override
-    public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
+    public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
         DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.get().create(this.level);
         int type = this.getRandomAtumRabbitType(this.level);
 

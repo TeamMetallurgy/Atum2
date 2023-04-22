@@ -35,11 +35,11 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
-    public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, Level world) {
-        super(entityType, world);
+    public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 8;
         this.setCanPickUpLoot(true);
-        new GroundPathNavigation(this, world).getNodeEvaluator().setCanPassDoors(true);
+        new GroundPathNavigation(this, level).getNodeEvaluator().setCanPassDoors(true);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -97,11 +97,11 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
-            this.populateDefaultEquipmentSlots(world.getRandom(), difficulty);
+            this.populateDefaultEquipmentSlots(level.getRandom(), difficulty);
             final int variant = Mth.nextInt(random, 0, 7);
             this.setVariant(variant);
         } else {

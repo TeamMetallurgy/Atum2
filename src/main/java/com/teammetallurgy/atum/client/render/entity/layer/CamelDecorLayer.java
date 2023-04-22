@@ -27,7 +27,7 @@ public class CamelDecorLayer extends RenderLayer<CamelEntity, CamelModel<CamelEn
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight, CamelEntity camel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int packedLight, CamelEntity camel, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         DyeColor dyeColor = camel.getColor();
         ResourceLocation location;
         if (dyeColor != null) {
@@ -36,7 +36,7 @@ public class CamelDecorLayer extends RenderLayer<CamelEntity, CamelModel<CamelEn
             this.getParentModel().copyPropertiesTo(this.model);
             this.model.setupAnim(camel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             VertexConsumer ivertexbuilder = buffer.getBuffer(RenderType.entityCutoutNoCull(location));
-            this.model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.model.renderToBuffer(poseStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

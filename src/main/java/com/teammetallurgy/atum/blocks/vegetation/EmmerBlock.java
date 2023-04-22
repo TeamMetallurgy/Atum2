@@ -22,12 +22,12 @@ public class EmmerBlock extends CropBlock {
 
     @Override
     @Nonnull
-    public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
         return PlantType.CROP;
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
         return state.getBlock() instanceof FarmBlock;
     }
 

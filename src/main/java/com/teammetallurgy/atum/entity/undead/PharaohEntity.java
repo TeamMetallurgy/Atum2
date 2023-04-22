@@ -89,8 +89,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     private String texturePath;
     private boolean dropsGodSpecificLoot;
 
-    public PharaohEntity(EntityType<? extends PharaohEntity> entityType, Level world) {
-        super(entityType, world);
+    public PharaohEntity(EntityType<? extends PharaohEntity> entityType, Level level) {
+        super(entityType, level);
         this.setHealth(this.getMaxHealth());
         this.xpReward = 250;
         this.stage = 0;
@@ -217,9 +217,9 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag nbt) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag nbt) {
         this.setCombatTask();
-        return super.finalizeSpawn(world, difficulty, spawnReason, livingData, nbt);
+        return super.finalizeSpawn(level, difficulty, spawnReason, livingData, nbt);
     }
 
     private void setCombatTask() {
@@ -300,7 +300,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         }
 
         if (AtumConfig.MOBS.displayPharaohSlainMessage.get()) {
-            if (source.msgId.equals("player")) {
+            if (source.getMsgId().equals("player")) {
                 Player slayer = (Player) source.getEntity();
                 if (!this.level.isClientSide && slayer != null) {
                     List<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers(); //TODO Might not be needed, sendSystemMessage might send to all players?

@@ -54,10 +54,10 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
 
-        if (recall(world, player) != null) {
+        if (recall(level, player) != null) {
             if (!player.isCreative()) {
                 heldStack.hurtAndBreak(1, player, (e) -> {
                     e.broadcastBreakEvent(hand);
@@ -68,15 +68,15 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
         return new InteractionResultHolder<>(InteractionResult.PASS, heldStack);
     }
 
-    public static BlockPos recall(Level world, Player player) {
-        if (!(world instanceof ServerLevel serverLevel) ||
+    public static BlockPos recall(Level level, Player player) {
+        if (!(level instanceof ServerLevel serverLevel) ||
                 !(player instanceof ServerPlayer serverPlayer))
             return null;
         AbstractMap.SimpleEntry<ServerLevel, BlockPos> pair = SpawnHelper.validateAndGetSpawnPoint(serverLevel, serverPlayer, 2);
         ServerLevel spawnLevel = pair.getKey();
         BlockPos spawnPos = pair.getValue();
 
-        playTeleportEffects(world, player);
+        playTeleportEffects(level, player);
         serverPlayer.teleportTo(spawnLevel, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, player.getYRot(), player.getXRot());
         playTeleportEffects(spawnLevel, player);
         return spawnPos;

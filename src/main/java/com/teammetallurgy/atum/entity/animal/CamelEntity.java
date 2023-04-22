@@ -70,8 +70,8 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     private CamelEntity caravanHead;
     private CamelEntity caravanTail;
 
-    public CamelEntity(EntityType<? extends CamelEntity> entityType, Level world) {
-        super(entityType, world);
+    public CamelEntity(EntityType<? extends CamelEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 3;
         this.canGallop = false;
         this.maxUpStep = 1.6F;
@@ -102,8 +102,8 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
 
         this.setRandomVariant();
         return livingdata;
@@ -168,9 +168,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public AgeableMob getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
+    public AgeableMob getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
         CamelEntity camel = new CamelEntity(AtumEntities.CAMEL.get(), this.level);
-        camel.finalizeSpawn(world, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
+        camel.finalizeSpawn(level, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;
     }
 
@@ -254,7 +254,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public boolean canJump(Player player) {
+    public boolean canJump() {
         return false;
     }
 

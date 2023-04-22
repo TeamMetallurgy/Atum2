@@ -55,13 +55,13 @@ public class TombPieces { //TODO
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
             if (function.equals("SpawnerUndead")) {
                 if (box.isInside(pos)) {
-                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2); //Set structure block to air, to remove its TE
-                    world.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2); //Set structure block to air, to remove its TE
+                    level.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
 
-                    BlockEntity tileEntity = world.getBlockEntity(pos);
+                    BlockEntity tileEntity = level.getBlockEntity(pos);
                     if (tileEntity instanceof SpawnerBlockEntity) {
                         ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())));
                     }
@@ -69,19 +69,19 @@ public class TombPieces { //TODO
             } else if (function.equals("Crate")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() < 0.2D) {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2); //Set structure block to air, to remove its TE
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2); //Set structure block to air, to remove its TE
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.TOMB_CHEST);
+                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.TOMB_CHEST);
                 }
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             }
         }
 

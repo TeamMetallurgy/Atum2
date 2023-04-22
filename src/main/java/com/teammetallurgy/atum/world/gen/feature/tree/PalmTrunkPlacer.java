@@ -109,8 +109,8 @@ public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlace
         }
     }
 
-    protected void generateOphidianTongue(LevelWriter world, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, BoundingBox mutableBox) {
-        this.setOphidianTongue(world, pos, AtumBlocks.OPHIDIAN_TONGUE.defaultBlockState().setValue(booleanProperty, true), positions, mutableBox);
+    protected void generateOphidianTongue(LevelWriter level, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, BoundingBox mutableBox) {
+        this.setOphidianTongue(level, pos, AtumBlocks.OPHIDIAN_TONGUE.defaultBlockState().setValue(booleanProperty, true), positions, mutableBox);
     }
 
     protected void setOphidianTongue(LevelWriter worldWriter, BlockPos pos, BlockState state, Set<BlockPos> positions, BoundingBox mutableBox) {

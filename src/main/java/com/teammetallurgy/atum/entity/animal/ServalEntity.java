@@ -26,7 +26,6 @@ import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -37,7 +36,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Random;
 
 public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert Rabbits
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(ServalEntity.class, EntityDataSerializers.INT);
@@ -51,8 +49,8 @@ public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert
         m.put(4, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/beige_spotted.png"));
     });
 
-    public ServalEntity(EntityType<? extends Cat> type, Level world) {
-        super(type, world);
+    public ServalEntity(EntityType<? extends Cat> type, Level level) {
+        super(type, level);
     }
 
     @Override

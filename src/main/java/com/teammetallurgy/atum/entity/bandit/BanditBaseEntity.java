@@ -58,8 +58,8 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     private boolean canPatrol;
     private UUID leadingEntity;
 
-    BanditBaseEntity(EntityType<? extends BanditBaseEntity> entityType, Level world) {
-        super(entityType, world);
+    BanditBaseEntity(EntityType<? extends BanditBaseEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Override
@@ -100,10 +100,10 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag nbt) {
         spawnData = mobInitialSpawn(spawnData);
-        this.populateDefaultEquipmentEnchantments(world.getRandom(), difficulty);
-        this.populateDefaultEquipmentSlots(world.getRandom(), difficulty);
+        this.populateDefaultEquipmentEnchantments(level.getRandom(), difficulty);
+        this.populateDefaultEquipmentSlots(level.getRandom(), difficulty);
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * difficulty.getSpecialMultiplier());
 
         if (this.isPatrolLeader()) {
@@ -231,12 +231,12 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     }
 
     @Override
-    public boolean checkSpawnRules(@Nonnull LevelAccessor world, @Nonnull MobSpawnType spawnReason) {
-        return super.checkSpawnRules(world, spawnReason);
+    public boolean checkSpawnRules(@Nonnull LevelAccessor level, @Nonnull MobSpawnType spawnReason) {
+        return super.checkSpawnRules(level, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() > 62 && world.canSeeSkyFromBelowWater(pos)) && world.getBrightness(LightLayer.BLOCK, pos) <= 8 && checkAnyLightMonsterSpawnRules(banditBase, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() > 62 && level.canSeeSkyFromBelowWater(pos)) && level.getBrightness(LightLayer.BLOCK, pos) <= 8 && checkAnyLightMonsterSpawnRules(banditBase, level, spawnReason, pos, random);
     }
 
     @Override

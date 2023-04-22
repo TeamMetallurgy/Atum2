@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.integration.IModIntegration;
@@ -34,4 +35,4 @@ public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void>
     static IProbeConfig getProbeConfig() {
         return theOneProbe.createProbeConfig();
     }
-}
+}*/

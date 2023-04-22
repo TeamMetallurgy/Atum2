@@ -53,18 +53,18 @@ public class JEIIntegration implements IModPlugin {
 
     @Override
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
-        ClientLevel world = Minecraft.getInstance().level;
-        if (world != null) {
-            addRecipes(registry, world, AtumRecipeTypes.KILN.get(), KILN);
-            registry.addRecipes(RecipeHelper.getKilnRecipesFromFurnace(world.getRecipeManager()), KILN);
-            addRecipes(registry, world, AtumRecipeTypes.QUERN.get(), QUERN);
-            addRecipes(registry, world, AtumRecipeTypes.SPINNING_WHEEL.get(), SPINNING_WHEEL);
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level != null) {
+            addRecipes(registry, level, AtumRecipeTypes.KILN.get(), KILN);
+            registry.addRecipes(RecipeHelper.getKilnRecipesFromFurnace(level.getRecipeManager()), KILN);
+            addRecipes(registry, level, AtumRecipeTypes.QUERN.get(), QUERN);
+            addRecipes(registry, level, AtumRecipeTypes.SPINNING_WHEEL.get(), SPINNING_WHEEL);
         }
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH.get()), registry);
     }
 
-    private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level world, RecipeType<T> recipeType, ResourceLocation name) {
-        registry.addRecipes(RecipeHelper.getRecipes(world.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)), name);
+    private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level level, RecipeType<T> recipeType, ResourceLocation name) {
+        registry.addRecipes(RecipeHelper.getRecipes(level.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)), name);
     }
 
     @Override

@@ -64,56 +64,56 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
             return 6000000.0F;
         } else {
-            return super.getExplosionResistance(state, world, pos, explosion);
+            return super.getExplosionResistance(state, level, pos, explosion);
         }
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public InteractionResult use(BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         Direction facing = state.getValue(FACING);
 
         //Right-Click left block, when right-clicking right block
         BlockPos posLeft = pos.relative(facing.getClockWise());
-        BlockEntity tileLeft = world.getBlockEntity(posLeft);
-        if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof SarcophagusTileEntity sarcophagus) {
-            if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
-                this.use(state, world, pos.relative(facing.getClockWise()), player, hand, hit);
+        BlockEntity tileLeft = level.getBlockEntity(posLeft);
+        if (level.getBlockState(posLeft).getBlock() == this && tileLeft instanceof SarcophagusTileEntity sarcophagus) {
+            if (level.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
+                this.use(state, level, pos.relative(facing.getClockWise()), player, hand, hit);
                 return InteractionResult.PASS;
             }
         }
 
         if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
-            if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
-                if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, world.random, sarcophagus)) {
+            if (level.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
+                if (QuandaryBlock.Helper.canSpawnPharaoh(level, pos, facing, player, level.random, sarcophagus)) {
                     return InteractionResult.PASS;
                 } else if (!sarcophagus.isOpenable) {
                     player.displayClientMessage(Component.translatable("chat.atum.cannot_spawn_pharaoh").withStyle(ChatFormatting.RED), true);
-                    world.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ZOMBIE_INFECT, SoundSource.HOSTILE, 0.7F, 0.4F, false);
+                    level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ZOMBIE_INFECT, SoundSource.HOSTILE, 0.7F, 0.4F, false);
                     return InteractionResult.PASS;
                 }
             }
         }
-        return super.use(state, world, pos, player, hand, hit);
+        return super.use(state, level, pos, player, hand, hit);
     }
 
     @Nullable
     @Override
-    public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos) { //Workaround so you can't see loot before pharaoh is beaten
-        BlockEntity tileEntity = world.getBlockEntity(pos);
-        return tileEntity instanceof SarcophagusTileEntity && ((SarcophagusTileEntity) tileEntity).isOpenable ? super.getMenuProvider(state, world, pos) : null;
+    public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos) { //Workaround so you can't see loot before pharaoh is beaten
+        BlockEntity tileEntity = level.getBlockEntity(pos);
+        return tileEntity instanceof SarcophagusTileEntity && ((SarcophagusTileEntity) tileEntity).isOpenable ? super.getMenuProvider(state, level, pos) : null;
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
-        super.setPlacedBy(world, pos, state, placer, stack);
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void setPlacedBy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        BlockEntity tileEntity = level.getBlockEntity(pos);
 
         if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
             sarcophagus.hasSpawned = true;
@@ -121,7 +121,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
             sarcophagus.setChanged();
 
             for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                BlockEntity tileEntityOffset = world.getBlockEntity(pos.relative(horizontal));
+                BlockEntity tileEntityOffset = level.getBlockEntity(pos.relative(horizontal));
                 if (tileEntityOffset instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntityOffset).hasSpawned = true;
                     ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
@@ -146,9 +146,9 @@ public class SarcophagusBlock extends ChestBaseBlock {
         }
     }
 
-    private static boolean canPlaceRightSac(LevelAccessor world, BlockPos pos, Direction facing) {
+    private static boolean canPlaceRightSac(LevelAccessor level, BlockPos pos, Direction facing) {
         BlockPos posOffset = pos.relative(facing.getCounterClockWise());
-        BlockState offsetState = world.getBlockState(posOffset);
+        BlockState offsetState = level.getBlockState(posOffset);
         if (offsetState.getBlock() instanceof SarcophagusBlock) {
             return offsetState.getValue(SarcophagusBlock.TYPE) == ChestType.LEFT && offsetState.getValue(SarcophagusBlock.FACING) == facing;
         }

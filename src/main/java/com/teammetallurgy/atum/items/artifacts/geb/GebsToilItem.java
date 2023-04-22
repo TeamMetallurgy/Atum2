@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class GebsToilItem extends ShovelItem implements IArtifact {
 
     public GebsToilItem() {
-        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

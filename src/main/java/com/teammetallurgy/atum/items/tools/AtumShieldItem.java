@@ -58,7 +58,7 @@ public class AtumShieldItem extends ShieldItem {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         player.startUsingItem(hand);
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, heldStack);

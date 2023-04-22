@@ -29,8 +29,8 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     private float heightOffset = 0.2F;
     private int heightOffsetUpdateTime;
 
-    public BonestormEntity(EntityType<? extends BonestormEntity> entityType, Level world) {
-        super(entityType, world);
+    public BonestormEntity(EntityType<? extends BonestormEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 8;
         this.setCanPickUpLoot(false);
     }

@@ -85,7 +85,7 @@ public class RaArmorModel extends ArmorModel {
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStack, @Nonnull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@Nonnull PoseStack poseStack, @Nonnull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         EquipmentSlot slot = this.getSlot();
 
         this.hat.visible = false; //Hide vanilla stuff
@@ -106,12 +106,12 @@ public class RaArmorModel extends ArmorModel {
         this.leftBoot.copyFrom(this.leftLeg);
         this.rightBoot.copyFrom(this.rightLeg);
 
-        this.leftCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        this.rightCape.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        this.rightBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        this.leftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.leftCape.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.rightCape.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.rightBoot.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.leftBoot.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
-        super.renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @SubscribeEvent

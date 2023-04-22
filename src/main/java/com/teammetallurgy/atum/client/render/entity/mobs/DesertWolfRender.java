@@ -38,12 +38,12 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     }
 
     @Override
-    public void render(@Nonnull DesertWolfEntity desertWolf, float entityYaw, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int i) {
+    public void render(@Nonnull DesertWolfEntity desertWolf, float entityYaw, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int i) {
         if (desertWolf.isWolfWet()) {
             float f = desertWolf.getWetShade(partialTicks);
             this.model.setColor(f, f, f);
         }
-        super.render(desertWolf, entityYaw, partialTicks, matrixStack, buffer, i);
+        super.render(desertWolf, entityYaw, partialTicks, poseStack, buffer, i);
         if (desertWolf.isWolfWet()) {
             this.model.setColor(1.0F, 1.0F, 1.0F);
         }
@@ -63,10 +63,10 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     }
 
     @Override
-    protected void scale(DesertWolfEntity desertWolf, @Nonnull PoseStack matrixStack, float partialTickTime) {
+    protected void scale(DesertWolfEntity desertWolf, @Nonnull PoseStack poseStack, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
-            matrixStack.scale(scale, scale, scale);
+            poseStack.scale(scale, scale, scale);
         }
     }
 }

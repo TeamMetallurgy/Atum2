@@ -55,8 +55,8 @@ public class QuailEntity extends QuailBase {
     }
 
     @Override
-    public QuailEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageableEntity) {
-        return AtumEntities.QUAIL.get().create(world);
+    public QuailEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageableEntity) {
+        return AtumEntities.QUAIL.get().create(level);
     }
 
     @Override

@@ -38,8 +38,8 @@ public class LimestoneFurnaceBlock extends FurnaceBlock {
     }
 
     @Override
-    protected void openContainer(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    protected void openContainer(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof LimestoneFurnaceTileEntity) {
             player.openMenu((MenuProvider) tileEntity);
             player.awardStat(Stats.INTERACT_WITH_FURNACE);

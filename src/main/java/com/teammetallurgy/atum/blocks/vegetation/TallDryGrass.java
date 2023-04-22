@@ -15,7 +15,7 @@ public class TallDryGrass extends DoublePlantBlock {
     }
 
     @Override
-    public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
         return PlantType.DESERT;
     }
 }

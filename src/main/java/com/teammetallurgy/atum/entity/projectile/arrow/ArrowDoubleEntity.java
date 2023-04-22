@@ -12,17 +12,17 @@ import net.minecraftforge.network.PlayMessages;
 
 public class ArrowDoubleEntity extends CustomArrow {
 
-    public ArrowDoubleEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.DOUBLE_ARROW.get(), world);
+    public ArrowDoubleEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.DOUBLE_ARROW.get(), level);
     }
 
-    public ArrowDoubleEntity(EntityType<? extends ArrowDoubleEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowDoubleEntity(EntityType<? extends ArrowDoubleEntity> entityType, Level level) {
+        super(entityType, level);
         this.pickup = Pickup.DISALLOWED;
     }
 
-    public ArrowDoubleEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.DOUBLE_ARROW.get(), world, shooter);
+    public ArrowDoubleEntity(Level level, LivingEntity shooter) {
+        super(AtumEntities.DOUBLE_ARROW.get(), level, shooter);
         this.pickup = Pickup.DISALLOWED;
     }
 

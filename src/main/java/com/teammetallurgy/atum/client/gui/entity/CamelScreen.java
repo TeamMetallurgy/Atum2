@@ -29,37 +29,37 @@ public class CamelScreen extends AbstractContainerScreen<CamelContainer> {
     }
 
     @Override
-    protected void renderLabels(@Nonnull PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title, 8, 6, 4210752);
-        this.font.draw(matrixStack, this.playerInventory.getDisplayName(), 8, this.imageHeight - 96 + 2, 4210752);
+    protected void renderLabels(@Nonnull PoseStack poseStack, int mouseX, int mouseY) {
+        this.font.draw(poseStack, this.title, 8, 6, 4210752);
+        this.font.draw(poseStack, this.playerInventory.getDisplayName(), 8, this.imageHeight - 96 + 2, 4210752);
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, CAMEL_GUI_TEXTURE);
         int width = (this.width - this.imageWidth) / 2;
         int height = (this.height - this.imageHeight) / 2;
-        this.blit(matrixStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(poseStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.camel != null) {
             if (this.menu.camel.hasLeftCrate()) {
-                this.blit(matrixStack, width + 7, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Left Crate
+                this.blit(poseStack, width + 7, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Left Crate
             }
             if (this.menu.camel.hasRightCrate()) {
-                this.blit(matrixStack, width + 97, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Right Crate
+                this.blit(poseStack, width + 97, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Right Crate
             }
-            InventoryScreen.renderEntityInInventory(width + 88, height + 50, 17, (float) (width + 51) - this.mousePosX, (float) (height + 75 - 50) - this.mousePosY, this.menu.camel);
+            InventoryScreen.renderEntityInInventory(poseStack, width + 88, height + 50, 17, (float) (width + 51) - this.mousePosX, (float) (height + 75 - 50) - this.mousePosY, this.menu.camel);
         }
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
+    public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(poseStack);
         this.mousePosX = (float) mouseX;
         this.mousePosY = (float) mouseY;
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(poseStack, mouseX, mouseY);
     }
 }

@@ -52,8 +52,8 @@ public class SandstormHandler {
         return ((state.getBlock() != AtumBlocks.SAND.get() && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL.get()) || state.is(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverLevel, pos);
     }
 
-    public void updateWeather(Level world) {
-        if (world instanceof ServerLevel serverLevel && !world.isClientSide) {
+    public void updateWeather(Level level) {
+        if (level instanceof ServerLevel serverLevel && !level.isClientSide) {
             ServerLevelData worldInfo = serverLevel.getServer().getWorldData().overworldData();
             int cleanWeatherTime = worldInfo.getClearWeatherTime();
 

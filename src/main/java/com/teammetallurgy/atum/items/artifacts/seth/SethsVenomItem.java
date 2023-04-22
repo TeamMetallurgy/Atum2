@@ -26,7 +26,7 @@ public class SethsVenomItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowPoisonEntity(world, player);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowPoisonEntity(level, player);
     }
 }

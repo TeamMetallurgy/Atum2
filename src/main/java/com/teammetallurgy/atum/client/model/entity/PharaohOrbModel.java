@@ -26,8 +26,8 @@ public class PharaohOrbModel extends EntityModel<PharaohOrbEntity> {
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStack, @Nonnull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        main.render(matrixStack, buffer, packedLight, packedOverlay);
+    public void renderToBuffer(@Nonnull PoseStack poseStack, @Nonnull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        main.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
     @Override

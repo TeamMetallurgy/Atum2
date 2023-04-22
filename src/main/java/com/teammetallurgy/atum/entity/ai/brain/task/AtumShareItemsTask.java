@@ -29,29 +29,29 @@ public class AtumShareItemsTask extends Behavior<Villager> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel world, Villager owner) {
+    protected boolean checkExtraStartConditions(ServerLevel level, Villager owner) {
         return BehaviorUtils.targetIsValid(owner.getBrain(), MemoryModuleType.INTERACTION_TARGET, EntityType.VILLAGER);
     }
 
     @Override
-    protected boolean canStillUse(ServerLevel world, Villager entity, long gameTimeIn) {
-        return this.checkExtraStartConditions(world, entity);
+    protected boolean canStillUse(ServerLevel level, Villager entity, long gameTimeIn) {
+        return this.checkExtraStartConditions(level, entity);
     }
 
     @Override
-    protected void start(ServerLevel world, Villager entity, long gameTimeIn) {
+    protected void start(ServerLevel level, Villager entity, long gameTimeIn) {
         Villager villagerentity = (Villager) entity.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).get();
         BehaviorUtils.lockGazeAndWalkToEachOther(entity, villagerentity, 0.5F);
         this.trades = figureOutWhatIAmWillingToTrade(entity, villagerentity);
     }
 
     @Override
-    protected void tick(ServerLevel world, Villager owner, long gameTime) {
+    protected void tick(ServerLevel level, Villager owner, long gameTime) {
         Villager villagerentity = (Villager) owner.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).get();
         if (owner instanceof AtumVillagerEntity && villagerentity instanceof AtumVillagerEntity) {
             if (!(owner.distanceToSqr(villagerentity) > 5.0D)) {
                 BehaviorUtils.lockGazeAndWalkToEachOther(owner, villagerentity, 0.5F);
-                owner.gossip(world, villagerentity, gameTime);
+                owner.gossip(level, villagerentity, gameTime);
                 if (owner.hasExcessFood() && (((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.FARMER.get() || villagerentity.wantsMoreFood())) {
                     throwHalfStack(owner, Villager.FOOD_POINTS.keySet(), villagerentity);
                 }
@@ -68,7 +68,7 @@ public class AtumShareItemsTask extends Behavior<Villager> {
     }
 
     @Override
-    protected void stop(ServerLevel world, Villager entity, long gameTimeIn) {
+    protected void stop(ServerLevel level, Villager entity, long gameTimeIn) {
         entity.getBrain().eraseMemory(MemoryModuleType.INTERACTION_TARGET);
     }
 

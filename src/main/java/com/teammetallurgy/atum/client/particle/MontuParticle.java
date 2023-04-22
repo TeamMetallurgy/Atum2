@@ -15,12 +15,12 @@ import javax.annotation.Nonnull;
 public class MontuParticle extends TextureSheetParticle {
     float scale;
 
-    public MontuParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        this(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, 1.0F, spriteSet);
+    public MontuParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+        this(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, 1.0F, spriteSet);
     }
 
-    public MontuParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, float scale, SpriteSet spriteSet) {
-        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
+    public MontuParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, float scale, SpriteSet spriteSet) {
+        super(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.xd *= 0.10000000149011612D;
         this.yd *= 0.10000000149011612D;
         this.zd *= 0.10000000149011612D;
@@ -88,8 +88,8 @@ public class MontuParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new MontuParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new MontuParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 }

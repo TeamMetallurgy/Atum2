@@ -37,17 +37,17 @@ public class VillagerLayer <T extends LivingEntity & VillagerDataHolder, M exten
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight, T villager, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int packedLight, T villager, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!villager.isInvisible() && villager instanceof AtumVillagerEntity) {
             AtumVillagerData data = ((AtumVillagerEntity) villager).getAtumVillagerData();
             AtumVillagerProfession profession = data.getAtumProfession();
             M m = this.getParentModel();
             if (profession != AtumVillagerProfession.NONE.get() && !villager.isBaby()) {
                 ResourceLocation professionLocation = this.getLocation("profession", ((AtumVillagerEntity) villager).isFemale() ? "female" : "male", Objects.requireNonNull(Atum.villagerProfession.get().getKey(profession)));
-                renderColoredCutoutModel(m, professionLocation, matrixStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);
+                renderColoredCutoutModel(m, professionLocation, poseStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);
                 if (profession != AtumVillagerProfession.NITWIT.get()) {
                     ResourceLocation professionLevelLocation = this.getLocation("profession_level", null, TIERS.get(Mth.clamp(data.getLevel(), 1, TIERS.size())));
-                    renderColoredCutoutModel(m, professionLevelLocation, matrixStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);
+                    renderColoredCutoutModel(m, professionLevelLocation, poseStack, buffer, packedLight, villager, 1.0F, 1.0F, 1.0F);
                 }
             }
         }

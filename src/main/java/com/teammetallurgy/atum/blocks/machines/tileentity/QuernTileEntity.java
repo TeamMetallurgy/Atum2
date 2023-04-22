@@ -63,7 +63,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
                         for (Ingredient ingredient : quernRecipe.getIngredients()) {
                             if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.getRotations() == quern.quernRotations) {
                                 quern.removeItem(0, 1);
-                                quern.outputItems(quernRecipe.assemble(quern), level, pos);
+                                quern.outputItems(quernRecipe.assemble(quern, level.registryAccess()), level, pos);
                                 quern.quernRotations = 0;
                                 quern.setChanged();
                             }
@@ -74,9 +74,9 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
         }
     }
 
-    private void outputItems(@Nonnull ItemStack stack, Level world, BlockPos pos) {
-        Direction facing = world.getBlockState(pos).getValue(QuernBlock.FACING).getOpposite();
-        BlockEntity tileEntity = world.getBlockEntity(pos.relative(facing));
+    private void outputItems(@Nonnull ItemStack stack, Level level, BlockPos pos) {
+        Direction facing = level.getBlockState(pos).getValue(QuernBlock.FACING).getOpposite();
+        BlockEntity tileEntity = level.getBlockEntity(pos.relative(facing));
         if (tileEntity instanceof WorldlyContainer && ((WorldlyContainer) tileEntity).getSlotsForFace(facing).length > 0 || tileEntity instanceof Container && ((Container) tileEntity).getContainerSize() > 0) {
             Container inventory = ((Container) tileEntity);
             stack = HopperBlockEntity.addItem(this, inventory, stack, facing);
@@ -91,9 +91,9 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
         }
 
         if (!stack.isEmpty()) {
-            StackHelper.spawnItemStack(world, (double) facing.getStepX() + pos.getX() + 0.5D, (double) pos.getY() + 0.15D, (double) facing.getStepZ() + pos.getZ() + 0.5, stack);
-            if (world.isClientSide) {
-                world.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 1.0F, 0.4F, false);
+            StackHelper.spawnItemStack(level, (double) facing.getStepX() + pos.getX() + 0.5D, (double) pos.getY() + 0.15D, (double) facing.getStepZ() + pos.getZ() + 0.5, stack);
+            if (level.isClientSide) {
+                level.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 1.0F, 0.4F, false);
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.client.gui.block.GodforgeScreen;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
@@ -33,8 +32,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
@@ -51,12 +48,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
-import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
@@ -108,22 +103,22 @@ public class ClientHandler {
             BlockState state = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return Minecraft.getInstance().getBlockColors().getColor(state, null, null, tintIndex);
         }, AtumBlocks.PALM_LEAVES.get(), AtumBlocks.DRY_LEAVES.get());
-        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getAverageFoliageColor(world, pos) : FoliageColor.getDefaultColor(), AtumBlocks.PALM_LEAVES.get(), AtumBlocks.DRY_LEAVES.get());
+        blockColors.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(), AtumBlocks.PALM_LEAVES.get(), AtumBlocks.DRY_LEAVES.get());
         //Dyeable armor
         itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((WandererDyeableArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET.get(), AtumItems.WANDERER_CHEST.get(), AtumItems.WANDERER_LEGS.get(), AtumItems.WANDERER_BOOTS.get(), AtumItems.DESERT_HELMET_IRON.get(), AtumItems.DESERT_CHEST_IRON.get(), AtumItems.DESERT_LEGS_IRON.get(), AtumItems.DESERT_BOOTS_IRON.get(), AtumItems.DESERT_HELMET_GOLD.get(), AtumItems.DESERT_CHEST_GOLD.get(), AtumItems.DESERT_LEGS_GOLD.get(), AtumItems.DESERT_BOOTS_GOLD.get(), AtumItems.DESERT_HELMET_DIAMOND.get(), AtumItems.DESERT_CHEST_DIAMOND.get(), AtumItems.DESERT_LEGS_DIAMOND.get(), AtumItems.DESERT_BOOTS_DIAMOND.get());
         //Dead Grass
         itemColor.register((stack, tintIndex) -> {
             return 12889745;
         }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
-        blockColors.register((state, world, pos, tintIndex) -> {
-            if (world != null && pos != null) {
-                return BiomeColors.getAverageGrassColor(world, pos);
+        blockColors.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null) {
+                return BiomeColors.getAverageGrassColor(level, pos);
             } else {
                 return 12889745;
             }
         }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
-        ItemProperties.register(AtumItems.ANUBIS_WRATH.get(), new ResourceLocation("tier"), (stack, world, entity, i) -> AnubisWrathItem.getTier(stack));
-        ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        ItemProperties.register(AtumItems.ANUBIS_WRATH.get(), new ResourceLocation("tier"), (stack, level, entity, i) -> AnubisWrathItem.getTier(stack));
+        ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
         registerBowModelProperties(AtumItems.SHORT_BOW.get());
         registerBowModelProperties(AtumItems.ANPUTS_GROUNDING.get());
         registerBowModelProperties(AtumItems.HORUS_SOARING.get());
@@ -425,17 +420,17 @@ public class ClientHandler {
     }
 
     public static void registerBowModelProperties(Item item) {
-        ItemProperties.register(item, new ResourceLocation("pull"), (stack, world, entity, i) -> {
+        ItemProperties.register(item, new ResourceLocation("pull"), (stack, level, entity, i) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
                 return entity.getUseItem() != stack ? 0.0F : ((BaseBowItem) item).getDrawbackSpeed(stack, entity);
             }
         });
-        ItemProperties.register(item, new ResourceLocation("pulling"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("pulling"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 
     public static void registerShieldModelProperties(Item shield) {
-        ItemProperties.register(shield, new ResourceLocation("blocking"), (stack, world, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        ItemProperties.register(shield, new ResourceLocation("blocking"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 }

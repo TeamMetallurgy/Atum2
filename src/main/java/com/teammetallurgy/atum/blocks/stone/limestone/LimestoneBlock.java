@@ -24,14 +24,14 @@ public class LimestoneBlock extends Block {
     }
 
     @Override
-    public void spawnAfterBreak(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull ItemStack stack, boolean b) {
-        if (!world.isClientSide && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && state.getValue(HAS_SCARAB) && world.random.nextDouble() <= 0.90D) {
-            ScarabEntity scarab = AtumEntities.SCARAB.get().create(world);
+    public void spawnAfterBreak(@Nonnull BlockState state, ServerLevel level, @Nonnull BlockPos pos, @Nonnull ItemStack stack, boolean b) {
+        if (!level.isClientSide && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS) && state.getValue(HAS_SCARAB) && level.random.nextDouble() <= 0.90D) {
+            ScarabEntity scarab = AtumEntities.SCARAB.get().create(level);
             scarab.moveTo((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.addFreshEntity(scarab);
+            level.addFreshEntity(scarab);
             scarab.spawnAnim();
         }
-        super.spawnAfterBreak(state, world, pos, stack, b);
+        super.spawnAfterBreak(state, level, pos, stack, b);
     }
 
     @Override

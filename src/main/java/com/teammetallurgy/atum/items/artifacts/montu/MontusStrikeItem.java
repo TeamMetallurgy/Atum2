@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -33,7 +33,7 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public MontusStrikeItem() {
-        super(AtumMats.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -62,10 +62,10 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
         if (attacker instanceof Player && COOLDOWN.containsKey(attacker)) {
             if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 Player player = (Player) attacker;
-                Level world = player.level;
+                Level level = player.level;
                 float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-                for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(2.0D, 0.25D, 2.0D))) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 12.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
                         entity.hurt(DamageSource.playerAttack(player), damage);
@@ -75,7 +75,7 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
                             serverLevel.sendParticles(AtumParticles.MONTU.get(), target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
                             serverLevel.sendParticles(AtumParticles.MONTU.get(), entity.getX() + d0, entity.getY() + 1.1D, entity.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
                         }
-                        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
                     }
                 }
             }

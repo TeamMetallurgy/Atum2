@@ -42,21 +42,21 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion) {
-        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
+    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+        return level.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, level, pos, explosion);
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(state, world, pos, block, fromPos, isMoving);
-        if (world.getBlockState(pos.relative(state.getValue(FACING))) == world.getBlockState(fromPos)) {
-            Block facingBlock = world.getBlockState(fromPos).getBlock();
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+        if (level.getBlockState(pos.relative(state.getValue(FACING))) == level.getBlockState(fromPos)) {
+            Block facingBlock = level.getBlockState(fromPos).getBlock();
             boolean activated = facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch();
-            world.setBlock(pos, state.setValue(ACTIVATED, activated), 2);
-            world.updateNeighborsAt(pos, this);
+            level.setBlock(pos, state.setValue(ACTIVATED, activated), 2);
+            level.updateNeighborsAt(pos, this);
 
             if (activated) {
-                Helper.attemptMakeDoor(world, pos, state.getValue(FACING), LimestoneBrickBlock.class, null);
+                Helper.attemptMakeDoor(level, pos, state.getValue(FACING), LimestoneBrickBlock.class, null);
             }
         }
     }
@@ -72,17 +72,17 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     }
 
     @Override
-    public int getDirectSignal(BlockState blockState, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull Direction direction) {
-        return blockState.getSignal(world, pos, direction);
+    public int getDirectSignal(BlockState blockState, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull Direction direction) {
+        return blockState.getSignal(level, pos, direction);
     }
 
     @Override
-    public int getSignal(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull Direction direction) {
+    public int getSignal(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull Direction direction) {
         return !state.getValue(ACTIVATED) ? 0 : 15;
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
@@ -103,10 +103,10 @@ public class QuandaryBlock extends Block implements IUnbreakable {
          * @param fullBlock Class or block instance for that should be replaced by doors, when successfully activated
          * @param door      Type of door that should be placed. If null, door will attempt to be placed based on fullBlock
          */
-        public static void attemptMakeDoor(Level world, BlockPos pos, Direction facing, Class<? extends Block> fullBlock, @Nullable DoorBlock door) {
+        public static void attemptMakeDoor(Level level, BlockPos pos, Direction facing, Class<? extends Block> fullBlock, @Nullable DoorBlock door) {
             if (facing.getAxis() != Direction.Axis.Y) {
-                BlockState offsetLeft = world.getBlockState(pos.relative(facing.getClockWise(), 3));
-                BlockState offsetRight = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3));
+                BlockState offsetLeft = level.getBlockState(pos.relative(facing.getClockWise(), 3));
+                BlockState offsetRight = level.getBlockState(pos.relative(facing.getCounterClockWise(), 3));
 
                 if ((offsetLeft.getBlock() == AtumBlocks.QUANDARY_BLOCK.get() && offsetLeft.getValue(ACTIVATED)) || (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK.get() && offsetRight.getValue(ACTIVATED))) {
                     boolean isPrimary = false;
@@ -118,10 +118,10 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                         pos = pos.relative(facing.getClockWise(), 3); //Change position, if the right Quandary Block is activated last
                     }
 
-                    if (hasEntranceBlocks(world, pos, facing, fullBlock)) {
+                    if (hasEntranceBlocks(level, pos, facing, fullBlock)) {
                         BlockPos rightFromPrimary = pos.relative(facing.getCounterClockWise());
                         if (door == null) {
-                            Block readFromBlock = world.getBlockState(rightFromPrimary).getBlock();
+                            Block readFromBlock = level.getBlockState(rightFromPrimary).getBlock();
                             ResourceLocation readFromBlockID = ForgeRegistries.BLOCKS.getKey(readFromBlock);
                             if (readFromBlockID != null) {
                                 Block doorRead = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(readFromBlockID.getNamespace(), readFromBlockID.getPath() + "_door"));
@@ -137,41 +137,41 @@ public class QuandaryBlock extends Block implements IUnbreakable {
 
                         BlockState doorLeft = door.defaultBlockState().setValue(DoorBlock.HINGE, DoorHingeSide.LEFT).setValue(DoorBlock.FACING, facing.getOpposite()).setValue(DoorBlock.OPEN, true);
                         BlockState doorRight = door.defaultBlockState().setValue(DoorBlock.HINGE, DoorHingeSide.RIGHT).setValue(DoorBlock.FACING, facing.getOpposite()).setValue(DoorBlock.OPEN, true);
-                        world.setBlock(rightFromPrimary, doorLeft.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Left
-                        world.setBlock(rightFromPrimary.below(), doorLeft, 2); //Bottom Left
-                        world.setBlock(pos.relative(facing.getCounterClockWise(), 2), doorRight.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Right
-                        world.setBlock(pos.relative(facing.getCounterClockWise(), 2).below(), doorRight, 2); //Bottom Right
+                        level.setBlock(rightFromPrimary, doorLeft.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Left
+                        level.setBlock(rightFromPrimary.below(), doorLeft, 2); //Bottom Left
+                        level.setBlock(pos.relative(facing.getCounterClockWise(), 2), doorRight.setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Right
+                        level.setBlock(pos.relative(facing.getCounterClockWise(), 2).below(), doorRight, 2); //Bottom Right
 
-                        playRewardDing(world, pos);
+                        playRewardDing(level, pos);
                     }
                 }
             }
         }
 
-        public static boolean hasEntranceBlocks(Level world, BlockPos pos, Direction facing, Class<? extends Block> fullBlock) {
-            Block rightFromPrimary = world.getBlockState(pos.relative(facing.getCounterClockWise())).getBlock();
+        public static boolean hasEntranceBlocks(Level level, BlockPos pos, Direction facing, Class<? extends Block> fullBlock) {
+            Block rightFromPrimary = level.getBlockState(pos.relative(facing.getCounterClockWise())).getBlock();
             return fullBlock.isInstance(rightFromPrimary) &&
-                    world.getBlockState(pos.relative(facing.getCounterClockWise(), 2)).getBlock() == rightFromPrimary &&
-                    world.getBlockState(pos.relative(facing.getCounterClockWise()).below()).getBlock() == rightFromPrimary &&
-                    world.getBlockState(pos.relative(facing.getCounterClockWise(), 2).below()).getBlock() == rightFromPrimary;
+                    level.getBlockState(pos.relative(facing.getCounterClockWise(), 2)).getBlock() == rightFromPrimary &&
+                    level.getBlockState(pos.relative(facing.getCounterClockWise()).below()).getBlock() == rightFromPrimary &&
+                    level.getBlockState(pos.relative(facing.getCounterClockWise(), 2).below()).getBlock() == rightFromPrimary;
         }
 
-        public static boolean canSpawnPharaoh(Level world, BlockPos pos, Direction facing, Player player, RandomSource randomSource, SarcophagusTileEntity sarcophagus) {
-            Block topLeftCorner = world.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing.getOpposite(), 1)).getBlock();
-            Block bottomLeftCorner = world.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing, 2)).getBlock();
-            Block topRightCorner = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing.getOpposite(), 1)).getBlock();
-            Block bottomRightCorner = world.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing, 2)).getBlock();
+        public static boolean canSpawnPharaoh(Level level, BlockPos pos, Direction facing, Player player, RandomSource randomSource, SarcophagusTileEntity sarcophagus) {
+            Block topLeftCorner = level.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing.getOpposite(), 1)).getBlock();
+            Block bottomLeftCorner = level.getBlockState(pos.relative(facing.getClockWise(), 2).relative(facing, 2)).getBlock();
+            Block topRightCorner = level.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing.getOpposite(), 1)).getBlock();
+            Block bottomRightCorner = level.getBlockState(pos.relative(facing.getCounterClockWise(), 3).relative(facing, 2)).getBlock();
 
             if (topLeftCorner instanceof INebuTorch torchTopLeftCorner && bottomLeftCorner instanceof INebuTorch torchBottomLeftCorner && topRightCorner instanceof INebuTorch torchTopRightCorner && bottomRightCorner instanceof INebuTorch torchBottomRightCorner) {
 
                 if (torchTopLeftCorner.isNebuTorch() && torchBottomLeftCorner.isNebuTorch() && torchTopRightCorner.isNebuTorch() && torchBottomRightCorner.isNebuTorch()) {
-                    playRewardDing(world, pos);
+                    playRewardDing(level, pos);
 
                     God god = torchTopLeftCorner.getGod();
                     if (god == torchBottomLeftCorner.getGod() && god == torchTopRightCorner.getGod() && god == torchBottomRightCorner.getGod()) {
-                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), randomSource, god);
+                        sarcophagus.spawn(player, level.getCurrentDifficultyAt(pos), randomSource, god);
                     } else {
-                        sarcophagus.spawn(player, world.getCurrentDifficultyAt(pos), randomSource, null);
+                        sarcophagus.spawn(player, level.getCurrentDifficultyAt(pos), randomSource, null);
                     }
                     return true;
                 }
@@ -180,8 +180,8 @@ public class QuandaryBlock extends Block implements IUnbreakable {
             return false;
         }
 
-        public static void playRewardDing(Level world, BlockPos pos) {
-            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1.3F, 1.0F);
+        public static void playRewardDing(Level level, BlockPos pos) {
+            level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1.3F, 1.0F);
         }
     }
 }

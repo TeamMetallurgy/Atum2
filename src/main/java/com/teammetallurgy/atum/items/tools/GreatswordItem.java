@@ -46,14 +46,14 @@ public class GreatswordItem extends SwordItem {
         if (attacker instanceof Player && cooldown.containsKey(attacker)) {
             if (cooldown.getFloat(attacker) == 1.0F) {
                 Player player = (Player) attacker;
-                Level world = player.level;
+                Level level = player.level;
                 float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-                for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.75D, 0.25D, 1.75D))) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.75D, 0.25D, 1.75D))) {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 11.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
                         entity.hurt(DamageSource.playerAttack(player), sweeping);
-                        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
                     }
                 }
             }

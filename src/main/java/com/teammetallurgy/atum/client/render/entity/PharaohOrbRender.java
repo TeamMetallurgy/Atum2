@@ -23,16 +23,16 @@ public class PharaohOrbRender extends EntityRenderer<PharaohOrbEntity> {
     }
 
     @Override
-    public void render(PharaohOrbEntity pharaohOrb, float entityYaw, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight) {
+    public void render(PharaohOrbEntity pharaohOrb, float entityYaw, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int packedLight) {
         if (pharaohOrb.tickCount >= 1 || !(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(pharaohOrb) < 16.0D)) {
-            matrixStack.pushPose();
-            matrixStack.scale(0.5F, 0.5F, 0.5F);
-            matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            matrixStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+            poseStack.pushPose();
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
             VertexConsumer vertexBuilder = buffer.getBuffer(this.model.renderType(pharaohOrb.getTexture()));
-            this.model.renderToBuffer(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            matrixStack.popPose();
-            super.render(pharaohOrb, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+            this.model.renderToBuffer(poseStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
+            super.render(pharaohOrb, entityYaw, partialTicks, poseStack, buffer, packedLight);
         }
     }
 

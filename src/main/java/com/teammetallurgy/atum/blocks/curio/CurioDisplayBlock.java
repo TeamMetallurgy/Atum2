@@ -44,7 +44,7 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 
@@ -55,23 +55,23 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void attack(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void attack(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (tileEntity instanceof CurioDisplayTileEntity displayDisplay) {
             if (!displayDisplay.isEmpty()) {
-                StackHelper.dropInventoryItems(world, pos, displayDisplay);
+                StackHelper.dropInventoryItems(level, pos, displayDisplay);
                 displayDisplay.setChanged();
             }
         }
-        super.attack(state, world, pos, player);
+        super.attack(state, level, pos, player);
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
         if (player == null) return InteractionResult.PASS;
         ItemStack heldStack = player.getItemInHand(hand);
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+        BlockEntity tileEntity = level.getBlockEntity(pos);
 
         if (tileEntity instanceof CurioDisplayTileEntity curioDisplay) {
             ItemStack slotStack = curioDisplay.getItem(0);
@@ -87,7 +87,7 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
                     return InteractionResult.SUCCESS;
                 }
             } else if (player.isCrouching()) {
-                StackHelper.dropInventoryItems(world, pos, curioDisplay);
+                StackHelper.dropInventoryItems(level, pos, curioDisplay);
             }
             curioDisplay.setChanged();
             return InteractionResult.PASS;
@@ -96,16 +96,16 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
             if (newState.getBlock() != state.getBlock()) {
-                BlockEntity tileEntity = world.getBlockEntity(pos);
+                BlockEntity tileEntity = level.getBlockEntity(pos);
                 if (tileEntity instanceof CurioDisplayTileEntity) {
-                    Containers.dropContents(world, pos, (Container) tileEntity);
+                    Containers.dropContents(level, pos, (Container) tileEntity);
                 }
-                world.removeBlockEntity(pos);
+                level.removeBlockEntity(pos);
             }
-            super.onRemove(state, world, pos, newState, isMoving);
+            super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 
@@ -123,15 +123,15 @@ public abstract class CurioDisplayBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rot) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 

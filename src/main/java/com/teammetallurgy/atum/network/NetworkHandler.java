@@ -54,7 +54,7 @@ public class NetworkHandler {
     /*
      * Used to update TESRs
      */
-    public static void sendToTracking(ServerLevel world, BlockPos blockPos, Packet<?> packet, boolean boundaryOnly) {
-        world.getChunkSource().chunkMap.getPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.send(packet));
+    public static void sendToTracking(ServerLevel level, BlockPos blockPos, Packet<?> packet, boolean boundaryOnly) {
+        level.getChunkSource().chunkMap.getPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.send(packet));
     }
 }

@@ -94,22 +94,22 @@ public class BanditPatrolSpawner implements CustomSpawner {
         }
     }
 
-    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerLevel world, BlockPos pos, RandomSource rand, @Nullable BanditBaseEntity leadingEntity) {
-        BlockState state = world.getBlockState(pos);
-        if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType)) {
+    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerLevel level, BlockPos pos, RandomSource rand, @Nullable BanditBaseEntity leadingEntity) {
+        BlockState state = level.getBlockState(pos);
+        if (!NaturalSpawner.isValidEmptySpawnBlock(level, pos, state, state.getFluidState(), entityType)) {
             return false;
-        } else if (!BanditBaseEntity.canSpawn(entityType, world, MobSpawnType.PATROL, pos, rand)) {
+        } else if (!BanditBaseEntity.canSpawn(entityType, level, MobSpawnType.PATROL, pos, rand)) {
             return false;
         } else {
-            BanditBaseEntity bandit = entityType.create(world);
+            BanditBaseEntity bandit = entityType.create(level);
             if (bandit != null) {
                 bandit.setCanPatrol(true);
                 if (leadingEntity != null) {
                     bandit.setLeadingEntity(leadingEntity);
                 }
                 bandit.setPos(pos.getX(), pos.getY(), pos.getZ());
-                bandit.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
-                world.addFreshEntity(bandit);
+                bandit.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
+                level.addFreshEntity(bandit);
                 return true;
             } else {
                 return false;
@@ -117,20 +117,20 @@ public class BanditPatrolSpawner implements CustomSpawner {
         }
     }
 
-    private boolean spawnLeader(BanditBaseEntity leader, ServerLevel world, BlockPos pos, RandomSource rand) {
-        BlockState state = world.getBlockState(pos);
+    private boolean spawnLeader(BanditBaseEntity leader, ServerLevel level, BlockPos pos, RandomSource rand) {
+        BlockState state = level.getBlockState(pos);
         EntityType<? extends BanditBaseEntity> type = (EntityType<? extends BanditBaseEntity>) leader.getType();
-        if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), type)) {
+        if (!NaturalSpawner.isValidEmptySpawnBlock(level, pos, state, state.getFluidState(), type)) {
             return false;
-        } else if (!BanditBaseEntity.canSpawn(type, world, MobSpawnType.PATROL, pos, rand)) {
+        } else if (!BanditBaseEntity.canSpawn(type, level, MobSpawnType.PATROL, pos, rand)) {
             return false;
         } else {
             leader.setPatrolLeader(true);
             leader.findPatrolTarget();
             leader.setCanPatrol(true);
             leader.setPos(pos.getX(), pos.getY(), pos.getZ());
-            leader.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
-            world.addFreshEntity(leader);
+            leader.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
+            level.addFreshEntity(leader);
             return true;
         }
     }

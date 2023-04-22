@@ -17,12 +17,12 @@ public class CuratorStartAdmiringItemTask <E extends Villager> extends Behavior<
     }
 
     @Override
-    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull E owner) {
+    protected boolean checkExtraStartConditions(@Nonnull ServerLevel level, @Nonnull E owner) {
         return !owner.getOffhandItem().isEmpty() && !owner.getOffhandItem().canPerformAction(ToolActions.SHIELD_BLOCK);
     }
 
     @Override
-    protected void start(@Nonnull ServerLevel world, @Nonnull E entity, long gameTimeIn) {
+    protected void start(@Nonnull ServerLevel level, @Nonnull E entity, long gameTimeIn) {
         AtumVillagerGoalPackages.trade(entity, true);
     }
 }

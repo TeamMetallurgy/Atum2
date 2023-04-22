@@ -22,7 +22,7 @@ public class AtumVillagerRenderer extends MobRenderer<AtumVillagerEntity, Player
     }
 
     @Override
-    protected void scale(AtumVillagerEntity atumVillagerEntity, @Nonnull PoseStack matrixStack, float partialTickTime) {
+    protected void scale(AtumVillagerEntity atumVillagerEntity, @Nonnull PoseStack poseStack, float partialTickTime) {
         float f = 0.9375F;
         if (atumVillagerEntity.isBaby()) {
             f = (float) ((double) f * 0.8D);
@@ -30,7 +30,7 @@ public class AtumVillagerRenderer extends MobRenderer<AtumVillagerEntity, Player
         } else {
             this.shadowRadius = 0.5F;
         }
-        matrixStack.scale(f, f, f);
+        poseStack.scale(f, f, f);
     }
 
     @Override

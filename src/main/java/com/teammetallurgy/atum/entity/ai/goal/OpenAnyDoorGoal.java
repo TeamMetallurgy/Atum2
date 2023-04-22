@@ -50,8 +50,8 @@ public class OpenAnyDoorGoal extends DoorInteractGoal {
         }
     }
 
-    private boolean canOpen(Level world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
+    private boolean canOpen(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
         return state.getBlock() instanceof DoorBlock && state.getMaterial() != Material.METAL;
     }
 

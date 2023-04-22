@@ -117,7 +117,7 @@ public class PyramidPieces { //TODO
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
             if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
                 BlockState arrowTrap = AtumBlocks.ARROW_TRAP.defaultBlockState();
@@ -137,34 +137,34 @@ public class PyramidPieces { //TODO
                             arrowTrap = arrowTrap.setValue(TrapBlock.FACING, rotation.rotate(Direction.NORTH));
                             break;
                     }
-                    world.setBlock(pos, arrowTrap, 2);
+                    level.setBlock(pos, arrowTrap, 2);
                 } else {
-                    world.setBlock(pos, CARVED_BRICK, 2);
+                    level.setBlock(pos, CARVED_BRICK, 2);
                 }
             } else if (function.startsWith("Floor")) {
                 switch (function) {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
                             Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                            world.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
+                            level.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
                         } else {
-                            world.setBlock(pos, CARVED_BRICK, 2);
+                            level.setBlock(pos, CARVED_BRICK, 2);
                         }
                         break;
                     case "FloorCopy":
-                        this.setTrapsCopy(world, pos, rand, box, 2);
+                        this.setTrapsCopy(level, pos, rand, box, 2);
                         break;
                     case "FloorBox":
                     case "FloorSpace":
-                        this.setTrapsCopy(world, pos, rand, box, 3);
+                        this.setTrapsCopy(level, pos, rand, box, 3);
                         break;
                 }
             } else if (function.contains("Spawner")) {
                 if (function.equals("SpawnerUndead")) {
                     if (box.isInside(pos)) {
-                        world.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
 
-                        BlockEntity tileEntity = world.getBlockEntity(pos);
+                        BlockEntity tileEntity = level.getBlockEntity(pos);
                         if (tileEntity instanceof SpawnerBlockEntity) {
                             EntityType<?> entityType = RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size()));
                             ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(entityType);
@@ -172,9 +172,9 @@ public class PyramidPieces { //TODO
                     }
                 } else if (function.equals("SpawnerUndeadPair")) {
                     if (box.isInside(pos)) {
-                        world.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
 
-                        BlockEntity tileEntity = world.getBlockEntity(pos);
+                        BlockEntity tileEntity = level.getBlockEntity(pos);
                         if (tileEntity instanceof SpawnerBlockEntity) {
                             ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(UNDEAD_SPAWNER_PAIR);
                         }
@@ -183,47 +183,47 @@ public class PyramidPieces { //TODO
             } else if (function.equals("CrateChance")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.PYRAMID_CHEST);
+                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PYRAMID_CHEST);
                 }
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
+                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PHARAOH);
                 }
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             } else if (function.equals("NebuTorch")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {
-                        world.setBlock(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).defaultBlockState(), 2);
+                        level.setBlock(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).defaultBlockState(), 2);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             } else if (function.equals("EntrancePuzzle")) {
                 if (box.isInside(pos)) {
-                    world.setBlock(pos, AtumBlocks.QUANDARY_BLOCK.defaultBlockState().setValue(QuandaryBlock.UNBREAKABLE, true).setValue(QuandaryBlock.FACING, StructureHelper.getDirectionFromRotation(this.getRotation())), 2);
+                    level.setBlock(pos, AtumBlocks.QUANDARY_BLOCK.defaultBlockState().setValue(QuandaryBlock.UNBREAKABLE, true).setValue(QuandaryBlock.FACING, StructureHelper.getDirectionFromRotation(this.getRotation())), 2);
                 }
             }
         }
 
-        private void setTrapsCopy(LevelAccessor world, BlockPos pos, Random rand, BoundingBox box, int range) {
+        private void setTrapsCopy(LevelAccessor level, BlockPos pos, Random rand, BoundingBox box, int range) {
             if (rand.nextDouble() <= 0.5D) {
                 BlockState copy = null;
                 for (Direction horizontal : Direction.Plane.HORIZONTAL) {
                     for (int xMin = 0; xMin <= range; xMin++) {
                         BlockPos posOffset = pos.relative(horizontal, xMin);
                         if (box.isInside(posOffset)) {
-                            BlockState adjacent = world.getBlockState(pos.relative(horizontal, xMin));
+                            BlockState adjacent = level.getBlockState(pos.relative(horizontal, xMin));
                             if (adjacent.getBlock() instanceof TrapBlock) {
                                 copy = adjacent;
                             }
@@ -231,13 +231,13 @@ public class PyramidPieces { //TODO
                     }
                 }
                 if (copy != null) {
-                    world.setBlock(pos, copy, 2);
+                    level.setBlock(pos, copy, 2);
                 } else {
                     Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                    world.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
+                    level.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
                 }
             } else {
-                world.setBlock(pos, CARVED_BRICK, 2);
+                level.setBlock(pos, CARVED_BRICK, 2);
             }
         }
 
@@ -262,53 +262,53 @@ public class PyramidPieces { //TODO
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel world, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random random, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
-            this.addMaze(world, random, box);
+        public boolean postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random random, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+            this.addMaze(level, random, box);
             return true;
         }
 
-        private void addMaze(WorldGenLevel world, Random random, BoundingBox validBounds) {
+        private void addMaze(WorldGenLevel level, Random random, BoundingBox validBounds) {
             if (this.maze == null) {
-                this.maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.x0 * this.boundingBox.z0), this.boundingBox.getXSpan(), this.boundingBox.getZSpan());
+                this.maze = this.generateMaze(new Random(level.getSeed() * this.boundingBox.x0 * this.boundingBox.z0), this.boundingBox.getXSpan(), this.boundingBox.getZSpan());
             }
 
             for (int x = 0; x < this.boundingBox.getXSpan(); x++) {
                 for (int z = 0; z < this.boundingBox.getZSpan(); z++) {
                     //Set pathway
-                    this.placeBlock(world, Blocks.AIR.defaultBlockState(), x, 0, z, validBounds);
-                    this.placeBlock(world, Blocks.AIR.defaultBlockState(), x, 1, z, validBounds);
+                    this.placeBlock(level, Blocks.AIR.defaultBlockState(), x, 0, z, validBounds);
+                    this.placeBlock(level, Blocks.AIR.defaultBlockState(), x, 1, z, validBounds);
 
                     // Make sure the blocks above the entrance to the lower levels are clear
-                    if (this.getBlock(world, x, -1, z, validBounds).getBlock() instanceof LadderBlock) {
-                        this.placeBlock(world, Blocks.AIR.defaultBlockState(), x, 0, z, validBounds);
-                        this.placeBlock(world, Blocks.AIR.defaultBlockState(), x, 1, z, validBounds);
+                    if (this.getBlock(level, x, -1, z, validBounds).getBlock() instanceof LadderBlock) {
+                        this.placeBlock(level, Blocks.AIR.defaultBlockState(), x, 0, z, validBounds);
+                        this.placeBlock(level, Blocks.AIR.defaultBlockState(), x, 1, z, validBounds);
                     }
                     // Set the blocks for the walls of the maze
                     else if (!maze[x][z]) {
-                        this.placeBlock(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
-                        this.placeBlock(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
+                        this.placeBlock(level, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
+                        this.placeBlock(level, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
                         if (random.nextDouble() <= 0.10D) {
-                            placeTrap(world, maze, x, z, random, validBounds);
+                            placeTrap(level, maze, x, z, random, validBounds);
                         }
                     }
                     // Place sand of the floor of the maze
                     else {
                         int layers = Mth.nextInt(random, 1, 2);
-                        this.placeBlock(world, AtumBlocks.SAND_LAYERED.defaultBlockState().setValue(SandLayersBlock.LAYERS, layers), x, 0, z, validBounds);
+                        this.placeBlock(level, AtumBlocks.SAND_LAYERED.defaultBlockState().setValue(SandLayersBlock.LAYERS, layers), x, 0, z, validBounds);
                     }
                 }
             }
         }
 
         @Override
-        protected void placeBlock(@Nonnull WorldGenLevel world, @Nonnull BlockState state, int x, int y, int z, @Nonnull BoundingBox box) {
+        protected void placeBlock(@Nonnull WorldGenLevel level, @Nonnull BlockState state, int x, int y, int z, @Nonnull BoundingBox box) {
             BlockPos pos = new BlockPos(this.getWorldX(x, z), this.getWorldY(y), this.getWorldZ(x, z));
-            if (box.isInside(pos) && !(world.getBlockState(pos).getBlock() instanceof LadderBlock)) { //Make sure ladder blocks don't get replaced
-                super.placeBlock(world, state, x, y, z, box);
+            if (box.isInside(pos) && !(level.getBlockState(pos).getBlock() instanceof LadderBlock)) { //Make sure ladder blocks don't get replaced
+                super.placeBlock(level, state, x, y, z, box);
             }
         }
 
-        private void placeTrap(WorldGenLevel world, boolean[][] maze, int x, int z, Random random, BoundingBox validBounds) {
+        private void placeTrap(WorldGenLevel level, boolean[][] maze, int x, int z, Random random, BoundingBox validBounds) {
             BlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).defaultBlockState();
 
             List<Direction> validDirections = new ArrayList<>();
@@ -322,7 +322,7 @@ public class PyramidPieces { //TODO
 
             if (!validDirections.isEmpty()) {
                 trapState = trapState.setValue(TrapBlock.FACING, validDirections.get(random.nextInt(validDirections.size())));
-                this.placeBlock(world, trapState, x, 0, z, validBounds);
+                this.placeBlock(level, trapState, x, 0, z, validBounds);
             }
         }
 

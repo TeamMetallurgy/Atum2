@@ -16,16 +16,16 @@ import javax.annotation.Nonnull;
 public class ArrowExplosiveEntity extends CustomArrow {
     private float velocity;
 
-    public ArrowExplosiveEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.EXPLOSIVE_ARROW.get(), world);
+    public ArrowExplosiveEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.EXPLOSIVE_ARROW.get(), level);
     }
 
-    public ArrowExplosiveEntity(EntityType<? extends ArrowExplosiveEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowExplosiveEntity(EntityType<? extends ArrowExplosiveEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowExplosiveEntity(Level world, LivingEntity shooter, float velocity) {
-        super(AtumEntities.EXPLOSIVE_ARROW.get(), world, shooter);
+    public ArrowExplosiveEntity(Level level, LivingEntity shooter, float velocity) {
+        super(AtumEntities.EXPLOSIVE_ARROW.get(), level, shooter);
         this.velocity = velocity;
     }
 

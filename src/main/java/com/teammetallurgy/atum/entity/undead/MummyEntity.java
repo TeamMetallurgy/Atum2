@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.undead;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -23,8 +24,8 @@ import java.util.UUID;
 public class MummyEntity extends UndeadBaseEntity {
     private static final AttributeModifier SPEED_BOOST_BURNING = new AttributeModifier(UUID.fromString("2dc2358a-63df-435d-a602-2ff3d6bca8d1"), "Burning speed boost", 0.1D, AttributeModifier.Operation.ADDITION);
 
-    public MummyEntity(EntityType<? extends UndeadBaseEntity> entityType, Level world) {
-        super(entityType, world);
+    public MummyEntity(EntityType<? extends UndeadBaseEntity> entityType, Level level) {
+        super(entityType, level);
         this.setCanPickUpLoot(false);
         this.xpReward = 8;
     }
@@ -64,7 +65,7 @@ public class MummyEntity extends UndeadBaseEntity {
 
     @Override
     public boolean hurt(@Nonnull DamageSource source, float amount) {
-        if (source.isFire()) {
+        if (source.is(DamageTypeTags.IS_FIRE)) {
             amount += 1;
         }
         if (this.isOnFire()) {

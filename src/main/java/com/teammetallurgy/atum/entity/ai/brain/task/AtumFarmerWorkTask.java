@@ -23,22 +23,22 @@ public class AtumFarmerWorkTask extends WorkAtPoi {
     private static final List<Item> SEEDS = ImmutableList.of(AtumItems.EMMER_SEEDS.get(), AtumItems.FLAX_SEEDS.get());
 
     @Override
-    protected void useWorkstation(@Nonnull ServerLevel world, Villager villager) {
+    protected void useWorkstation(@Nonnull ServerLevel level, Villager villager) {
         Optional<GlobalPos> optional = villager.getBrain().getMemory(MemoryModuleType.JOB_SITE);
         if (optional.isPresent()) {
             GlobalPos globalpos = optional.get();
-            BlockState blockstate = world.getBlockState(globalpos.pos());
+            BlockState blockstate = level.getBlockState(globalpos.pos());
             if (blockstate.is(Blocks.COMPOSTER)) {
                 this.bakeBread(villager);
-                this.compost(world, villager, globalpos, blockstate);
+                this.compost(level, villager, globalpos, blockstate);
             }
         }
     }
 
-    private void compost(ServerLevel world, Villager villager, GlobalPos globalPos, BlockState state) {
+    private void compost(ServerLevel level, Villager villager, GlobalPos globalPos, BlockState state) {
         BlockPos pos = globalPos.pos();
         if (state.getValue(ComposterBlock.LEVEL) == 8) {
-            state = ComposterBlock.extractProduce(state, world, pos);
+            state = ComposterBlock.extractProduce(villager, state, level, pos);
         }
 
         int i = 20;
@@ -60,16 +60,16 @@ public class AtumFarmerWorkTask extends WorkAtPoi {
                     i -= l1;
 
                     for (int i2 = 0; i2 < l1; ++i2) {
-                        blockstate = ComposterBlock.insertItem(blockstate, world, itemstack, pos);
+                        blockstate = ComposterBlock.insertItem(villager, blockstate, level, itemstack, pos);
                         if (blockstate.getValue(ComposterBlock.LEVEL) == 7) {
-                            this.spawnComposterFillEffects(world, state, pos, blockstate);
+                            this.spawnComposterFillEffects(level, state, pos, blockstate);
                             return;
                         }
                     }
                 }
             }
         }
-        this.spawnComposterFillEffects(world, state, pos, blockstate);
+        this.spawnComposterFillEffects(level, state, pos, blockstate);
     }
 
     private void spawnComposterFillEffects(ServerLevel p_242308_1_, BlockState p_242308_2_, BlockPos p_242308_3_, BlockState p_242308_4_) {

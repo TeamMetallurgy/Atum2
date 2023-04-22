@@ -26,8 +26,8 @@ public class TefnutsRainItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
-        return new ArrowRainEntity(world, player, velocity);
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level level, Player player, float velocity) {
+        return new ArrowRainEntity(level, player, velocity);
     }
 
     @Override

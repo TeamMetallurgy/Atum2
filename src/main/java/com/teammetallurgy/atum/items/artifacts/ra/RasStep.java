@@ -36,18 +36,18 @@ public class RasStep extends RingItem implements IArtifact {
     @Override
     public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
         super.curioTick(identifier, index, livingEntity, stack);
-        Level world = livingEntity.level;
-        if (livingEntity.isAlive() && !world.isClientSide) {
+        Level level = livingEntity.level;
+        if (livingEntity.isAlive() && !level.isClientSide) {
             BlockPos pos = livingEntity.blockPosition();
 
             if (!Objects.equal(this.prevBlockpos, pos)) {
                 this.prevBlockpos = pos;
-                this.lavaWalk(livingEntity, world, pos);
+                this.lavaWalk(livingEntity, level, pos);
             }
         }
     }
 
-    private void lavaWalk(LivingEntity living, Level world, BlockPos pos) {
+    private void lavaWalk(LivingEntity living, Level level, BlockPos pos) {
         if (living.isOnGround()) {
             BlockState raStone = AtumBlocks.RA_STONE.get().defaultBlockState();
             float area = (float) Math.min(16, 2);
@@ -56,13 +56,13 @@ public class RasStep extends RingItem implements IArtifact {
             for (BlockPos posBox : BlockPos.betweenClosed(pos.offset(-area, -1.0D, -area), pos.offset(area, -1.0D, area))) {
                 if (posBox.closerThan(living.blockPosition(), area)) {
                     mutablePos.set(posBox.getX(), posBox.getY() + 1, posBox.getZ());
-                    BlockState state = world.getBlockState(mutablePos);
+                    BlockState state = level.getBlockState(mutablePos);
                     if (state.isAir()) {
-                        BlockState checkState = world.getBlockState(posBox);
+                        BlockState checkState = level.getBlockState(posBox);
                         boolean isFull = checkState.getFluidState().is(FluidTags.LAVA) && checkState.hasProperty(LiquidBlock.LEVEL) && checkState.getValue(LiquidBlock.LEVEL) == 0;
-                        if (checkState.getMaterial() == Material.LAVA && isFull && raStone.canSurvive(world, posBox) && world.isUnobstructed(raStone, posBox, CollisionContext.empty()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, posBox), Direction.UP)) {
-                            world.setBlockAndUpdate(posBox, raStone);
-                            world.scheduleTick(posBox, raStone.getBlock(), Mth.nextInt(living.getRandom(), 60, 120));
+                        if (checkState.getMaterial() == Material.LAVA && isFull && raStone.canSurvive(level, posBox) && level.isUnobstructed(raStone, posBox, CollisionContext.empty()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(level.dimension(), level, posBox), Direction.UP)) {
+                            level.setBlockAndUpdate(posBox, raStone);
+                            level.scheduleTick(posBox, raStone.getBlock(), Mth.nextInt(living.getRandom(), 60, 120));
                         }
                     }
                 }

@@ -50,21 +50,21 @@ public class ChestBaseBlock extends ChestBlock {
     }
 
     @Override
-    public void playerWillDestroy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-        super.playerWillDestroy(world, pos, state, player);
+    public void playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
+        super.playerWillDestroy(level, pos, state, player);
 
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+        BlockEntity tileEntity = level.getBlockEntity(pos);
         if (player.isCreative() && tileEntity instanceof ChestBaseTileEntity) {
-            this.playerDestroy(world, player, pos, state, tileEntity, player.getMainHandItem());
+            this.playerDestroy(level, player, pos, state, tileEntity, player.getMainHandItem());
         }
     }
 
     @Override
-    public void playerDestroy(@Nonnull Level world, Player player, @Nonnull BlockPos pos, @Nonnull BlockState state, BlockEntity tileEntity, @Nonnull ItemStack stack) {
+    public void playerDestroy(@Nonnull Level level, Player player, @Nonnull BlockPos pos, @Nonnull BlockState state, BlockEntity tileEntity, @Nonnull ItemStack stack) {
         if (!player.isCreative()) {
-            super.playerDestroy(world, player, pos, state, tileEntity, stack);
+            super.playerDestroy(level, player, pos, state, tileEntity, stack);
         }
-        world.removeBlock(pos, false);
+        level.removeBlock(pos, false);
 
         if (tileEntity instanceof ChestBaseTileEntity chestBase) {
             if (chestBase.canBeDouble && !chestBase.canBeSingle) {
@@ -77,8 +77,8 @@ public class ChestBaseBlock extends ChestBlock {
                         direction = direction.getCounterClockWise();
                     }
                     BlockPos offsetPos = pos.relative(direction);
-                    if (world.getBlockState(offsetPos).getBlock() == this) {
-                        this.breakDoubleChest(world, offsetPos);
+                    if (level.getBlockState(offsetPos).getBlock() == this) {
+                        this.breakDoubleChest(level, offsetPos);
                     }
                 }
             }
@@ -86,27 +86,27 @@ public class ChestBaseBlock extends ChestBlock {
         }
     }
 
-    private void breakDoubleChest(Level world, BlockPos pos) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    private void breakDoubleChest(Level level, BlockPos pos) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
 
         if (tileEntity instanceof ChestBaseTileEntity chestBase) {
             if (!chestBase.isEmpty()) {
-                Containers.dropContents(world, pos, chestBase);
+                Containers.dropContents(level, pos, chestBase);
             }
-            world.updateNeighbourForOutputSignal(pos, this);
+            level.updateNeighbourForOutputSignal(pos, this);
         }
-        world.removeBlock(pos, false);
+        level.removeBlock(pos, false);
     }
 
     @Override
     @Nonnull
-    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-        BlockEntity tileEntity = world.getBlockEntity(currentPos);
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        BlockEntity tileEntity = level.getBlockEntity(currentPos);
         if (tileEntity instanceof ChestBaseTileEntity chest) {
             if (chest.canBeSingle && !chest.canBeDouble) {
                 return state;
             } else {
-                return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+                return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
             }
         }
         return state;
@@ -125,15 +125,15 @@ public class ChestBaseBlock extends ChestBlock {
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
-        super.setPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
         if (placer instanceof Player) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof ChestBaseTileEntity chest) {
                 if (chest.canBeDouble && !chest.canBeSingle) {
                     Direction direction = Direction.from2DDataValue(Mth.floor(placer.getYRot() * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
                     BlockPos posRight = pos.relative(direction.getClockWise().getOpposite());
-                    BlockState rightState = world.getBlockState(posRight);
+                    BlockState rightState = level.getBlockState(posRight);
                     BlockHitResult rayTrace = new BlockHitResult(new Vec3(posRight.getX(), posRight.getY(), posRight.getZ()), direction, pos, false);
                     BlockPlaceContext context = new BlockPlaceContext(new UseOnContext((Player) placer, InteractionHand.MAIN_HAND, rayTrace));
                     if (rightState.isAir() || rightState.canBeReplaced(context)) {
@@ -144,17 +144,17 @@ public class ChestBaseBlock extends ChestBlock {
         }
     }
 
-    public static BlockState correctFacing(BlockGetter world, BlockPos pos, BlockState state, Block checkBlock) {
+    public static BlockState correctFacing(BlockGetter level, BlockPos pos, BlockState state, Block checkBlock) {
         Direction direction = null;
 
         for (Direction horizontal : Direction.Plane.HORIZONTAL) {
             BlockPos horizontalPos = pos.relative(horizontal);
-            BlockState horizontalState = world.getBlockState(horizontalPos);
+            BlockState horizontalState = level.getBlockState(horizontalPos);
             if (horizontalState.getBlock() == checkBlock) {
                 return state;
             }
 
-            if (horizontalState.isSolidRender(world, horizontalPos)) {
+            if (horizontalState.isSolidRender(level, horizontalPos)) {
                 if (direction != null) {
                     direction = null;
                     break;
@@ -168,17 +168,17 @@ public class ChestBaseBlock extends ChestBlock {
         } else {
             Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
             BlockPos facingPos = pos.relative(facing);
-            if (world.getBlockState(facingPos).isSolidRender(world, facingPos)) {
+            if (level.getBlockState(facingPos).isSolidRender(level, facingPos)) {
                 facing = facing.getOpposite();
                 facingPos = pos.relative(facing);
             }
 
-            if (world.getBlockState(facingPos).isSolidRender(world, facingPos)) {
+            if (level.getBlockState(facingPos).isSolidRender(level, facingPos)) {
                 facing = facing.getClockWise();
                 facingPos = pos.relative(facing);
             }
 
-            if (world.getBlockState(facingPos).isSolidRender(world, facingPos)) {
+            if (level.getBlockState(facingPos).isSolidRender(level, facingPos)) {
                 facing = facing.getOpposite();
                 pos.relative(facing);
             }

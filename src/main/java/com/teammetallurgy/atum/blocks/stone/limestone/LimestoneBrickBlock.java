@@ -35,18 +35,18 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        super.setPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
 
         if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_SMALL.get()) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
                         BlockPos checkPos = pos.offset(dx, dy, dz);
-                        BlockState kilnState = world.getBlockState(checkPos);
+                        BlockState kilnState = level.getBlockState(checkPos);
                         if (kilnState.getBlock() == AtumBlocks.KILN.get()) {
                             KilnBlock kiln = (KilnBlock) kilnState.getBlock();
-                            kiln.tryMakeMultiblock(world, checkPos, kilnState);
+                            kiln.tryMakeMultiblock(level, checkPos, kilnState);
                         }
                     }
                 }
@@ -55,43 +55,43 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion) {
-        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
+    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+        return level.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, level, pos, explosion);
     }
 
     @Override
-    public void onPlace(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         if (state.getValue(CAN_FALL)) {
-            super.onPlace(state, world, pos, oldState, isMoving);
+            super.onPlace(state, level, pos, oldState, isMoving);
         }
     }
 
     @Override
     @Nonnull
-    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-        return state.getValue(CAN_FALL) ? super.updateShape(state, facing, facingState, world, currentPos, facingPos) : state;
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        return state.getValue(CAN_FALL) ? super.updateShape(state, facing, facingState, level, currentPos, facingPos) : state;
     }
 
     @Override
-    public void tick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void tick(BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.hasProperty(CAN_FALL) && state.getValue(CAN_FALL)) {
-            super.tick(state, world, pos, rand);
+            super.tick(state, level, pos, rand);
         }
     }
 
     @Override
-    public void onLand(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState fallingState, @Nonnull BlockState hitState, @Nonnull FallingBlockEntity fallingBlock) {
-        super.onLand(world, pos, fallingState, hitState, fallingBlock);
+    public void onLand(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState fallingState, @Nonnull BlockState hitState, @Nonnull FallingBlockEntity fallingBlock) {
+        super.onLand(level, pos, fallingState, hitState, fallingBlock);
         if (fallingState.getValue(CAN_FALL)) {
-            world.setBlock(pos, fallingState.setValue(CAN_FALL, false), 2);
-            world.playSound(null, pos, SoundEvents.STONE_FALL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.setBlock(pos, fallingState.setValue(CAN_FALL, false), 2);
+            level.playSound(null, pos, SoundEvents.STONE_FALL, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     @Override
-    public void animateTick(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+    public void animateTick(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         if (state.hasProperty(CAN_FALL) && state.getValue(CAN_FALL)) {
-            super.animateTick(state, world, pos, rand);
+            super.animateTick(state, level, pos, rand);
         }
     }
 

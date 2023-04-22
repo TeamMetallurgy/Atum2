@@ -214,14 +214,14 @@ public class AtumMineshaftPieces { // TODO
         }
 
         @Override
-        protected boolean createChest(@Nonnull WorldGenLevel world, BoundingBox box, @Nonnull Random rand, int x, int y, int z, @Nonnull ResourceLocation loot) {
+        protected boolean createChest(@Nonnull WorldGenLevel level, BoundingBox box, @Nonnull Random rand, int x, int y, int z, @Nonnull ResourceLocation loot) {
             BlockPos blockpos = new BlockPos(this.getWorldX(x, z), this.getWorldY(y), this.getWorldZ(x, z));
-            if (box.isInside(blockpos) && world.getBlockState(blockpos).isAir(world, blockpos) && !world.getBlockState(blockpos.below()).isAir(world, blockpos.below())) {
+            if (box.isInside(blockpos) && level.getBlockState(blockpos).isAir(level, blockpos) && !level.getBlockState(blockpos.below()).isAir(level, blockpos.below())) {
                 BlockState plankState = Blocks.RAIL.defaultBlockState().setValue(RailBlock.SHAPE, rand.nextBoolean() ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST);
-                this.placeBlock(world, plankState, x, y, z, box);
-                MinecartChest chestMinecraftEntity = new MinecartChest(world.getLevel(), (float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.5F, (float) blockpos.getZ() + 0.5F);
+                this.placeBlock(level, plankState, x, y, z, box);
+                MinecartChest chestMinecraftEntity = new MinecartChest(level.getLevel(), (float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.5F, (float) blockpos.getZ() + 0.5F);
                 chestMinecraftEntity.setLootTable(loot, rand.nextLong());
-                world.addFreshEntity(chestMinecraftEntity);
+                level.addFreshEntity(chestMinecraftEntity);
                 return true;
             } else {
                 return false;
@@ -229,35 +229,35 @@ public class AtumMineshaftPieces { // TODO
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel world, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
-            if (this.edgesLiquid(world, box)) {
+        public boolean postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+            if (this.edgesLiquid(level, box)) {
                 return false;
             } else {
                 int i1 = this.sectionCount * 5 - 1;
                 BlockState plankState = this.getPlanksBlock();
-                this.generateBox(world, box, 0, 0, 0, 2, 1, i1, CAVE_AIR, CAVE_AIR, false);
-                this.generateMaybeBox(world, box, rand, 0.8F, 0, 2, 0, 2, 2, i1, CAVE_AIR, CAVE_AIR, false, false);
+                this.generateBox(level, box, 0, 0, 0, 2, 1, i1, CAVE_AIR, CAVE_AIR, false);
+                this.generateMaybeBox(level, box, rand, 0.8F, 0, 2, 0, 2, 2, i1, CAVE_AIR, CAVE_AIR, false, false);
                 if (this.hasTarantula) {
-                    this.generateMaybeBox(world, box, rand, 0.6F, 0, 0, 0, 2, 1, i1, Blocks.COBWEB.defaultBlockState(), CAVE_AIR, false, true);
+                    this.generateMaybeBox(level, box, rand, 0.6F, 0, 0, 0, 2, 1, i1, Blocks.COBWEB.defaultBlockState(), CAVE_AIR, false, true);
                 }
 
                 for (int j1 = 0; j1 < this.sectionCount; ++j1) {
                     int k1 = 2 + j1 * 5;
-                    this.placeSupport(world, box, 0, 0, k1, 2, 2, rand);
-                    this.placeCobWeb(world, box, rand, 0.1F, 0, 2, k1 - 1);
-                    this.placeCobWeb(world, box, rand, 0.1F, 2, 2, k1 - 1);
-                    this.placeCobWeb(world, box, rand, 0.1F, 0, 2, k1 + 1);
-                    this.placeCobWeb(world, box, rand, 0.1F, 2, 2, k1 + 1);
-                    this.placeCobWeb(world, box, rand, 0.05F, 0, 2, k1 - 2);
-                    this.placeCobWeb(world, box, rand, 0.05F, 2, 2, k1 - 2);
-                    this.placeCobWeb(world, box, rand, 0.05F, 0, 2, k1 + 2);
-                    this.placeCobWeb(world, box, rand, 0.05F, 2, 2, k1 + 2);
+                    this.placeSupport(level, box, 0, 0, k1, 2, 2, rand);
+                    this.placeCobWeb(level, box, rand, 0.1F, 0, 2, k1 - 1);
+                    this.placeCobWeb(level, box, rand, 0.1F, 2, 2, k1 - 1);
+                    this.placeCobWeb(level, box, rand, 0.1F, 0, 2, k1 + 1);
+                    this.placeCobWeb(level, box, rand, 0.1F, 2, 2, k1 + 1);
+                    this.placeCobWeb(level, box, rand, 0.05F, 0, 2, k1 - 2);
+                    this.placeCobWeb(level, box, rand, 0.05F, 2, 2, k1 - 2);
+                    this.placeCobWeb(level, box, rand, 0.05F, 0, 2, k1 + 2);
+                    this.placeCobWeb(level, box, rand, 0.05F, 2, 2, k1 + 2);
                     if (rand.nextInt(100) == 0) {
-                        this.createChest(world, box, rand, 2, 0, k1 - 1, AtumLootTables.CRATE);
+                        this.createChest(level, box, rand, 2, 0, k1 - 1, AtumLootTables.CRATE);
                     }
 
                     if (rand.nextInt(100) == 0) {
-                        this.createChest(world, box, rand, 0, 0, k1 + 1, AtumLootTables.CRATE);
+                        this.createChest(level, box, rand, 0, 0, k1 + 1, AtumLootTables.CRATE);
                     }
 
                     if (this.hasTarantula && !this.spawnerPlaced) {
@@ -266,10 +266,10 @@ public class AtumMineshaftPieces { // TODO
                         int j2 = this.getWorldX(1, i2);
                         int k2 = this.getWorldZ(1, i2);
                         BlockPos blockpos = new BlockPos(j2, l1, k2);
-                        if (box.isInside(blockpos) && this.isInterior(world, 1, 0, i2, box)) {
+                        if (box.isInside(blockpos) && this.isInterior(level, 1, 0, i2, box)) {
                             this.spawnerPlaced = true;
-                            world.setBlock(blockpos, Blocks.SPAWNER.defaultBlockState(), 2);
-                            BlockEntity tileEntity = world.getBlockEntity(blockpos);
+                            level.setBlock(blockpos, Blocks.SPAWNER.defaultBlockState(), 2);
+                            BlockEntity tileEntity = level.getBlockEntity(blockpos);
                             if (tileEntity instanceof SpawnerBlockEntity) {
                                 AtumMineshaftStructure.Type type = this.mineShaftType;
                                 int chance = rand.nextInt(100);
@@ -289,9 +289,9 @@ public class AtumMineshaftPieces { // TODO
 
                 for (int l2 = 0; l2 <= 2; ++l2) {
                     for (int i3 = 0; i3 <= i1; ++i3) {
-                        BlockState blockstate3 = this.getBlock(world, l2, -1, i3, box);
-                        if (blockstate3.isAir() && this.isInterior(world, l2, -1, i3, box)) {
-                            this.placeBlock(world, plankState, l2, -1, i3, box);
+                        BlockState blockstate3 = this.getBlock(level, l2, -1, i3, box);
+                        if (blockstate3.isAir() && this.isInterior(level, l2, -1, i3, box)) {
+                            this.placeBlock(level, plankState, l2, -1, i3, box);
                         }
                     }
                 }
@@ -299,10 +299,10 @@ public class AtumMineshaftPieces { // TODO
                 if (this.hasRails) {
                     BlockState railState = Blocks.RAIL.defaultBlockState().setValue(RailBlock.SHAPE, RailShape.NORTH_SOUTH);
                     for (int j3 = 0; j3 <= i1; ++j3) {
-                        BlockState blockstate2 = this.getBlock(world, 1, -1, j3, box);
-                        if (!blockstate2.isAir() && blockstate2.isSolidRender(world, new BlockPos(this.getWorldX(1, j3), this.getWorldY(-1), this.getWorldZ(1, j3)))) {
-                            float f = this.isInterior(world, 1, 0, j3, box) ? 0.7F : 0.9F;
-                            this.maybeGenerateBlock(world, box, rand, f, 1, 0, j3, railState);
+                        BlockState blockstate2 = this.getBlock(level, 1, -1, j3, box);
+                        if (!blockstate2.isAir() && blockstate2.isSolidRender(level, new BlockPos(this.getWorldX(1, j3), this.getWorldY(-1), this.getWorldZ(1, j3)))) {
+                            float f = this.isInterior(level, 1, 0, j3, box) ? 0.7F : 0.9F;
+                            this.maybeGenerateBlock(level, box, rand, f, 1, 0, j3, railState);
                         }
                     }
                 }
@@ -310,27 +310,27 @@ public class AtumMineshaftPieces { // TODO
             }
         }
 
-        private void placeSupport(WorldGenLevel world, BoundingBox box, int x, int yMin, int zMin, int yMax, int zMax, Random rand) {
-            if (this.isSupportingBox(world, box, x, zMax, yMax, zMin)) {
+        private void placeSupport(WorldGenLevel level, BoundingBox box, int x, int yMin, int zMin, int yMax, int zMax, Random rand) {
+            if (this.isSupportingBox(level, box, x, zMax, yMax, zMin)) {
                 BlockState plankState = this.getPlanksBlock();
                 BlockState fenceState = this.getFenceBlock();
                 BlockState torchState = this.getTorchBlock();
-                this.generateBox(world, box, x, yMin, zMin, x, yMax - 1, zMin, fenceState, CAVE_AIR, false);
-                this.generateBox(world, box, zMax, yMin, zMin, zMax, yMax - 1, zMin, fenceState, CAVE_AIR, false);
+                this.generateBox(level, box, x, yMin, zMin, x, yMax - 1, zMin, fenceState, CAVE_AIR, false);
+                this.generateBox(level, box, zMax, yMin, zMin, zMax, yMax - 1, zMin, fenceState, CAVE_AIR, false);
                 if (rand.nextInt(4) == 0) {
-                    this.generateBox(world, box, x, yMax, zMin, x, yMax, zMin, plankState, CAVE_AIR, false);
-                    this.generateBox(world, box, zMax, yMax, zMin, zMax, yMax, zMin, plankState, CAVE_AIR, false);
+                    this.generateBox(level, box, x, yMax, zMin, x, yMax, zMin, plankState, CAVE_AIR, false);
+                    this.generateBox(level, box, zMax, yMax, zMin, zMax, yMax, zMin, plankState, CAVE_AIR, false);
                 } else {
-                    this.generateBox(world, box, x, yMax, zMin, zMax, yMax, zMin, plankState, CAVE_AIR, false);
-                    this.maybeGenerateBlock(world, box, rand, 0.05F, x + 1, yMax, zMin - 1, torchState.setValue(WallTorchBlock.FACING, Direction.NORTH));
-                    this.maybeGenerateBlock(world, box, rand, 0.05F, x + 1, yMax, zMin + 1, torchState.setValue(WallTorchBlock.FACING, Direction.SOUTH));
+                    this.generateBox(level, box, x, yMax, zMin, zMax, yMax, zMin, plankState, CAVE_AIR, false);
+                    this.maybeGenerateBlock(level, box, rand, 0.05F, x + 1, yMax, zMin - 1, torchState.setValue(WallTorchBlock.FACING, Direction.NORTH));
+                    this.maybeGenerateBlock(level, box, rand, 0.05F, x + 1, yMax, zMin + 1, torchState.setValue(WallTorchBlock.FACING, Direction.SOUTH));
                 }
             }
         }
 
-        private void placeCobWeb(WorldGenLevel world, BoundingBox box, Random rand, float chance, int x, int y, int z) {
-            if (this.isInterior(world, x, y, z, box)) {
-                this.maybeGenerateBlock(world, box, rand, chance, x, y, z, Blocks.COBWEB.defaultBlockState());
+        private void placeCobWeb(WorldGenLevel level, BoundingBox box, Random rand, float chance, int x, int y, int z) {
+            if (this.isInterior(level, x, y, z, box)) {
+                this.maybeGenerateBlock(level, box, rand, chance, x, y, z, Blocks.COBWEB.defaultBlockState());
             }
         }
     }
@@ -437,31 +437,31 @@ public class AtumMineshaftPieces { // TODO
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel world, StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
-            if (this.edgesLiquid(world, box)) {
+        public boolean postProcess(@Nonnull WorldGenLevel level, StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+            if (this.edgesLiquid(level, box)) {
                 return false;
             } else {
                 BlockState plankState = this.getPlanksBlock();
                 if (this.isMultipleFloors) {
-                    this.generateBox(world, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y0 + 3 - 1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
-                    this.generateBox(world, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y0 + 3 - 1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
-                    this.generateBox(world, box, this.boundingBox.x0 + 1, this.boundingBox.y1 - 2, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
-                    this.generateBox(world, box, this.boundingBox.x0, this.boundingBox.y1 - 2, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
-                    this.generateBox(world, box, this.boundingBox.x0 + 1, this.boundingBox.y0 + 3, this.boundingBox.z0 + 1, this.boundingBox.x1 - 1, this.boundingBox.y0 + 3, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y0 + 3 - 1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y0 + 3 - 1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0 + 1, this.boundingBox.y1 - 2, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0, this.boundingBox.y1 - 2, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0 + 1, this.boundingBox.y0 + 3, this.boundingBox.z0 + 1, this.boundingBox.x1 - 1, this.boundingBox.y0 + 3, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
                 } else {
-                    this.generateBox(world, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
-                    this.generateBox(world, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1 - 1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1 - 1, CAVE_AIR, CAVE_AIR, false);
                 }
 
-                this.placeSupportPillar(world, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.y1);
-                this.placeSupportPillar(world, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z1 - 1, this.boundingBox.y1);
-                this.placeSupportPillar(world, box, this.boundingBox.x1 - 1, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.y1);
-                this.placeSupportPillar(world, box, this.boundingBox.x1 - 1, this.boundingBox.y0, this.boundingBox.z1 - 1, this.boundingBox.y1);
+                this.placeSupportPillar(level, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.y1);
+                this.placeSupportPillar(level, box, this.boundingBox.x0 + 1, this.boundingBox.y0, this.boundingBox.z1 - 1, this.boundingBox.y1);
+                this.placeSupportPillar(level, box, this.boundingBox.x1 - 1, this.boundingBox.y0, this.boundingBox.z0 + 1, this.boundingBox.y1);
+                this.placeSupportPillar(level, box, this.boundingBox.x1 - 1, this.boundingBox.y0, this.boundingBox.z1 - 1, this.boundingBox.y1);
 
                 for (int i = this.boundingBox.x0; i <= this.boundingBox.x1; ++i) {
                     for (int j = this.boundingBox.z0; j <= this.boundingBox.z1; ++j) {
-                        if (this.getBlock(world, i, this.boundingBox.y0 - 1, j, box).isAir() && this.isInterior(world, i, this.boundingBox.y0 - 1, j, box)) {
-                            this.placeBlock(world, plankState, i, this.boundingBox.y0 - 1, j, box);
+                        if (this.getBlock(level, i, this.boundingBox.y0 - 1, j, box).isAir() && this.isInterior(level, i, this.boundingBox.y0 - 1, j, box)) {
+                            this.placeBlock(level, plankState, i, this.boundingBox.y0 - 1, j, box);
                         }
                     }
                 }
@@ -469,9 +469,9 @@ public class AtumMineshaftPieces { // TODO
             }
         }
 
-        private void placeSupportPillar(WorldGenLevel world, BoundingBox box, int x, int y, int z, int yMax) {
-            if (!this.getBlock(world, x, yMax + 1, z, box).isAir()) {
-                this.generateBox(world, box, x, y, z, x, yMax, z, this.getPlanksBlock(), CAVE_AIR, false);
+        private void placeSupportPillar(WorldGenLevel level, BoundingBox box, int x, int y, int z, int yMax) {
+            if (!this.getBlock(level, x, yMax + 1, z, box).isAir()) {
+                this.generateBox(level, box, x, y, z, x, yMax, z, this.getPlanksBlock(), CAVE_AIR, false);
             }
         }
     }
@@ -622,18 +622,18 @@ public class AtumMineshaftPieces { // TODO
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel world, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
-            if (this.edgesLiquid(world, box)) {
+        public boolean postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+            if (this.edgesLiquid(level, box)) {
                 return false;
             } else {
-                this.generateBox(world, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1, this.boundingBox.y0, this.boundingBox.z1, AtumBlocks.SAND.defaultBlockState(), CAVE_AIR, true);
-                this.generateBox(world, box, this.boundingBox.x0, this.boundingBox.y0 + 1, this.boundingBox.z0, this.boundingBox.x1, Math.min(this.boundingBox.y0 + 3, this.boundingBox.y1), this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
+                this.generateBox(level, box, this.boundingBox.x0, this.boundingBox.y0, this.boundingBox.z0, this.boundingBox.x1, this.boundingBox.y0, this.boundingBox.z1, AtumBlocks.SAND.defaultBlockState(), CAVE_AIR, true);
+                this.generateBox(level, box, this.boundingBox.x0, this.boundingBox.y0 + 1, this.boundingBox.z0, this.boundingBox.x1, Math.min(this.boundingBox.y0 + 3, this.boundingBox.y1), this.boundingBox.z1, CAVE_AIR, CAVE_AIR, false);
 
                 for (BoundingBox connectedRooms : this.connectedRooms) {
-                    this.generateBox(world, box, connectedRooms.x0, connectedRooms.y1 - 2, connectedRooms.z0, connectedRooms.x1, connectedRooms.y1, connectedRooms.z1, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, connectedRooms.x0, connectedRooms.y1 - 2, connectedRooms.z0, connectedRooms.x1, connectedRooms.y1, connectedRooms.z1, CAVE_AIR, CAVE_AIR, false);
                 }
 
-                this.generateUpperHalfSphere(world, box, this.boundingBox.x0, this.boundingBox.y0 + 4, this.boundingBox.z0, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, false);
+                this.generateUpperHalfSphere(level, box, this.boundingBox.x0, this.boundingBox.y0 + 4, this.boundingBox.z0, this.boundingBox.x1, this.boundingBox.y1, this.boundingBox.z1, CAVE_AIR, false);
                 return true;
             }
         }
@@ -719,15 +719,15 @@ public class AtumMineshaftPieces { // TODO
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel world, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
-            if (this.edgesLiquid(world, box)) {
+        public boolean postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+            if (this.edgesLiquid(level, box)) {
                 return false;
             } else {
-                this.generateBox(world, box, 0, 5, 0, 2, 7, 1, CAVE_AIR, CAVE_AIR, false);
-                this.generateBox(world, box, 0, 0, 7, 2, 2, 8, CAVE_AIR, CAVE_AIR, false);
+                this.generateBox(level, box, 0, 5, 0, 2, 7, 1, CAVE_AIR, CAVE_AIR, false);
+                this.generateBox(level, box, 0, 0, 7, 2, 2, 8, CAVE_AIR, CAVE_AIR, false);
 
                 for (int i = 0; i < 5; ++i) {
-                    this.generateBox(world, box, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i, 2 + i, CAVE_AIR, CAVE_AIR, false);
+                    this.generateBox(level, box, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i, 2 + i, CAVE_AIR, CAVE_AIR, false);
                 }
                 return true;
             }

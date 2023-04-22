@@ -38,17 +38,17 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
     }
 
     @Override
-    protected void setupRotations(@Nonnull ServalEntity serval, @Nonnull PoseStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.setupRotations(serval, matrixStack, ageInTicks, rotationYaw, partialTicks);
+    protected void setupRotations(@Nonnull ServalEntity serval, @Nonnull PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.setupRotations(serval, poseStack, ageInTicks, rotationYaw, partialTicks);
         float f = serval.getLieDownAmount(partialTicks);
         if (f > 0.0F) {
-            matrixStack.translate((0.4F * f), (0.15F * f), (0.1F * f));
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(Mth.rotLerp(f, 0.0F, 90.0F)));
+            poseStack.translate((0.4F * f), (0.15F * f), (0.1F * f));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.rotLerp(f, 0.0F, 90.0F)));
             BlockPos blockpos = serval.blockPosition();
 
             for (Player player : serval.level.getEntitiesOfClass(Player.class, (new AABB(blockpos)).inflate(2.0D, 2.0D, 2.0D))) {
                 if (player.isSleeping()) {
-                    matrixStack.translate(0.15F * f, 0.0D, 0.0D);
+                    poseStack.translate(0.15F * f, 0.0D, 0.0D);
                     break;
                 }
             }

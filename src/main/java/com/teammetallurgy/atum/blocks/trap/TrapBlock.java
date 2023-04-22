@@ -76,64 +76,64 @@ public abstract class TrapBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
-        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
+    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+        BlockEntity tileEntity = level.getBlockEntity(pos);
+        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(state, level, pos, explosion);
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
-        if (world.isClientSide) {
+    public InteractionResult use(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
+        if (level.isClientSide) {
             return InteractionResult.PASS;
         } else {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
-            boolean isToolEffective = ForgeHooks.isCorrectToolForDrops(world.getBlockState(pos), player);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
+            boolean isToolEffective = ForgeHooks.isCorrectToolForDrops(level.getBlockState(pos), player);
             if (tileEntity instanceof TrapTileEntity trap) {
                 if (!trap.isInsidePyramid) {
                     NetworkHooks.openScreen((ServerPlayer) player, trap, pos);
                     return InteractionResult.SUCCESS;
                 }
                 if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {
-                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
-                    world.playSound(null, pos, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 1.1F, 1.5F);
+                    this.setDisabled(level, pos, state, (TrapTileEntity) tileEntity, true);
+                    level.playSound(null, pos, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 1.1F, 1.5F);
                     return InteractionResult.SUCCESS;
                 }
             }
         }
-        return super.use(state, world, pos, player, hand, rayTraceResult);
+        return super.use(state, level, pos, player, hand, rayTraceResult);
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        if (!world.isClientSide) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void neighborChanged(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        if (!level.isClientSide) {
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
-                if (world.hasNeighborSignal(pos)) {
-                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
-                } else if (!world.hasNeighborSignal(pos)) {
-                    world.scheduleTick(pos, this, 4);
+                if (level.hasNeighborSignal(pos)) {
+                    this.setDisabled(level, pos, state, (TrapTileEntity) tileEntity, true);
+                } else if (!level.hasNeighborSignal(pos)) {
+                    level.scheduleTick(pos, this, 4);
                 }
             }
         }
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        if (!world.isClientSide) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void tick(@Nonnull BlockState state, ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        if (!level.isClientSide) {
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
-                if (!world.hasNeighborSignal(pos)) {
-                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, false);
+                if (!level.hasNeighborSignal(pos)) {
+                    this.setDisabled(level, pos, state, (TrapTileEntity) tileEntity, false);
                 }
             }
         }
     }
 
-    private void setDisabled(Level world, BlockPos pos, BlockState state, TrapTileEntity trap, boolean disabledStatus) {
+    private void setDisabled(Level level, BlockPos pos, BlockState state, TrapTileEntity trap, boolean disabledStatus) {
         trap.setDisabledStatus(disabledStatus);
-        world.setBlockAndUpdate(pos, state.setValue(DISABLED, disabledStatus));
-        world.sendBlockUpdated(pos, state, state, 3);
+        level.setBlockAndUpdate(pos, state.setValue(DISABLED, disabledStatus));
+        level.sendBlockUpdated(pos, state, state, 3);
     }
 
     @Override
@@ -148,8 +148,8 @@ public abstract class TrapBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
+    public void setPlacedBy(Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        BlockEntity tileentity = level.getBlockEntity(pos);
         if (tileentity instanceof TrapTileEntity) {
             ((TrapTileEntity) tileentity).isInsidePyramid = false;
             if (stack.hasCustomHoverName()) {
@@ -159,14 +159,14 @@ public abstract class TrapBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (newState.getBlock() != state.getBlock()) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof TrapTileEntity) {
-                Containers.dropContents(world, pos, (Container) tileEntity);
-                world.updateNeighbourForOutputSignal(pos, this);
+                Containers.dropContents(level, pos, (Container) tileEntity);
+                level.updateNeighbourForOutputSignal(pos, this);
             }
-            world.removeBlockEntity(pos);
+            level.removeBlockEntity(pos);
         }
     }
 
@@ -181,12 +181,12 @@ public abstract class TrapBlock extends BaseEntityBlock {
     }
 
     @Override
-    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level world, @Nonnull BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level level, @Nonnull BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+    public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 

@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -24,20 +23,20 @@ import javax.annotation.Nonnull;
 
 public class QuailEggEntity extends ThrowableItemProjectile {
 
-    public QuailEggEntity(PlayMessages.SpawnEntity spawnPacket, Level world) {
-        this(AtumEntities.QUAIL_EGG.get(), world);
+    public QuailEggEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
+        this(AtumEntities.QUAIL_EGG.get(), level);
     }
 
-    public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, Level world) {
-        super(entityType, world);
+    public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public QuailEggEntity(Level world, LivingEntity thrower) {
-        super(AtumEntities.QUAIL_EGG.get(), thrower, world);
+    public QuailEggEntity(Level level, LivingEntity thrower) {
+        super(AtumEntities.QUAIL_EGG.get(), thrower, level);
     }
 
-    public QuailEggEntity(Level world, double x, double y, double z) {
-        super(AtumEntities.QUAIL_EGG.get(), x, y, z, world);
+    public QuailEggEntity(Level level, double x, double y, double z) {
+        super(AtumEntities.QUAIL_EGG.get(), x, y, z, level);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class QuailEggEntity extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(@Nonnull EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+        result.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
     @Override
@@ -80,9 +79,11 @@ public class QuailEggEntity extends ThrowableItemProjectile {
 
                 for (int j = 0; j < i; ++j) {
                     QuailEntity quail = AtumEntities.QUAIL.get().create(this.level);
-                    quail.setAge(-24000);
-                    quail.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                    this.level.addFreshEntity(quail);
+                    if (quail != null) {
+                        quail.setAge(-24000);
+                        quail.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                        this.level.addFreshEntity(quail);
+                    }
                 }
             }
             this.level.broadcastEntityEvent(this, (byte) 3);

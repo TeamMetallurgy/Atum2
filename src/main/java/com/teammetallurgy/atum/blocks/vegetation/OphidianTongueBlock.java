@@ -28,8 +28,8 @@ public class OphidianTongueBlock extends VineBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity livingBase) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (!level.isClientSide && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity livingBase) {
             if (livingBase instanceof Player player) {
                 if (!player.isCreative()) {
                     player.addEffect(new MobEffectInstance(MobEffects.POISON, 35));
@@ -41,10 +41,10 @@ public class OphidianTongueBlock extends VineBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        super.tick(state, world, pos, rand);
-        if (!world.isClientSide && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
-            world.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);
+    public void tick(@Nonnull BlockState state, ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        super.tick(state, level, pos, rand);
+        if (!level.isClientSide && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
+            level.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);
         }
     }
 

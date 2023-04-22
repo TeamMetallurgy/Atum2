@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.Atum;
@@ -21,7 +22,7 @@ import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 public class AtumProbeInfoProvider implements IBlockDisplayOverride {
 
     @Override
-    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
+    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level level, BlockState blockState, IProbeHitData data) {
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
@@ -45,4 +46,4 @@ public class AtumProbeInfoProvider implements IBlockDisplayOverride {
     private boolean show(ProbeMode mode, IProbeConfig.ConfigMode cfg) {
         return cfg == NORMAL || (cfg == EXTENDED && mode == ProbeMode.EXTENDED);
     }
-}
+}*/

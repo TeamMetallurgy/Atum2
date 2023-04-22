@@ -63,12 +63,12 @@ public class RuinPieces { //TODO
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
             if (function.equals("Spawner")) {
                 if (box.isInside(pos)) {
-                    world.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
+                    level.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
 
-                    BlockEntity tileEntity = world.getBlockEntity(pos);
+                    BlockEntity tileEntity = level.getBlockEntity(pos);
                     if (tileEntity instanceof SpawnerBlockEntity) {
                         EntityType<?> type;
                         if (rand.nextDouble() < 0.5D) {
@@ -82,10 +82,10 @@ public class RuinPieces { //TODO
             } else if (function.equals("Crate")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             }

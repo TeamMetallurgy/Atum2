@@ -18,16 +18,16 @@ import javax.annotation.Nonnull;
 
 public class ArrowPoisonEntity extends CustomArrow {
 
-    public ArrowPoisonEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.POISON_ARROW.get(), world);
+    public ArrowPoisonEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.POISON_ARROW.get(), level);
     }
 
-    public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowPoisonEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.POISON_ARROW.get(), world, shooter);
+    public ArrowPoisonEntity(Level level, LivingEntity shooter) {
+        super(AtumEntities.POISON_ARROW.get(), level, shooter);
     }
 
     @Override

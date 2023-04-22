@@ -20,9 +20,9 @@ public class SpawnHelper {
 
     /**
      * Gets a player's spawnpoint, resetting if the bed is invalid
-     * Always returns a valid world and position which can be teleported to.
+     * Always returns a valid level and position which can be teleported to.
      *
-     * @param serverLevel any world
+     * @param serverLevel any level
      * @param serverPlayer the player
      * @param msgMode how to tell the player if their bed is missing; 0 is no message, 1 is after respawn, 2 is immediately
      * @return surface pos of the spawnpoint

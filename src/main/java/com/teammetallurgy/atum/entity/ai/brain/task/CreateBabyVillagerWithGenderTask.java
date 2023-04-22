@@ -19,12 +19,12 @@ import java.util.function.Predicate;
 public class CreateBabyVillagerWithGenderTask extends VillagerMakeLove {
 
     @Override
-    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull Villager owner) {
+    protected boolean checkExtraStartConditions(@Nonnull ServerLevel level, @Nonnull Villager owner) {
         return this.canBreed((AtumVillagerEntity) owner);
     }
 
     @Override
-    protected boolean canStillUse(@Nonnull ServerLevel world, @Nonnull Villager entity, long gameTime) {
+    protected boolean canStillUse(@Nonnull ServerLevel level, @Nonnull Villager entity, long gameTime) {
         return gameTime <= this.birthTimestamp && this.canBreed((AtumVillagerEntity) entity);
     }
 

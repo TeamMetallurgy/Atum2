@@ -25,30 +25,30 @@ public class TrapScreen extends AbstractContainerScreen<TrapContainer> {
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
+        this.renderTooltip(poseStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(@Nonnull PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title, 8, 6, 4210752);
-        this.font.draw(matrixStack, this.playerInventory.getDisplayName(), 8, this.imageHeight - 128, 4210752);
+    protected void renderLabels(@Nonnull PoseStack poseStack, int mouseX, int mouseY) {
+        this.font.draw(poseStack, this.title, 8, 6, 4210752);
+        this.font.draw(poseStack, this.playerInventory.getDisplayName(), 8, this.imageHeight - 128, 4210752);
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TRAP_GUI);
         int width = (this.width - this.imageWidth) / 2;
         int height = (this.height - this.imageHeight) / 2;
-        this.blit(matrixStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(poseStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.isBurning()) {
             int burnLeft = this.menu.getBurnLeftScaled();
-            this.blit(matrixStack, width + 80, height + 15 - burnLeft, 176, 12 - burnLeft, 14, burnLeft + 1);
+            this.blit(poseStack, width + 80, height + 15 - burnLeft, 176, 12 - burnLeft, 14, burnLeft + 1);
         }
     }
 }

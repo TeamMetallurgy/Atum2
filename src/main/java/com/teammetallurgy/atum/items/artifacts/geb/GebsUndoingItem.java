@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 public class GebsUndoingItem extends PickaxeItem implements IArtifact {
 
     public GebsUndoingItem() {
-        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

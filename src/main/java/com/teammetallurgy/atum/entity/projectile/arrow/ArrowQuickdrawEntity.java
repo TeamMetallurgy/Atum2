@@ -12,16 +12,16 @@ import net.minecraftforge.network.PlayMessages;
 
 public class ArrowQuickdrawEntity extends CustomArrow {
 
-    public ArrowQuickdrawEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AtumEntities.QUICKDRAW_ARROW.get(), world);
+    public ArrowQuickdrawEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(AtumEntities.QUICKDRAW_ARROW.get(), level);
     }
 
-    public ArrowQuickdrawEntity(EntityType<? extends ArrowQuickdrawEntity> entityType, Level world) {
-        super(entityType, world);
+    public ArrowQuickdrawEntity(EntityType<? extends ArrowQuickdrawEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public ArrowQuickdrawEntity(Level world, LivingEntity shooter) {
-        super(AtumEntities.QUICKDRAW_ARROW.get(), world, shooter);
+    public ArrowQuickdrawEntity(Level level, LivingEntity shooter) {
+        super(AtumEntities.QUICKDRAW_ARROW.get(), level, shooter);
     }
 
     @Override

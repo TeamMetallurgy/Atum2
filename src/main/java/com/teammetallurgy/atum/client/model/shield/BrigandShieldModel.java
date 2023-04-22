@@ -43,12 +43,12 @@ public class BrigandShieldModel extends AbstractShieldModel {
     }
 
     @Override
-    public void renderToBuffer(@Nonnull PoseStack matrixStack, @Nonnull VertexConsumer vertexBuilder, int i, int i1, float v, float v1, float v2, float v3) {
-        matrixStack.pushPose();
-        matrixStack.scale(1.0F / 0.78F, -1.0F / 0.78F, -1.0F / 0.78F);
-        matrixStack.translate(0.0F, 0.0F, -0.025F);
-        this.handleCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
-        this.shieldCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
-        matrixStack.popPose();
+    public void renderToBuffer(@Nonnull PoseStack poseStack, @Nonnull VertexConsumer vertexBuilder, int i, int i1, float v, float v1, float v2, float v3) {
+        poseStack.pushPose();
+        poseStack.scale(1.0F / 0.78F, -1.0F / 0.78F, -1.0F / 0.78F);
+        poseStack.translate(0.0F, 0.0F, -0.025F);
+        this.handleCore.render(poseStack, vertexBuilder, i, i1, v, v1, v2, v3);
+        this.shieldCore.render(poseStack, vertexBuilder, i, i1, v, v1, v2, v3);
+        poseStack.popPose();
     }
 }

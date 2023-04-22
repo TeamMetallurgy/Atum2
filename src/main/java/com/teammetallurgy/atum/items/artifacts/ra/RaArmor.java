@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
-import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.armor.RaArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 public class RaArmor extends ArtifactArmor {
 
     public RaArmor(EquipmentSlot slot) {
-        super(AtumMats.NEBU_ARMOR, "ra_armor", slot, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMaterialTiers.NEBU_ARMOR, "ra_armor", slot, new Item.Properties().rarity(Rarity.RARE));
         this.setHasRender();
     }
 
@@ -67,8 +67,8 @@ public class RaArmor extends ArtifactArmor {
     }
 
     @Override
-    public void onArmorTick(ItemStack stack, Level world, Player player) {
-        super.onArmorTick(stack, world, player);
+    public void onArmorTick(ItemStack stack, Level level, Player player) {
+        super.onArmorTick(stack, level, player);
         if (StackHelper.hasFullArmorSet(player, AtumItems.HALO_OF_RA.get(), AtumItems.BODY_OF_RA.get(), AtumItems.LEGS_OF_RA.get(), AtumItems.FEET_OF_RA.get())) {
             player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 300, 0, true, false));
         }

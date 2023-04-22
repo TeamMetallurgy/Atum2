@@ -41,8 +41,8 @@ public class StoneBaseEntity extends Monster {
     private static final EntityDataAccessor<Byte> PLAYER_CREATED = SynchedEntityData.defineId(StoneBaseEntity.class, EntityDataSerializers.BYTE);
     private int homeCheckTimer;
 
-    public StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, Level world) {
-        super(entityType, world);
+    public StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Override
@@ -81,11 +81,11 @@ public class StoneBaseEntity extends Monster {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
         if (this.isPlayerCreated()) {
             this.setFriendlyAttributes();
         }
-        return super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+        return super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
     }
 
     void setVariant(int variant) {
@@ -189,13 +189,13 @@ public class StoneBaseEntity extends Monster {
         this.playSound(SoundEvents.STONE_STEP, 0.15F, 1.0F);
     }
 
-    public static boolean isValidLightLevel(LevelAccessor world, @Nonnull BlockPos pos, RandomSource random) {
-        return world.getBrightness(LightLayer.SKY, pos) == 0 && world.getMaxLocalRawBrightness(pos) <= random.nextInt(10);
+    public static boolean isValidLightLevel(LevelAccessor level, @Nonnull BlockPos pos, RandomSource random) {
+        return level.getBrightness(LightLayer.SKY, pos) == 0 && level.getMaxLocalRawBrightness(pos) <= random.nextInt(10);
     }
 
-    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-        return isValidLightLevel(world, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, world, spawnReason, pos, random) && world instanceof ServerLevel /*&&
-                !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
+    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return isValidLightLevel(level, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, level, spawnReason, pos, random) && level instanceof ServerLevel /*&&
+                !StructureHelper.doesChunkHaveStructure((ServerLevel) level, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
     }
 
     boolean isPlayerCreated() {

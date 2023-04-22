@@ -16,7 +16,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -45,22 +44,22 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     private static int berserkTimer;
     private static float berserkDamage;
 
-    public PharaohOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(AtumEntities.PHARAOH_ORB.get(), world);
+    public PharaohOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        super(AtumEntities.PHARAOH_ORB.get(), level);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
         this.god = God.getGodByName(spawnEntity.getAdditionalData().readUtf());
     }
 
-    public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, Level world) {
-        super(entityType, world);
+    public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, Level level) {
+        super(entityType, level);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
         this.god = God.ATEM;
     }
 
-    public PharaohOrbEntity(Level world, PharaohEntity shooter, God god) {
-        super(AtumEntities.PHARAOH_ORB.get(), world, shooter.getX(), shooter.getEyeY() - (double) 0.3F, shooter.getZ());
+    public PharaohOrbEntity(Level level, PharaohEntity shooter, God god) {
+        super(AtumEntities.PHARAOH_ORB.get(), level, shooter.getX(), shooter.getEyeY() - (double) 0.3F, shooter.getZ());
         this.setOwner(shooter);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
@@ -136,8 +135,8 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         if (!(entity instanceof PharaohEntity) && entity.hurt(damagesource, (float) i)) {
             if (entity instanceof LivingEntity livingEntity) {
 
-                if (this.knockback > 0) {
-                    Vec3 vector3d = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double) this.knockback * 0.6D);
+                if (this.getKnockback() > 0) {
+                    Vec3 vector3d = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double) this.getKnockback() * 0.6D);
                     if (vector3d.lengthSqr() > 0.0D) {
                         livingEntity.push(vector3d.x, 0.1D, vector3d.z);
                     }

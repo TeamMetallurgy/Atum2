@@ -47,9 +47,9 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(UndeadBaseEntity.class, EntityDataSerializers.INT);
     private String texturePath;
 
-    public UndeadBaseEntity(EntityType<? extends UndeadBaseEntity> entityType, Level world) {
-        super(entityType, world);
-        new GroundPathNavigation(this, world).getNodeEvaluator().setCanPassDoors(true);
+    public UndeadBaseEntity(EntityType<? extends UndeadBaseEntity> entityType, Level level) {
+        super(entityType, level);
+        new GroundPathNavigation(this, level).getNodeEvaluator().setCanPassDoors(true);
     }
 
     boolean hasSkinVariants() {
@@ -92,13 +92,13 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag nbt) {
-        livingData = super.finalizeSpawn(world, difficulty, spawnReason, livingData, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag nbt) {
+        livingData = super.finalizeSpawn(level, difficulty, spawnReason, livingData, nbt);
 
         this.setCanPickUpLoot(this.random.nextFloat() < 0.55F * difficulty.getSpecialMultiplier());
 
         if (this.hasSkinVariants() && spawnReason != MobSpawnType.CONVERSION) {
-            final int variant = Mth.nextInt(world.getRandom(), 0, this.getVariantAmount());
+            final int variant = Mth.nextInt(level.getRandom(), 0, this.getVariantAmount());
             this.setVariantWithAbilities(variant, this.random, difficulty);
         }
         return livingData;
@@ -159,7 +159,7 @@ public class UndeadBaseEntity extends Monster implements ITexture {
             int fire = this.getRemainingFireTicks();
             if (!this.fireImmune()) {
                 if (this.getRemainingFireTicks() % 20 == 0) {
-                    this.hurt(DamageSource.ON_FIRE, getBurnDamage());
+                    this.hurt(this.damageSources().onFire(), getBurnDamage());
                 }
                 --fire;
                 this.setRemainingFireTicks(fire);
@@ -183,8 +183,8 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     }
 
     @Override
-    public boolean checkSpawnRules(@Nonnull LevelAccessor world, @Nonnull MobSpawnType spawnReason) {
-        return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(world, spawnReason);
+    public boolean checkSpawnRules(@Nonnull LevelAccessor level, @Nonnull MobSpawnType spawnReason) {
+        return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(level, spawnReason);
     }
 
     public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, ServerLevelAccessor levelAccessor, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {

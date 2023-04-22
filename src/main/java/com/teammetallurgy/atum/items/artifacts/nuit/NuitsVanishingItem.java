@@ -67,13 +67,13 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @Override
     public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        Level world = livingEntity.getCommandSenderWorld();
+        Level level = livingEntity.getCommandSenderWorld();
         if (!TIMER.containsKey(livingEntity)) {
             INVISIBLE.putIfAbsent(livingEntity, true);
 
             if (!isLivingEntityMoving(livingEntity)) {
                 INVISIBLE.replace(livingEntity, true);
-                if (!world.isClientSide) {
+                if (!level.isClientSide) {
                     livingEntity.setInvisible(true);
                 }
             } else {

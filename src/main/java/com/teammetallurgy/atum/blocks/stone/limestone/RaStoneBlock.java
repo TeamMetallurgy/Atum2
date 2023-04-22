@@ -31,7 +31,7 @@ public class RaStoneBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public int getLightBlock(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+    public int getLightBlock(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
         return 3;
     }
 
@@ -42,47 +42,47 @@ public class RaStoneBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, RandomSource random) {
-        if ((random.nextInt(3) == 0 || this.shouldDisappear(world, pos, 4)) && world.getMaxLocalRawBrightness(pos) > 11 - state.getValue(AGE) - state.getLightBlock(world, pos) && this.slightlyRemove(state, world, pos)) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, RandomSource random) {
+        if ((random.nextInt(3) == 0 || this.shouldDisappear(level, pos, 4)) && level.getMaxLocalRawBrightness(pos) > 11 - state.getValue(AGE) - state.getLightBlock(level, pos) && this.slightlyRemove(state, level, pos)) {
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
             for (Direction direction : Direction.values()) {
                 mutablePos.set(pos).move(direction);
-                BlockState stateDirection = world.getBlockState(mutablePos);
-                if (stateDirection.is(this) && !this.slightlyRemove(stateDirection, world, mutablePos)) {
-                    world.scheduleTick(mutablePos, this, Mth.nextInt(random, 20, 40));
+                BlockState stateDirection = level.getBlockState(mutablePos);
+                if (stateDirection.is(this) && !this.slightlyRemove(stateDirection, level, mutablePos)) {
+                    level.scheduleTick(mutablePos, this, Mth.nextInt(random, 20, 40));
                 }
             }
         } else {
-            world.scheduleTick(pos, this, Mth.nextInt(random, 20, 40));
+            level.scheduleTick(pos, this, Mth.nextInt(random, 20, 40));
         }
     }
 
-    private boolean slightlyRemove(BlockState state, Level world, BlockPos pos) {
+    private boolean slightlyRemove(BlockState state, Level level, BlockPos pos) {
         int age = state.getValue(AGE);
         if (age < 3) {
-            world.setBlock(pos, state.setValue(AGE, age + 1), 2);
+            level.setBlock(pos, state.setValue(AGE, age + 1), 2);
             return false;
         } else {
-            this.turnIntoLava(world, pos);
+            this.turnIntoLava(level, pos);
             return true;
         }
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        if (block == this && this.shouldDisappear(world, pos, 2)) {
-            this.turnIntoLava(world, pos);
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        if (block == this && this.shouldDisappear(level, pos, 2)) {
+            this.turnIntoLava(level, pos);
         }
-        super.neighborChanged(state, world, pos, block, fromPos, isMoving);
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
     }
 
-    private boolean shouldDisappear(BlockGetter world, BlockPos pos, int neighborsRequired) {
+    private boolean shouldDisappear(BlockGetter level, BlockPos pos, int neighborsRequired) {
         int i = 0;
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (Direction direction : Direction.values()) {
             mutablePos.set(pos).move(direction);
-            if (world.getBlockState(mutablePos).getBlock() == this) {
+            if (level.getBlockState(mutablePos).getBlock() == this) {
                 ++i;
                 if (i >= neighborsRequired) {
                     return false;
@@ -92,9 +92,9 @@ public class RaStoneBlock extends HalfTransparentBlock {
         return true;
     }
 
-    private void turnIntoLava(Level world, BlockPos pos) {
-        world.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
-        world.neighborChanged(pos, Blocks.LAVA, pos);
+    private void turnIntoLava(Level level, BlockPos pos) {
+        level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
+        level.neighborChanged(pos, Blocks.LAVA, pos);
     }
 
     @Override

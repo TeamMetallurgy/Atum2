@@ -78,9 +78,9 @@ public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration>
     @SubscribeEvent
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
         if (event.getEntity() instanceof ServerPlayer) {
-            LevelAccessor world = event.getEntity().level;
-            if (world instanceof ServerLevel) {
-                ServerLevel serverLevel = (ServerLevel) world;
+            LevelAccessor level = event.getEntity().level;
+            if (level instanceof ServerLevel) {
+                ServerLevel serverLevel = (ServerLevel) level;
                 StructureStart<?> structureStart = serverLevel.structureFeatureManager().getStructureAt(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
                 if (structureStart instanceof Start && structureStart.isValid()) {
                     Start start = (Start) structureStart;
@@ -123,40 +123,40 @@ public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration>
 
         @SubscribeEvent
         public void onPharaohBeaten(PharaohBeatenEvent event) {
-            Level world = event.getPharaoh().level;
+            Level level = event.getPharaoh().level;
             BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
-            if (sarcophagusPos != null && world instanceof ServerLevel && !world.isClientSide) {
+            if (sarcophagusPos != null && level instanceof ServerLevel && !level.isClientSide) {
                 if (this.getBoundingBox().isInside(sarcophagusPos)) {
-                    ServerLevel serverLevel = (ServerLevel) world;
+                    ServerLevel serverLevel = (ServerLevel) level;
                     DimensionHelper.getData(serverLevel).addBeatenPyramid(this.getBoundingBox());
                     this.changePyramidBlocks(serverLevel);
                 }
             }
         }
 
-        public void changePyramidBlocks(ServerLevel world) {
+        public void changePyramidBlocks(ServerLevel level) {
             BoundingBox box = this.getBoundingBox();
 
             for (int z = box.z0; z <= box.z1; ++z) {
                 for (int y = box.y0; y <= box.y1; ++y) {
                     for (int x = box.x0; x <= box.x1; ++x) {
                         BlockPos pos = new BlockPos(x, y, z);
-                        if (!world.isEmptyBlock(pos)) {
-                            BlockState state = world.getBlockState(pos);
+                        if (!level.isEmptyBlock(pos)) {
+                            BlockState state = level.getBlockState(pos);
                             if (state.getBlock() instanceof IUnbreakable && state.getValue(IUnbreakable.UNBREAKABLE)) {
-                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.random.nextDouble() <= 0.08D) {
-                                    if (world.isEmptyBlock(pos.below())) {
-                                        world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState().setValue(LimestoneBrickBlock.CAN_FALL, true), 2);
+                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && level.random.nextDouble() <= 0.08D) {
+                                    if (level.isEmptyBlock(pos.below())) {
+                                        level.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState().setValue(LimestoneBrickBlock.CAN_FALL, true), 2);
                                     } else {
-                                        world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState(), 2);
+                                        level.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState(), 2);
                                     }
                                 } else {
-                                    world.setBlock(pos, state.setValue(IUnbreakable.UNBREAKABLE, false), 2);
+                                    level.setBlock(pos, state.setValue(IUnbreakable.UNBREAKABLE, false), 2);
                                 }
                             } else if (state.getBlock() instanceof TrapBlock) {
-                                world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.defaultBlockState(), 2);
+                                level.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.defaultBlockState(), 2);
                             } else if (state.getBlock() instanceof SpawnerBlock) {
-                                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                             }
                         }
                     }

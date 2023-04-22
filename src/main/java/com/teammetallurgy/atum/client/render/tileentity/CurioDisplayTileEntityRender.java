@@ -56,28 +56,28 @@ public abstract class CurioDisplayTileEntityRender implements BlockEntityRendere
     }
 
     @Override
-    public void render(@Nonnull CurioDisplayTileEntity tileEntity, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        Level world = tileEntity.getLevel();
-        boolean hasWorld = world != null;
+    public void render(@Nonnull CurioDisplayTileEntity tileEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+        Level level = tileEntity.getLevel();
+        boolean hasWorld = level != null;
         BlockState state = hasWorld ? tileEntity.getBlockState() : getBlock().defaultBlockState();
         Block block = state.getBlock();
 
         if (block instanceof CurioDisplayBlock) {
-            matrixStack.pushPose();
-            matrixStack.translate(0.5D, 1.5D, 0.5D);
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(-180));
+            poseStack.pushPose();
+            poseStack.translate(0.5D, 1.5D, 0.5D);
+            poseStack.mulPose(Axis.ZP.rotationDegrees(-180));
 
             RenderType CURIO_DISPLAY_RENDER = RenderType.entityCutout(new ResourceLocation(Atum.MOD_ID, "textures/block/" + ForgeRegistries.BLOCKS.getKey(getBlock()).getPath() + ".png"));
             VertexConsumer builder = buffer.getBuffer(CURIO_DISPLAY_RENDER);
-            this.displayStand.render(matrixStack, builder, combinedLight, combinedOverlay);
-            this.displayStand1.render(matrixStack, builder, combinedLight, combinedOverlay);
-            this.displayStand2.render(matrixStack, builder, combinedLight, combinedOverlay);
-            this.displayStand3.render(matrixStack, builder, combinedLight, combinedOverlay);
-            matrixStack.popPose();
+            this.displayStand.render(poseStack, builder, combinedLight, combinedOverlay);
+            this.displayStand1.render(poseStack, builder, combinedLight, combinedOverlay);
+            this.displayStand2.render(poseStack, builder, combinedLight, combinedOverlay);
+            this.displayStand3.render(poseStack, builder, combinedLight, combinedOverlay);
+            poseStack.popPose();
 
             ItemStack stack = tileEntity.getItem(0);
             if (!stack.isEmpty()) {
-                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation(), -0.5D, false, !(stack.getItem() instanceof BlockItem), -360.0F, matrixStack, buffer, combinedLight, combinedOverlay);
+                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation(), -0.5D, false, !(stack.getItem() instanceof BlockItem), -360.0F, poseStack, buffer, combinedLight, combinedOverlay);
             }
         }
     }

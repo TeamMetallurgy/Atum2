@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -31,8 +30,8 @@ import java.util.UUID;
 public class StonewardenEntity extends StoneBaseEntity {
     private int attackTimer;
 
-    public StonewardenEntity(EntityType<? extends StonewardenEntity> entityType, Level world) {
-        super(entityType, world);
+    public StonewardenEntity(EntityType<? extends StonewardenEntity> entityType, Level level) {
+        super(entityType, level);
         this.xpReward = 16;
     }
 
@@ -56,8 +55,8 @@ public class StonewardenEntity extends StoneBaseEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor level, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(level, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
             this.setVariant(0);
@@ -96,7 +95,7 @@ public class StonewardenEntity extends StoneBaseEntity {
     public boolean doHurtTarget(Entity entity) {
         this.attackTimer = 10;
         this.level.broadcastEntityEvent(this, (byte) 4);
-        boolean attack = entity.hurt(DamageSource.mobAttack(this), (float) (7 + this.random.nextInt(15)));
+        boolean attack = entity.hurt(this.damageSources().mobAttack(this), (float) (7 + this.random.nextInt(15)));
 
         if (attack) {
             entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, 0.4F, 0.0D));
