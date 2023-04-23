@@ -1,4 +1,4 @@
-/*package com.teammetallurgy.atum.integration.jei.categories;
+package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
@@ -6,21 +6,21 @@ import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -34,7 +34,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
     public KilnRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(KilnScreen.KILN_GUI, 35, 14, 71, 84);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.KILN.get()));
+        this.icon = guiHelper.createDrawableItemStack(new ItemStack(AtumBlocks.KILN.get()));
         IDrawableStatic staticFlame = guiHelper.createDrawable(KilnScreen.KILN_GUI, 176, 0, 14, 14);
         animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
         arrow = guiHelper.drawableBuilder(KilnScreen.KILN_GUI, 176, 14, 19, 8).buildAnimated(200, IDrawableAnimated.StartDirection.TOP, false);
@@ -42,20 +42,14 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
     @Override
     @Nonnull
-    public ResourceLocation getUid() {
+    public RecipeType<KilnRecipe> getRecipeType() {
         return JEIIntegration.KILN;
     }
 
     @Override
     @Nonnull
-    public Class<? extends KilnRecipe> getRecipeClass() {
-        return KilnRecipe.class;
-    }
-
-    @Override
-    @Nonnull
     public Component getTitle() {
-        return Component.translatable(Atum.MOD_ID + "." + getUid().getPath());
+        return Component.translatable(Atum.MOD_ID + "." + JEIIntegration.KILN.getUid().getPath());
     }
 
     @Override
@@ -71,31 +65,22 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     }
 
     @Override
-    public void setIngredients(@Nonnull KilnRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInputIngredients(recipe.getIngredients());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
-    }
+    public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull KilnRecipe recipe, @Nonnull IFocusGroup focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 36, 1).addIngredients(recipe.getIngredients().get(0)); // Input
 
-    @Override
-    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull KilnRecipe recipe, @Nonnull IIngredients ingredients) {
-        IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-
-        guiItemStacks.init(0, true, 35, 0);
-        guiItemStacks.init(5, false, 35, 48);
-        guiItemStacks.set(ingredients);
-
-        guiItemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            if (slotIndex >= 5) {
+        ClientLevel clientLevel = Minecraft.getInstance().level;
+        if (clientLevel != null) {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 36, 49).addItemStack(recipe.getResultItem(clientLevel.registryAccess())).addTooltipCallback((recipeSlotView, tooltip) -> { //Output
                 boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
                     tooltip.add(Component.translatable("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
-    public void draw(KilnRecipe recipe, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
+    public void draw(KilnRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
         animatedFlame.draw(poseStack, 1, 17);
         arrow.draw(poseStack, 43, 38);
 
@@ -105,4 +90,4 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
             Minecraft.getInstance().font.draw(poseStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
-}*/
+}

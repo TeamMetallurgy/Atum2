@@ -77,8 +77,8 @@ public class RecipeHelper {
         return false;
     }
 
-    public static Collection<KilnRecipe> getKilnRecipesFromFurnace(RecipeManager recipeManager, Level level) {
-        Collection<KilnRecipe> kilnRecipes = new ArrayList<>();
+    public static List<KilnRecipe> getKilnRecipesFromFurnace(RecipeManager recipeManager, Level level) {
+        List<KilnRecipe> kilnRecipes = new ArrayList<>();
         for (SmeltingRecipe furnaceRecipe : RecipeHelper.getRecipes(recipeManager, RecipeType.SMELTING)) {
             for (Ingredient input : furnaceRecipe.getIngredients()) {
                 ItemStack output = furnaceRecipe.getResultItem(level.registryAccess());
