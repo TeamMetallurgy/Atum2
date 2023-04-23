@@ -78,7 +78,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     //compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.1:${ct_version}")
-    //implementation fg.deobf("curse.maven:theoneprobe-245211:4159743")
+    implementation fg.deobf("curse.maven:theoneprobe-245211:4442439")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
 }

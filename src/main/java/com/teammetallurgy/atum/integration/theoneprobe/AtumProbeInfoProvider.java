@@ -1,4 +1,3 @@
-/*
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.Atum;
@@ -46,4 +45,4 @@ public class AtumProbeInfoProvider implements IBlockDisplayOverride {
     private boolean show(ProbeMode mode, IProbeConfig.ConfigMode cfg) {
         return cfg == NORMAL || (cfg == EXTENDED && mode == ProbeMode.EXTENDED);
     }
-}*/
+}
