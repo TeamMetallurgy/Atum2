@@ -2,11 +2,13 @@ package com.teammetallurgy.atum.api;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -51,12 +53,18 @@ public class AtumAPI {
         public static final TagKey<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
         public static final TagKey<Block> SCAFFOLDING = blockTag("forge", "scaffolding");
 
+        public static final TagKey<PoiType> ACQUIRABLE_JOB_SITE = poiTag(Atum.MOD_ID, "acquirable_job_site");
+
         public static TagKey<Item> tag(String modID, String name) {
             return ItemTags.create(new ResourceLocation(modID, name));
         }
 
         public static TagKey<Block> blockTag(String modID, String name) {
             return BlockTags.create(new ResourceLocation(modID, name));
+        }
+
+        public static TagKey<PoiType> poiTag(String modID, String name) {
+            return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(modID, name));
         }
 
         public static void init() {

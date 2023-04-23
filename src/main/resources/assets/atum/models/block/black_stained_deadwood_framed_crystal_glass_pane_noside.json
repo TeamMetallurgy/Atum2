@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_glass_pane_noside",
+  "render_type": "translucent",
   "textures": {
     "pane": "atum:block/black_stained_deadwood_framed_crystal_glass"
   }

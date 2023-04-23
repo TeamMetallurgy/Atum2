@@ -1,5 +1,6 @@
 {
     "parent": "block/template_orientable_trapdoor_bottom",
+    "render_type": "cutout",
     "textures": {
         "texture": "atum:block/deadwood_hatch"
     }

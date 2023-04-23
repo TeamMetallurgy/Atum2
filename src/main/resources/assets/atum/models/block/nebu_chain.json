@@ -1,5 +1,6 @@
 {
     "parent": "block/block",
+    "render_type": "cutoutMipped",
     "textures": {
         "particle": "atum:block/nebu_chain",
         "all": "atum:block/nebu_chain"

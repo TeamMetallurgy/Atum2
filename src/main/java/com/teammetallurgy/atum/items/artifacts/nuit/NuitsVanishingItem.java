@@ -38,8 +38,8 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     }
 
     @SubscribeEvent
-    public static void onTarget(LivingChangeTargetEvent event) { //TODO Test
-        if (TIMER.getInt(event.getOriginalTarget()) <= 0 && INVISIBLE.getBoolean(event.getOriginalTarget()) && event.getOriginalTarget() instanceof Player && event.getOriginalTarget() instanceof Mob) {
+    public static void onTarget(LivingChangeTargetEvent event) {
+        if (TIMER.getInt(event.getOriginalTarget()) <= 0 && INVISIBLE.getBoolean(event.getOriginalTarget()) && event.getOriginalTarget() instanceof Player && event.getEntity() instanceof Mob) {
             event.setNewTarget(null);
         }
     }

@@ -1,5 +1,6 @@
 {
     "parent": "block/leaves",
+    "render_type": "cutout",
     "textures": {
         "all": "atum:block/palm_leaves"
     }

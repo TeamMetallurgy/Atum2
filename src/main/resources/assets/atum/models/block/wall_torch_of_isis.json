@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_torch_wall",
+  "render_type": "cutout",
   "textures": {
     "torch": "atum:block/torch_of_isis"
   }

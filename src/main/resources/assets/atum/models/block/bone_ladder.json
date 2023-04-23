@@ -1,5 +1,6 @@
 {
     "parent": "block/ladder",
+    "render_type": "cutout",
      "textures": {
         "particle": "atum:block/bone_ladder",
         "texture": "atum:block/bone_ladder"

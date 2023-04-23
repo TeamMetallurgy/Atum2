@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_glass_pane_noside_alt",
+  "render_type": "translucent",
   "textures": {
     "pane": "atum:block/red_stained_palm_framed_crystal_glass"
   }

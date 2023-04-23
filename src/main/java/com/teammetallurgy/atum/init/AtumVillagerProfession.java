@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumAPI;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -21,9 +22,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public record AtumVillagerProfession(String name, Predicate<Holder<PoiType>> heldJobSite, Predicate<Holder<PoiType>> acquirableJobSite, ImmutableSet<Supplier<Item>> specificItems, ImmutableSet<Supplier<Block>> relatedWorldBlocks, @Nullable SoundEvent sound)  {
-    public static final Predicate<Holder<PoiType>> ALL_ACQUIRABLE_JOBS = (poiTypeHolder) -> {
-        return poiTypeHolder.is(PoiTypeTags.ACQUIRABLE_JOB_SITE); //TODO Add Atum version tag
-    };
+    public static final Predicate<Holder<PoiType>> ALL_ACQUIRABLE_JOBS = (poiTypeHolder) -> poiTypeHolder.is(AtumAPI.Tags.ACQUIRABLE_JOB_SITE); //TODO Fix json, after figuring out if all Atum villager professions are correct?
     public static final RegistryObject<AtumVillagerProfession> NONE = register("none", PoiType.NONE, ALL_ACQUIRABLE_JOBS, null);
     public static final RegistryObject<AtumVillagerProfession> ALCHEMIST = register("alchemist", PoiTypes.CLERIC, SoundEvents.VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> ARMORER = register("armorer", PoiTypes.ARMORER, SoundEvents.VILLAGER_WORK_ARMORER);

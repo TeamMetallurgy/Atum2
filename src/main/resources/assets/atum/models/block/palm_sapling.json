@@ -1,5 +1,6 @@
 {
   "parent": "block/cross",
+  "render_type": "cutout",
   "textures": {
     "cross": "atum:block/palm_sapling"
   }

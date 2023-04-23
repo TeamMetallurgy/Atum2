@@ -601,10 +601,6 @@ public class AtumBlocks {
         RegistryObject<Block> wallTorchUnlit = registerBaseBlock(() -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.copy(unlitTorch.get()).lootFrom(unlitTorch)), "wall_" + name + "_unlit");
         AtumItems.registerItem(() -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties(), Direction.DOWN), name + "_unlit");
         RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(litTorch);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(unlitTorch);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
         AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return litTorch;
     }
@@ -613,8 +609,6 @@ public class AtumBlocks {
         RegistryObject<Block> torchList = registerBaseBlock(torch, name);
         RegistryObject<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.copy(torchList.get()).lootFrom(torchList), ((AtumTorchBlock) torchList.get()).getParticleType()), "wall_" + name);
         RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(torchList);
-        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return torchList;
     }

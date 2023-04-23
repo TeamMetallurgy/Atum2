@@ -1,5 +1,6 @@
 {
     "parent": "block/ladder",
+    "render_type": "cutout",
      "textures": {
         "particle": "atum:block/deadwood_ladder",
         "texture": "atum:block/deadwood_ladder"

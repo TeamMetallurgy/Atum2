@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class AtumTorchBlock extends TorchBlock implements INebuTorch {
-    public static final List<Supplier<? extends Block>> ALL_TORCHES = new ArrayList<>();
     //Flame particles
     public static final HashMap<God, Supplier<SimpleParticleType>> GOD_FLAMES = new HashMap<>();
     public static final HashMap<Supplier<SimpleParticleType>, God> GODS = new HashMap<>();

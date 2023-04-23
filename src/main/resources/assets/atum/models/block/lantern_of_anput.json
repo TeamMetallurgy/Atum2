@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_lantern",
+  "render_type": "cutout",
   "textures": {
     "lantern": "atum:block/lantern_of_anput"
   }

@@ -1,5 +1,6 @@
 {
     "parent": "block/door_bottom_rh",
+    "render_type": "cutout",
     "textures": {
         "bottom": "atum:block/deadwood_door_bottom",
         "top": "atum:block/deadwood_door_top"

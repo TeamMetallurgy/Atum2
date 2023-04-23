@@ -129,7 +129,6 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
 
     public void baseLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
         body.setPos(0.0F, 17.0F, 1.0F);
-        //body_r1.setPos(0.0F, 7.0F, -1.0F); //TODO Check if it´s fine without
         head.setPos(0.0F, 13.0F, -9.0F);
         tail.setPos(0.0F, 15.0F, 8.0F);
         backLeftLeg.setPos(1.1F, 18.0F, 7.0F);

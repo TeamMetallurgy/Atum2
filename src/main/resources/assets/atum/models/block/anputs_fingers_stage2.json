@@ -1,5 +1,6 @@
 {
     "parent": "block/crop",
+    "render_type": "cutout",
     "textures": {
         "crop": "atum:block/anputs_fingers_stage2"
     }

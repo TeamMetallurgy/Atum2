@@ -140,7 +140,6 @@ public class UndeadBaseEntity extends Monster implements ITexture {
     public void tick() {
         super.tick();
         if (this.level.isClientSide && this.entityData.isDirty()) {
-            //this.entityData.clearDirty(); //TODO?
             this.texturePath = null;
         }
     }

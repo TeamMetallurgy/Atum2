@@ -143,7 +143,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void renderMummyHelmet(RenderGuiOverlayEvent event) { //TODO Test if this works
+    public static void renderMummyHelmet(RenderGuiOverlayEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
 

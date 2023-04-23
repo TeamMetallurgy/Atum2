@@ -1,5 +1,6 @@
 {
     "parent": "block/block",
+    "render_type": "cutout",
     "textures": {
         "particle": "atum:block/deadwood_scaffolding_top",
         "top": "atum:block/deadwood_scaffolding_top",

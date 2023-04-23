@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "block/grass" }
+        "": { "model": "atum:block/dry_grass" }
     }
 }
