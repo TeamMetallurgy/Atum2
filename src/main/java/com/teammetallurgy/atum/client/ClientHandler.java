@@ -118,7 +118,7 @@ public class ClientHandler {
             }
         }, AtumBlocks.DRY_GRASS.get(), AtumBlocks.TALL_DRY_GRASS.get());
         ItemProperties.register(AtumItems.ANUBIS_WRATH.get(), new ResourceLocation("tier"), (stack, level, entity, i) -> AnubisWrathItem.getTier(stack));
-        ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+        //ItemProperties.register(AtumItems.TEFNUTS_CALL.get(), new ResourceLocation("throwing"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
         registerBowModelProperties(AtumItems.SHORT_BOW.get());
         registerBowModelProperties(AtumItems.ANPUTS_GROUNDING.get());
         registerBowModelProperties(AtumItems.HORUS_SOARING.get());
@@ -185,11 +185,6 @@ public class ClientHandler {
             }
         });
     }
-
-    /*@SubscribeEvent
-    public static void registerModels(ModelEvent event) { //TODO Move all render layes to json. Figure out how you do that exactly
-        ItemBlockRenderTypes.setRenderLayer(AtumBlocks.TALL_DRY_GRASS.get(), cutout);
-    }*/
 
     @SubscribeEvent
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {

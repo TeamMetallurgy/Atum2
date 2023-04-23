@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
-  "render_type": "translucent",vv
+  "render_type": "translucent",
   "textures": {
     "all": "atum:block/magenta_stained_crystal_glass"
   }

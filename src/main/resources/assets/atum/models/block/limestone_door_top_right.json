@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top_right",
+    "textures": {
+        "bottom": "atum:block/limestone",
+        "top": "atum:block/limestone"
+    }
+}

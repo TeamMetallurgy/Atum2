@@ -2,6 +2,6 @@
   "parent": "block/tinted_cross",
   "render_type": "cutout",
   "textures": {
-    "cross": "atum:block/dry_grass"
+    "cross": "minecraft:block/grass"
   }
 }

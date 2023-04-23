@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_left_open",
+    "textures": {
+        "bottom": "atum:block/palm_door_bottom",
+        "top": "atum:block/palm_door_top"
+    }
+}

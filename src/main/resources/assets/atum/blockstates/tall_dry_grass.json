@@ -1,10 +1,10 @@
 {
   "variants": {
     "half=lower": {
-      "model": "minecraft:block/tall_grass_bottom"
+      "model": "atum:block/tall_dry_grass_bottom"
     },
     "half=upper": {
-      "model": "minecraft:block/tall_grass_top"
+      "model": "atum:block/tall_dry_grass_top"
     }
   }
 }

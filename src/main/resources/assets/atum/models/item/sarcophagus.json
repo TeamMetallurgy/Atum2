@@ -1,7 +1,7 @@
 {
   "parent": "builtin/entity",
   "textures": {
-    "particle": "atum:entity/chest/sarcophagus"
+    "particle": "atum:block/limestone"
   },
   "display": {
     "gui": {

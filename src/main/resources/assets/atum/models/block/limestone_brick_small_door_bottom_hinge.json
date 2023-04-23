@@ -1,7 +1,0 @@
-{
-    "parent": "block/door_bottom_rh",
-    "textures": {
-        "bottom": "atum:block/limestone_brick_small",
-        "top": "atum:block/limestone_brick_small"
-    }
-}
