@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.render;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
@@ -18,6 +19,7 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
@@ -26,6 +28,9 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -96,6 +101,11 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
                 poseStack.pushPose();
                 poseStack.scale(1.0F, -1.0F, -1.0F);
                 VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, this.tefnutsCall.renderType(TefnutsCallRender.TEFNUTS_CALL_TEXTURE), false, stack.hasFoil());
+
+                LocalPlayer player = Minecraft.getInstance().player;
+                if (player != null && player.isUsingItem() && (displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)) {
+                    poseStack.rotateAround(Axis.XP.rotationDegrees(180.0F), 0.0F, 0.75F, 0.0F);
+                }
                 this.tefnutsCall.renderToBuffer(poseStack, vertexBuilder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
                 poseStack.popPose();
             }

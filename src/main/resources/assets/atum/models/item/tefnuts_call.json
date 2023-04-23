@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
-  "loader":"forge:separate-perspective",
+  "loader":"forge:separate_transforms",
   "base": {
     "parent": "atum:item/tefnuts_call_in_hand"
   },
