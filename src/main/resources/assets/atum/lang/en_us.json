@@ -1,7 +1,7 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "Atum Portal",
-  "block.atum.sand": "Strange Sand",
+  "block.atum.strange_sand": "Strange Sand",
   "block.atum.limestone_gravel": "Limestone Gravel",
   "block.atum.marl": "Marl",
   "block.atum.ra_stone": "Ra Stone",
@@ -29,7 +29,7 @@
   "block.atum.cracked_brick_stairs": "Cracked Limestone Brick Stairs",
   "block.atum.chiseled_stairs": "Chiseled Limestone Brick Stairs",
   "block.atum.carved_stairs": "Carved Limestone Brick Stairs",
-  "block.atum.sand_layer": "Strange Sand Layer",
+  "block.atum.strange_sand_layer": "Strange Sand Layer",
   "block.atum.limestone_wall": "Limestone Wall",
   "block.atum.limestone_cracked_wall": "Cracked Limestone Wall",
   "block.atum.small_wall": "Small Limestone Brick Wall",

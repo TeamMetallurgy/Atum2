@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "atum:block/sand"
+    "all": "atum:block/strange_sand"
   }
 }

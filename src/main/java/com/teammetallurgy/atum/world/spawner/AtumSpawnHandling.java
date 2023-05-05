@@ -16,26 +16,6 @@ import java.util.List;
 public class AtumSpawnHandling {
     public static List<CustomSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner(), new ServalSpawner());
 
-    /*@SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) { //Passive spawns handling //TODO Move to new mob spawn system in json
-        ResourceLocation name = event.getName();
-        if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
-            for (EntityType<?> entityType : AtumConfig.Mobs.ENTITY_TYPE.get(name)) {
-                String baseCategory = AtumConfig.Mobs.MOBS;
-                MobCategory classification = AtumConfig.Mobs.ENTITY_CLASSIFICATION.get(entityType);
-                if (entityType != null && entityType.getRegistryName() != null) {
-                    String mobName = entityType.getRegistryName().getPath();
-                    int weight = AtumConfig.Helper.get(baseCategory, mobName, "weight");
-                    int min = AtumConfig.Helper.get(baseCategory, mobName, "min");
-                    int max = AtumConfig.Helper.get(baseCategory, mobName, "max");
-                    if (weight > 0 && min > 0) {
-                        event.getSpawns().getSpawner(classification).add(new MobSpawnSettings.SpawnerData(entityType, weight, min, max));
-                    }
-                }
-            }
-        }
-    }*/
-
     @SubscribeEvent
     public static void onWorldTick(TickEvent.LevelTickEvent event) { //Bandit spawn handling
         if (event.level.dimension() == Atum.ATUM && event.level instanceof ServerLevel serverLevel) {

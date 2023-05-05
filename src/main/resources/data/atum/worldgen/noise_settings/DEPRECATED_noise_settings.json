@@ -515,7 +515,7 @@
                                       },
                                       "then_run": {
                                         "result_state": {
-                                          "Name": "atum:sand"
+                                          "Name": "atum:strange_sand"
                                         },
                                         "type": "minecraft:block"
                                       },
@@ -575,7 +575,7 @@
                               },
                               "then_run": {
                                 "result_state": {
-                                  "Name": "atum:sand"
+                                  "Name": "atum:strange_sand"
                                 },
                                 "type": "minecraft:block"
                               },

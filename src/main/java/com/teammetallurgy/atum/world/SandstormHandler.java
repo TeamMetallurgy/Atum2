@@ -49,7 +49,7 @@ public class SandstormHandler {
 
     private boolean canPlaceSandAt(ServerLevel serverLevel, BlockPos pos) {
         BlockState state = serverLevel.getBlockState(pos.below());
-        return ((state.getBlock() != AtumBlocks.SAND.get() && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL.get()) || state.is(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverLevel, pos);
+        return ((state.getBlock() != AtumBlocks.STRANGE_SAND.get() && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL.get()) || state.is(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverLevel, pos);
     }
 
     public void updateWeather(Level level) {
@@ -107,13 +107,13 @@ public class SandstormHandler {
 
                                     if (serverLevel.isAreaLoaded(posDown, 1)) {
                                         BlockState sandState = serverLevel.getBlockState(pos);
-                                        if (sandState.getBlock() == AtumBlocks.SAND_LAYERED.get()) {
+                                        if (sandState.getBlock() == AtumBlocks.STRANGE_SAND_LAYERED.get()) {
                                             int layers = sandState.getValue(SandLayersBlock.LAYERS);
                                             if (layers < 3) {
                                                 serverLevel.setBlockAndUpdate(pos, sandState.setValue(SandLayersBlock.LAYERS, ++layers));
                                             }
                                         } else if (this.canPlaceSandAt(serverLevel, pos)) {
-                                            serverLevel.setBlockAndUpdate(pos, AtumBlocks.SAND_LAYERED.get().defaultBlockState());
+                                            serverLevel.setBlockAndUpdate(pos, AtumBlocks.STRANGE_SAND_LAYERED.get().defaultBlockState());
                                         }
                                     }
                                 }

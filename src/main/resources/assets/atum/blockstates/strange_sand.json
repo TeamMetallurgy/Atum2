@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "atum:block/strange_sand" },
+      { "model": "atum:block/strange_sand", "y": 90 },
+      { "model": "atum:block/strange_sand", "y": 180 },
+      { "model": "atum:block/strange_sand", "y": 270 }
+    ]
+  }
+}

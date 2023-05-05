@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
@@ -48,12 +49,12 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
 
             if (!hasWater(level, pos)) {
                 Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(level.getBiome(pos).value());
-                //if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) { //TODO Readd when biomes is fixed
-                    level.setBlockAndUpdate(pos, AtumBlocks.SAND.get().defaultBlockState());
-                //}
+                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
+                    level.setBlockAndUpdate(pos, AtumBlocks.STRANGE_SAND.get().defaultBlockState());
+                }
             } else if (Block.isFaceFull(level.getBlockState(pos.above()).getCollisionShape(level, pos), Direction.DOWN)) {
                 if (level.random.nextDouble() >= 0.5D) {
-                    level.setBlockAndUpdate(pos, AtumBlocks.SAND.get().defaultBlockState());
+                    level.setBlockAndUpdate(pos, AtumBlocks.STRANGE_SAND.get().defaultBlockState());
                 }
             } else {
                 if (level.getMaxLocalRawBrightness(pos.above()) >= 9) {
@@ -66,7 +67,7 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
                         BlockState stateUp = level.getBlockState(posGrow.above());
                         BlockState stateGrow = level.getBlockState(posGrow);
 
-                        if (stateGrow.getBlock() == AtumBlocks.SAND.get() && level.getMaxLocalRawBrightness(posGrow.above()) >= 4 && stateUp.getLightBlock(level, pos.above()) <= 2) {
+                        if (stateGrow.getBlock() == AtumBlocks.STRANGE_SAND.get() && level.getMaxLocalRawBrightness(posGrow.above()) >= 4 && stateUp.getLightBlock(level, pos.above()) <= 2) {
                             level.setBlockAndUpdate(posGrow, AtumBlocks.FERTILE_SOIL.get().defaultBlockState());
                         }
                     }

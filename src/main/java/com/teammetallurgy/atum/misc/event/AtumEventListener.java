@@ -130,7 +130,7 @@ public class AtumEventListener {
         BlockState state = event.getPlacedBlock();
         if (event.getEntity() != null && event.getEntity().level.dimension() == Atum.ATUM) {
             if (((state.getMaterial() == Material.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED.get())) {
-                event.getLevel().setBlock(event.getPos(), AtumBlocks.SAND.get().defaultBlockState(), 3);
+                event.getLevel().setBlock(event.getPos(), AtumBlocks.STRANGE_SAND.get().defaultBlockState(), 3);
             }
         }
     }

@@ -60,7 +60,7 @@ public class AnputsFingersBlock extends CropBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos) {
-        return state.getBlock() == AtumBlocks.SAND.get();
+        return state.getBlock() == AtumBlocks.STRANGE_SAND.get();
     }
 
     @Override

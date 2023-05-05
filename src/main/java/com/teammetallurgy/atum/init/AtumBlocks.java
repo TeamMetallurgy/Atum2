@@ -50,8 +50,8 @@ import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of
 public class AtumBlocks {
     public static final DeferredRegister<Block> BLOCK_DEFERRED = DeferredRegister.create(ForgeRegistries.BLOCKS, Atum.MOD_ID);
     public static final RegistryObject<Block> PORTAL = registerBlock(PortalBlock::new, null, "portal");
-    public static final RegistryObject<Block> SAND = registerBlock(StrangeSandBlock::new, "sand");
-    public static final RegistryObject<Block> SAND_LAYERED = registerBlock(SandLayersBlock::new, "sand_layer");
+    public static final RegistryObject<Block> STRANGE_SAND = registerBlock(StrangeSandBlock::new, "strange_sand");
+    public static final RegistryObject<Block> STRANGE_SAND_LAYERED = registerBlock(SandLayersBlock::new, "strange_sand_layer");
     public static final RegistryObject<Block> LIMESTONE_GRAVEL = registerBlock(LimestoneGravelBlock::new, "limestone_gravel");
     public static final RegistryObject<Block> DATE_BLOCK = registerBlock(DateBlock::new, null, "date_block");
     public static final RegistryObject<Block> EMMER_WHEAT = registerBlock(EmmerBlock::new, null, "emmer_wheat");
@@ -68,7 +68,7 @@ public class AtumBlocks {
     public static final RegistryObject<Block> FERTILE_SOIL = registerBlock(FertileSoilBlock::new, "fertile_soil");
     public static final RegistryObject<Block> FERTILE_SOIL_TILLED = registerBlock(FertileSoilTilledBlock::new, "fertile_soil_tilled");
     public static final RegistryObject<Block> FERTILE_SOIL_PATH = registerBlock(() -> new AtumPathBlock(FERTILE_SOIL.get()), "fertile_soil_path");
-    public static final RegistryObject<Block> STRANGE_SAND_PATH = registerBlock(() -> new AtumPathBlock(SAND.get()), "strange_sand_path");
+    public static final RegistryObject<Block> STRANGE_SAND_PATH = registerBlock(() -> new AtumPathBlock(STRANGE_SAND.get()), "strange_sand_path");
     public static final RegistryObject<Block> QUERN = registerBlock(QuernBlock::new, "quern");
     public static final RegistryObject<Block> SPINNING_WHEEL = registerBlock(SpinningWheelBlock::new, "spinning_wheel");
     public static final RegistryObject<Block> KILN = registerBlock(KilnBlock::new, "kiln");

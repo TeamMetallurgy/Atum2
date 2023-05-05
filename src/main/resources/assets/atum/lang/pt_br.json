@@ -1,7 +1,7 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "Portal do Atum",
-  "block.atum.sand": "Areia estranha",
+  "block.atum.strange_sand": "Areia estranha",
   "block.atum.limestone_gravel": "Seixo de calcário",
   "block.atum.marl": "Marga",
   "block.atum.ra_stone": "Pedra de Rá",
@@ -28,7 +28,7 @@
   "block.atum.cracked_brick_stairs": "Escadas de tijolos de calcário rachados",
   "block.atum.chiseled_stairs": "Escadas de tijolos de calcário talhados",
   "block.atum.carved_stairs": "Escadas de tijolos de calcário cinzelados",
-  "block.atum.sand_layer": "Camada de areia estranha",
+  "block.atum.strange_sand_layer": "Camada de areia estranha",
   "block.atum.limestone_wall": "Muro de calcário",
   "block.atum.limestone_cracked_wall": "Muro de calcário rachado",
   "block.atum.small_wall": "Muro de tijolos de calcário pequenos",
