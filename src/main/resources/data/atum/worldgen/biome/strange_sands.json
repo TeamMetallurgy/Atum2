@@ -8,16 +8,16 @@
   },
   "downfall": 0.0,
   "effects": {
-    "fog_color": 12638463,
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
-    "sky_color": 7254527,
-    "water_color": 4159204,
-    "water_fog_color": 329011
+    "sky_color": 8166547,
+    "fog_color": 4474443,
+    "water_color": 4474443,
+    "water_fog_color": 2237482
   },
   "features": [
     [],
@@ -25,18 +25,14 @@
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
-    [
-      "minecraft:amethyst_geode"
-    ],
+    [],
     [
       "minecraft:fossil_upper",
       "minecraft:fossil_lower",
       "minecraft:monster_room",
       "minecraft:monster_room_deep"
     ],
-    [
-      "minecraft:desert_well"
-    ],
+    [],
     [],
     [
       "minecraft:ore_dirt",
@@ -66,7 +62,8 @@
       "minecraft:underwater_magma",
       "minecraft:disk_sand",
       "minecraft:disk_clay",
-      "minecraft:disk_gravel"
+      "minecraft:disk_gravel",
+      "atum:karst_rock"
     ],
     [],
     [
@@ -75,14 +72,10 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:flower_default",
-      "minecraft:patch_grass_badlands",
+      "minecraft:patch_grass_savanna",
+      "minecraft:patch_dead_bush_badlands",
       "minecraft:patch_dead_bush_2",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "minecraft:patch_sugar_cane_desert",
-      "minecraft:patch_pumpkin",
-      "minecraft:patch_cactus_desert"
+      "atum:acacia"
     ],
     [
       "minecraft:freeze_top_layer"
@@ -102,67 +95,67 @@
     "axolotls": [],
     "creature": [
       {
-        "type": "minecraft:rabbit",
+        "type": "atum:quail",
+        "weight": 4,
         "maxCount": 3,
-        "minCount": 2,
-        "weight": 4
+        "minCount": 2
+      },
+      {
+        "type": "atum:desert_rabbit",
+        "weight": 4,
+        "maxCount": 3,
+        "minCount": 2
+      },
+      {
+        "type": "atum:desert_wolf",
+        "weight": 4,
+        "maxCount": 3,
+        "minCount": 2
+      },
+      {
+        "type": "atum:camel",
+        "weight": 4,
+        "maxCount": 3,
+        "minCount": 2
       }
     ],
     "misc": [],
     "monster": [
       {
-        "type": "minecraft:spider",
+        "type": "atum:tarantula",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "minecraft:zombie",
+        "type": "atum:bonestorm",
         "maxCount": 4,
         "minCount": 4,
         "weight": 19
       },
       {
-        "type": "minecraft:zombie_villager",
+        "type": "atum:forsaken",
         "maxCount": 1,
         "minCount": 1,
         "weight": 1
       },
       {
-        "type": "minecraft:skeleton",
+        "type": "atum:mummy",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "minecraft:creeper",
+        "type": "atum:wraith",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "minecraft:slime",
+        "type": "atum:stoneguard",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
-      },
-      {
-        "type": "minecraft:enderman",
-        "maxCount": 4,
-        "minCount": 1,
-        "weight": 10
-      },
-      {
-        "type": "minecraft:witch",
-        "maxCount": 1,
-        "minCount": 1,
-        "weight": 5
-      },
-      {
-        "type": "minecraft:husk",
-        "maxCount": 4,
-        "minCount": 4,
-        "weight": 80
       }
     ],
     "underground_water_creature": [

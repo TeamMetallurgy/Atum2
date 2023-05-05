@@ -19,7 +19,7 @@
             "type": "minecraft:multi_noise"
         },
         "seed": 0,
-        "settings": "minecraft:overworld",
+        "settings": "atum:atum",
         "type": "minecraft:noise" 
     }
 }
