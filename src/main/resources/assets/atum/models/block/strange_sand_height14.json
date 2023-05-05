@@ -1,7 +1,7 @@
 {
     "textures": {
-        "particle": "atum:block/sand",
-        "texture": "atum:block/sand"
+        "particle": "atum:block/strange_sand",
+        "texture": "atum:block/strange_sand"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -28,7 +29,7 @@ public class DimensionHelper {
     public static final int GROUND_LEVEL = 63;
 
     public static List<Block> getSurfaceBlocks() {
-        return Lists.newArrayList(AtumBlocks.SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());
+        return Lists.newArrayList(AtumBlocks.STRANGE_SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());
     }
 
     public static AtumDimensionData getData(ServerLevel serverLevel) {
@@ -57,7 +58,7 @@ public class DimensionHelper {
         BlockState state = level.getBlockState(pos);
         BlockState stateDown = level.getBlockState(pos.below());
         Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(level.getBiome(pos).value());
-        return /*(biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)*/ //TODO Readd when biomes is fixed
+        return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) &&
                 //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
                 level.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()

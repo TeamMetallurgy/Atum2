@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.SandstormHandler;
@@ -100,7 +101,7 @@ public class SandstormRendering {
             BlockPos playerPos = new BlockPos((int) player.getX(), (int) player.getY(), (int) player.getZ());
             boolean sky = player.level.canSeeSkyFromBelowWater(playerPos);
             Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(player.level.getBiome(playerPos).value());
-            if (!sky || playerPos.getY() < 50 /*||  biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS*/) { //TODO Readd when biomes is fixed
+            if (!sky || playerPos.getY() < 50 ||  biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) {
                 intensity -= 0.006F * partialTicks;
                 intensity = Math.max(0, intensity);
             } else {

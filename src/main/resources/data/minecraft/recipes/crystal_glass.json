@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "atum:sand"
+    "item": "atum:strange_sand"
   },
   "result": "atum:crystal_glass",
   "experience": 0.1,

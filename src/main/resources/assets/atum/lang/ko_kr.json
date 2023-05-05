@@ -1,7 +1,7 @@
 {
   "_comment": "블록",
   "block.atum.portal": "아툼 차원문",
-  "block.atum.sand": "기이한 모래",
+  "block.atum.strange_sand": "기이한 모래",
   "block.atum.limestone_gravel": "석회암 자갈",
   "block.atum.marl": "이회암",
   "block.atum.ra_stone": "라의 돌",
@@ -28,7 +28,7 @@
   "block.atum.cracked_brick_stairs": "석회암 금 간 벽돌 계단",
   "block.atum.chiseled_stairs": "석회암 조각된 벽돌 계단",
   "block.atum.carved_stairs": "석회암 새긴 벽돌 계단",
-  "block.atum.sand_layer": "모래층",
+  "block.atum.strange_sand_layer": "모래층",
   "block.atum.limestone_wall": "석회암 담장",
   "block.atum.limestone_cracked_wall": "금 간 석회암 담장",
   "block.atum.small_wall": "소형 석회암 벽돌 담장",

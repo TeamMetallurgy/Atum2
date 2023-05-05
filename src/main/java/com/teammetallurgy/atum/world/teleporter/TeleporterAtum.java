@@ -112,7 +112,7 @@ public class TeleporterAtum implements ITeleporter {
             pos = pos.below();
         }
 
-        while (!level.isEmptyBlock(pos.above()) && (level.getBlockState(pos).getBlock() != AtumBlocks.SAND.get() || level.getBlockState(pos).getBlock() != Blocks.GRASS)) {
+        while (!level.isEmptyBlock(pos.above()) && (level.getBlockState(pos).getBlock() != AtumBlocks.STRANGE_SAND.get() || level.getBlockState(pos).getBlock() != Blocks.GRASS)) {
             pos = pos.above();
         }
 

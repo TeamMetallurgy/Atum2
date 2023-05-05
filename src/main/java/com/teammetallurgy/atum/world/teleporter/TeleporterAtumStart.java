@@ -37,18 +37,18 @@ public class TeleporterAtumStart implements ITeleporter {
     }
 
     private void onInitialAtumJoining(ServerLevel level, BlockPos spawnPos) {
-        /*if (level.dimension() == Atum.ATUM) { //TODO Requires AtumFeatures to function
+        if (level.dimension() == Atum.ATUM) {
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 spawnPos = spawnPos.offset(4, 0, 4);
             }
-            if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
+            /*if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) { //TODO Requires AtumFeatures to function
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE_CONFIGURED;
                 startStructure.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
             }
             if (level.getServer().getWorldData().worldGenSettings().generateBonusChest()) {
                 ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE_CONFIGURED;
                 bonusCrate.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
-            }
-        }*/
+            }*/
+        }
     }
 }

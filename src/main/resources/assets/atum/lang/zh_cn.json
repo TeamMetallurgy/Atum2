@@ -1,7 +1,7 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "阿图姆传送门",
-  "block.atum.sand": "异沙",
+  "block.atum.strange_sand": "异沙",
   "block.atum.limestone_gravel": "石灰岩沙砾",
   "block.atum.marl": "泥灰岩",
   "block.atum.ra_stone": "拉之石",
@@ -28,7 +28,7 @@
   "block.atum.cracked_brick_stairs": "裂纹石灰岩砖楼梯",
   "block.atum.chiseled_stairs": "錾制石灰岩砖楼梯",
   "block.atum.carved_stairs": "雕纹石灰岩砖楼梯",
-  "block.atum.sand_layer": "沙层",
+  "block.atum.strange_sand_layer": "沙层",
   "block.atum.limestone_wall": "平滑石灰岩墙",
   "block.atum.limestone_cracked_wall": "裂纹石灰岩墙",
   "block.atum.small_wall": "小型石灰岩砖墙",

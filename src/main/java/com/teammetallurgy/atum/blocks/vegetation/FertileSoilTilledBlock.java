@@ -117,7 +117,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         if (level.getBlockState(pos.above()).getMaterial().isSolid()) {
-            turnToSoil(level, pos, AtumBlocks.SAND.get());
+            turnToSoil(level, pos, AtumBlocks.STRANGE_SAND.get());
         }
     }
 
@@ -126,7 +126,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
         super.onPlace(state, level, pos, oldState, isMoving);
 
         if (level.getBlockState(pos.above()).getMaterial().isSolid()) {
-            turnToSoil(level, pos, AtumBlocks.SAND.get());
+            turnToSoil(level, pos, AtumBlocks.STRANGE_SAND.get());
         }
     }
 

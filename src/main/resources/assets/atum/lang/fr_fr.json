@@ -1,7 +1,7 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "Portail Atum",
-  "block.atum.sand": "Sable étrange",
+  "block.atum.strange_sand": "Sable étrange",
   "block.atum.limestone_gravel": "Gravier calcaire",
   "block.atum.marl": "Marne",
   "block.atum.ra_stone": "Pierre Râ",
@@ -28,7 +28,7 @@
   "block.atum.cracked_brick_stairs": "Escaliers en briques de calcaire craquelé",
   "block.atum.chiseled_stairs": "Escaliers en briques de calcaire sculpté",
   "block.atum.carved_stairs": "Escaliers en briques de calcaire ciselé",
-  "block.atum.sand_layer": "Couche de sable",
+  "block.atum.strange_sand_layer": "Couche de sable",
   "block.atum.limestone_wall": "Muret en calcaire poli",
   "block.atum.limestone_cracked_wall": "Muret en calcaire craquelé",
   "block.atum.small_wall": "Muret en petites briques de calcaire",

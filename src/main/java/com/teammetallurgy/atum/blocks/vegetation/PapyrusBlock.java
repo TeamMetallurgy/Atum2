@@ -37,7 +37,7 @@ public class PapyrusBlock extends SugarCaneBlock {
         if (block == this) {
             return true;
         } else {
-            if (block == AtumBlocks.FERTILE_SOIL.get() || block == AtumBlocks.FERTILE_SOIL_TILLED.get() || block == AtumBlocks.SAND.get()) {
+            if (block == AtumBlocks.FERTILE_SOIL.get() || block == AtumBlocks.FERTILE_SOIL_TILLED.get() || block == AtumBlocks.STRANGE_SAND.get()) {
                 BlockPos powDown = pos.below();
 
                 for (Direction direction : Direction.Plane.HORIZONTAL) {

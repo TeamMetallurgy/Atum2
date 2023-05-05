@@ -1,7 +1,7 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "Портал в Атум",
-  "block.atum.sand": "Странный песок",
+  "block.atum.strange_sand": "Странный песок",
   "block.atum.limestone_gravel": "Известняковый гравий",
   "block.atum.marl": "Известняковая глина",
   "block.atum.ra_stone": "Камень Ра",
@@ -28,7 +28,7 @@
   "block.atum.cracked_brick_stairs": "Потрескавшиеся известняковые кирпичные ступеньки",
   "block.atum.chiseled_stairs": "Резные известняковые кирпичные ступеньки",
   "block.atum.carved_stairs": "Рельефные известняковые кирпичные ступеньки",
-  "block.atum.sand_layer": "Слой песка",
+  "block.atum.strange_sand_layer": "Слой песка",
   "block.atum.limestone_wall": "Известняковая стена",
   "block.atum.limestone_cracked_wall": "Потрескавшаяся известняковая стена",
   "block.atum.small_wall": "Малая известняковая кирпичная стена",
