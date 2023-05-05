@@ -1,6 +1,9 @@
 {
   "pack": {
-    "pack_format": 9,
-    "description": "Resources used for Atum 2"
+    "description": {
+      "text": "Atum 2's resources and data."
+    },
+    "forge:server_data_pack_format": 12,
+    "pack_format": 13
   }
 }

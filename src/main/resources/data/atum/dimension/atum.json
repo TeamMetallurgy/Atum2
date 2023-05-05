@@ -1,0 +1,25 @@
+{
+    "type": "atum:atum",
+    "generator": {
+        "biome_source": {
+            "biomes": [
+                {
+                    "parameters": {
+                        "erosion": 0.5,
+                        "depth": 0.0,
+                        "weirdness": 0.0,
+                        "offset": 0.0,
+                        "temperature": 0.0,
+                        "humidity": 0.0,
+                        "continentalness": 0.0
+                    },
+                    "biome": "atum:strange_sands"
+                }
+            ],
+            "type": "minecraft:multi_noise"
+        },
+        "seed": 0,
+        "settings": "minecraft:overworld",
+        "type": "minecraft:noise" 
+    }
+}

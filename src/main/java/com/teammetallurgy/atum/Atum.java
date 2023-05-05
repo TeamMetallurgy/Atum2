@@ -53,14 +53,14 @@ public class Atum {
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static CreativeModeTab GROUP;
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registries.DIMENSION, LOCATION);
-    public static final ResourceKey<LevelStem> LEVEL_STEM = ResourceKey.create(Registries.LEVEL_STEM, LOCATION);
-    public static final ResourceKey<DimensionType> DIMENSION_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, new ResourceLocation(MOD_ID, "dimension_type"));
-    public static final ResourceKey<NoiseGeneratorSettings> NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(Atum.MOD_ID, "noise_settings"));
-    //public static final DimensionType DEFAULT_ATUM = DimensionType.create(OptionalLong.empty(), true, false, false, true, 1.0D, false, false, true, false, false, -64, 384, 384, AtumAPI.Tags.INFINIBURN, DimensionType.OVERWORLD_EFFECTS, 0.0F); //TODO ?
     public static final WoodType PALM = WoodType.register(new WoodType("atum_palm", AtumBlockSetType.PALM));
     public static final WoodType DEADWOOD = WoodType.register(new WoodType("atum_deadwood", AtumBlockSetType.DEADWOOD));
-    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
-    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED.makeRegistry(() -> new RegistryBuilder<AtumVillagerProfession>().setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setMaxID(Integer.MAX_VALUE >> 5).allowModification());
+    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister
+            .create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
+    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED
+            .makeRegistry(() -> new RegistryBuilder<AtumVillagerProfession>()
+                    .setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setMaxID(Integer.MAX_VALUE >> 5)
+                    .allowModification());
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -85,7 +85,8 @@ public class Atum {
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
-        //MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO Require structures functioning
+        // MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO
+        // Require structures functioning
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         IntegrationHandler.INSTANCE.setup();
@@ -102,10 +103,14 @@ public class Atum {
     }
 
     private void interModComms(InterModEnqueueEvent event) {
-        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.CHARM.getMessageBuilder().build());
-        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
-        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.RING.getMessageBuilder().build());
-        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE,
+                () -> SlotTypePreset.CHARM.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE,
+                () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE,
+                () -> SlotTypePreset.RING.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE,
+                () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
     }
 
     public void registerDeferredRegistries(IEventBus modBus) {
@@ -113,7 +118,7 @@ public class Atum {
         AtumItems.ITEM_DEFERRED.register(modBus);
         AtumEntities.ENTITY_DEFERRED.register(modBus);
         AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
-        //AtumBiomes.BIOME_DEFERRED.register(modBus); //TODO
+        // AtumBiomes.BIOME_DEFERRED.register(modBus); //TODO
         AtumMenuType.MENU_TYPE_DEFERRED.register(modBus);
         AtumPoiTypes.POI_DEFERRED.register(modBus);
         AtumSounds.SOUND_DEFERRED.register(modBus);
@@ -130,8 +135,8 @@ public class Atum {
                 .icon(() -> new ItemStack(AtumItems.SCARAB.get()))
                 .title(Component.translatable("tabs." + MOD_ID + ".tab"))
                 .displayItems((featureFlagSet, tabOutput) -> {
-                    AtumItems.ITEMS_FOR_TAB_LIST.forEach(registryObject -> tabOutput.accept(new ItemStack(registryObject.get())));
-                })
-        );
+                    AtumItems.ITEMS_FOR_TAB_LIST
+                            .forEach(registryObject -> tabOutput.accept(new ItemStack(registryObject.get())));
+                }));
     }
 }

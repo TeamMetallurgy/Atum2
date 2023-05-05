@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "runClient",
+      "request": "launch",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "projectName": "Atum2",
+      "cwd": "${workspaceFolder}\\run",
+      "vmArgs": "-DlegacyClassPath.file\u003dC:\\Users\\Shado\\Documents\\GitHub\\Atum2\\build\\classpath\\runClient_minecraftClasspath.txt -Dmixin.env.remapRefMap\u003dtrue -Dmixin.env.refMapRemappingFile\u003dC:\\Users\\Shado\\Documents\\GitHub\\Atum2\\build/createSrgToMcp/output.srg -DignoreList\u003dbootstraplauncher,securejarhandler,asm-commons,asm-util,asm-analysis,asm-tree,asm,JarJarFileSystems,client-extra,fmlcore,javafmllanguage,lowcodelanguage,mclanguage,forge- -DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar -Dforge.enableGameTest\u003dtrue -Djava.net.preferIPv6Addresses\u003dsystem -p C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\1.1.2\\c546e00443d8432cda6baa1c860346980742628\\bootstraplauncher-1.1.2.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\2.1.6\\66c15fc1f522b586476e9e4cccd0cbe192554e8a\\securejarhandler-2.1.6.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.3\\1f2a432d1212f5c352ae607d7b61dcae20c20af5\\asm-commons-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.3\\9595bc05510d0bd4b610188b77333fe4851a1975\\asm-util-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.3\\4b071f211b37c38e0e9f5998550197c8593f6ad8\\asm-analysis-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.3\\78d2ecd61318b5a58cd04fb237636c0e86b77d97\\asm-tree-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.3\\8e6300ef51c1d801a7ed62d07cd221aca3a90640\\asm-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\net.minecraftforge\\JarJarFileSystems\\0.3.19\\2464eb7d6b9ddb9db36a82cf8a95193e5c6fe020\\JarJarFileSystems-0.3.19.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar\u003dcpw.mods.securejarhandler --add-opens java.base/java.lang.invoke\u003dcpw.mods.securejarhandler --add-exports java.base/sun.security.util\u003dcpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns\u003djava.naming -XX:HeapDumpPath\u003dMojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump \"-Dos.name\u003dWindows 10\" -Dos.version\u003d10.0",
+      "args": "--launchTarget forgeclientuserdev --version MOD_DEV --assetIndex 3 --assetsDir C:\\Users\\Shado\\.gradle\\caches\\forge_gradle\\assets --gameDir . --fml.forgeVersion 45.0.46 --fml.mcVersion 1.19.4 --fml.forgeGroup net.minecraftforge --fml.mcpVersion 20230314.122934",
+      "env": {
+        "MOD_CLASSES": "",
+        "MCP_MAPPINGS": "official_1.19.4"
+      }
+    },
+    {
+      "type": "java",
+      "name": "runData",
+      "request": "launch",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "projectName": "Atum2",
+      "cwd": "${workspaceFolder}\\run",
+      "vmArgs": "-DlegacyClassPath.file\u003dC:\\Users\\Shado\\Documents\\GitHub\\Atum2\\build\\classpath\\runData_minecraftClasspath.txt -DignoreList\u003dbootstraplauncher,securejarhandler,asm-commons,asm-util,asm-analysis,asm-tree,asm,JarJarFileSystems,client-extra,fmlcore,javafmllanguage,lowcodelanguage,mclanguage,forge- -DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar -Djava.net.preferIPv6Addresses\u003dsystem -p C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\1.1.2\\c546e00443d8432cda6baa1c860346980742628\\bootstraplauncher-1.1.2.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\2.1.6\\66c15fc1f522b586476e9e4cccd0cbe192554e8a\\securejarhandler-2.1.6.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.3\\1f2a432d1212f5c352ae607d7b61dcae20c20af5\\asm-commons-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.3\\9595bc05510d0bd4b610188b77333fe4851a1975\\asm-util-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.3\\4b071f211b37c38e0e9f5998550197c8593f6ad8\\asm-analysis-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.3\\78d2ecd61318b5a58cd04fb237636c0e86b77d97\\asm-tree-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.3\\8e6300ef51c1d801a7ed62d07cd221aca3a90640\\asm-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\net.minecraftforge\\JarJarFileSystems\\0.3.19\\2464eb7d6b9ddb9db36a82cf8a95193e5c6fe020\\JarJarFileSystems-0.3.19.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar\u003dcpw.mods.securejarhandler --add-opens java.base/java.lang.invoke\u003dcpw.mods.securejarhandler --add-exports java.base/sun.security.util\u003dcpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
+      "args": "--launchTarget forgedatauserdev --assetIndex 3 --assetsDir C:\\Users\\Shado\\.gradle\\caches\\forge_gradle\\assets --gameDir . --fml.forgeVersion 45.0.46 --fml.mcVersion 1.19.4 --fml.forgeGroup net.minecraftforge --fml.mcpVersion 20230314.122934 --mod atum --all --output C:\\Users\\Shado\\Documents\\GitHub\\Atum2\\src\\generated\\resources --existing C:\\Users\\Shado\\Documents\\GitHub\\Atum2\\src\\main\\resources",
+      "env": {
+        "MOD_CLASSES": "",
+        "MCP_MAPPINGS": "official_1.19.4"
+      }
+    },
+    {
+      "type": "java",
+      "name": "runServer",
+      "request": "launch",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "projectName": "Atum2",
+      "cwd": "${workspaceFolder}\\run",
+      "vmArgs": "-DlegacyClassPath.file\u003dC:\\Users\\Shado\\Documents\\GitHub\\Atum2\\build\\classpath\\runServer_minecraftClasspath.txt -Dmixin.env.remapRefMap\u003dtrue -Dmixin.env.refMapRemappingFile\u003dC:\\Users\\Shado\\Documents\\GitHub\\Atum2\\build/createSrgToMcp/output.srg -DignoreList\u003dbootstraplauncher,securejarhandler,asm-commons,asm-util,asm-analysis,asm-tree,asm,JarJarFileSystems,client-extra,fmlcore,javafmllanguage,lowcodelanguage,mclanguage,forge- -DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar -Dforge.enableGameTest\u003dtrue -Djava.net.preferIPv6Addresses\u003dsystem -p C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\1.1.2\\c546e00443d8432cda6baa1c860346980742628\\bootstraplauncher-1.1.2.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\2.1.6\\66c15fc1f522b586476e9e4cccd0cbe192554e8a\\securejarhandler-2.1.6.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.3\\1f2a432d1212f5c352ae607d7b61dcae20c20af5\\asm-commons-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.3\\9595bc05510d0bd4b610188b77333fe4851a1975\\asm-util-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.3\\4b071f211b37c38e0e9f5998550197c8593f6ad8\\asm-analysis-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.3\\78d2ecd61318b5a58cd04fb237636c0e86b77d97\\asm-tree-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.3\\8e6300ef51c1d801a7ed62d07cd221aca3a90640\\asm-9.3.jar;C:\\Users\\Shado\\.gradle\\caches\\modules-2\\files-2.1\\net.minecraftforge\\JarJarFileSystems\\0.3.19\\2464eb7d6b9ddb9db36a82cf8a95193e5c6fe020\\JarJarFileSystems-0.3.19.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar\u003dcpw.mods.securejarhandler --add-opens java.base/java.lang.invoke\u003dcpw.mods.securejarhandler --add-exports java.base/sun.security.util\u003dcpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
+      "args": "--launchTarget forgeserveruserdev --gameDir . --fml.forgeVersion 45.0.46 --fml.mcVersion 1.19.4 --fml.forgeGroup net.minecraftforge --fml.mcpVersion 20230314.122934",
+      "env": {
+        "MOD_CLASSES": "",
+        "MCP_MAPPINGS": "official_1.19.4"
+      }
+    }
+  ]
+}

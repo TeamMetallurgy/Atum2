@@ -234,3 +234,9 @@ forge-*-*-changelog.txt
 LICENSE-fml.txt
 MinecraftForge-Credits.txt
 MinecraftForge-License.txt
+
+#############
+## Manual Ignores
+#############
+
+/Vanilla Biomes/
