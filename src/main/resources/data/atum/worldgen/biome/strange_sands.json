@@ -6,6 +6,7 @@
       "minecraft:canyon"
     ]
   },
+  "creature_spawn_probability": 0.5,
   "downfall": 0.0,
   "effects": {
     "mood_sound": {
@@ -15,9 +16,11 @@
       "tick_delay": 6000
     },
     "sky_color": 8166547,
-    "fog_color": 4474443,
-    "water_color": 4474443,
-    "water_fog_color": 2237482
+    "fog_color": 13876389,
+    "water_color": 7036242,
+    "water_fog_color": 7036242,
+    "grass_color": 12889745,
+    "foliage_color": 12889745
   },
   "features": [
     [],
@@ -152,6 +155,24 @@
       },
       {
         "type": "atum:stoneguard",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 100
+      },
+      {
+        "type": "atum:brigand",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 100
+      },
+      {
+        "type": "atum:nomad",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 100
+      },
+      {
+        "type": "atum:barbarian",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
