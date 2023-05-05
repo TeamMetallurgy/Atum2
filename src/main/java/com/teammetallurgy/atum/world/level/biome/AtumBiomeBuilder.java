@@ -10,7 +10,7 @@
 //import java.util.List;
 //import java.util.function.Consumer;
 //
-//public class AtumBiomeBuilder {
+//public class AtumBiomeBuilder { //TODO Probably removes this
 //    /*Kept for reference*/
 //    private static final float VALLEY_SIZE = 0.05F;
 //    private static final float LOW_START = 0.26666668F;
