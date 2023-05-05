@@ -72,10 +72,9 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_grass_savanna",
-      "minecraft:patch_dead_bush_badlands",
-      "minecraft:patch_dead_bush_2",
-      "atum:acacia"
+      "atum:patch_grass_strangesands",
+      "atum:patch_shrub",
+      "atum:patch_weed"
     ],
     [
       "minecraft:freeze_top_layer"
