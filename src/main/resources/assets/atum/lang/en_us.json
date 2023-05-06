@@ -1139,7 +1139,7 @@
 
   "_comment": "Death Messages",
   "death.attack.assassinated": "%1$s was assassinated",
-  "death.attack.atum_pharaoh_orb": "%1$s has felt the wrath of %2$s",
+  "death.attack.pharaoh_orb": "%1$s has felt the wrath of %2$s",
 
   "_comment": "Pharaoh Names",
   "entity.atum.pharaoh.Ama": "Ama'",

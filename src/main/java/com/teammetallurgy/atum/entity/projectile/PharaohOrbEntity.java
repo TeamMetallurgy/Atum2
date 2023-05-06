@@ -8,6 +8,8 @@ import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumDamageTypes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
+import it.unimi.dsi.fastutil.objects.Object2FloatMap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -28,26 +31,26 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSpawnData {
     private final God god;
     //Montu Berserk
-    private static int berserkTimer;
-    private static float berserkDamage;
+    private static final Object2FloatMap<Entity> BERSERK_TIMER = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<Entity> BERSERK_DAMAGE = new Object2FloatOpenHashMap<>();
 
     public PharaohOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
         super(AtumEntities.PHARAOH_ORB.get(), level);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
         this.god = God.getGodByName(spawnEntity.getAdditionalData().readUtf());
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, Level level) {
@@ -97,12 +100,15 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
         //Montu Berserk
         if (this.getGod() == God.MONTU) {
+            Entity pharaoh = this.getOwner();
+            float berserkTimer = BERSERK_TIMER.getFloat(this.getOwner());
             if (berserkTimer > 1) {
                 berserkTimer--;
+                BERSERK_TIMER.put(pharaoh, berserkTimer);
             }
             if (berserkTimer == 1) {
-                berserkDamage = 0;
-                berserkTimer = 0;
+                BERSERK_DAMAGE.removeFloat(pharaoh);
+                BERSERK_TIMER.removeFloat(pharaoh);
             }
         }
 
@@ -224,18 +230,23 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     }
 
     @SubscribeEvent
-    public static void onBerserk(LivingHurtEvent event) {
-        Entity immediateSource = event.getSource().getDirectEntity();
-        if (immediateSource instanceof PharaohOrbEntity) {
-            if (((PharaohOrbEntity) immediateSource).getGod() == God.MONTU) {
-                if (berserkTimer == 0) {
-                    event.setAmount(event.getAmount());
-                    berserkDamage = (event.getAmount() / 10) + event.getAmount();
-                } else {
-                    berserkDamage = berserkDamage + (event.getAmount() / 10);
+    public void onBerserk(LivingHurtEvent event) { //Default Orb damage i 6.0
+        if (event.getEntity().getLevel() instanceof ServerLevel) {
+            if (event.getSource().is(AtumDamageTypes.PHARAOH_ORB)) {
+                if (this.getGod() == God.MONTU) {
+                    Entity pharaoh = this.getOwner();
+                    float berserkDamage = BERSERK_DAMAGE.getFloat(pharaoh);
                     event.setAmount(berserkDamage);
                 }
-                berserkTimer = 80;
+            }
+            if (event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
+                if (event.getEntity() instanceof PharaohEntity pharaoh) {
+                    if (God.getGod(pharaoh.getVariant()) == God.MONTU) {
+                        BERSERK_TIMER.put(this.getOwner(), 60);
+                        float berserkDamage =  BERSERK_DAMAGE.getFloat(this.getOwner()) + (6.0F * 0.10F); //Add 10% damage for each time the player hits the Montu Pharaoh, while timer is active
+                        BERSERK_DAMAGE.put(this.getOwner(), berserkDamage);
+                    }
+                }
             }
         }
     }
