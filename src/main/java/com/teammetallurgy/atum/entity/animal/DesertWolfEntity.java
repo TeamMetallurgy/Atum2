@@ -71,7 +71,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID) //TODO Fix that alpha Desert wolf can not be ridden by player
 public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJumping, ContainerListener, MenuProvider, NeutralMob {
     private static final EntityDataAccessor<Boolean> DATA_INTERESTED_ID = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_COLLAR_COLOR = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.INT);
@@ -294,6 +294,11 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isPushable() {
+        return !this.isVehicle();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -852,68 +857,6 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         if (!this.level.isClientSide) {
             player.startRiding(this);
         }
-    }
-
-    @Override
-    public void travel(@Nonnull Vec3 travelVec) {
-        /*if (this.isEffectiveAi() || this.isControlledByLocalInstance()) { //TODO Move to new methods
-            LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
-            if (livingBase != null) {
-                this.setYRot(livingBase.getYRot());
-                this.yRotO = this.getYRot();
-                this.setXRot(livingBase.getXRot() * 0.5F);
-                this.setRot(this.getYRot(), this.getXRot());
-                this.yBodyRot = this.getYRot();
-                this.yHeadRot = this.yBodyRot;
-                float strafe = livingBase.xxa * 0.5F;
-                float forward = livingBase.zza;
-
-                if (forward <= 0.0F) {
-                    forward *= 0.25F;
-                }
-
-                if (this.jumpPower > 0.0F && !this.isJumping() && this.onGround) {
-                    double wolfJumpStrength = this.getWolfJumpStrength() * (double) this.jumpPower;
-                    double jumpY;
-
-                    if (this.hasEffect(MobEffects.JUMP)) {
-                        MobEffectInstance jumpBoost = this.getEffect(MobEffects.JUMP);
-                        jumpY = wolfJumpStrength + (jumpBoost != null ? (double) ((float) (jumpBoost.getAmplifier() + 1) * 0.1F) : 0);
-                    } else {
-                        jumpY = wolfJumpStrength;
-                    }
-
-                    Vec3 motion = this.getDeltaMovement();
-                    this.setDeltaMovement(motion.x, jumpY, motion.z);
-                    this.setWolfJumping(true);
-                    this.hasImpulse = true;
-
-                    if (forward > 0.0F) {
-                        float f2 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
-                        float f3 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-                        this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f2 * this.jumpPower, 0.0D, 0.4F * f3 * this.jumpPower));
-                        this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
-                    }
-                    this.jumpPower = 0.0F;
-                }
-                this.flyingSpeed = this.getSpeed() * 0.1F;
-
-                if (this.isControlledByLocalInstance()) {
-                    this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.80F);
-                    super.travel(new Vec3(strafe, travelVec.y, forward));
-                } else if (livingBase instanceof Player) {
-                    this.setDeltaMovement(Vec3.ZERO);
-                }
-
-                if (this.onGround) {
-                    this.jumpPower = 0.0F;
-                    this.setWolfJumping(false);
-                }
-            }
-        } else {
-            this.flyingSpeed = 0.02F;
-            super.travel(travelVec);
-        }*/
     }
 
     @Override
