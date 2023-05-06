@@ -15,7 +15,11 @@
     "in_pyramid": {
       "trigger": "minecraft:location",
       "conditions": {
-        "feature": "atum:pyramid"
+        "player": {
+          "location": {
+            "feature": "atum:pyramid"
+          }
+        }
       }
     }
   }

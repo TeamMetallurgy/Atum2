@@ -19,61 +19,101 @@
     "oasis": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:oasis"
+        "player": {
+          "location": {
+            "biome": "atum:oasis"
+          }
+        }
       }
     },
     "deadoasis": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:dead_oasis"
+        "player": {
+          "location": {
+            "biome": "atum:dead_oasis"
+          }
+        }
       }
     },
     "deadwood_forest": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:dense_woods"
+        "player": {
+          "location": {
+            "biome": "atum:dense_woods"
+          }
+        }
       }
     },
-    "deadwood_forest": {
+    "sparse_woods": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:sparse_woods"
+        "player": {
+          "location": {
+            "biome": "atum:sparse_woods"
+          }
+        }
       }
     },
     "dried_river": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:dried_river"
+        "player": {
+          "location": {
+            "biome": "atum:dried_river"
+          }
+        }
       }
     },
     "limestone_crags": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:limestone_crags"
+        "player": {
+          "location": {
+            "biome": "atum:limestone_crags"
+          }
+        }
       }
     },
     "limestone_mountains": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:limestone_mountains"
+        "player": {
+          "location": {
+            "biome": "atum:limestone_mountains"
+          }
+        }
       }
     },
     "sand_dunes": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:sand_dunes"
+        "player": {
+          "location": {
+            "biome": "atum:sand_dunes"
+          }
+        }
       }
     },
     "sand_hills": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:sand_hills"
+        "player": {
+          "location": {
+            "biome": "atum:sand_hills"
+          }
+        }
       }
     },
     "sand_plains": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:sand_plains"
+        "player": {
+          "location": {
+            "biome": "atum:sand_plains"
+          }
+        }
       }
     }
   }

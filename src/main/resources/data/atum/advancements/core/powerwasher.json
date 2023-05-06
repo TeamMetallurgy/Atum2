@@ -20,7 +20,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_ring"
+            "items": [ "atum:relic_silver_ring" ]
           }
         ]
       }
@@ -30,7 +30,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_ring"
+            "items": [ "atum:relic_gold_ring" ]
           }
         ]
       }
@@ -40,7 +40,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_ring"
+            "items": [ "atum:relic_sapphire_ring" ]
           }
         ]
       }
@@ -50,7 +50,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_ring"
+            "items": [ "atum:relic_emerald_ring" ]
           }
         ]
       }
@@ -60,7 +60,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_ring"
+            "items": [ "atum:relic_ruby_ring" ]
           }
         ]
       }
@@ -70,7 +70,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_ring"
+            "items": [ "atum:relic_diamond_ring" ]
           }
         ]
       }
@@ -80,7 +80,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_necklace"
+            "items": [ "atum:relic_silver_necklace" ]
           }
         ]
       }
@@ -90,7 +90,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_necklace"
+            "items": [ "atum:relic_gold_necklace" ]
           }
         ]
       }
@@ -100,7 +100,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_necklace"
+            "items": [ "atum:relic_sapphire_necklace" ]
           }
         ]
       }
@@ -110,7 +110,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_necklace"
+            "items": [ "atum:relic_emerald_necklace" ]
           }
         ]
       }
@@ -120,7 +120,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_necklace"
+            "items": [ "atum:relic_ruby_necklace" ]
           }
         ]
       }
@@ -130,7 +130,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_necklace"
+            "items": [ "atum:relic_diamond_necklace" ]
           }
         ]
       }
@@ -140,7 +140,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_bracelet"
+            "items": [ "atum:relic_silver_bracelet" ]
           }
         ]
       }
@@ -150,7 +150,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_bracelet"
+            "items": [ "atum:relic_gold_bracelet" ]
           }
         ]
       }
@@ -160,7 +160,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_bracelet"
+            "items": [ "atum:relic_sapphire_bracelet" ]
           }
         ]
       }
@@ -170,7 +170,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_bracelet"
+            "items": [ "atum:relic_emerald_bracelet" ]
           }
         ]
       }
@@ -180,7 +180,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_bracelet"
+            "items": [ "atum:relic_ruby_bracelet" ]
           }
         ]
       }
@@ -190,7 +190,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_bracelet"
+            "items": [ "atum:relic_diamond_bracelet" ]
           }
         ]
       }
@@ -200,7 +200,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_idol"
+            "items": [ "atum:relic_silver_idol" ]
           }
         ]
       }
@@ -210,7 +210,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_idol"
+            "items": [ "atum:relic_gold_idol" ]
           }
         ]
       }
@@ -220,7 +220,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_idol"
+            "items": [ "atum:relic_sapphire_idol" ]
           }
         ]
       }
@@ -230,7 +230,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_idol"
+            "items": [ "atum:relic_emerald_idol" ]
           }
         ]
       }
@@ -240,7 +240,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_idol"
+            "items": [ "atum:relic_ruby_idol" ]
           }
         ]
       }
@@ -250,7 +250,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_idol"
+            "items": [ "atum:relic_diamond_idol" ]
           }
         ]
       }
@@ -260,7 +260,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_brooch"
+            "items": [ "atum:relic_silver_brooch" ]
           }
         ]
       }
@@ -270,7 +270,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_brooch"
+            "items": [ "atum:relic_gold_brooch" ]
           }
         ]
       }
@@ -280,7 +280,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_brooch"
+            "items": [ "atum:relic_sapphire_brooch" ]
           }
         ]
       }
@@ -290,7 +290,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_brooch"
+            "items": [ "atum:relic_emerald_brooch" ]
           }
         ]
       }
@@ -300,7 +300,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_brooch"
+            "items": [ "atum:relic_ruby_brooch" ]
           }
         ]
       }
@@ -310,7 +310,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_brooch"
+            "items": [ "atum:relic_diamond_brooch" ]
           }
         ]
       }

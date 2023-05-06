@@ -15,7 +15,15 @@
     "in_ruin": {
       "trigger": "minecraft:location",
       "conditions": {
-        "feature": "atum:ruin"
+        "player": {
+          "location": {
+            "player": {
+              "location": {
+                "feature": "atum:ruin"
+              }
+            }
+          }
+        }
       }
     }
   }

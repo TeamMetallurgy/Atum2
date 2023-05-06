@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:gebs_toil"
+            "items": [ "atum:gebs_toil" ]
           }
         ]
       }
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:atems_homecoming"
+            "items": [ "atum:atems_homecoming" ]
           }
         ]
       }
@@ -37,7 +37,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:gebs_might"
+            "items": [ "atum:gebs_might" ]
           }
         ]
       }
@@ -47,7 +47,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:osiris_mercy"
+            "items": [ "atum:osiris_mercy" ]
           }
         ]
       }
@@ -57,7 +57,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:atems_bounty"
+            "items": [ "atum:atems_bounty" ]
           }
         ]
       }
@@ -67,7 +67,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:ras_fury"
+            "items": [ "atum:ras_fury" ]
           }
         ]
       }
@@ -77,7 +77,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:osiris_blessing"
+            "items": [ "atum:osiris_blessing" ]
           }
         ]
       }
@@ -87,7 +87,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_ra"
+            "items": [ "atum:feet_of_ra" ]
           }
         ]
       }
@@ -97,7 +97,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:seths_sting"
+            "items": [ "atum:seths_sting" ]
           }
         ]
       }
@@ -107,7 +107,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:seths_venom"
+            "items": [ "atum:seths_venom" ]
           }
         ]
       }
@@ -117,7 +117,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_atem"
+            "items": [ "atum:feet_of_atem" ]
           }
         ]
       }
@@ -127,7 +127,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:horus_soaring"
+            "items": [ "atum:horus_soaring" ]
           }
         ]
       }
@@ -137,7 +137,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_ra"
+            "items": [ "atum:body_of_ra" ]
           }
         ]
       }
@@ -147,7 +147,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:isis_healing"
+            "items": [ "atum:isis_healing" ]
           }
         ]
       }
@@ -157,7 +157,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_ra"
+            "items": [ "atum:legs_of_ra" ]
           }
         ]
       }
@@ -167,7 +167,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:shus_swiftness"
+            "items": [ "atum:shus_swiftness" ]
           }
         ]
       }
@@ -177,7 +177,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:halo_of_ra"
+            "items": [ "atum:halo_of_ra" ]
           }
         ]
       }
@@ -187,7 +187,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:montus_blast"
+            "items": [ "atum:montus_blast" ]
           }
         ]
       }
@@ -197,7 +197,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:montus_strike"
+            "items": [ "atum:montus_strike" ]
           }
         ]
       }
@@ -207,7 +207,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:isis_division"
+            "items": [ "atum:isis_division" ]
           }
         ]
       }
@@ -217,7 +217,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:horus_ascension"
+            "items": [ "atum:horus_ascension" ]
           }
         ]
       }
@@ -227,7 +227,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_atem"
+            "items": [ "atum:legs_of_atem" ]
           }
         ]
       }
@@ -237,7 +237,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:tefnuts_call"
+            "items": [ "atum:tefnuts_call" ]
           }
         ]
       }
@@ -247,7 +247,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:atems_will"
+            "items": [ "atum:atems_will" ]
           }
         ]
       }
@@ -257,7 +257,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:ptahs_decadence"
+            "items": [ "atum:ptahs_decadence" ]
           }
         ]
       }
@@ -267,7 +267,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:gebs_undoing"
+            "items": [ "atum:gebs_undoing" ]
           }
         ]
       }
@@ -277,7 +277,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:eyes_of_atem"
+            "items": [ "atum:eyes_of_atem" ]
           }
         ]
       }
@@ -287,7 +287,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_atem"
+            "items": [ "atum:body_of_atem" ]
           }
         ]
       }
@@ -297,7 +297,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:shus_breath"
+            "items": [ "atum:shus_breath" ]
           }
         ]
       }
@@ -307,7 +307,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:shus_exile"
+            "items": [ "atum:shus_exile" ]
           }
         ]
       }
@@ -317,7 +317,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:anputs_grounding"
+            "items": [ "atum:anputs_grounding" ]
           }
         ]
       }
@@ -327,7 +327,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:nuits_vanishing"
+            "items": [ "atum:nuits_vanishing" ]
           }
         ]
       }
@@ -337,7 +337,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:tefnuts_rain"
+            "items": [ "atum:tefnuts_rain" ]
           }
         ]
       }
@@ -347,7 +347,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:anubis_wrath"
+            "items": [ "atum:anubis_wrath" ]
           }
         ]
       }
@@ -357,7 +357,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:nuits_ire"
+            "items": [ "atum:nuits_ire" ]
           }
         ]
       }
@@ -367,7 +367,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:nuits_quarter"
+            "items": [ "atum:nuits_quarter" ]
           }
         ]
       }
@@ -377,7 +377,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:anputs_hunger"
+            "items": [ "atum:anputs_hunger" ]
           }
         ]
       }

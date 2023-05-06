@@ -20,7 +20,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:fish_skeletal"
+            "items": [ "atum:fish_skeletal" ]
           }
         ]
       }
@@ -30,7 +30,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:fish_mummified"
+            "items": [ "atum:fish_mummified" ]
           }
         ]
       }
@@ -40,7 +40,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:fish_forsaken"
+            "items": [ "atum:fish_forsaken" ]
           }
         ]
       }
@@ -50,7 +50,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:fish_jeweled"
+            "items": [ "atum:fish_jeweled" ]
           }
         ]
       }

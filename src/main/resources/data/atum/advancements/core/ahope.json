@@ -15,7 +15,11 @@
     "entered_atum": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:oasis"
+        "player": {
+          "location": {
+            "biome": "atum:oasis"
+          }
+        }
       }
     }
   }

@@ -18,7 +18,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:eyes_of_atem"
+            "items": [ "atum:eyes_of_atem" ]
           }
         ]
       }
@@ -28,7 +28,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_atem"
+            "items": [ "atum:body_of_atem" ]
           }
         ]
       }
@@ -38,7 +38,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_atem"
+            "items": [ "atum:legs_of_atem" ]
           }
         ]
       }
@@ -48,7 +48,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_atem"
+            "items": [ "atum:feet_of_atem" ]
           }
         ]
       }

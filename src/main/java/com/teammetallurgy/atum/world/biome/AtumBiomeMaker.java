@@ -248,10 +248,6 @@ public class AtumBiomeMaker { //TODO
         addSpawn(biomeName, AtumEntities.TARANTULA.get(), 20, 1, 3, MobCategory.MONSTER);*/
     }
 
-    public static void addSpawn(String biomeName, EntityType<?> entityType, int weight, int min, int max, MobCategory classification) {
-
-    }
-
     public static void addCamelSpawning(String biomeName) {
         //addSpawn(biomeName, AtumEntities.CAMEL.get(), 6, 2, 6, MobCategory.CREATURE); //TODO
     }

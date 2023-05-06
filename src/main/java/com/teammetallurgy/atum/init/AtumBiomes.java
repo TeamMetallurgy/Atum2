@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AtumBiomes {
-    public static final Set<ResourceKey<Biome>> BIOMES = new HashSet<>();
     public static final ResourceKey<Biome> DEAD_OASIS = registerBiome("dead_oasis");  //Sub Biome
     public static final ResourceKey<Biome> DENSE_WOODS = registerBiome("dense_woods");
     public static final ResourceKey<Biome> SPARSE_WOODS = registerBiome("sparse_woods");

@@ -18,7 +18,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:halo_of_ra"
+            "items": [ "atum:halo_of_ra" ]
           }
         ]
       }
@@ -28,7 +28,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_ra"
+            "items": [ "atum:body_of_ra" ]
           }
         ]
       }
@@ -38,7 +38,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_ra"
+            "items": [ "atum:legs_of_ra" ]
           }
         ]
       }
@@ -48,7 +48,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_ra"
+            "items": [ "atum:feet_of_ra" ]
           }
         ]
       }

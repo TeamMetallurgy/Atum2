@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.atum.root.desc"
     },
-    "background": "atum:textures/block/sand.png",
+    "background": "atum:textures/block/strange_sand.png",
     "show_toast": true,
     "announce_to_chat": true
   },
@@ -19,7 +19,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:scarab"
+            "items": [ "atum:scarab" ]
           }
         ]
       }
