@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.network.packet.SyncArrowFlightPathPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -45,9 +47,10 @@ public class ArrowStraightEntity extends CustomArrow {
     public void tick() {
         this.arrowTick();
 
-        if (this.velocity == 1.0F) {
+        if (this.velocity == 1.0F && !this.inGround) {
             this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.05D, 0.0D));
-            if (!this.inGround && this.tickCount > 300) {
+            NetworkHandler.sendToServer(new SyncArrowFlightPathPacket(this.getId()));
+            if (this.tickCount > 300) {
                 this.discard();
             }
 

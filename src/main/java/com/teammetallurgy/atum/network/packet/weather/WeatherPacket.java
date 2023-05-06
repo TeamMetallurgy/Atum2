@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.network.packet;
+package com.teammetallurgy.atum.network.packet.weather;
 
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.network.FriendlyByteBuf;

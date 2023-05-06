@@ -2,9 +2,10 @@ package com.teammetallurgy.atum.network;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
-import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
+import com.teammetallurgy.atum.network.packet.SyncArrowFlightPathPacket;
+import com.teammetallurgy.atum.network.packet.weather.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
-import com.teammetallurgy.atum.network.packet.WeatherPacket;
+import com.teammetallurgy.atum.network.packet.weather.WeatherPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceKey;
@@ -31,6 +32,7 @@ public class NetworkHandler {
         CHANNEL.registerMessage(1, WeatherPacket.class, WeatherPacket::encode, WeatherPacket::decode, WeatherPacket.Handler::handle);
         CHANNEL.registerMessage(2, StormStrengthPacket.class, StormStrengthPacket::encode, StormStrengthPacket::decode, StormStrengthPacket.Handler::handle);
         CHANNEL.registerMessage(3, SyncHandStackSizePacket.class, SyncHandStackSizePacket::encode, SyncHandStackSizePacket::decode, SyncHandStackSizePacket.Handler::handle);
+        CHANNEL.registerMessage(4, SyncArrowFlightPathPacket.class, SyncArrowFlightPathPacket::encode, SyncArrowFlightPathPacket::decode, SyncArrowFlightPathPacket.Handler::handle);
     }
 
     public static void sendTo(ServerPlayer playerMP, Object toSend) {

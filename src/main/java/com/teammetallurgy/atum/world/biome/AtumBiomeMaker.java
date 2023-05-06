@@ -5,7 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 
-public class AtumBiomeMaker { //TODO
+public class AtumBiomeMaker { //TODO Remove once all things have been fully moved to json
 
     public static Biome makeKarstCaves(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = null;
