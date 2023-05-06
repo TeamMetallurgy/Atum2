@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -97,6 +98,14 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         this.setCanPickUpLoot(false);
         this.setCombatTask();
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @Override
+    protected boolean canRide(@Nonnull Entity entity) { //Prevent Pharaoh from going into boats
+        if (entity instanceof Boat) {
+            return false;
+        }
+        return super.canRide(entity);
     }
 
     @Override

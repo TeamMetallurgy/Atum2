@@ -299,6 +299,11 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return !this.isTame();
+    }
+
+    @Override
     protected void tickRidden(@Nonnull LivingEntity livingEntity, @Nonnull Vec3 vec3) {
         super.tickRidden(livingEntity, vec3);
         Vec2 vec2 = this.getRiddenRotation(livingEntity);
