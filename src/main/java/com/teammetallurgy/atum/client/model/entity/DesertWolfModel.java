@@ -17,9 +17,6 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class DesertWolfModel<T extends DesertWolfEntity> extends ColorableAgeableListModel<T> {
-    private static final String REAL_HEAD = "real_head";
-    private static final String UPPER_BODY = "upper_body";
-    private static final String REAL_TAIL = "real_tail";
     private final ModelPart head;
     private final ModelPart realHead;
     private final ModelPart body;
@@ -30,7 +27,6 @@ public class DesertWolfModel<T extends DesertWolfEntity> extends ColorableAgeabl
     private final ModelPart tail;
     private final ModelPart realTail;
     private final ModelPart upperBody;
-    private static final int LEG_SIZE = 8;
 
     public DesertWolfModel(ModelPart part) {
         this.head = part.getChild("head");
@@ -79,7 +75,8 @@ public class DesertWolfModel<T extends DesertWolfEntity> extends ColorableAgeabl
         if (desertWolf.isAngry()) {
             this.tail.yRot = 0.0F;
         } else {
-            this.tail.yRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            float tailAmount = desertWolf.isVehicle() ? 0.3F : 1.4F;
+            this.tail.yRot = Mth.cos(limbSwing * 0.6662F) * tailAmount * limbSwingAmount;
         }
 
         if (desertWolf.isInSittingPose()) {

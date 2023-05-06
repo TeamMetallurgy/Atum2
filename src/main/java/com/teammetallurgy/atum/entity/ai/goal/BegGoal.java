@@ -46,13 +46,13 @@ public class BegGoal extends Goal {
 
     @Override
     public void start() {
-        this.desertWolf.setDATA_INTERESTED_ID(true);
+        this.desertWolf.setIsInterested(true);
         this.timeoutCounter = 40 + this.desertWolf.getRandom().nextInt(40);
     }
 
     @Override
     public void stop() {
-        this.desertWolf.setDATA_INTERESTED_ID(false);
+        this.desertWolf.setIsInterested(false);
         this.player = null;
     }
 
