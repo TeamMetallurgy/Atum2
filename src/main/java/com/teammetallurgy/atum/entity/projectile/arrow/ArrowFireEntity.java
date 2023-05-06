@@ -37,14 +37,14 @@ public class ArrowFireEntity extends CustomArrow {
     @Override
     protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
         super.onHitEntity(rayTraceResult);
-        Entity hitEnity = rayTraceResult.getEntity();
-        if (hitEnity instanceof LivingEntity) {
-            if (!hitEnity.fireImmune()) {
-                if (hitEnity.getRemainingFireTicks() > 0) {  //Extra damage, if target is already on fire
+        Entity hitEntity = rayTraceResult.getEntity();
+        if (hitEntity instanceof LivingEntity) {
+            if (!hitEntity.fireImmune()) {
+                if (hitEntity.getRemainingFireTicks() > 0) {  //Extra damage, if target is already on fire
                     this.setBaseDamage(this.getBaseDamage() * 1.5D);
                     this.playSound(SoundEvents.FIRECHARGE_USE, 1.0F, 1.0F);
                 }
-                hitEnity.setSecondsOnFire(5);
+                hitEntity.setSecondsOnFire(5);
             }
         }
     }

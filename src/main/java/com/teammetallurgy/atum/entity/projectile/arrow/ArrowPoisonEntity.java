@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -51,11 +52,19 @@ public class ArrowPoisonEntity extends CustomArrow {
 
     @Override
     protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
-        Entity entity = rayTraceResult.getEntity();
-        if (!level.isClientSide && entity instanceof LivingEntity livingBase) {
-            livingBase.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0, false, true));
-        }
         super.onHitEntity(rayTraceResult);
+
+        Entity hitEntity = rayTraceResult.getEntity();
+        if (!level.isClientSide && hitEntity instanceof LivingEntity livingBase) {
+            MobEffectInstance poison = new MobEffectInstance(MobEffects.POISON, 110, 0, false, true);
+
+            if (livingBase.getEffect(MobEffects.POISON) != null) {  //Extra damage, if target is already poisoned
+                this.setBaseDamage(this.getBaseDamage() * 1.5D);
+                System.out.println("Extra Damage for posioned: " + this.getBaseDamage());
+            }
+
+            livingBase.addEffect(poison);
+        }
     }
 
     @Override
