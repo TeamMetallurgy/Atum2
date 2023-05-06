@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -90,11 +91,11 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
             }
         } else {
             if (item == AtumItems.BRIGAND_SHIELD.get()) {
-                renderShield(stack, brigandShield, BRIGAND_SHIELD_MATERIAL, poseStack, buffer, combinedLight, combinedOverlay);
+                renderShield(brigandShield, BRIGAND_SHIELD_MATERIAL, stack, displayContext, poseStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.STONEGUARD_SHIELD.get()) {
-                renderShield(stack, stoneguardShield, STONEGUARD_SHIELD_MATERIAL, poseStack, buffer, combinedLight, combinedOverlay);
+                renderShield(stoneguardShield, STONEGUARD_SHIELD_MATERIAL, stack, displayContext, poseStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.ATEMS_PROTECTION.get()) {
-                renderShield(stack, atemsProtection, ATEMS_PROTECTION_MATERIAL, poseStack, buffer, combinedLight, combinedOverlay);
+                renderShield(atemsProtection, ATEMS_PROTECTION_MATERIAL, stack, displayContext, poseStack, buffer, combinedLight, combinedOverlay);
             } /*else if (item == AtumItems.NEPTHYS_CONSECRATION) {
                 renderShield(stack, NEPTHYS_CONSECRATION, NEPTHYS_CONSECRATION_MATERIAL, poseStack, buffer, combinedLight, combinedOverlay);
             } */ else if (item == AtumItems.TEFNUTS_CALL.get()) {
@@ -112,9 +113,22 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
         }
     }
 
-    private void renderShield(@Nonnull ItemStack stack, AbstractShieldModel shieldModel, Material material, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    private void renderShield(AbstractShieldModel shieldModel, Material material, @Nonnull ItemStack stack, @Nonnull ItemDisplayContext displayContext, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+        poseStack.pushPose();
+        if (displayContext.firstPerson()) {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null && player.isUsingItem() && player.getUseItem() == stack) {
+                if (displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
+                    poseStack.translate(0.2F, 0.1F, 0.2F);
+                } else if (displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND) {
+                    poseStack.translate(-0.2F, 0.1F, 0.25F);
+                }
+            }
+        }
+
         VertexConsumer builder = material.sprite().wrap(ItemRenderer.getFoilBuffer(buffer, shieldModel.renderType(material.atlasLocation()), false, stack.hasFoil()));
         shieldModel.renderToBuffer(poseStack, builder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.popPose();
     }
 
     private static Material getShieldMaterial(String fileName) {
