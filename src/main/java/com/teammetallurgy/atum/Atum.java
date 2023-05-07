@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
+import com.teammetallurgy.atum.world.gen.feature.tree.TreePlacerTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -19,9 +20,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -85,8 +83,7 @@ public class Atum {
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
-        // MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO
-        // Require structures functioning
+        // MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO Require structures functioning
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         IntegrationHandler.INSTANCE.setup();
@@ -118,6 +115,8 @@ public class Atum {
         AtumItems.ITEM_DEFERRED.register(modBus);
         AtumEntities.ENTITY_DEFERRED.register(modBus);
         AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
+        AtumFeatures.FEATURES_DEFERRED.register(modBus);
+        TreePlacerTypes.FOLIAGE_PLACER_DEFERRED.register(modBus);
         AtumMenuType.MENU_TYPE_DEFERRED.register(modBus);
         AtumPoiTypes.POI_DEFERRED.register(modBus);
         AtumSounds.SOUND_DEFERRED.register(modBus);

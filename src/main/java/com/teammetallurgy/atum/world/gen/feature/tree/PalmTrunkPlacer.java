@@ -1,5 +1,4 @@
-/*
-package com.teammetallurgy.atum.world.gen.feature.tree;
+/*package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -7,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedRW;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.LevelWriter;
@@ -22,8 +22,8 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlacer
     public static final Codec<PalmTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> {
@@ -39,7 +39,7 @@ public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlace
     });
     private final float ophidianTongueChance;
 
-    public PalmTrunkPlacer(int baseHeight, int heightRandA, int heightRandB, float ophidianTongueChance) { //TODO
+    public PalmTrunkPlacer(int baseHeight, int heightRandA, int heightRandB, float ophidianTongueChance) {
         super(baseHeight, heightRandA, heightRandB);
         this.ophidianTongueChance = ophidianTongueChance;
     }
@@ -52,7 +52,7 @@ public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlace
 
     @Override
     @Nonnull
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(@Nonnull LevelSimulatedRW genReader, @Nonnull Random rand, int amount, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull BoundingBox box, @Nonnull TreeConfiguration config) {
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(@Nonnull LevelSimulatedReader genReader, BiConsumer<BlockPos, @Nonnull BlockState> biConsumer, @Nonnull RandomSource rand, int amount, @Nonnull BlockPos pos, @Nonnull TreeConfiguration config) {
         for (int i = 0; i < amount; ++i) {
             BlockPos placePos = pos.above(i);
             placeLogWithOphidian(genReader, rand, placePos, logs, box, config);
@@ -61,7 +61,7 @@ public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlace
         return ImmutableList.of(new FoliagePlacer.FoliageAttachment(pos.above(amount), 0, false));
     }
 
-    protected boolean placeLogWithOphidian(LevelSimulatedRW genReader, Random rand, BlockPos pos, Set<BlockPos> logs, BoundingBox box, TreeConfiguration config) {
+    protected boolean placeLogWithOphidian(LevelSimulatedReader genReader, RandomSource rand, BlockPos pos, Set<BlockPos> logs, BoundingBox box, TreeConfiguration config) {
         if (TreeFeature.validTreePos(genReader, pos)) {
             setBlock(genReader, pos, config.trunkProvider.getState(rand, pos), box);
             logs.add(pos.immutable());
@@ -110,7 +110,7 @@ public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlace
     }
 
     protected void generateOphidianTongue(LevelWriter level, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, BoundingBox mutableBox) {
-        this.setOphidianTongue(level, pos, AtumBlocks.OPHIDIAN_TONGUE.defaultBlockState().setValue(booleanProperty, true), positions, mutableBox);
+        this.setOphidianTongue(level, pos, AtumBlocks.OPHIDIAN_TONGUE.get().defaultBlockState().setValue(booleanProperty, true), positions, mutableBox);
     }
 
     protected void setOphidianTongue(LevelWriter worldWriter, BlockPos pos, BlockState state, Set<BlockPos> positions, BoundingBox mutableBox) {

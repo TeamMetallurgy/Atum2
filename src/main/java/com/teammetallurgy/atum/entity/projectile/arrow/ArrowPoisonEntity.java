@@ -60,7 +60,6 @@ public class ArrowPoisonEntity extends CustomArrow {
 
             if (livingBase.getEffect(MobEffects.POISON) != null) {  //Extra damage, if target is already poisoned
                 this.setBaseDamage(this.getBaseDamage() * 1.5D);
-                System.out.println("Extra Damage for posioned: " + this.getBaseDamage());
             }
 
             livingBase.addEffect(poison);

@@ -1,18 +1,19 @@
-/*
 package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
-public class PalmTree extends AbstractTreeGrower {//TODO
+public class PalmTree extends AbstractTreeGrower {
 
+    @Nullable
     @Override
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(@Nonnull Random random, boolean largeHive) {
-        return AtumFeatures.ATUM_TREE.configured(AtumFeatures.PALM_TREE_CONFIG_SAPLING);
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(@Nonnull RandomSource random, boolean largeHive) {
+        return AtumFeatures.PALM;
     }
-}*/
+}

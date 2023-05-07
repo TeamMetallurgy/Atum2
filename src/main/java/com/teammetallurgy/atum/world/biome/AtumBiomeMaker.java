@@ -249,11 +249,11 @@ public class AtumBiomeMaker { //TODO Remove once all things have been fully move
     }
 
     public static void addCamelSpawning(String biomeName) {
-        //addSpawn(biomeName, AtumEntities.CAMEL.get(), 6, 2, 6, MobCategory.CREATURE); //TODO
+        //addSpawn(biomeName, AtumEntities.CAMEL.get(), 6, 2, 6, MobCategory.CREATURE);
     }
 
     public static void addDesertWolfSpawning(String biomeName) {
-        //addSpawn(biomeName, AtumEntities.DESERT_WOLF.get(), 6, 2, 4, MobCategory.CREATURE); //TODO
+        //addSpawn(biomeName, AtumEntities.DESERT_WOLF.get(), 6, 2, 4, MobCategory.CREATURE);
     }
 
     public static class Builder extends Biome.BiomeBuilder {

@@ -1,34 +1,37 @@
-/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.RandomPatchFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
-public class AnputsFingersFeature extends RandomPatchFeature { //TODO
+public class AnputsFingersFeature extends Feature<NoneFeatureConfiguration> {
 
-    public AnputsFingersFeature(Codec<RandomPatchConfiguration> config) {
+    public AnputsFingersFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
     }
 
     @Override
-    public boolean place(@Nonnull WorldGenLevel seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull RandomPatchConfiguration config) {
-        BlockState state = config.stateProvider.getState(rand, pos);
-        BlockPos placePos = seedReader.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos);
+    public boolean place(@Nonnull FeaturePlaceContext<NoneFeatureConfiguration> placeContext) {
+        WorldGenLevel genLevel = placeContext.level();
+        BlockPos pos = placeContext.origin();
+        RandomSource random = placeContext.random();
+
+        BlockState state = AtumBlocks.ANPUTS_FINGERS.get().defaultBlockState();
+        BlockPos placePos = genLevel.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos);
 
         boolean isNextToDeadwood = false;
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (seedReader.getBlockState(placePos.relative(direction)).getBlock() == AtumBlocks.DEADWOOD_LOG) {
+            if (genLevel.getBlockState(placePos.relative(direction)).getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
                 isNextToDeadwood = true;
             }
         }
@@ -36,11 +39,11 @@ public class AnputsFingersFeature extends RandomPatchFeature { //TODO
         if (isNextToDeadwood) {
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
             mutablePos.set(placePos);
-            if (seedReader.isEmptyBlock(mutablePos) && seedReader.getBlockState(mutablePos.below()).getBlock() == AtumBlocks.SAND) {
-                config.blockPlacer.place(seedReader, mutablePos, state, rand);
+            if (genLevel.isEmptyBlock(mutablePos) && genLevel.getBlockState(mutablePos.below()).getBlock() == AtumBlocks.STRANGE_SAND.get()) {
+                genLevel.setBlock(mutablePos, state, 2);
                 return true;
             }
         }
         return false;
     }
-}*/
+}

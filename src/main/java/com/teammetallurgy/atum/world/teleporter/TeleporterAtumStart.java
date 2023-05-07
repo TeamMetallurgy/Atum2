@@ -1,11 +1,16 @@
 package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
+import com.teammetallurgy.atum.world.gen.feature.BonusCrateFeature;
+import com.teammetallurgy.atum.world.gen.feature.StartStructureFeature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.function.Function;
@@ -41,14 +46,14 @@ public class TeleporterAtumStart implements ITeleporter {
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 spawnPos = spawnPos.offset(4, 0, 4);
             }
-            /*if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) { //TODO Requires AtumFeatures to function
-                ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE_CONFIGURED;
-                startStructure.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
+            if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
+                StartStructureFeature startStructure = AtumFeatures.START_STRUCTURE.get();
+                startStructure.place(FeatureConfiguration.NONE, level, level.getChunkSource().getGenerator(), RandomSource.create(), spawnPos);
             }
-            if (level.getServer().getWorldData().worldGenSettings().generateBonusChest()) {
-                ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE_CONFIGURED;
-                bonusCrate.place(level, level.getChunkSource().getGenerator(), level.random, spawnPos);
-            }*/
+            if (level.getServer().getWorldData().worldGenOptions().generateBonusChest()) {
+                BonusCrateFeature bonusCrate = AtumFeatures.BONUS_CRATE.get();
+                bonusCrate.place(FeatureConfiguration.NONE, level, level.getChunkSource().getGenerator(), level.random, spawnPos);
+            }
         }
     }
 }

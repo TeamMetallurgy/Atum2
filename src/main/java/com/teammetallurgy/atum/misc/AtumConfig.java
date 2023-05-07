@@ -91,14 +91,11 @@ public class AtumConfig {
         }
     }
 
-    public static class WorldGen {
+    public static class WorldGen { //TODO
         public static final String WORLDGEN = "world gen";
-        public static final String OREGEN = "ore gen";
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.IntValue ruinsAmount;
-        public final ForgeConfigSpec.IntValue shrubFrequency;
         public final ForgeConfigSpec.IntValue fossilsChance;
-        public final ForgeConfigSpec.IntValue dungeonChance;
         public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
@@ -109,19 +106,15 @@ public class AtumConfig {
             this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
                     .translation("atum.config.ruins_amount")
                     .defineInRange("Ruins Amount", 17, 1, 999);
-            this.shrubFrequency = builder.defineInRange("Shrub frequency, set to 0 to disable", 1, 0, 64);
             this.fossilsChance = builder.defineInRange("Fossils chance, set to 0 to disable", 64, 0, 255);
-            this.dungeonChance = builder.defineInRange("Dungeon chance, set to 0 to disable", 8, 0, 255);
             this.sandLayerEdge = builder.comment("Should Sand Layers generate along all edges?")
                     .translation("atum.config.sand_layer_enabled")
                     .define("Enable Sand Layer along edges", true);
             builder.pop();
-            builder.push(OREGEN).comment("All vanilla based ores, uses the vanilla values by default.");
-            builder.pop();
         }
     }
 
-    public static class Biome {
+    public static class Biome { //TODO
         public static final String BIOME = "biome";
         public ForgeConfigSpec.IntValue subBiomeChance;
         public ForgeConfigSpec.IntValue oasisChance;
