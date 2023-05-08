@@ -14,12 +14,24 @@
                         "continentalness": 0.0
                     },
                     "biome": "atum:strange_sands"
+                },
+                {
+                    "parameters": {
+                        "erosion": 1.0,
+                        "depth": 0.0,
+                        "weirdness": -1.0,
+                        "offset": 0.0,
+                        "temperature": 0.0,
+                        "humidity": 0.5,
+                        "continentalness": 0.0
+                    },
+                    "biome": "atum:oasis"
                 }
             ],
             "type": "minecraft:multi_noise"
         },
         "seed": 0,
         "settings": "atum:atum",
-        "type": "minecraft:noise" 
+        "type": "minecraft:noise"
     }
 }

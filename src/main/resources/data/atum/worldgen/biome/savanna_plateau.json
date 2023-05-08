@@ -6,7 +6,6 @@
       "minecraft:canyon"
     ]
   },
-  "creature_spawn_probability": 0.2,
   "downfall": 0.0,
   "effects": {
     "mood_sound": {
@@ -20,14 +19,7 @@
     "water_color": 7036242,
     "water_fog_color": 7036242,
     "grass_color": 12889745,
-    "foliage_color": 12889745,
-    "particle":
-    {
-      "probability": 1,
-      "options":{
-        "type": "minecraft:white_ash"
-      }
-    }
+    "foliage_color": 12889745
   },
   "features": [
     [],
@@ -35,10 +27,10 @@
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
-    [],
     [
-      "minecraft:fossil_upper",
-      "minecraft:fossil_lower",
+      "minecraft:amethyst_geode"
+    ],
+    [
       "minecraft:monster_room",
       "minecraft:monster_room_deep"
     ],
@@ -72,8 +64,7 @@
       "minecraft:underwater_magma",
       "minecraft:disk_sand",
       "minecraft:disk_clay",
-      "minecraft:disk_gravel",
-      "atum:karst_rock"
+      "minecraft:disk_gravel"
     ],
     [],
     [
@@ -82,30 +73,21 @@
     ],
     [
       "minecraft:glow_lichen",
-      "atum:patch_grass_strangesands",
-      "atum:patch_shrub",
-      "atum:patch_weed",
-      "atum:palm_tree"
+      "minecraft:patch_tall_grass",
+      "minecraft:trees_savanna",
+      "minecraft:flower_warm",
+      "minecraft:patch_grass_savanna",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane",
+      "minecraft:patch_pumpkin"
     ],
     [
       "minecraft:freeze_top_layer"
     ]
   ],
   "has_precipitation": false,
-  "spawn_costs": {
-    "atum:brigand": {
-      "charge": 1.0,
-      "energy_budget": 0.12
-    },
-    "atum:nomad": {
-      "charge": 1.0,
-      "energy_budget": 0.12
-    },
-    "atum:barbarian": {
-      "charge": 1.0,
-      "energy_budget": 0.12
-    }
-  },
+  "spawn_costs": {},
   "spawners": {
     "ambient": [
       {
@@ -118,85 +100,97 @@
     "axolotls": [],
     "creature": [
       {
-        "type": "atum:quail",
-        "weight": 4,
-        "maxCount": 3,
-        "minCount": 2
-      },
-      {
-        "type": "atum:desert_rabbit",
-        "weight": 4,
-        "maxCount": 3,
-        "minCount": 2
-      },
-      {
-        "type": "atum:desert_wolf",
-        "weight": 4,
-        "maxCount": 3,
-        "minCount": 2
-      },
-      {
-        "type": "atum:camel",
-        "weight": 4,
-        "maxCount": 3,
-        "minCount": 2
-      }
-    ],
-    "misc": [],
-    "monster": [
-      {
-        "type": "atum:tarantula",
+        "type": "minecraft:sheep",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 12
       },
       {
-        "type": "atum:bonestorm",
+        "type": "minecraft:pig",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 19
+        "weight": 10
       },
       {
-        "type": "atum:forsaken",
+        "type": "minecraft:chicken",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:cow",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 8
+      },
+      {
+        "type": "minecraft:horse",
+        "maxCount": 6,
+        "minCount": 2,
+        "weight": 1
+      },
+      {
+        "type": "minecraft:donkey",
         "maxCount": 1,
         "minCount": 1,
         "weight": 1
       },
       {
-        "type": "atum:mummy",
+        "type": "minecraft:llama",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 8
+      }
+    ],
+    "misc": [],
+    "monster": [
+      {
+        "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "atum:wraith",
+        "type": "minecraft:zombie",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 95
+      },
+      {
+        "type": "minecraft:zombie_villager",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 5
+      },
+      {
+        "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "atum:stoneguard",
+        "type": "minecraft:creeper",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "atum:brigand",
+        "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "atum:nomad",
+        "type": "minecraft:enderman",
         "maxCount": 4,
-        "minCount": 4,
-        "weight": 100
+        "minCount": 1,
+        "weight": 10
       },
       {
-        "type": "atum:barbarian",
-        "maxCount": 4,
-        "minCount": 4,
-        "weight": 100
+        "type": "minecraft:witch",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 5
       }
     ],
     "underground_water_creature": [
