@@ -12,7 +12,6 @@ public class AtumConfig {
     public static final AtumStart ATUM_START = new AtumStart(BUILDER);
     public static final Sandstorm SANDSTORM = new Sandstorm(BUILDER);
     public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
-    public static final Biome BIOME = new Biome(BUILDER);
     public static final Mobs MOBS = new Mobs(BUILDER);
 
     public static class General {
@@ -91,7 +90,7 @@ public class AtumConfig {
         }
     }
 
-    public static class WorldGen { //TODO
+    public static class WorldGen { //TODO. Probably only kept for reference to values for now
         public static final String WORLDGEN = "world gen";
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.IntValue ruinsAmount;
@@ -111,31 +110,6 @@ public class AtumConfig {
                     .translation("atum.config.sand_layer_enabled")
                     .define("Enable Sand Layer along edges", true);
             builder.pop();
-        }
-    }
-
-    public static class Biome { //TODO
-        public static final String BIOME = "biome";
-        public ForgeConfigSpec.IntValue subBiomeChance;
-        public ForgeConfigSpec.IntValue oasisChance;
-        public ForgeConfigSpec.IntValue weight;
-
-        Biome(ForgeConfigSpec.Builder builder) {
-            builder.push(BIOME);
-            this.subBiomeChance = builder.comment("By default 1 in 30 Sand Plains biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
-                    .translation("atum.config.oaseschances")
-                    .defineInRange("Oases chance", 30, 0, 10000);
-            this.oasisChance = builder.comment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis")
-                    .translation("atum.config.oasispercentage")
-                    .defineInRange("Oasis percentage", 50, 0, 10000);
-            builder.pop();
-        }
-
-        public Biome(ForgeConfigSpec.Builder builder, String biomeName, int weight) {
-            builder.push(BIOME);
-            builder.push(biomeName);
-            this.weight = builder.defineInRange("weight", weight, -1, 1000);
-            builder.pop(2);
         }
     }
 
