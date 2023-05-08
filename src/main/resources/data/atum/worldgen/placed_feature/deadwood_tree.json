@@ -1,5 +1,5 @@
 {
-  "feature": "atum:palm_tree",
+  "feature": "atum:deadwood_tree",
   "placement": [    
   {
     "type": "minecraft:count",
@@ -14,7 +14,7 @@
   },
   {
     "type": "minecraft:rarity_filter",
-    "chance": 8
+    "chance": 6
   },
   {
     "type": "minecraft:biome"

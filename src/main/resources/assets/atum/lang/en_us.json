@@ -389,6 +389,8 @@
   "block.atum.palm_crate": "Palm Crate",
   "block.atum.deadwood_crate": "Deadwood Crate",
   "block.atum.heart_of_ra": "Heart of Ra",
+  "block.atum.lifeless_sand": "Lifeless Sand",
+  "block.atum.packed_strange_sand": "Packed Strange Sand",
 
   "_comment": "Stained Glass",
   "block.atum.black_stained_crystal_glass": "Black Stained Crystal Glass",

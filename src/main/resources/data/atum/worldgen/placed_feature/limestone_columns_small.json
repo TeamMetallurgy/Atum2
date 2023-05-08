@@ -1,0 +1,12 @@
+{
+  "feature": "atum:limestone_columns_small",
+  "placement": [
+    {
+      "type": "minecraft:count_on_every_layer",
+      "count": 4
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
