@@ -25,11 +25,7 @@
     {
       "probability": 1,
       "options":{
-<<<<<<< Updated upstream
         "type": "atum:sand_air"
-=======
-        "type": "minecraft:crimson_spore"
->>>>>>> Stashed changes
       }
     }
   },
