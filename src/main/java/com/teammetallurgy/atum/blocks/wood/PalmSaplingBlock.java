@@ -16,7 +16,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nonnull;
 
 public class PalmSaplingBlock extends SaplingBlock implements BonemealableBlock {
-    private static final VoxelShape PALM_SAPLING_AABB = Block.box(0.0D, 0.0D, 0.0D, 6.0D, 7.0D, 6.0D);
+    private static final VoxelShape PALM_SAPLING_AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D);
 
     public PalmSaplingBlock() {
         super(new PalmTree(), Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));

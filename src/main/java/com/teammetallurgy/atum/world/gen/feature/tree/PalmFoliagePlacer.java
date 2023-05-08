@@ -30,7 +30,7 @@ public class PalmFoliagePlacer extends FoliagePlacer {
     @Override
     @Nonnull
     protected FoliagePlacerType<?> type() {
-        return TreePlacerTypes.PALM_FOLIAGE.get();
+        return TreePlacerTypes.PALM_FOLIAGE_PLACER.get();
     }
 
     @Override

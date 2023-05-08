@@ -19,7 +19,6 @@ public class AtumFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES_DEFERRED = DeferredRegister.create(ForgeRegistries.FEATURES, Atum.MOD_ID);
 
     //Features
-    //public static final RegistryObject<AtumTreeFeature> ATUM_TREE = register("atum_tree", new AtumTreeFeature(TreeConfiguration.CODEC));
     public static final RegistryObject<BonusCrateFeature> BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<StartStructureFeature> START_STRUCTURE = register("start_structure", new StartStructureFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<DirtyBoneFossilsFeature> DIRTY_BONE_FOSSILS = register("dirty_bone_fossil", new DirtyBoneFossilsFeature(NoneFeatureConfiguration.CODEC));
@@ -30,7 +29,7 @@ public class AtumFeatures {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SAND_LAYER = register("sand_layer", new SandLayerFeature(NoneFeatureConfiguration.CODEC));
 
     //Configured Feature Resource Keys (Only use when in-code references is needed)
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PALM = registerConfiguredKey("palm");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PALM_TREE = registerConfiguredKey("palm_tree");
 
     //Feature Configs //TODO Kept for reference, needs to be moved to json
 //    public static final RandomPatchConfiguration OASIS_GRASS_CONFIG = (new RandomPatchConfiguration.GrassConfigurationBuilder(new SimpleStateProvider(AtumBlocks.OASIS_GRASS.defaultBlockState()), new SimpleBlockPlacer())).tries(64).build();

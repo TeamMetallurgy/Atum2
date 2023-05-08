@@ -14,6 +14,6 @@ public class PalmTree extends AbstractTreeGrower {
     @Nullable
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(@Nonnull RandomSource random, boolean largeHive) {
-        return AtumFeatures.PALM;
+        return AtumFeatures.PALM_TREE;
     }
 }

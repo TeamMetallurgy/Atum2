@@ -9,14 +9,13 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:acacia_foliage_placer",
-      "offset": 0,
-      "radius": 3
+      "type": "atum:palm_foliage_placer",
+      "date_chance" : 0.35
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:jungle_leaves",
+        "Name": "atum:palm_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -34,8 +33,8 @@
     },
     "trunk_placer": {
       "type": "minecraft:forking_trunk_placer",
-      "base_height": 7,
-      "height_rand_a": 4,
+      "base_height": 6,
+      "height_rand_a": 2,
       "height_rand_b": 4
     },
     "trunk_provider": {
