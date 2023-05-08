@@ -12,6 +12,7 @@ public class AtumConfig {
     public static final AtumStart ATUM_START = new AtumStart(BUILDER);
     public static final Sandstorm SANDSTORM = new Sandstorm(BUILDER);
     public static final Mobs MOBS = new Mobs(BUILDER);
+    public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
 
     public static class General {
         public static final String GENERAL = "general";
@@ -89,7 +90,7 @@ public class AtumConfig {
         }
     }
 
-    public static class WorldGen { //TODO. Probably only kept for reference to values for now
+    public static class WorldGen { //TODO. Some of these probably need to go
         public static final String WORLDGEN = "world gen";
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.IntValue ruinsAmount;

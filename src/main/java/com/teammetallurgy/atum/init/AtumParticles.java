@@ -35,6 +35,7 @@ public class AtumParticles {
     public static final RegistryObject<SimpleParticleType> TAR = registerParticle("tar");
     public static final RegistryObject<SimpleParticleType> TEFNUT = registerParticle("tefnut");
     public static final RegistryObject<SimpleParticleType> TEFNUT_DROP = registerParticle("tefnut_drop");
+    public static final RegistryObject<SimpleParticleType> SAND_AIR = registerParticle("sand_air");
 
     //God Flames
     public static final RegistryObject<SimpleParticleType> ANPUT_FLAME = registerGodFlame("anput_flame", God.ANPUT);
@@ -72,6 +73,7 @@ public class AtumParticles {
         event.register(TAR.get(), DropParticle.Tar::new);
         event.register(TEFNUT.get(), TefnutParticle.Factory::new);
         event.register(TEFNUT_DROP.get(), DropParticle.Tefnut::new);
+        event.register(SAND_AIR.get(), InAirParticle.SandAirParticle::new);
 
         //God Flames
         event.register(ANPUT_FLAME.get(), NebuFlameParticle.Nebu::new);

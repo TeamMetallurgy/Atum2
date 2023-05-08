@@ -1,4 +1,3 @@
-/*
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.Atum;
@@ -12,58 +11,53 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class RuinPieces { //TODO
+public class RuinPieces {
+    private static List<EntityType<?>> getBandits() {
+        return Arrays.asList(AtumEntities.BARBARIAN.get(), AtumEntities.BRIGAND.get(), AtumEntities.NOMAD.get());
+    }
+
+    public static List<EntityType<?>> getUndead() {
+        return Arrays.asList(AtumEntities.BONESTORM.get(), AtumEntities.FORSAKEN.get(), AtumEntities.MUMMY.get(), AtumEntities.WRAITH.get());
+    }
 
     public static class RuinTemplate extends TemplateStructurePiece {
-        private static final List<EntityType<?>> BANDITS = Arrays.asList(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
-        public static final List<EntityType<?>> UNDEAD = Arrays.asList(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
-        private final int ruinType;
-        private final Rotation rotation;
 
-        public RuinTemplate(StructureManager manager, BlockPos pos, Random random, Rotation rotation) {
-            super(AtumStructurePieces.RUIN, 0);
-            this.templatePosition = pos;
-            this.rotation = rotation;
-            this.ruinType = Mth.nextInt(random, 1, AtumConfig.WORLD_GEN.ruinsAmount.get());
-            this.loadTemplate(manager);
+        public RuinTemplate(StructureTemplateManager manager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+            super(AtumStructurePieces.RUIN.get(), 0, manager, location, location.toString(), makeSettings(rotation), pos);
         }
 
-        public RuinTemplate(StructureManager manager, CompoundTag nbt) {
-            super(AtumStructurePieces.RUIN, nbt);
-            this.rotation = Rotation.valueOf(nbt.getString("Rot"));
-            this.ruinType = nbt.getInt("Type");
-            this.loadTemplate(manager);
+        public RuinTemplate(StructureTemplateManager manager, CompoundTag nbt) {
+            super(AtumStructurePieces.RUIN.get(), nbt, manager, (t) -> makeSettings(Rotation.valueOf(nbt.getString("Rot"))));
         }
 
-        private void loadTemplate(StructureManager manager) {
-            StructureTemplate template = manager.get(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
-            StructurePlaceSettings placementsettings = (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
-            if (template != null) {
-                this.setup(template, this.templatePosition, placementsettings);
-            }
+        private static StructurePlaceSettings makeSettings(Rotation rotation) {
+            return (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox box) {
             if (function.equals("Spawner")) {
                 if (box.isInside(pos)) {
                     level.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
@@ -72,17 +66,17 @@ public class RuinPieces { //TODO
                     if (tileEntity instanceof SpawnerBlockEntity) {
                         EntityType<?> type;
                         if (rand.nextDouble() < 0.5D) {
-                            type = BANDITS.get(rand.nextInt(BANDITS.size()));
+                            type = RuinPieces.getBandits().get(rand.nextInt(RuinPieces.getBandits().size()));
                         } else {
-                            type = UNDEAD.get(rand.nextInt(UNDEAD.size()));
+                            type = RuinPieces.getUndead().get(rand.nextInt(RuinPieces.getUndead().size()));
                         }
-                        ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(type);
+                        ((SpawnerBlockEntity) tileEntity).setEntityId(type, rand);
                     }
                 }
             } else if (function.equals("Crate")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
                         RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
@@ -92,10 +86,9 @@ public class RuinPieces { //TODO
         }
 
         @Override
-        protected void addAdditionalSaveData(@Nonnull CompoundTag compound) { //Is actually write, just horrible name
-            super.addAdditionalSaveData(compound);
+        protected void addAdditionalSaveData(@Nonnull StructurePieceSerializationContext context, @Nonnull CompoundTag compound) { //Is actually write, just horrible name
+            super.addAdditionalSaveData(context, compound);
             compound.putString("Rot", this.getRotation().name());
-            compound.putInt("Type", this.ruinType);
         }
     }
-}*/
+}

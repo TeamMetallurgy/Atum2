@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 14150550,
+    "separation": 11,
+    "spacing": 13
+  },
+  "structures": [
+    {
+      "structure": "atum:tomb",
+      "weight": 1
+    }
+  ]
+}
