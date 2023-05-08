@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 19950902,
+    "separation": 40,
+    "spacing": 160
+  },
+  "structures": [
+    {
+      "structure": "atum:girafi_tomb",
+      "weight": 1
+    }
+  ]
+}

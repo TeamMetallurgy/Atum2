@@ -14,10 +14,6 @@ import net.minecraft.world.level.block.Block;
 
 public class AtumAPI {
 
-    private static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
-        return ResourceKey.createRegistryKey(new ResourceLocation(Atum.MOD_ID, name));
-    }
-
     public static class Tags {
         //Flowers
         public static final TagKey<Item> FLOWERS_WHITE = tag("forge", "flowers/white");

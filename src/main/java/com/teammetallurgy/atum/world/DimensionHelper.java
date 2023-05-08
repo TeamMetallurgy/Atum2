@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
-    public static final int GROUND_LEVEL = 63;
+    public static final int GROUND_LEVEL = 63; //TODO Might need to be altered or removed
 
     public static List<Block> getSurfaceBlocks() {
         return Lists.newArrayList(AtumBlocks.STRANGE_SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());

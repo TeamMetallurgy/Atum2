@@ -26,7 +26,7 @@ public class AtumBiomes {
         return ResourceKey.create(Registries.BIOME, new ResourceLocation(Atum.MOD_ID, biomeName));
     }
 
-    /*public static void addBiomeTags() { //TODO Move to json tags
+    /*public static void addBiomeTags() { //TODO Move to json tags, once it's decided on what biomes will be in
         for (ResourceKey<Biome> biome : BIOME_KEYS.keySet()) {
             BiomeDictionary.addTypes(biome, BiomeTags.ATUM);
             if (biome != AtumBiomes.OASIS) {

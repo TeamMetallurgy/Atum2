@@ -269,4 +269,86 @@ public class AtumBiomeMaker { //TODO Remove once all things have been fully move
             return new BiomeSpecialEffects.Builder().fogColor(13876389).waterColor(7036242).waterFogColor(7036242).skyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).grassColorOverride(12889745).foliageColorOverride(12889745).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
         }
     }
+
+    /* //TODO Remove. Kept from reference from AtumDefaultFeatures
+        public static final RuleTest NATURAL_STONE = new TagMatchTest(AtumAPI.Tags.BASE_STONE_ATUM);
+
+        public static void addSandLayer(BiomeGenerationSettings.Builder builder) {
+        builder.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, AtumFeatures.SAND_LAYER_CONFIGURED);
+    }
+
+    public static void addSprings(BiomeGenerationSettings.Builder builder) {
+        builder.addFeature(VEGETAL_DECORATION, AtumFeatures.WATER_SPRING);
+        builder.addFeature(VEGETAL_DECORATION, AtumFeatures.LAVA_SPRING);
+    }
+
+    public static void addMaterialPockets(BiomeGenerationSettings.Builder builder) {
+        if (AtumConfig.WORLD_GEN.sandCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.SAND);
+        }
+        if (AtumConfig.WORLD_GEN.limestoneGravelCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.LIMESTONE_GRAVEL);
+        }
+        if (AtumConfig.WORLD_GEN.marlCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.MARL);
+        }
+    }
+
+    public static void addStoneVariants(BiomeGenerationSettings.Builder builder) {
+        if (AtumConfig.WORLD_GEN.alabasterCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.ALABASTER);
+        }
+        if (AtumConfig.WORLD_GEN.porphyryCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.PORPHYRY);
+        }
+    }
+
+    public static void addOres(BiomeGenerationSettings.Builder builder) {
+        //Vanilla based ores
+        if (AtumConfig.WORLD_GEN.coalCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.COAL_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.ironCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.IRON_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.goldCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.GOLD_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.redstoneCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.REDSTONE_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.diamondCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.DIAMOND_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.lapisBaseline.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.LAPIS_ORE);
+        }
+
+        //Atum ores
+        if (AtumConfig.WORLD_GEN.khnumiteCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.KHNUMITE_RAW);
+        }
+        if (AtumConfig.WORLD_GEN.boneOreCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.BONE_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.relicOreCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.RELIC_ORE);
+        }
+        if (AtumConfig.WORLD_GEN.nebuCount.get() > 0) {
+            builder.addFeature(UNDERGROUND_ORES, AtumFeatures.NEBU_ORE);
+        }
+    }
+
+    public static void addMineshaft(BiomeGenerationSettings.Builder builder, boolean isSurface) {
+        if (AtumConfig.WORLD_GEN.mineshaftProbability.get() > 0.0D) {
+            if (isSurface) {
+                builder.addStructureStart(AtumStructures.MINESHAFT_DEADWOOD_SURFACE_FEATURE);
+                builder.addStructureStart(AtumStructures.MINESHAFT_LIMESTONE_SURFACE_FEATURE);
+            } else {
+                builder.addStructureStart(AtumStructures.MINESHAFT_DEADWOOD_FEATURE);
+                builder.addStructureStart(AtumStructures.MINESHAFT_LIMESTONE_FEATURE);
+            }
+        }
+    }
+    */
 }

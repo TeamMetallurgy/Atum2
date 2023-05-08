@@ -11,7 +11,6 @@ public class AtumConfig {
     public static final General GENERAL = new General(BUILDER);
     public static final AtumStart ATUM_START = new AtumStart(BUILDER);
     public static final Sandstorm SANDSTORM = new Sandstorm(BUILDER);
-    public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
     public static final Mobs MOBS = new Mobs(BUILDER);
 
     public static class General {

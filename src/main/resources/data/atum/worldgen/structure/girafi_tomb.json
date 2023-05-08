@@ -1,0 +1,6 @@
+{
+  "type": "atum:girafi_tomb",
+  "biomes": "#atum:has_structure/girafi_tomb",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}
