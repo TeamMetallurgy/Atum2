@@ -531,6 +531,8 @@ public class AtumBlocks {
     public static final RegistryObject<Block> DEADWOOD_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.DEADWOOD), Atum.DEADWOOD);
     public static final RegistryObject<Block> PALM_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "palm_scaffolding");
     public static final RegistryObject<Block> DEADWOOD_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MaterialColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "deadwood_scaffolding");
+    public static final RegistryObject<Block> LIFELESS_SAND = registerBlock(() -> new Block(of(Material.SAND, MaterialColor.COLOR_GRAY).strength(1.5F, 5.0F).sound(SoundType.SAND)), "lifeless_sand");
+    public static final RegistryObject<Block> PACKED_STRANGE_SAND = registerBlock(() -> new Block(of(Material.SAND, MaterialColor.COLOR_GRAY).strength(1.5F, 5.0F).sound(SoundType.SAND)), "packed_strange_sand");
 
     public static void setBlockInfo() {
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ForgeRegistries.BLOCKS.getKey(PALM_SAPLING.get()), () -> POTTED_PALM_SAPLING.get());

@@ -14,7 +14,7 @@
   },
   {
     "type": "minecraft:rarity_filter",
-    "chance": 8
+    "chance": 5
   },
   {
     "type": "minecraft:biome"

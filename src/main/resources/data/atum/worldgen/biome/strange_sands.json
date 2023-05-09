@@ -23,7 +23,7 @@
     "foliage_color": 12889745,
     "particle":
     {
-      "probability": 1,
+      "probability": 0.5,
       "options":{
         "type": "atum:sand_air"
       }
@@ -53,6 +53,10 @@
       "minecraft:ore_diorite_lower",
       "minecraft:ore_andesite_upper",
       "minecraft:ore_andesite_lower",
+      "atum:ore_alabaster_upper",
+      "atum:ore_alabaster_lower",
+      "atum:ore_porphyry_upper",
+      "atum:ore_porphyry_lower",
       "minecraft:ore_tuff",
       "minecraft:ore_coal_upper",
       "minecraft:ore_coal_lower",
@@ -73,7 +77,8 @@
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
-      "atum:karst_rock"
+      "atum:karst_rock",
+      "atum:limestone_pile"
     ],
     [],
     [
@@ -85,7 +90,8 @@
       "atum:patch_grass_strangesands",
       "atum:patch_shrub",
       "atum:patch_weed",
-      "atum:palm_tree"
+      "atum:palm_tree_sparse",
+      "atum:deadwood_tree"
     ],
     [
       "minecraft:freeze_top_layer"

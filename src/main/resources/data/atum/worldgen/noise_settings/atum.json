@@ -336,50 +336,26 @@
   "spawn_target": [
     {
       "continentalness": [
-        -0.11,
-        1.0
+        -2.0,
+        2.0
       ],
       "depth": 0.0,
       "erosion": [
-        -1.0,
-        1.0
+        -2.0,
+        2.0
       ],
       "humidity": [
-        -1.0,
-        1.0
+        -2.0,
+        2.0
       ],
       "offset": 0.0,
       "temperature": [
-        -1.0,
-        1.0
+        -2.0,
+        2.0
       ],
       "weirdness": [
-        -1.0,
-        -0.16
-      ]
-    },
-    {
-      "continentalness": [
-        -0.11,
-        1.0
-      ],
-      "depth": 0.0,
-      "erosion": [
-        -1.0,
-        1.0
-      ],
-      "humidity": [
-        -1.0,
-        1.0
-      ],
-      "offset": 0.0,
-      "temperature": [
-        -1.0,
-        1.0
-      ],
-      "weirdness": [
-        0.16,
-        1.0
+        -2.0,
+        2.0
       ]
     }
   ],
@@ -505,7 +481,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "atum:strange_sand",
+                                    "Name": "minecraft:mud",
                                     "Properties": {
                                       "snowy": "false"
                                     }
@@ -515,7 +491,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "atum:strange_sand"
+                                  "Name": "minecraft:mud"
                                 }
                               }
                             ]
@@ -1558,7 +1534,7 @@
                                       "then_run": {
                                         "type": "minecraft:block",
                                         "result_state": {
-                                          "Name": "atum:strange_sand",
+                                          "Name": "minecraft:mud",
                                           "Properties": {
                                             "snowy": "false"
                                           }
@@ -1568,7 +1544,7 @@
                                     {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "atum:strange_sand"
+                                        "Name": "minecraft:mud"
                                       }
                                     }
                                   ]
@@ -1725,30 +1701,29 @@
                           }
                         },
                         {
+                          "__comment:": "BIOME: STRANGE SANDS BEGINS HERE",
                           "type": "minecraft:sequence",
                           "sequence": [
                             {
                               "type": "minecraft:condition",
                               "if_true": {
-                                "type": "minecraft:water",
-                                "add_stone_depth": false,
-                                "offset": 0,
-                                "surface_depth_multiplier": 0
+                                "type": "minecraft:biome",
+                                "biome_is": [
+                                  "atum:strange_sands"
+                                ]
                               },
                               "then_run": {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "atum:strange_sand",
-                                  "Properties": {
-                                    "snowy": "false"
-                                  }
+                                  "Name": "atum:strange_sand"
                                 }
                               }
                             },
                             {
+                              "__comment:": "THIS IS THE PRIMARY SURFACE BLOCK IF NO BIOME!",
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "atum:strange_sand"
+                                "Name": "atum:lifeless_sand"
                               }
                             }
                           ]
@@ -2323,9 +2298,21 @@
                           }
                         },
                         {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:steep"
+                          },
+                          "then_run": {
+                            "type": "minecraft:block",
+                            "result_state": {
+                              "Name": "minecraft:mud"
+                            }
+                          }
+                        },
+                        {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "atum:strange_sand"
+                            "Name": "atum:packed_strange_sand"
                           }
                         }
                       ]
