@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -22,7 +21,6 @@ import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.List;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)

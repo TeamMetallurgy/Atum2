@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,10 +16,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.animal.Cat;
@@ -29,15 +28,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
-public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert Rabbits
+public class ServalEntity extends Cat {
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(ServalEntity.class, EntityDataSerializers.INT);
     private static final Ingredient BREEDING_ITEMS = Ingredient.of(AtumItems.SKELETAL_FISH.get());
     private CatTemptGoal temptGoal;
@@ -93,10 +94,12 @@ public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert
     }
 
     public void setAtumCatType(int type) {
-        if (type < 0 || type > SERVAL_TEXTURE_BY_ID.size()) {
-            type = this.random.nextInt(SERVAL_TEXTURE_BY_ID.size());
-        }
         this.entityData.set(DATA_TYPE_ID, type);
+    }
+
+    public void setRandomServalType() {
+        int type = this.random.nextInt(SERVAL_TEXTURE_BY_ID.size());
+        this.setAtumCatType(type);
     }
 
     @Override
@@ -111,6 +114,14 @@ public class ServalEntity extends Cat { //TODO Test. Same problem as with Desert
         if (this.temptGoal != null && this.temptGoal.isRunning() && !this.isTame() && this.tickCount % 100 == 0) {
             this.playSound(SoundEvents.CAT_BEG_FOR_FOOD, 1.0F, 1.0F);
         }
+    }
+
+    @Override
+    @Nullable
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor serverLevelAccessor, @Nonnull DifficultyInstance difficultyInstance, @Nonnull MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag nbt) {
+        this.setRandomServalType();
+
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, spawnType, spawnGroupData, nbt);
     }
 
     @Override

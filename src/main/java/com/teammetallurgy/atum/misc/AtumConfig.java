@@ -90,25 +90,15 @@ public class AtumConfig {
         }
     }
 
-    public static class WorldGen { //TODO. Some of these probably need to go
+    public static class WorldGen {
         public static final String WORLDGEN = "world gen";
-        public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.IntValue ruinsAmount;
-        public final ForgeConfigSpec.IntValue fossilsChance;
-        public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
-            this.mineshaftProbability = builder.comment("Probability of mineshafts generating. Set to 0 to disable. Default value same as vanilla overworld")
-                    .translation("atum.config.mineshaft_probability")
-                    .defineInRange("Minecraft probability", 0.007D, 0.0D, 1.0D);
             this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
                     .translation("atum.config.ruins_amount")
                     .defineInRange("Ruins Amount", 17, 1, 999);
-            this.fossilsChance = builder.defineInRange("Fossils chance, set to 0 to disable", 64, 0, 255);
-            this.sandLayerEdge = builder.comment("Should Sand Layers generate along all edges?")
-                    .translation("atum.config.sand_layer_enabled")
-                    .define("Enable Sand Layer along edges", true);
             builder.pop();
         }
     }

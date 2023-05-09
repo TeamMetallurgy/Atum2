@@ -14,7 +14,6 @@ import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
-import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

@@ -17,11 +17,7 @@
       "conditions": {
         "player": {
           "location": {
-            "player": {
-              "location": {
-                "feature": "atum:ruin"
-              }
-            }
+            "structure": "atum:ruin"
           }
         }
       }

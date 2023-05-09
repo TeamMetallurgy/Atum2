@@ -17,7 +17,7 @@
       "conditions": {
         "player": {
           "location": {
-            "feature": "atum:pyramid"
+            "structure": "atum:pyramid"
           }
         }
       }

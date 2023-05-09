@@ -34,7 +34,7 @@ import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
 
-public class KilnTileEntity extends KilnBaseTileEntity { //TODO Partial rewrite needed, changes in vanilla
+public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up world?
     public int burnTime;
     public int recipesUsed;
     public int cookTime;

@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 import javax.annotation.Nonnull;
 
-public class SandLayerFeature extends Feature<NoneFeatureConfiguration> { //TODO Fix
+public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
 
     public SandLayerFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);

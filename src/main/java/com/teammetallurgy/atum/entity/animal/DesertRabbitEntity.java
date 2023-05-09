@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially implemented old way of defining rabbit type. Rabbits are now using a custom variant, which we probably shouldn´t extend (Although test to make sure)
+public class DesertRabbitEntity extends Rabbit {
     private static final EntityDataAccessor<Integer> DATA_TYPE_ID = SynchedEntityData.defineId(DesertRabbitEntity.class, EntityDataSerializers.INT);
 
     public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, Level level) {
@@ -67,6 +67,7 @@ public class DesertRabbitEntity extends Rabbit { //TODO Test. Have partially imp
         this.entityData.set(DATA_TYPE_ID, id);
     }
 
+    @Override
     @Nullable
     public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor serverLevelAccessor, @Nonnull DifficultyInstance difficultyInstance, @Nonnull MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag nbt) {
         int i = this.getRandomAtumRabbitType(serverLevelAccessor);
