@@ -1,0 +1,6 @@
+{
+  "type": "atum:pyramid",
+  "biomes": "#atum:has_structure/pyramid",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

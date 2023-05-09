@@ -83,7 +83,6 @@ public class Atum {
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
-        // MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO Require structures functioning
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         IntegrationHandler.INSTANCE.setup();

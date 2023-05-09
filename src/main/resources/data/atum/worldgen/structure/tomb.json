@@ -2,5 +2,5 @@
   "type": "atum:tomb",
   "biomes": "#atum:has_structure/tomb",
   "spawn_overrides": {},
-  "step": "surface_structures"
+  "step": "underground_structures"
 }

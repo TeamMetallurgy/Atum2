@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.core.registries.Registries;
@@ -14,8 +15,8 @@ public class AtumStructurePieces {
     public static final RegistryObject<StructurePieceType> GIRAFI_TOMB = register(GirafiTombPieces.GirafiTombTemplate::new, "girafi_tomb");
     public static final RegistryObject<StructurePieceType> TOMB = register(TombPieces.TombTemplate::new, "tomb");
     public static final RegistryObject<StructurePieceType> RUIN = register(RuinPieces.RuinTemplate::new, "ruin");
-    //public static final StructurePieceType PYRAMID = register(PyramidPieces.PyramidTemplate::new, "pyramid");
-    //public static final StructurePieceType PYRAMID_MAZE = register(PyramidPieces.Maze::new, "maze");
+    public static final RegistryObject<StructurePieceType> PYRAMID = register(PyramidPieces.PyramidTemplate::new, "pyramid");
+    public static final RegistryObject<StructurePieceType> PYRAMID_MAZE = register((manager, nbt) -> new PyramidPieces.Maze(nbt), "pyramid_maze");
     //public static final StructurePieceType MINESHAFT_CORRIDOR = register(AtumMineshaftPieces.Corridor::new, "mineshaft_corridor");
     //public static final StructurePieceType MINESHAFT_CROSSING = register(AtumMineshaftPieces.Cross::new, "mineshaft_crossing");
     //public static final StructurePieceType MINESHAFT_ROOM = register(AtumMineshaftPieces.Room::new, "mineshaft_room");

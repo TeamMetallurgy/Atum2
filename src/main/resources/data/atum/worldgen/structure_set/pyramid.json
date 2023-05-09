@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 14705550,
+    "separation": 11,
+    "spacing": 23
+  },
+  "structures": [
+    {
+      "structure": "atum:pyramid",
+      "weight": 1
+    }
+  ]
+}

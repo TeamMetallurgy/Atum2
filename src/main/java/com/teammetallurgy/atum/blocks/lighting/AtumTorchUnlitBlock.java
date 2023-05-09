@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.lighting;
 
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.BlockPos;
@@ -20,13 +21,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
     private final Supplier<? extends Block> lit;
+    public static final Map<RegistryObject<Block>, RegistryObject<Block>> UNLIT = Maps.newHashMap();
 
     public AtumTorchUnlitBlock(Supplier<? extends Block> lit) {
         super(0);

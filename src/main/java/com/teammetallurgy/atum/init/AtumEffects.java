@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class AtumEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECT_DEFERRED = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Atum.MOD_ID);
-    public static final RegistryObject<MobEffect> MARKED_FOR_DEATH = register("marked_for_death", new MarkedForDeathEffect());
+    public static final RegistryObject<MobEffect> MARKED_FOR_DEATH = register("marked_for_death", new MarkedForDeathEffect()); //TODO Fix, crashes
 
     public static RegistryObject<MobEffect> register(String name, MobEffect effect) {
         MinecraftForge.EVENT_BUS.register(effect);

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 
@@ -29,13 +31,16 @@ public abstract class AtumStructure extends Structure {
         for (int x = boundingBox.minX(); x <= boundingBox.maxX(); ++x) {
             for (int z = boundingBox.minZ(); z <= boundingBox.maxZ(); ++z) {
                 mutablePos.set(x, calculateBoundingBoxminY, z);
-                if (!genLevel.isEmptyBlock(mutablePos) && calculateBoundingBox.isInside(mutablePos) && piecesContainer.isInsidePiece(mutablePos)) {
-                    for (int i1 = calculateBoundingBoxminY - 1; i1 > minBuild; --i1) {
-                        mutablePos.setY(i1);
-                        if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).getMaterial().isLiquid()) {
-                            break;
+
+                if (!StructureHelper.doesChunkHaveStructure(genLevel.getLevel(), mutablePos, AtumStructures.PYRAMID_KEY)) {
+                    if (!genLevel.isEmptyBlock(mutablePos) && calculateBoundingBox.isInside(mutablePos) && piecesContainer.isInsidePiece(mutablePos)) {
+                        for (int i1 = calculateBoundingBoxminY - 1; i1 > minBuild; --i1) {
+                            mutablePos.setY(i1);
+                            if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).getMaterial().isLiquid()) {
+                                break;
+                            }
+                            setBelowStructureBlock(genLevel, mutablePos, random); //Same as vanilla, but use Limestone instead
                         }
-                        setBelowStructureBlock(genLevel, mutablePos, random); //Same as vanilla, but use Limestone instead
                     }
                 }
             }

@@ -21,7 +21,7 @@ public class AtumDimensionData extends SavedData {
 
         /*ListTag listNBT = nbt.getList("PyramidBoxes", 10);
         for (int i = 0; i < listNBT.size(); ++i) {
-            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i))); //TODO Fix. Is this needed still?
+            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i))); //TODO Fix.
         }*/
         return data;
     }
@@ -32,7 +32,7 @@ public class AtumDimensionData extends SavedData {
         nbt.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
         nbt.putBoolean("IsStorming", this.isStorming);
 
-        /*f (!this.beatenPyramids.isEmpty()) { //TODO Fix. Is this needed still?
+        /*f (!this.beatenPyramids.isEmpty()) { //TODO Fix.
             ListTag listNBT = new ListTag();
             for (BoundingBox box : this.beatenPyramids) {
                 listNBT.add(box.createTag());

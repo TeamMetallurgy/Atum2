@@ -1,8 +1,6 @@
-/*
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.QuandaryBlock;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
@@ -19,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -30,10 +29,11 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -41,28 +41,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class PyramidPieces { //TODO
-    public static final ResourceLocation PYRAMID = new ResourceLocation(Atum.MOD_ID, "pyramid");
-
+public class PyramidPieces {
     // For the maze to generate correctly, it must be an odd width and depth
     private static final int MAZE_SIZE_X = 27;
     private static final int MAZE_SIZE_Z = 25;
 
-    static List<StructurePiece> getComponents(StructureManager manager, BlockPos pos, Rotation rotation) {
-        List<StructurePiece> components = Lists.newArrayList();
-        PyramidTemplate template = new PyramidTemplate(manager, pos, rotation);
-        Maze maze = new Maze(getMazeBounds(template.getBoundingBox(), template.rotation), template.getOrientation());
-        components.add(template);
-        components.add(maze);
-        return components;
+    static StructurePiecesBuilder addComponents(StructurePiecesBuilder piecesBuilder, StructureTemplateManager manager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+        PyramidTemplate template = new PyramidTemplate(manager, location, pos, rotation);
+        Maze maze = new Maze(getMazeBounds(template.getBoundingBox(), template.getRotation()), template.getOrientation());
+        piecesBuilder.addPiece(template);
+        piecesBuilder.addPiece(maze);
+        return piecesBuilder;
     }
 
     private static BoundingBox getMazeBounds(BoundingBox pyramidBounds, Rotation rotation) {
         // If the pyramid is rotated the bounding box needs to be rotated also. Since it is just a collection
         // of min and max values, we just need to change which direction the width and height go. The maze
         // also needs to be offset from the pyramid corner to align with the maze entrance and to fit in the
-        // pyramid. The offset values were chosen by trial and error, and could probably be calculated in a
-        // better way.
+        // pyramid. The offset values were chosen by trial and error, and could probably be calculated in a better way.
         int width = MAZE_SIZE_X;
         int depth = MAZE_SIZE_Z;
         int xOffset = 2;
@@ -82,45 +78,43 @@ public class PyramidPieces { //TODO
             zOffset = 6;
         }
 
-        return BoundingBox.createProper(
-                pyramidBounds.x0 + xOffset,
-                pyramidBounds.y0 + 6,
-                pyramidBounds.z0 + zOffset,
-                pyramidBounds.x0 + xOffset + width - 1,
-                pyramidBounds.y0 + 7,
-                pyramidBounds.z0 + zOffset + depth - 1);
+        return new BoundingBox(
+                pyramidBounds.minX() + xOffset,
+                pyramidBounds.minY() + 6,
+                pyramidBounds.minZ() + zOffset,
+                pyramidBounds.minX() + xOffset + width - 1,
+                pyramidBounds.minY() + 7,
+                pyramidBounds.minZ() + zOffset + depth - 1);
     }
 
     public static class PyramidTemplate extends TemplateStructurePiece {
-        public static final List<Block> FLOOR_TRAPS = Arrays.asList(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        static final BlockState CARVED_BRICK = AtumBlocks.LIMESTONE_BRICK_CARVED.defaultBlockState().setValue(LimestoneBrickBlock.UNBREAKABLE, true);
-        private static final EntityType<?> UNDEAD_SPAWNER_PAIR = RuinPieces.RuinTemplate.UNDEAD.get(new Random().nextInt(RuinPieces.RuinTemplate.UNDEAD.size()));
-        private final Rotation rotation;
+        private static final EntityType<?> UNDEAD_SPAWNER_PAIR = RuinPieces.getUndead().get(new Random().nextInt(RuinPieces.getUndead().size()));
 
-        public PyramidTemplate(StructureManager manager, BlockPos pos, Rotation rotation) {
-            super(AtumStructurePieces.PYRAMID, 0);
-            this.templatePosition = pos;
-            this.rotation = rotation;
-            this.loadTemplate(manager);
+        public PyramidTemplate(StructureTemplateManager manager, ResourceLocation location, BlockPos pos, Rotation rotation) {
+            super(AtumStructurePieces.PYRAMID.get(), 0, manager, location, location.toString(), makeSettings(rotation), pos);
         }
 
-        public PyramidTemplate(StructureManager manager, CompoundTag nbt) {
-            super(AtumStructurePieces.PYRAMID, nbt);
-            this.rotation = Rotation.valueOf(nbt.getString("Rot"));
-            this.loadTemplate(manager);
+        public PyramidTemplate(StructureTemplateManager manager, CompoundTag nbt) {
+            super(AtumStructurePieces.PYRAMID.get(), nbt, manager, (t) -> makeSettings(Rotation.valueOf(nbt.getString("Rot"))));
         }
 
-        private void loadTemplate(StructureManager templateManager) {
-            StructureTemplate template = templateManager.get(PYRAMID);
-            StructurePlaceSettings placementsettings = (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).setBoundingBox(this.boundingBox).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
-            this.setup(template, this.templatePosition, placementsettings);
+        private static StructurePlaceSettings makeSettings(Rotation rotation) {
+            return (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        }
+
+        public static BlockState getCarvedBrick() {
+            return AtumBlocks.LIMESTONE_BRICK_CARVED.get().defaultBlockState().setValue(LimestoneBrickBlock.UNBREAKABLE, true);
+        }
+
+        public static List<Block> getFloorTraps() {
+            return Arrays.asList(AtumBlocks.BURNING_TRAP.get(), AtumBlocks.POISON_TRAP.get(), AtumBlocks.SMOKE_TRAP.get(), AtumBlocks.TAR_TRAP.get());
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox box) {
             if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
-                BlockState arrowTrap = AtumBlocks.ARROW_TRAP.defaultBlockState();
+                BlockState arrowTrap = AtumBlocks.ARROW_TRAP.get().defaultBlockState();
 
                 if (rand.nextDouble() <= 0.3D) {
                     switch (function) {
@@ -139,16 +133,16 @@ public class PyramidPieces { //TODO
                     }
                     level.setBlock(pos, arrowTrap, 2);
                 } else {
-                    level.setBlock(pos, CARVED_BRICK, 2);
+                    level.setBlock(pos, getCarvedBrick(), 2);
                 }
             } else if (function.startsWith("Floor")) {
                 switch (function) {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
-                            Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                            Block trap = getFloorTraps().get(rand.nextInt(getFloorTraps().size()));
                             level.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
                         } else {
-                            level.setBlock(pos, CARVED_BRICK, 2);
+                            level.setBlock(pos, getCarvedBrick(), 2);
                         }
                         break;
                     case "FloorCopy":
@@ -166,8 +160,8 @@ public class PyramidPieces { //TODO
 
                         BlockEntity tileEntity = level.getBlockEntity(pos);
                         if (tileEntity instanceof SpawnerBlockEntity) {
-                            EntityType<?> entityType = RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size()));
-                            ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(entityType);
+                            EntityType<?> entityType = RuinPieces.getUndead().get(rand.nextInt(RuinPieces.getUndead().size()));
+                            ((SpawnerBlockEntity) tileEntity).setEntityId(entityType, rand);
                         }
                     }
                 } else if (function.equals("SpawnerUndeadPair")) {
@@ -176,14 +170,14 @@ public class PyramidPieces { //TODO
 
                         BlockEntity tileEntity = level.getBlockEntity(pos);
                         if (tileEntity instanceof SpawnerBlockEntity) {
-                            ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(UNDEAD_SPAWNER_PAIR);
+                            ((SpawnerBlockEntity) tileEntity).setEntityId(UNDEAD_SPAWNER_PAIR, rand);
                         }
                     }
                 }
             } else if (function.equals("CrateChance")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
-                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
                         RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
@@ -204,19 +198,19 @@ public class PyramidPieces { //TODO
             } else if (function.equals("NebuTorch")) {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {
-                        level.setBlock(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).defaultBlockState(), 2);
+                        level.setBlock(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).get().defaultBlockState(), 2);
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
             } else if (function.equals("EntrancePuzzle")) {
                 if (box.isInside(pos)) {
-                    level.setBlock(pos, AtumBlocks.QUANDARY_BLOCK.defaultBlockState().setValue(QuandaryBlock.UNBREAKABLE, true).setValue(QuandaryBlock.FACING, StructureHelper.getDirectionFromRotation(this.getRotation())), 2);
+                    level.setBlock(pos, AtumBlocks.QUANDARY_BLOCK.get().defaultBlockState().setValue(QuandaryBlock.UNBREAKABLE, true).setValue(QuandaryBlock.FACING, StructureHelper.getDirectionFromRotation(this.getRotation())), 2);
                 }
             }
         }
 
-        private void setTrapsCopy(LevelAccessor level, BlockPos pos, Random rand, BoundingBox box, int range) {
+        private void setTrapsCopy(LevelAccessor level, BlockPos pos, RandomSource rand, BoundingBox box, int range) {
             if (rand.nextDouble() <= 0.5D) {
                 BlockState copy = null;
                 for (Direction horizontal : Direction.Plane.HORIZONTAL) {
@@ -233,17 +227,17 @@ public class PyramidPieces { //TODO
                 if (copy != null) {
                     level.setBlock(pos, copy, 2);
                 } else {
-                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                    Block trap = getFloorTraps().get(rand.nextInt(getFloorTraps().size()));
                     level.setBlock(pos, trap.defaultBlockState().setValue(TrapBlock.FACING, Direction.UP), 2);
                 }
             } else {
-                level.setBlock(pos, CARVED_BRICK, 2);
+                level.setBlock(pos, getCarvedBrick(), 2);
             }
         }
 
         @Override
-        protected void addAdditionalSaveData(@Nonnull CompoundTag compound) { //Is actually write, just horrible name
-            super.addAdditionalSaveData(compound);
+        protected void addAdditionalSaveData(@Nonnull StructurePieceSerializationContext context, @Nonnull CompoundTag compound) { //Is actually write, just horrible name
+            super.addAdditionalSaveData(context, compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
         }
     }
@@ -252,24 +246,23 @@ public class PyramidPieces { //TODO
         private boolean[][] maze = null;
 
         public Maze(BoundingBox boundingBox, Direction componentType) {
-            super(AtumStructurePieces.PYRAMID_MAZE, 0);
+            super(AtumStructurePieces.PYRAMID_MAZE.get(), 0, boundingBox);
             this.setOrientation(componentType);
             this.boundingBox = boundingBox;
         }
 
-        public Maze(StructureManager manager, CompoundTag nbt) {
-            super(AtumStructurePieces.PYRAMID_MAZE, nbt);
+        public Maze(CompoundTag nbt) {
+            super(AtumStructurePieces.PYRAMID_MAZE.get(), nbt);
         }
 
         @Override
-        public boolean postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random random, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
+        public void postProcess(@Nonnull WorldGenLevel level, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull RandomSource random, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos, @Nonnull BlockPos pos) {
             this.addMaze(level, random, box);
-            return true;
         }
 
-        private void addMaze(WorldGenLevel level, Random random, BoundingBox validBounds) {
+        private void addMaze(WorldGenLevel level, RandomSource random, BoundingBox validBounds) {
             if (this.maze == null) {
-                this.maze = this.generateMaze(new Random(level.getSeed() * this.boundingBox.x0 * this.boundingBox.z0), this.boundingBox.getXSpan(), this.boundingBox.getZSpan());
+                this.maze = this.generateMaze(new Random(level.getSeed() * this.boundingBox.minX() * this.boundingBox.minZ()), this.boundingBox.getXSpan(), this.boundingBox.getZSpan());
             }
 
             for (int x = 0; x < this.boundingBox.getXSpan(); x++) {
@@ -285,8 +278,8 @@ public class PyramidPieces { //TODO
                     }
                     // Set the blocks for the walls of the maze
                     else if (!maze[x][z]) {
-                        this.placeBlock(level, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
-                        this.placeBlock(level, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
+                        this.placeBlock(level, PyramidPieces.PyramidTemplate.getCarvedBrick(), x, 0, z, validBounds);
+                        this.placeBlock(level, PyramidPieces.PyramidTemplate.getCarvedBrick(), x, 1, z, validBounds);
                         if (random.nextDouble() <= 0.10D) {
                             placeTrap(level, maze, x, z, random, validBounds);
                         }
@@ -294,7 +287,7 @@ public class PyramidPieces { //TODO
                     // Place sand of the floor of the maze
                     else {
                         int layers = Mth.nextInt(random, 1, 2);
-                        this.placeBlock(level, AtumBlocks.SAND_LAYERED.defaultBlockState().setValue(SandLayersBlock.LAYERS, layers), x, 0, z, validBounds);
+                        this.placeBlock(level, AtumBlocks.STRANGE_SAND_LAYERED.get().defaultBlockState().setValue(SandLayersBlock.LAYERS, layers), x, 0, z, validBounds);
                     }
                 }
             }
@@ -308,8 +301,8 @@ public class PyramidPieces { //TODO
             }
         }
 
-        private void placeTrap(WorldGenLevel level, boolean[][] maze, int x, int z, Random random, BoundingBox validBounds) {
-            BlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).defaultBlockState();
+        private void placeTrap(WorldGenLevel level, boolean[][] maze, int x, int z, RandomSource random, BoundingBox validBounds) {
+            BlockState trapState = PyramidPieces.PyramidTemplate.getFloorTraps().get(random.nextInt(PyramidPieces.PyramidTemplate.getFloorTraps().size())).defaultBlockState();
 
             List<Direction> validDirections = new ArrayList<>();
             for (Direction facing : Direction.Plane.HORIZONTAL) {
@@ -366,7 +359,7 @@ public class PyramidPieces { //TODO
         }
 
         @Override
-        protected void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+        protected void addAdditionalSaveData(@Nonnull StructurePieceSerializationContext context, @Nonnull CompoundTag compound) {
         }
 
         static class Pair {
@@ -384,4 +377,4 @@ public class PyramidPieces { //TODO
             }
         }
     }
-}*/
+}
