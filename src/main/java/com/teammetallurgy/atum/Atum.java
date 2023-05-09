@@ -117,6 +117,7 @@ public class Atum {
         AtumFeatures.FEATURES_DEFERRED.register(modBus);
         AtumStructures.STRUCTURE_TYPE_DEFERRED.register(modBus);
         AtumStructurePieces.STRUCTURE_PIECES_DEFERRED.register(modBus);
+        AtumEffects.MOB_EFFECT_DEFERRED.register(modBus);
         TreePlacerTypes.FOLIAGE_PLACER_DEFERRED.register(modBus);
         AtumMenuType.MENU_TYPE_DEFERRED.register(modBus);
         AtumPoiTypes.POI_DEFERRED.register(modBus);

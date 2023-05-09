@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.misc.potion;
+package com.teammetallurgy.atum.misc.effect;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.bandit.AssassinEntity;

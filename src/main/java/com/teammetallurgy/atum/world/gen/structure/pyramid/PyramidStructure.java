@@ -13,10 +13,8 @@ import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.AtumStructure;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.Structures;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,7 +29,6 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -104,7 +101,7 @@ public class PyramidStructure extends AtumStructure {
                 if (structure != null) {
                     StructureStart structureStart = structureManager.getStructureAt(event.getPos(), structure);
                     if (structure instanceof PyramidStructure && structureStart.isValid()) {
-                        if (!DimensionHelper.isBeatenPyramid(serverLevel, structureStart.getBoundingBox())) { //TODO isBeatenPyramid does not work, works perfectly fine besides  that
+                        if (!DimensionHelper.isBeatenPyramid(serverLevel, structureStart.getBoundingBox())) {
                             ServerPlayer player = (ServerPlayer) event.getEntity();
                             Block placedBlock = event.getPlacedBlock().getBlock();
                             if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {

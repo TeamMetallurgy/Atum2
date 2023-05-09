@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
@@ -163,7 +164,7 @@ public class AtumEntities {
     public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         BlockState spawnState = level.getBlockState(pos.below());
         Block spawnBlock = spawnState.getBlock();
-        return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || DimensionHelper.getSurfaceBlocks().contains(spawnBlock) ||
+        return (spawnState.is(BlockTags.SAND) || spawnState.is(Tags.Blocks.SAND) || spawnState.is(AtumAPI.Tags.SURFACE_BLOCKS) ||
                 spawnBlock == Blocks.GRASS_BLOCK) && level.getRawBrightness(pos, 0) > 8;
     }
 

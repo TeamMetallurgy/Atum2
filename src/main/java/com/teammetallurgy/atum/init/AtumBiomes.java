@@ -6,9 +6,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class AtumBiomes {
     public static final ResourceKey<Biome> DEAD_OASIS = registerBiome("dead_oasis");  //Sub Biome
     public static final ResourceKey<Biome> DENSE_WOODS = registerBiome("dense_woods");
@@ -42,38 +39,9 @@ public class AtumBiomes {
         BiomeDictionary.addTypes(DRIED_RIVER, BiomeDictionary.Type.RIVER);
         BiomeDictionary.addTypes(LIMESTONE_CRAGS, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(LIMESTONE_MOUNTAINS, BiomeDictionary.Type.PEAK);
-        BiomeDictionary.addTypes(OASIS, BiomeTags.OASIS, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.WET, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(SAND_DUNES, BiomeDictionary.Type.HILLS);
         BiomeDictionary.addTypes(SAND_HILLS, BiomeDictionary.Type.HILLS);
         BiomeDictionary.addTypes(SAND_PLAINS, BiomeDictionary.Type.PLAINS);
         BiomeDictionary.addTypes(KARST_CAVES, BiomeDictionary.Type.UNDERGROUND);
-    }*/
-
-/*   /**
-     * Registers a biome
-     *
-     * @param biome The biome to be registered
-     * @param name  The name to register the biome with
-     * /
-    public static void registerBiome(Biome biome, String name) {
-        BIOME_DEFERRED.register(name, () -> biome);
-    }
-
-    /**
-     * Registers a biome key
-     *
-     * @param biomeName The name to register the biome key with
-     * @return The Biome key that was registered
-     * /
-    public static ResourceKey<Biome> registerBiomeKey(String biomeName, BiomeRegion biomeRegion) {
-        ResourceKey<Biome> biomeKey = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
-        BIOME_KEYS.put(biomeKey, biomeRegion);
-        BIOMES.add(biomeKey);
-        return biomeKey;
-    }
-
-    public static class BiomeTags { //TODO Add new biome tags in json
-        public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
-        public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }*/
 }

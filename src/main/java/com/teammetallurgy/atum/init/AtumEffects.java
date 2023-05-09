@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.misc.potion.MarkedForDeathEffect;
+import com.teammetallurgy.atum.misc.effect.MarkedForDeathEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.DeferredRegister;

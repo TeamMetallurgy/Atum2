@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -36,10 +35,6 @@ public class AtumStructures {
     private static <T extends Structure> StructureType<T> structureTypeFromCodec(Codec<T> structureCodec) {
         return () -> structureCodec;
     }
-
-    //Structures /TODO Remove. Kept for reference for now
-//    public static final Structure<AtumMineshaftConfig> MINESHAFT_STRUCTURE = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig.CODEC));
-//    public static final Structure<JigsawConfiguration> GATEHOUSE = register("gatehouse", new GatehouseStructure(JigsawConfiguration.CODEC));
 
     //Structure Features //TODO Remove. Kept for reference for now
 //    public static final ConfiguredStructureFeature<AtumMineshaftConfig, ? extends StructureFeature<AtumMineshaftConfig>> MINESHAFT_DEADWOOD_FEATURE = register("mineshaft_deadwood", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.DEADWOOD));

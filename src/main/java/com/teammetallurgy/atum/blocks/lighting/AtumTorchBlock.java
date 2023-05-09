@@ -15,9 +15,7 @@ import net.minecraft.world.level.material.Material;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class AtumTorchBlock extends TorchBlock implements INebuTorch {

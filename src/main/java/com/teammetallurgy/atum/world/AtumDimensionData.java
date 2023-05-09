@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.world;
 
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -19,10 +21,10 @@ public class AtumDimensionData extends SavedData {
         data.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
         data.isStorming = nbt.getBoolean("IsStorming");
 
-        /*ListTag listNBT = nbt.getList("PyramidBoxes", 10);
-        for (int i = 0; i < listNBT.size(); ++i) {
-            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i))); //TODO Fix.
-        }*/
+        data.beatenPyramids.add(BoundingBox.CODEC.parse(NbtOps.INSTANCE, nbt.get("PyramidBoxes")).resultOrPartial(Atum.LOG::error).orElseThrow(() -> {
+            return new IllegalArgumentException("Invalid saved pyramid boundingbox");
+        }));
+
         return data;
     }
 
@@ -32,13 +34,13 @@ public class AtumDimensionData extends SavedData {
         nbt.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
         nbt.putBoolean("IsStorming", this.isStorming);
 
-        /*f (!this.beatenPyramids.isEmpty()) { //TODO Fix.
-            ListTag listNBT = new ListTag();
+        if (!this.beatenPyramids.isEmpty()) {
             for (BoundingBox box : this.beatenPyramids) {
-                listNBT.add(box.createTag());
+                BoundingBox.CODEC.encodeStart(NbtOps.INSTANCE, box).resultOrPartial(Atum.LOG::error).ifPresent((p_163579_) -> {
+                    nbt.put("PyramidBoxes", p_163579_);
+                });
             }
-            nbt.put("PyramidBoxes", listNBT);
-        }*/
+        }
         return nbt;
     }
 

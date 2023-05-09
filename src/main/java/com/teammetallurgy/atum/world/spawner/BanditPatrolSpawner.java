@@ -4,7 +4,9 @@ import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.bandit.SergeantEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -51,7 +53,7 @@ public class BanditPatrolSpawner implements CustomSpawner {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(player.getX(), player.getY(), player.getZ())).move(x, 0, z);
-                            if (!serverLevel.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverLevel, mutablePos, AtumStructures.PYRAMID_STRUCTURE)*/) { //TODO Uncomment when structures are re-added
+                            if (!serverLevel.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverLevel, mutablePos, AtumStructures.PYRAMID_KEY)) {
                                 return 0;
                             } else {
                                 Biome biome = serverLevel.getBiome(mutablePos).value();

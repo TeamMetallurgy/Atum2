@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.QuandaryBlock;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;

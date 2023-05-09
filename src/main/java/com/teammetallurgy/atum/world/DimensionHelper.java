@@ -26,11 +26,6 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
-    public static final int GROUND_LEVEL = 63; //TODO Might need to be altered or removed
-
-    public static List<Block> getSurfaceBlocks() {
-        return Lists.newArrayList(AtumBlocks.STRANGE_SAND.get(), AtumBlocks.FERTILE_SOIL.get(), AtumBlocks.LIMESTONE_GRAVEL.get());
-    }
 
     public static AtumDimensionData getData(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(AtumDimensionData::load, AtumDimensionData::new, AtumDimensionData.ID);
@@ -59,7 +54,7 @@ public class DimensionHelper {
         BlockState stateDown = level.getBlockState(pos.below());
         Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(level.getBiome(pos).value());
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) &&
-                //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones structures are in
+                //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones Atum villages are in
                 level.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED.get()
