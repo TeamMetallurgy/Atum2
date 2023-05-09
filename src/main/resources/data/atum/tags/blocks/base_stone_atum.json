@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "atum:karst",
     "atum:limestone"
   ]
 }
