@@ -270,9 +270,6 @@ public class AtumBiomeMaker { //TODO Remove once all things have been fully move
 
     /* //TODO Remove. Kept from reference from AtumDefaultFeatures
         public static final RuleTest NATURAL_STONE = new TagMatchTest(AtumAPI.Tags.BASE_STONE_ATUM);
-
-        public static void addSandLayer(BiomeGenerationSettings.Builder builder) {
-        builder.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, AtumFeatures.SAND_LAYER_CONFIGURED);
     }
 
     public static void addSprings(BiomeGenerationSettings.Builder builder) {

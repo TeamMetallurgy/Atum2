@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -33,8 +33,8 @@ public class SandstormRendering {
     private static float intensity = 1;
 
     @SubscribeEvent
-    public static void renderlast(RenderLevelLastEvent event) {
-        LocalPlayer player = Minecraft.getInstance().player;
+    public static void renderlast(RenderLevelStageEvent event) {
+        /*LocalPlayer player = Minecraft.getInstance().player; //TODO Disabled sandstorm for now, as it fucks things up visually
         if (player != null && player.level.dimension() == Atum.ATUM) {
             PoseStack poseStack = event.getPoseStack();
             float partialTick = event.getPartialTick();
@@ -43,7 +43,7 @@ public class SandstormRendering {
             } else {
                 renderSand(poseStack, partialTick, 1, 2, 3, 4, 5, 6);
             }
-        }
+        }*/
     }
 
     /*@SubscribeEvent
@@ -126,6 +126,7 @@ public class SandstormRendering {
                 float movement = -(System.currentTimeMillis() % (int) speed) / speed;
                 float yaw = 0.25F * (player.getYRot() % 360 / 360F) / scale;
                 float pitch = 0.5F * (player.getXRot() % 360 / 360F) / scale;
+                System.out.println("Sandstorm");
 
                 bufferbuilder.vertex(0.0D, mc.getWindow().getGuiScaledHeight(), 90.0D).uv(movement + yaw, (float) (1.0D / scaleY + pitch)).endVertex();
                 bufferbuilder.vertex(mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight(), 90.0D).uv((float) (1.0D / scaleX + movement + yaw), (float) (1.0D / scaleY + pitch)).endVertex();

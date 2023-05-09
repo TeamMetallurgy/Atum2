@@ -10,7 +10,9 @@
     },
     "foliage_placer": {
       "type": "atum:palm_foliage_placer",
-      "date_chance" : 0.35
+      "date_chance" : 0.35,
+      "extra_date_chance" : 0.25,
+      "extra_long_leaves_chance" : 0.25
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",

@@ -18,13 +18,17 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 import javax.annotation.Nonnull;
 
 public class PalmFoliagePlacer extends FoliagePlacer {
-    public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.FLOAT.fieldOf("date_chance").orElse(0.0F).forGetter((fp) -> fp.dateChance))
+    public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.FLOAT.fieldOf("date_chance").orElse(0.0F).forGetter((fp) -> fp.dateChance), Codec.FLOAT.fieldOf("extra_date_chance").orElse(0.25F).forGetter((fp) -> fp.dateChance), Codec.FLOAT.fieldOf("extra_long_leaves_chance").orElse(0.0F).forGetter((fp) -> fp.extraLongLeavesChance))
             .apply(instance, PalmFoliagePlacer::new));
     private final float dateChance;
+    private final float extraDateChance;
+    private final float extraLongLeavesChance;
 
-    public PalmFoliagePlacer(float dateChance) {
+    public PalmFoliagePlacer(float dateChance, float extraDateChance, float extraLongLeavesChance) {
         super(ConstantInt.of(0), ConstantInt.of(0));
         this.dateChance = dateChance;
+        this.extraDateChance = extraDateChance;
+        this.extraLongLeavesChance = extraLongLeavesChance;
     }
 
     @Override
@@ -53,11 +57,21 @@ public class PalmFoliagePlacer extends FoliagePlacer {
         this.generateLeaf(genReader, foliageSetter, leafPos.offset(3, -1, 0), rand, config);
         this.generateLeaf(genReader, foliageSetter, leafPos.offset(-3, -1, 0), rand, config);
 
+        if (this.extraLongLeavesChance > 0.0F) {
+            if (rand.nextDouble() <= this.extraLongLeavesChance) {
+                this.generateLeaf(genReader, foliageSetter, leafPos.offset(0, -1, -4), rand, config);
+                this.generateLeaf(genReader, foliageSetter, leafPos.offset(0, -1, 4), rand, config);
+                this.generateLeaf(genReader, foliageSetter, leafPos.offset(4, -1, 0), rand, config);
+                this.generateLeaf(genReader, foliageSetter, leafPos.offset(-4, -1, 0), rand, config);
+
+            }
+        }
+
         if (this.dateChance > 0.0F) {
             BlockPos datePos = leafPos.below().relative(Direction.Plane.HORIZONTAL.getRandomDirection(rand));
             if (rand.nextDouble() <= this.dateChance) {
                 foliageSetter.set(datePos, AtumBlocks.DATE_BLOCK.get().defaultBlockState().setValue(DateBlock.AGE, Mth.nextInt(rand, 0, 7)));
-                if (rand.nextDouble() <= 0.25F) { //Chance for 2nd date
+                if (rand.nextDouble() <= this.extraDateChance) { //Chance for 2nd date
                     datePos = leafPos.below().relative(Direction.Plane.HORIZONTAL.getRandomDirection(rand));
                     foliageSetter.set(datePos, AtumBlocks.DATE_BLOCK.get().defaultBlockState().setValue(DateBlock.AGE, Mth.nextInt(rand, 0, 7)));
                 }
