@@ -23,7 +23,7 @@
     "foliage_color": 12889745,
     "particle":
     {
-      "probability": 1,
+      "probability": 0.5,
       "options":{
         "type": "atum:sand_air"
       }
@@ -86,7 +86,8 @@
       "atum:patch_grass_strangesands",
       "atum:patch_shrub",
       "atum:patch_weed",
-      "atum:palm_tree"
+      "atum:palm_tree_sparse",
+      "atum:deadwood_tree"
     ],
     [
       "minecraft:freeze_top_layer"

@@ -1,0 +1,23 @@
+{
+  "feature": "atum:palm_tree",
+  "placement": [    
+  {
+    "type": "minecraft:count",
+    "count": 1
+  },
+  {
+    "type": "minecraft:in_square"
+  },
+  {
+    "type": "minecraft:heightmap",
+    "heightmap": "WORLD_SURFACE_WG"
+  },
+  {
+    "type": "minecraft:rarity_filter",
+    "chance": 10
+  },
+  {
+    "type": "minecraft:biome"
+  }
+]
+}
