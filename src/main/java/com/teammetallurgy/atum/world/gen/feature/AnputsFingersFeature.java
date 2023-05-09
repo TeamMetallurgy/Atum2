@@ -24,8 +24,6 @@ public class AnputsFingersFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(@Nonnull FeaturePlaceContext<NoneFeatureConfiguration> placeContext) {
         WorldGenLevel genLevel = placeContext.level();
         BlockPos pos = placeContext.origin();
-        RandomSource random = placeContext.random();
-
         BlockState state = AtumBlocks.ANPUTS_FINGERS.get().defaultBlockState();
         BlockPos placePos = genLevel.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos);
 

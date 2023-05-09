@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "atum:strange_sand"
+    "atum:strange_sand",
+    "atum:lifeless_sand"
   ]
 }

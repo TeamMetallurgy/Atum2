@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -30,7 +31,7 @@ public class LimestoneSpikeFeature extends Feature<NoneFeatureConfiguration> { /
             pos = pos.below();
         }
 
-        if (genLevel.getBlockState(pos).getBlock() != AtumBlocks.STRANGE_SAND.get()) {
+        if (!genLevel.getBlockState(pos).is(BlockTags.SAND)) {
             return false;
         } else {
             pos = pos.above(random.nextInt(4));

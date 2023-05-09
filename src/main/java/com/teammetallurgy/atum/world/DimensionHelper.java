@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,16 +50,15 @@ public class DimensionHelper {
         return Mth.hsvToRgb(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
     }
 
-    public static boolean canPlaceSandLayer(ServerLevel level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        BlockState stateDown = level.getBlockState(pos.below());
-        Optional<ResourceKey<Biome>> biomeKey = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(level.getBiome(pos).value());
-        return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) &&
+    public static boolean canPlaceSandLayer(WorldGenLevel genLevel, BlockPos pos) {
+        BlockState state = genLevel.getBlockState(pos);
+        BlockState stateDown = genLevel.getBlockState(pos.below());
+        Optional<ResourceKey<Biome>> biomeKey = genLevel.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(genLevel.getBiome(pos).value());
+        return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
                 //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones Atum villages are in
-                level.isEmptyBlock(pos.above())
-                && state.getMaterial().isReplaceable()
+                && (genLevel.isEmptyBlock(pos.above()) || state.getMaterial().isReplaceable())
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED.get()
-                && Block.canSupportRigidBlock(level, pos.below())
+                && Block.canSupportRigidBlock(genLevel, pos.below())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)
                 && !(state.getBlock() instanceof SandLayersBlock);
     }

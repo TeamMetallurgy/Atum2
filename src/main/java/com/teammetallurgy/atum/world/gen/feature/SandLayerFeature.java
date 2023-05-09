@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 import javax.annotation.Nonnull;
 
-public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
+public class SandLayerFeature extends Feature<NoneFeatureConfiguration> { //TODO Fix
 
     public SandLayerFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -26,7 +26,7 @@ public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(@Nonnull FeaturePlaceContext<NoneFeatureConfiguration> placeContext) {
         WorldGenLevel genLevel = placeContext.level();
         BlockPos pos = placeContext.origin();
-        RandomSource randomSource = placeContext.random();
+        RandomSource random = placeContext.random();
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
         for (int i = 0; i < 16; ++i) {
@@ -38,13 +38,13 @@ public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
 
                 for (Direction facing : Direction.Plane.HORIZONTAL) {
                     BlockPos posOffset = mutablePos.relative(facing);
-                    if (genLevel.getBlockState(posOffset).isFaceSturdy(genLevel, posOffset, Direction.UP) && DimensionHelper.canPlaceSandLayer(genLevel.getLevel(), mutablePos)) {
-                        int layers = Mth.nextInt(randomSource, 1, 3);
+                    if (genLevel.getBlockState(posOffset).isFaceSturdy(genLevel, posOffset, Direction.UP) && DimensionHelper.canPlaceSandLayer(genLevel, mutablePos)) {
+                        int layers = Mth.nextInt(random, 1, 3);
                         genLevel.setBlock(mutablePos, AtumBlocks.STRANGE_SAND_LAYERED.get().defaultBlockState().setValue(SandLayersBlock.LAYERS, layers), 2);
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 }

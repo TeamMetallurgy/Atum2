@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:fossil",
+  "config": {
+    "fossil_processors": "minecraft:fossil_rot",
+    "fossil_structures": [
+      "atum:fossils/fossil_1",
+      "atum:fossils/fossil_2",
+      "atum:fossils/fossil_3",
+      "atum:fossils/fossil_4",
+      "atum:fossils/fossil_5",
+      "atum:fossils/fossil_6",
+      "atum:fossils/fossil_7",
+      "atum:fossils/fossil_8",
+      "atum:fossils/fossil_9",
+      "atum:fossils/fossil_10",
+      "atum:fossils/fossil_11",
+      "atum:fossils/fossil_12",
+      "atum:fossils/fossil_13",
+      "atum:fossils/fossil_14",
+      "atum:fossils/fossil_15",
+      "atum:fossils/fossil_16"
+    ],
+    "max_empty_corners_allowed": 4,
+    "overlay_processors": "atum:dirty_bone_fossil_diamonds",
+    "overlay_structures": [
+      "atum:fossils/fossil_diamond_1",
+      "atum:fossils/fossil_diamond_2",
+      "atum:fossils/fossil_diamond_3",
+      "atum:fossils/fossil_diamond_4",
+      "atum:fossils/fossil_diamond_5",
+      "atum:fossils/fossil_diamond_6",
+      "atum:fossils/fossil_diamond_7",
+      "atum:fossils/fossil_diamond_8",
+      "atum:fossils/fossil_diamond_9",
+      "atum:fossils/fossil_diamond_10",
+      "atum:fossils/fossil_diamond_11",
+      "atum:fossils/fossil_diamond_12",
+      "atum:fossils/fossil_diamond_13",
+      "atum:fossils/fossil_diamond_14",
+      "atum:fossils/fossil_diamond_15",
+      "atum:fossils/fossil_diamond_16"
+    ]
+  }
+}

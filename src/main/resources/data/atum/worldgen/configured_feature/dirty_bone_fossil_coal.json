@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:fossil",
+  "config": {
+    "fossil_processors": "minecraft:fossil_rot",
+    "fossil_structures": [
+      "atum:fossils/fossil_1",
+      "atum:fossils/fossil_2",
+      "atum:fossils/fossil_3",
+      "atum:fossils/fossil_4",
+      "atum:fossils/fossil_5",
+      "atum:fossils/fossil_6",
+      "atum:fossils/fossil_7",
+      "atum:fossils/fossil_8",
+      "atum:fossils/fossil_9",
+      "atum:fossils/fossil_10",
+      "atum:fossils/fossil_11",
+      "atum:fossils/fossil_12",
+      "atum:fossils/fossil_13",
+      "atum:fossils/fossil_14",
+      "atum:fossils/fossil_15",
+      "atum:fossils/fossil_16"
+    ],
+    "max_empty_corners_allowed": 4,
+    "overlay_processors": "minecraft:fossil_coal",
+    "overlay_structures": [
+      "atum:fossils/fossil_coal_1",
+      "atum:fossils/fossil_coal_2",
+      "atum:fossils/fossil_coal_3",
+      "atum:fossils/fossil_coal_4",
+      "atum:fossils/fossil_coal_5",
+      "atum:fossils/fossil_coal_6",
+      "atum:fossils/fossil_coal_7",
+      "atum:fossils/fossil_coal_8",
+      "atum:fossils/fossil_coal_9",
+      "atum:fossils/fossil_coal_10",
+      "atum:fossils/fossil_coal_11",
+      "atum:fossils/fossil_coal_12",
+      "atum:fossils/fossil_coal_13",
+      "atum:fossils/fossil_coal_14",
+      "atum:fossils/fossil_coal_15",
+      "atum:fossils/fossil_coal_16"
+    ]
+  }
+}
