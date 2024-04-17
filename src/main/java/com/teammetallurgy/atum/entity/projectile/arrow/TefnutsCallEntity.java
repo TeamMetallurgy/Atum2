@@ -10,12 +10,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -125,45 +122,29 @@ public class TefnutsCallEntity extends AbstractArrow {
         Entity entity = rayTraceResult.getEntity();
         Entity shooter = this.getOwner();
 
-        if (shooter != entity) {
-            Vec3 motion = this.getDeltaMovement();
-            float f = Mth.sqrt((float) (motion.x * motion.x + motion.y * motion.y + motion.z * motion.z));
-            int i = Mth.ceil((double) f * this.getBaseDamage());
-            if (this.isCritArrow()) {
-                i += this.random.nextInt(i / 2 + 2);
-            }
-
+        if (shooter instanceof Player player) {
             DamageSource damagesource;
 
-            if (shooter == null) {
-                damagesource = this.damageSources().arrow(this, this);
-            } else {
-                damagesource = this.damageSources().arrow(this, shooter);
-            }
+            damagesource = this.damageSources().arrow(this, shooter);
 
             if (this.isOnFire() && !(entity instanceof EnderMan)) {
                 entity.setSecondsOnFire(5);
             }
 
-            if (entity.hurt(damagesource, (float) i)) {
-                if (entity instanceof LivingEntity) {
-                    LivingEntity livingEntity = (LivingEntity) entity;
-
-                    if (shooter instanceof LivingEntity) {
-                        EnchantmentHelper.doPostHurtEffects(livingEntity, shooter);
-                        EnchantmentHelper.doPostDamageEffects((LivingEntity) shooter, livingEntity);
-                    }
+            if (entity.hurt(damagesource, 13.0F)) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    EnchantmentHelper.doPostHurtEffects(livingEntity, shooter);
+                    EnchantmentHelper.doPostDamageEffects(player, livingEntity);
 
                     this.doPostHurtEffects(livingEntity);
                 }
-                if (this.level instanceof ServerLevel) {
-                    ServerLevel serverLevel = (ServerLevel) this.level;
+                if (this.level instanceof ServerLevel serverLevel) {
                     BlockPos entityPos = this.blockPosition();
                     if (this.level.canSeeSky(entityPos)) {
-                        LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.level);
-                        lightningboltentity.moveTo(Vec3.atBottomCenterOf(entityPos));
-                        lightningboltentity.setCause(shooter instanceof ServerPlayer ? (ServerPlayer) shooter : null);
-                        serverLevel.addFreshEntity(lightningboltentity);
+                        LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level);
+                        lightningBolt.moveTo(Vec3.atBottomCenterOf(entityPos));
+                        lightningBolt.setCause(shooter instanceof ServerPlayer ? (ServerPlayer) shooter : null);
+                        serverLevel.addFreshEntity(lightningBolt);
                     }
                 }
                 this.playSound(SoundEvents.TRIDENT_THUNDER, 4.0F, 1.0F);

@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 public class RingItem extends Item implements ICurioItem {
 
     public RingItem(Properties properties) {
-        super(properties.rarity(Rarity.RARE));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
     }
 
     public RingItem() {

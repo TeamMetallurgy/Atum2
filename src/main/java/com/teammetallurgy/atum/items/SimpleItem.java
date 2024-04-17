@@ -4,7 +4,11 @@ import net.minecraft.world.item.Item;
 
 public class SimpleItem extends Item {
 
+    public SimpleItem(Item.Properties properties) {
+        super(properties);
+    }
+
     public SimpleItem() {
-        super(new Item.Properties());
+        this(new Item.Properties());
     }
 }

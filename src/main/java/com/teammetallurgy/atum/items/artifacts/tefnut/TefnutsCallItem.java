@@ -77,10 +77,6 @@ public class TefnutsCallItem extends Item implements IArtifact {
             int useDuration = this.getUseDuration(stack) - timeLeft;
             if (useDuration >= 21) {
                 if (!level.isClientSide) {
-                    stack.hurtAndBreak(1, player, (entity) -> {
-                        entity.broadcastBreakEvent(entityLiving.getUsedItemHand());
-                    });
-
                     TefnutsCallEntity spear = new TefnutsCallEntity(level, player, stack);
                     spear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
                     spear.setBaseDamage(spear.getBaseDamage() * 2.0D);

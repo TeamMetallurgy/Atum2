@@ -28,8 +28,10 @@ public class NepthysGuardItem extends RingItem implements IArtifact {
     public static void onLivingHurt(LivingHurtEvent event) {
         Optional<SlotResult> optional = CuriosApi.getCuriosHelper().findFirstCurio(event.getEntity(), AtumItems.NEPTHYS_GUARD.get());
         if (optional.isPresent()) {
-            Entity source = event.getSource().getDirectEntity();
-            if (source instanceof LivingEntity && ((LivingEntity) source).getMobType() == MobType.UNDEAD) {
+            Entity directSource = event.getSource().getDirectEntity();
+            Entity indirectSource = event.getSource().getEntity();
+            if (directSource instanceof LivingEntity && ((LivingEntity) directSource).getMobType() == MobType.UNDEAD ||
+                indirectSource instanceof LivingEntity && ((LivingEntity) indirectSource).getMobType() == MobType.UNDEAD ) {
                 event.setAmount(event.getAmount() * 0.5F);
             }
         }
