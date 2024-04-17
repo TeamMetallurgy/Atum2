@@ -1,23 +1,15 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+	id 'org.spongepowered.mixin' version '0.7.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 repositories {
   maven {
@@ -48,15 +40,19 @@ repositories {
 
 version = "${minecraft_version}-${mod_version}" + getBuildNumber()
 group= "com.teammetallurgy.atum"
-archivesBaseName = "Atum"
+
+base {
+    archivesName = "Atum"
+}
 
 minecraft {
     mappings channel: 'snapshot', version: project.mappings
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
-        client {
+	  configureEach {
             workingDirectory project.file('run')
+			
             arg "-mixin.config=atum.mixins.json"
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
@@ -65,29 +61,19 @@ minecraft {
                     source sourceSets.main
                 }
             }
-        }
-        server {
-            workingDirectory project.file('run')
-            arg "-mixin.config=atum.mixins.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                atum {
-                    source sourceSets.main
-                }
-            }
-        }
-        data {
-            workingDirectory project.file('run')
-            args '--mod', 'atum', '--all', '--output', file("src/generated/resources/"), '--existing', file("src/main/resources/")
-            mods {
-                atum {
-                    source sourceSets.main
-                }
-            }
-        }
+	  }
+      client {
+      }
+      server {
+		 args '--nogui'
+      }
+      data {
+          args '--mod', 'atum', '--all', '--output', file("src/generated/resources/"), '--existing', file("src/main/resources/")
+      }
     }
 }
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
@@ -106,7 +92,7 @@ mixin {
     add sourceSets.main, "atum.refmap.json"
 }
 
-jar {
+tasks.named('jar', Jar).configure {
     manifest {
         attributes([
             "Implementation-Version": "${version}",
@@ -119,7 +105,7 @@ task apiJar(type: Jar) {
     from sourceSets.main.allSource
     from sourceSets.main.output
     include 'com/teammetallurgy/atum/api/**/*'
-    classifier = 'api'
+    archiveClassifier = 'api'
 }
 
 publishing {
@@ -148,7 +134,7 @@ String getBuildNumber() {
     return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
 }
 
-processResources {
+tasks.named('processResources', ProcessResources).configure {
     // Minifies all .json files when building the mod.
     // Source files are not minified, only the jar copies.
 	doLast {
@@ -165,4 +151,7 @@ processResources {
 		}
 		println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
 	}
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
