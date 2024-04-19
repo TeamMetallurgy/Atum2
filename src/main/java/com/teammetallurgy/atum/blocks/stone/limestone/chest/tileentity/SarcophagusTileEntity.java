@@ -29,9 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -148,7 +145,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         return this.isOpenable ? super.removeItem(index, count) : ItemStack.EMPTY;
     }
 
-    @Override
+    /*@Override //TODO Capabilities
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
         if (capability == ForgeCapabilities.ITEM_HANDLER) {
@@ -156,5 +153,5 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         } else {
             return super.getCapability(capability, direction);
         }
-    }
+    }*/
 }

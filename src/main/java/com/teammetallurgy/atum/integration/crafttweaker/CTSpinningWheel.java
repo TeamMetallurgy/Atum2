@@ -1,4 +1,4 @@
-/*package com.teammetallurgy.atum.integration.crafttweaker;
+package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
@@ -18,7 +18,7 @@ public class CTSpinningWheel implements IRecipeManager<SpinningWheelRecipe> {
 
     @ZenCodeType.Method
     public void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new SpinningWheelRecipe(input.getInternal(), output.getInternal(), rotations), "spinning wheel"));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new SpinningWheelRecipe(input.getInternal(), output.getInternal(), rotations)));
     }
 
     @ZenCodeType.Method
@@ -35,4 +35,4 @@ public class CTSpinningWheel implements IRecipeManager<SpinningWheelRecipe> {
     public RecipeType<SpinningWheelRecipe> getRecipeType() {
         return AtumRecipeTypes.SPINNING_WHEEL.get();
     }
-}*/
+}

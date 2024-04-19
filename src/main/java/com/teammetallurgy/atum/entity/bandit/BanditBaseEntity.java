@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -41,9 +42,8 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -155,7 +155,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     public void tick() {
         super.tick();
 
-        if (this.level.isClientSide && this.entityData.isDirty()) {
+        if (this.level().isClientSide && this.entityData.isDirty()) {
             this.texturePath = null;
         }
     }
@@ -198,7 +198,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            String entityName = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(this.getType())).getPath();
+            String entityName = Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType())).getPath();
 
             if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
@@ -278,7 +278,7 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
         }
 
         public boolean canUse() {
-            boolean flag = this.owner.level.getGameTime() < this.time;
+            boolean flag = this.owner.level().getGameTime() < this.time;
             return this.owner.canPatrol() && this.owner.isPatrolling() && this.owner.getTarget() == null && !this.owner.isVehicle() && this.owner.hasPatrolTarget() && !flag;
         }
 
@@ -300,10 +300,10 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
                     vec3d = vec3d2.yRot(90.0F).scale(0.4D).add(vec3d);
                     Vec3 vec3d3 = vec3d.subtract(vec3d1).normalize().scale(10.0D).add(vec3d1);
                     BlockPos pos = BlockPos.containing(vec3d3);
-                    pos = this.owner.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
+                    pos = this.owner.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
                     if (!navigator.moveTo(pos.getX(), pos.getY(), pos.getZ(), isLeader ? this.leaderSpeed : this.patrollerSpeed)) {
                         this.tryMoveTo();
-                        this.time = this.owner.level.getGameTime() + 200L;
+                        this.time = this.owner.level().getGameTime() + 200L;
                     } else if (isLeader) {
                         BanditBaseEntity leader = this.owner;
                         for (BanditBaseEntity patroller : this.getPatrollers(leader)) {
@@ -315,16 +315,16 @@ public class BanditBaseEntity extends PatrollingMonster implements ITexture {
         }
 
         private List<BanditBaseEntity> getPatrollers() {
-            return this.owner.level.getEntitiesOfClass(BanditBaseEntity.class, this.owner.getBoundingBox().inflate(24.0D), (e) -> e.canJoinPatrol() && !e.is(this.owner));
+            return this.owner.level().getEntitiesOfClass(BanditBaseEntity.class, this.owner.getBoundingBox().inflate(24.0D), (e) -> e.canJoinPatrol() && !e.is(this.owner));
         }
 
         private List<BanditBaseEntity> getPatrollers(BanditBaseEntity leader) {
-            return this.owner.level.getEntitiesOfClass(BanditBaseEntity.class, this.owner.getBoundingBox().inflate(24.0D), (e) -> e.canJoinPatrol() && !e.is(this.owner) && e.leadingEntity == leader.getUUID());
+            return this.owner.level().getEntitiesOfClass(BanditBaseEntity.class, this.owner.getBoundingBox().inflate(24.0D), (e) -> e.canJoinPatrol() && !e.is(this.owner) && e.leadingEntity == leader.getUUID());
         }
 
         private boolean tryMoveTo() {
             RandomSource random = this.owner.getRandom();
-            BlockPos pos = this.owner.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (this.owner.blockPosition()).offset(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
+            BlockPos pos = this.owner.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (this.owner.blockPosition()).offset(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
             return this.owner.getNavigation().moveTo(pos.getX(), pos.getY(), pos.getZ(), this.patrollerSpeed);
         }
     }

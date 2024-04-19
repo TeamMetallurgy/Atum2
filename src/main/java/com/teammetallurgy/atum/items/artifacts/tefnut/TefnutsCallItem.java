@@ -28,7 +28,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -77,7 +77,7 @@ public class TefnutsCallItem extends Item implements IArtifact {
             int useDuration = this.getUseDuration(stack) - timeLeft;
             if (useDuration >= 21) {
                 if (!level.isClientSide) {
-                    TefnutsCallEntity spear = new TefnutsCallEntity(level, player, stack);
+                    TefnutsCallEntity spear = new TefnutsCallEntity(level, player, new ItemStack(AtumItems.TEFNUTS_CALL.get()));
                     spear.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
                     spear.setBaseDamage(spear.getBaseDamage() * 2.0D);
                     if (player.getAbilities().instabuild) {

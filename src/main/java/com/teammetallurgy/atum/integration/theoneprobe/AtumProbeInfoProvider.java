@@ -3,13 +3,13 @@ package com.teammetallurgy.atum.integration.theoneprobe;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import mcjty.theoneprobe.api.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -26,10 +26,10 @@ public class AtumProbeInfoProvider implements IBlockDisplayOverride {
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
             if (blockState.getBlock() instanceof DoorAtumBlock) {
-                ResourceLocation location = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()));
+                ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
                 if (location.toString().contains("limestone")) {
                     location = new ResourceLocation(location.toString().replace("_door", ""));
-                    ItemStack door = new ItemStack(ForgeRegistries.ITEMS.getValue(location));
+                    ItemStack door = new ItemStack(BuiltInRegistries.ITEM.get(location));
                     probeInfo.horizontal()
                             .item(door)
                             .vertical()

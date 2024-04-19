@@ -20,12 +20,11 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,7 +33,7 @@ import java.util.Optional;
 public class FertileSoilBlock extends Block implements BonemealableBlock {
 
     public FertileSoilBlock() {
-        super(Block.Properties.of(Material.GRASS, MaterialColor.GRASS).randomTicks().strength(0.5F).sound(SoundType.GRAVEL));
+        super(Block.Properties.of().mapColor(MapColor.GRASS).randomTicks().strength(0.5F).sound(SoundType.GRAVEL));
     }
 
     @Override
@@ -107,7 +106,7 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 

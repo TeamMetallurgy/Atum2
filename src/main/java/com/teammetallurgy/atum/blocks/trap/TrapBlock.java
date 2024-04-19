@@ -26,18 +26,19 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,7 +49,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
     protected TrapBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(DISABLED, Boolean.FALSE));
     }
 
@@ -88,10 +89,10 @@ public abstract class TrapBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         } else {
             BlockEntity tileEntity = level.getBlockEntity(pos);
-            boolean isToolEffective = ForgeHooks.isCorrectToolForDrops(level.getBlockState(pos), player);
-            if (tileEntity instanceof TrapTileEntity trap) {
+            boolean isToolEffective = CommonHooks.isCorrectToolForDrops(level.getBlockState(pos), player);
+            if (tileEntity instanceof TrapTileEntity trap && player instanceof ServerPlayer serverPlayer) {
                 if (!trap.isInsidePyramid) {
-                    NetworkHooks.openScreen((ServerPlayer) player, trap, pos);
+                    serverPlayer.openMenu(trap, pos);
                     return InteractionResult.SUCCESS;
                 }
                 if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {

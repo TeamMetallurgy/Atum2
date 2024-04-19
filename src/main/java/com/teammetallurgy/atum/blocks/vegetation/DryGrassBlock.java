@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.neoforge.common.PlantType;
 
 import javax.annotation.Nonnull;
 

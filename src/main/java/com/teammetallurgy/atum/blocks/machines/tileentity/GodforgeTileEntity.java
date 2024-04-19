@@ -24,12 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -211,7 +205,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
         if (fuel.isEmpty()) {
             return 0;
         } else {
-            return ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING) / 32;
+            return fuel.getBurnTime(RecipeType.SMELTING) / 32;
         }
     }
 
@@ -299,7 +293,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
         return this.saveWithoutMetadata();
     }
 
-    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+    /*LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH); //TODO Capabilities
 
     @Override
     @Nonnull
@@ -322,5 +316,5 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
         for (LazyOptional<? extends IItemHandler> handler : handlers) {
             handler.invalidate();
         }
-    }
+    }*/
 }

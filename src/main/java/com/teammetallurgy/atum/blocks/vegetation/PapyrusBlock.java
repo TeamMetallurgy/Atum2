@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -16,8 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.IPlantable;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +28,7 @@ public class PapyrusBlock extends SugarCaneBlock {
     private static final BooleanProperty TOP = BooleanProperty.create("top");
 
     public PapyrusBlock() {
-        super(Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));
+        super(Block.Properties.of().mapColor(MapColor.PLANT).pushReaction(PushReaction.DESTROY).instabreak().noCollission().randomTicks().sound(SoundType.GRASS));
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(TOP, false));
     }
 
@@ -77,7 +80,7 @@ public class PapyrusBlock extends SugarCaneBlock {
 
     @Override
     @Nonnull
-    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public ItemStack getCloneItemStack(@Nonnull BlockState state, @Nonnull HitResult target, @Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull Player player) {
         return new ItemStack(AtumItems.PAPYRUS_PLANT.get());
     }
 

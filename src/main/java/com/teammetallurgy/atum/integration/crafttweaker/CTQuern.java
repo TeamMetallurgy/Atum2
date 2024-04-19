@@ -1,4 +1,4 @@
-/*package com.teammetallurgy.atum.integration.crafttweaker;
+package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
@@ -35,4 +35,4 @@ public class CTQuern implements IRecipeManager<QuernRecipe> {
     public RecipeType<QuernRecipe> getRecipeType() {
         return AtumRecipeTypes.QUERN.get();
     }
-}*/
+}

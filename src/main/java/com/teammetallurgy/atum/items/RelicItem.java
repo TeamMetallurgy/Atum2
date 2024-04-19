@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.Atum;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -22,7 +23,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
@@ -38,7 +38,7 @@ public class RelicItem extends Item {
     }
 
     public Item getRelic(Type type, Quality quality) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "relic_" + quality.getSerializedName() + "_" + type.getSerializedName()));
+        return BuiltInRegistries.ITEM.get(new ResourceLocation(Atum.MOD_ID, "relic_" + quality.getSerializedName() + "_" + type.getSerializedName()));
     }
 
     public static Type getType(Item item) {
@@ -46,8 +46,8 @@ public class RelicItem extends Item {
             Atum.LOG.error("Item is not a relic");
         } else {
             for (Quality quality : Quality.values()) {
-                Preconditions.checkNotNull(ForgeRegistries.ITEMS.getKey(item), "registryName");
-                Type type = Type.byString(ForgeRegistries.ITEMS.getKey(item).getPath().replace("relic_", "").replace(quality.getSerializedName(), "").replace("_", ""));
+                Preconditions.checkNotNull(BuiltInRegistries.ITEM.getKey(item), "registryName");
+                Type type = Type.byString(BuiltInRegistries.ITEM.getKey(item).getPath().replace("relic_", "").replace(quality.getSerializedName(), "").replace("_", ""));
                 if (type != null) {
                     return type;
                 }
@@ -61,8 +61,8 @@ public class RelicItem extends Item {
             Atum.LOG.error("Item is not a relic");
         } else {
             for (Type type : Type.values()) {
-                Preconditions.checkNotNull(ForgeRegistries.ITEMS.getKey(item), "registryName");
-                Quality quality = Quality.byString(ForgeRegistries.ITEMS.getKey(item).getPath().replace("relic_", "").replace(type.getSerializedName(), "").replace("_", ""));
+                Preconditions.checkNotNull(BuiltInRegistries.ITEM.getKey(item), "registryName");
+                Quality quality = Quality.byString(BuiltInRegistries.ITEM.getKey(item).getPath().replace("relic_", "").replace(type.getSerializedName(), "").replace("_", ""));
                 if (quality != null) {
                     return quality;
                 }
@@ -72,21 +72,21 @@ public class RelicItem extends Item {
     }
 
     @Override
-    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
-        Level level = entityItem.level;
+    public boolean onEntityItemUpdate(@Nonnull ItemStack stack, ItemEntity entityItem) {
+        Level level = entityItem.level();
         BlockState state = level.getBlockState(new BlockPos(Mth.floor(entityItem.getX()), Mth.floor(entityItem.getY()), Mth.floor(entityItem.getZ())));
         if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof LayeredCauldronBlock && state.getValue(LayeredCauldronBlock.LEVEL) > 0) {
-            if (stack.getItem() instanceof RelicItem && String.valueOf(ForgeRegistries.ITEMS.getKey(stack.getItem())).contains("dirty") && !level.isClientSide) {
+            if (stack.getItem() instanceof RelicItem && String.valueOf(BuiltInRegistries.ITEM.getKey(stack.getItem())).contains("dirty") && !level.isClientSide) {
                 while (stack.getCount() > 0) {
                     Optional<RelicEntry> optional = WeightedRandom.getRandomItem(level.random, RELIC_ENTRIES);
                     if (optional.isPresent()) {
                         Item item = getRelic(getType(stack.getItem()), optional.get().getQuality());
                         if (level.random.nextFloat() <= 0.10F) {
                             stack.shrink(1);
-                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level().random.nextFloat() * 0.4F);
                         } else {
                             level.addFreshEntity(new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(), new ItemStack(item)));
-                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level().random.nextFloat() * 0.4F);
                             stack.shrink(1);
                         }
                     }

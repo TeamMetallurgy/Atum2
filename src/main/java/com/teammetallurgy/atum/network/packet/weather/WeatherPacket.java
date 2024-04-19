@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.network.packet.weather;
 
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

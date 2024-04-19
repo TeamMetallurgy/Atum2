@@ -47,10 +47,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -97,7 +97,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         this.stage = 0;
         this.setCanPickUpLoot(false);
         this.setCombatTask();
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     @Override
     public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
         super.setItemSlot(slot, stack);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setCombatTask();
         }
     }
@@ -232,13 +232,13 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     private void setCombatTask() {
-        if (this.level != null && !this.level.isClientSide) {
+        if (this.level() != null && !this.level().isClientSide) {
             this.goalSelector.removeGoal(this.aiAttackOnCollide);
             this.goalSelector.removeGoal(this.aiOrbAttack);
             ItemStack heldItem = this.getItemInHand(InteractionHand.MAIN_HAND);
             if (heldItem.getItem() instanceof ScepterItem) {
                 int cooldown = 18;
-                if (this.level.getDifficulty() != Difficulty.HARD) {
+                if (this.level().getDifficulty() != Difficulty.HARD) {
                     cooldown = 32;
                 }
                 this.aiOrbAttack.setAttackCooldown(cooldown);
@@ -251,14 +251,14 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
-        PharaohOrbEntity orb = new PharaohOrbEntity(this.level, this, God.getGod(this.getVariant()));
+        PharaohOrbEntity orb = new PharaohOrbEntity(this.level(), this, God.getGod(this.getVariant()));
         double x = target.getX() - this.getX();
         double y = target.getY(0.3333333333333333D) - orb.getY();
         double z = target.getZ() - this.getZ();
         double height = Mth.sqrt((float) (x * x + z * z));
         orb.shoot(x, y + height * 0.2D, z, 1.6F, 1);
         this.playSound(SoundEvents.GHAST_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(orb);
+        this.level().addFreshEntity(orb);
     }
 
     public BlockPos getSarcophagusPos() {
@@ -289,14 +289,14 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
     @Override
     public void die(@Nonnull DamageSource source) {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
-                BlockEntity tileEntity = this.level.getBlockEntity(sarcophagusPos);
+                BlockEntity tileEntity = this.level().getBlockEntity(sarcophagusPos);
                 if (tileEntity instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntity).setOpenable();
                     for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                        BlockEntity tileEntityOffset = this.level.getBlockEntity(sarcophagusPos.relative(horizontal));
+                        BlockEntity tileEntityOffset = this.level().getBlockEntity(sarcophagusPos.relative(horizontal));
                         if (tileEntityOffset instanceof SarcophagusTileEntity) {
                             ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
                         }
@@ -311,7 +311,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         if (AtumConfig.MOBS.displayPharaohSlainMessage.get()) {
             if (source.getMsgId().equals("player")) {
                 Player slayer = (Player) source.getEntity();
-                if (!this.level.isClientSide && slayer != null) {
+                if (!this.level().isClientSide && slayer != null) {
                     List<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers(); //TODO Might not be needed, sendSystemMessage might send to all players?
                     for (Player player : players) {
                         player.sendSystemMessage(this.getName().copy().append(" ").append(Component.translatable("chat.atum.kill_pharaoh")).append(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().withColor(God.getGod(this.getVariant()).getColor())));
@@ -378,13 +378,13 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     public void tick() {
         super.tick();
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setBossInfo(this.getVariant());
         }
 
-        if (this.level.getDifficulty() == Difficulty.PEACEFUL) {
+        if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
             if (this.getSarcophagusPos() != null) {
-                BlockEntity te = this.level.getBlockEntity(this.getSarcophagusPos());
+                BlockEntity te = this.level().getBlockEntity(this.getSarcophagusPos());
                 if (te instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) te).hasSpawned = false;
                 }
@@ -457,16 +457,16 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     private void trySpawnMummy(BlockPos pos, Direction facing) {
         BlockPos base = pos.relative(facing);
 
-        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, base, AtumEntities.MUMMY.get())) {
-            MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level);
+        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level(), base, AtumEntities.MUMMY.get())) {
+            MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level());
 
             if (mummy != null) {
-                if (this.level instanceof ServerLevel) {
-                    mummy.finalizeSpawn((ServerLevelAccessor) level, this.level.getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
+                if (this.level() instanceof ServerLevel) {
+                    mummy.finalizeSpawn((ServerLevelAccessor) level(), this.level().getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
                     mummy.moveTo(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0.0F, 0.0F);
 
-                    if (!level.isClientSide) {
-                        this.level.addFreshEntity(mummy);
+                    if (!level().isClientSide) {
+                        this.level().addFreshEntity(mummy);
                     }
                 }
                 mummy.spawnAnim();
@@ -476,15 +476,15 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
 
         for (Direction offset : Direction.Plane.HORIZONTAL) {
             BlockPos newPos = base.relative(offset);
-            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, newPos, AtumEntities.MUMMY.get())) {
-                MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level);
+            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level(), newPos, AtumEntities.MUMMY.get())) {
+                MummyEntity mummy = AtumEntities.MUMMY.get().create(this.level());
                 if (mummy != null) {
-                    if (this.level instanceof ServerLevel) {
-                        mummy.finalizeSpawn((ServerLevelAccessor) level, this.level.getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
+                    if (this.level() instanceof ServerLevel) {
+                        mummy.finalizeSpawn((ServerLevelAccessor) level(), this.level().getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
                         mummy.moveTo(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D, this.random.nextFloat() * 360.0F, 0.0F);
 
-                        if (!this.level.isClientSide) {
-                            this.level.addFreshEntity(mummy);
+                        if (!this.level().isClientSide) {
+                            this.level().addFreshEntity(mummy);
                         }
                     }
                     mummy.spawnAnim();

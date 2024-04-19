@@ -15,7 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -65,7 +65,7 @@ public class StackHelper {
     }
 
     public static Item getItemFromName(ResourceLocation location) {
-        return ForgeRegistries.ITEMS.getValue(location);
+        return BuiltInRegistries.ITEM.getValue(location);
     }
 
     /*

@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.integration.theoneprobe;
 import com.teammetallurgy.atum.integration.IModIntegration;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.ITheOneProbe;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.function.Function;
 

@@ -14,14 +14,8 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class KilnBaseTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
     private BlockPos primaryPos;
@@ -213,7 +207,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
         return this.saveWithoutMetadata();
     }
 
-    private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.WEST);
+    /*private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.WEST); //TODO Capabilities
 
     @Override
     @Nonnull
@@ -234,5 +228,5 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
             }
         }
         return super.getCapability(capability, facing);
-    }
+    }*/
 }

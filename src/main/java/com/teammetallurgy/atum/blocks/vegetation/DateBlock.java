@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -13,30 +14,37 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import javax.annotation.Nonnull;
 
 public class DateBlock extends BushBlock implements BonemealableBlock {
+    public static final MapCodec<DateBlock> CODEC = simpleCodec(DateBlock::new);
     public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
     private static final VoxelShape STEM = Block.box(7.0D, 10.0D, 7.0D, 9.0D, 16.0D, 9.0D);
     private static final VoxelShape BOUNDING_BOX = Block.box(5.0D, 2.0D, 5.0D, 11.0D, 16.0D, 11.0D);
 
-    public DateBlock() {
-        super(Properties.of(Material.PLANT).sound(SoundType.GRASS).strength(0.35F).noOcclusion().randomTicks());
+    public DateBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -54,9 +62,9 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
             super.tick(state, level, pos, rand);
             if (!level.isAreaLoaded(pos, 1)) return;
             if (state.getValue(AGE) != 7) {
-                if (ForgeHooks.onCropsGrowPre(level, pos, state, level.random.nextDouble() <= 0.12F)) {
+                if (CommonHooks.onCropsGrowPre(level, pos, state, level.random.nextDouble() <= 0.12F)) {
                     level.setBlock(pos, state.cycle(AGE), 2);
-                    ForgeHooks.onCropsGrowPost(level, pos, state);
+                    CommonHooks.onCropsGrowPost(level, pos, state);
                 }
             }
         }
@@ -83,7 +91,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     @Nonnull
-    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public ItemStack getCloneItemStack(@Nonnull BlockState state, @Nonnull HitResult target, @Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull Player player) {
         return new ItemStack(AtumItems.DATE.get());
     }
 
@@ -93,7 +101,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return state.getValue(AGE) != 7;
     }
 

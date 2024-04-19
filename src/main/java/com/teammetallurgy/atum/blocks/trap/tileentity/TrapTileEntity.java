@@ -24,9 +24,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -126,7 +123,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity {
             ItemStack fuel = trap.inventory.get(0);
             if (trap.isBurning() || !fuel.isEmpty()) {
                 if (!trap.isBurning()) {
-                    trap.burnTime = ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING) / 10;
+                    trap.burnTime = fuel.getBurnTime(RecipeType.SMELTING) / 10;
                     trap.currentItemBurnTime = trap.burnTime;
                     if (trap.isBurning()) {
                         isBurning = true;
@@ -211,8 +208,8 @@ public class TrapTileEntity extends InventoryBaseTileEntity {
         return !isInsidePyramid ? super.removeItem(index, count) : ItemStack.EMPTY;
     }
 
-    @Override
+    /*@Override //TODO
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
         return !this.isInsidePyramid ? super.getCapability(capability, direction) : LazyOptional.empty();
-    }
+    }*/
 }

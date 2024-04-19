@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.api.event;
 
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 public class PharaohBeatenEvent extends LivingDeathEvent {
     private final PharaohEntity pharaoh;

@@ -11,7 +11,6 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
@@ -32,12 +31,6 @@ public abstract class CustomArrow extends Arrow {
         if (shooter instanceof Player) {
             this.pickup = AbstractArrow.Pickup.ALLOWED;
         }
-    }
-
-    @Override
-    @Nonnull
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

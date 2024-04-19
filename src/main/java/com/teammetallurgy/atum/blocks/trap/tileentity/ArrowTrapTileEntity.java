@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -23,7 +24,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -88,7 +88,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
             ItemStack fuel = trap.inventory.get(0);
             if (trap.isBurning() || !fuel.isEmpty()) {
                 if (!trap.isBurning()) {
-                    trap.burnTime = ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING) / 10;
+                    trap.burnTime = fuel.getBurnTime(RecipeType.SMELTING) / 10;
                     trap.currentItemBurnTime = trap.burnTime;
                     if (trap.isBurning()) {
                         isBurning = true;
@@ -165,7 +165,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     }
 
     private void fireArrow(ServerLevel serverLevel, Direction facing, double x, double y, double z) {
-        Arrow arrow = new Arrow(serverLevel, x, y, z);
+        Arrow arrow = new Arrow(serverLevel, x, y, z, ItemStack.EMPTY);
         arrow.shoot(facing.getStepX(), (float) facing.getStepY() + 0.1F, facing.getStepZ(), 1.1F, 6.0F);
         serverLevel.addFreshEntity(arrow);
     }

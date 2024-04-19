@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Sarcophag
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,9 +26,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +35,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     private static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public QuandaryBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).isRedstoneConductor(AtumBlocks::never).requiresCorrectToolForDrops());
+        super(Block.Properties.of(Material.STONE, MapColor.SAND).strength(1.5F, 8.0F).isRedstoneConductor(AtumBlocks::never).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVATED, false).setValue(UNBREAKABLE, false));
     }
 
@@ -122,9 +120,9 @@ public class QuandaryBlock extends Block implements IUnbreakable {
                         BlockPos rightFromPrimary = pos.relative(facing.getCounterClockWise());
                         if (door == null) {
                             Block readFromBlock = level.getBlockState(rightFromPrimary).getBlock();
-                            ResourceLocation readFromBlockID = ForgeRegistries.BLOCKS.getKey(readFromBlock);
+                            ResourceLocation readFromBlockID = BuiltInRegistries.BLOCK.getKey(readFromBlock);
                             if (readFromBlockID != null) {
-                                Block doorRead = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(readFromBlockID.getNamespace(), readFromBlockID.getPath() + "_door"));
+                                Block doorRead = BuiltInRegistries.BLOCK.get(new ResourceLocation(readFromBlockID.getNamespace(), readFromBlockID.getPath() + "_door"));
                                 if (doorRead != null) {
                                     door = (DoorBlock) doorRead;
                                 } else {
@@ -181,7 +179,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
         }
 
         public static void playRewardDing(Level level, BlockPos pos) {
-            level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1.3F, 1.0F);
+            level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_CHIME.value(), SoundSource.BLOCKS, 1.3F, 1.0F);
         }
     }
 }

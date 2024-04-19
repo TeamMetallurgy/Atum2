@@ -11,16 +11,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class AnputsFingersBlock extends CropBlock {
     private final HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
 
     public AnputsFingersBlock() {
-        super(Properties.of(Material.PLANT, MaterialColor.COLOR_GRAY).randomTicks().noCollission().noOcclusion());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).pushReaction(PushReaction.DESTROY).randomTicks().noCollission().noOcclusion());
     }
 
     @Override
@@ -72,10 +74,10 @@ public class AnputsFingersBlock extends CropBlock {
     @Override
     public void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         int age = this.getAge(state);
-        if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(level, pos, state, rand.nextInt(8) == 0)) {
+        if (age < this.getMaxAge() && CommonHooks.onCropsGrowPre(level, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.setValue(this.getAgeProperty(), age + 1);
             level.setBlock(pos, newState, 2);
-            ForgeHooks.onCropsGrowPost(level, pos, state);
+            CommonHooks.onCropsGrowPost(level, pos, state);
         }
     }
 

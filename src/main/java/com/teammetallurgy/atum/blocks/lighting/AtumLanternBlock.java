@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.lighting;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+
 
 public class AtumLanternBlock extends LanternBlock {
 

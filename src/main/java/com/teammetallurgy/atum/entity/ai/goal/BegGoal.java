@@ -7,7 +7,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.EnumSet;
 
@@ -21,7 +21,7 @@ public class BegGoal extends Goal {
 
     public BegGoal(DesertWolfEntity desertWolf, float minDistance) {
         this.desertWolf = desertWolf;
-        this.level = desertWolf.level;
+        this.level = desertWolf.level();
         this.minPlayerDistance = minDistance;
         this.predicate = TargetingConditions.forNonCombat().range(minDistance);
         this.setFlags(EnumSet.of(Flag.LOOK));

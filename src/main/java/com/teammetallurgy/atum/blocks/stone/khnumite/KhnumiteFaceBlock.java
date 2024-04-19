@@ -6,8 +6,8 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,10 +26,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
-import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 
 import javax.annotation.Nonnull;
 
@@ -40,7 +37,7 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
     private BlockPattern stonewardenPattern;
 
     public KhnumiteFaceBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.CLAY).strength(2.0F));
+        super(Block.Properties.of(Material.STONE, MapColor.CLAY).strength(2.0F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
@@ -137,8 +134,8 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
             @Override
             @Nonnull
             protected ItemStack execute(@Nonnull BlockSource source, @Nonnull ItemStack stack) {
-                Level level = source.getLevel();
-                BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                Level level = source.level();
+                BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 KhnumiteFaceBlock khnumiteFace = (KhnumiteFaceBlock) AtumBlocks.KHNUMITE_FACE.get();
 
                 if (level.isEmptyBlock(pos) && khnumiteFace.canDispenserPlace(level, pos)) {

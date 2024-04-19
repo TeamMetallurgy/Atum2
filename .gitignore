@@ -48,7 +48,6 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
-/.vscode/
 
 # Build results
 
@@ -226,18 +225,12 @@ pip-log.txt
 ## ForgeGradle
 #############
 .gradle/
-src/generated/
 build/
 run/
+runs/
 eclipse/
 CREDITS-fml.txt
 forge-*-*-changelog.txt
 LICENSE-fml.txt
 MinecraftForge-Credits.txt
 MinecraftForge-License.txt
-
-#############
-## Manual Ignores
-#############
-
-/Vanilla Biomes/

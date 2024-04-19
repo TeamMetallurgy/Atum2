@@ -28,12 +28,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +43,7 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
     private static final VoxelShape SHAPE = box(0.12D * 16, 0.0D, 0.12D * 16, 0.88D * 16, 0.38D * 16, 0.88D * 16);
 
     public QuernBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F));
+        super(Properties.of(Material.STONE, MapColor.SAND).strength(1.5F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
@@ -92,8 +91,7 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
         ItemStack heldStack = player.getItemInHand(hand);
         BlockEntity tileEntity = level.getBlockEntity(pos);
 
-        if (tileEntity instanceof QuernTileEntity) {
-            QuernTileEntity quern = (QuernTileEntity) tileEntity;
+        if (tileEntity instanceof QuernTileEntity quern) {
             ItemStack slotStack = quern.getItem(0);
             int size = slotStack.getCount();
             if (size < slotStack.getMaxStackSize() && quern.canPlaceItem(0, heldStack) && (quern.isEmpty() || StackHelper.areStacksEqualIgnoreSize(heldStack, slotStack))) {

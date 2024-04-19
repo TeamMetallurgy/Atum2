@@ -29,7 +29,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -128,7 +128,7 @@ public class ScarabEntity extends Monster {
 
     @Override
     public float getWalkTargetValue(@Nonnull BlockPos pos) {
-        Block block = this.level.getBlockState(pos.below()).getBlock();
+        Block block = this.level().getBlockState(pos.below()).getBlock();
         return block == AtumBlocks.LIMESTONE.get() || block == AtumBlocks.DEADWOOD_LOG.get() ? 10.0F : super.getWalkTargetValue(pos);
     }
 
@@ -138,8 +138,8 @@ public class ScarabEntity extends Monster {
     }
 
     @Override
-    public double getMyRidingOffset() {
-        return 0.1D;
+    protected float ridingOffset(@Nonnull Entity entity) {
+        return 0.0F;
     }
 
     public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
@@ -187,10 +187,10 @@ public class ScarabEntity extends Monster {
             } else {
                 RandomSource random = this.mob.getRandom();
 
-                if (ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob) && random.nextInt(10) == 0) {
+                if (EventHooks.getMobGriefingEvent(this.mob.level(), this.mob) && random.nextInt(10) == 0) {
                     this.facing = Direction.getRandom(random);
                     BlockPos pos = (new BlockPos((int) this.mob.getX(), (int) (this.mob.getY() + 0.5D), (int) this.mob.getZ())).relative(this.facing);
-                    BlockState state = this.mob.level.getBlockState(pos);
+                    BlockState state = this.mob.level().getBlockState(pos);
 
                     if (state.getBlock() == AtumBlocks.LIMESTONE.get() || state.getBlock() == AtumBlocks.DEADWOOD_LOG.get()) {
                         this.doMerge = true;
@@ -212,7 +212,7 @@ public class ScarabEntity extends Monster {
             if (!this.doMerge) {
                 super.start();
             } else {
-                Level level = this.mob.level;
+                Level level = this.mob.level();
                 BlockPos pos = (new BlockPos((int) this.mob.getX(), (int) (this.mob.getY() + 0.5D), (int) this.mob.getZ())).relative(this.facing);
                 BlockState state = level.getBlockState(pos);
 

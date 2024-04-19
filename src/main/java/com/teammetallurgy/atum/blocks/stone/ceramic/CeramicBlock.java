@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks.stone.ceramic;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 
 public class CeramicBlock extends Block {
 

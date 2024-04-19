@@ -27,14 +27,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collection;
 
 public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
@@ -175,13 +169,13 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
         return false;
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) { //TODO Capabilities
         if (capability == ForgeCapabilities.ITEM_HANDLER) {
             return LazyOptional.empty();
         } else {
             return super.getCapability(capability, direction);
         }
-    }
+    }*/
 }

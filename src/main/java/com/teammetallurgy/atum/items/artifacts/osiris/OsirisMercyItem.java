@@ -21,13 +21,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.DropRulesEvent;
@@ -131,6 +131,6 @@ public class OsirisMercyItem extends AmuletItem implements IArtifact {
         int remaining = (stack.getMaxDamage() - stack.getDamageValue()) / 332;
         tooltip.add(Component.translatable("atum.tooltip.uses_remaining", remaining));
 
-        tooltip.add(Component.translatable(Atum.MOD_ID + "." + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(this)).getPath() + ".disenchantment_curse").withStyle(ChatFormatting.DARK_RED));
+        tooltip.add(Component.translatable(Atum.MOD_ID + "." + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(this)).getPath() + ".disenchantment_curse").withStyle(ChatFormatting.DARK_RED));
     }
 }

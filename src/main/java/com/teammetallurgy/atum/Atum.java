@@ -12,6 +12,7 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.gen.feature.tree.TreePlacerTypes;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -20,22 +21,20 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,25 +48,30 @@ public class Atum {
     public static final String MOD_ID = "atum";
     public static final ResourceLocation LOCATION = new ResourceLocation(MOD_ID, "atum");
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
-    public static CreativeModeTab GROUP;
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    public static DeferredHolder<CreativeModeTab, CreativeModeTab> GROUP = CREATIVE_TABS.register("tab", () -> new CreativeModeTab.Builder(CreativeModeTab.Row.TOP, 0)
+            .icon(() -> new ItemStack(AtumItems.SCARAB.get()))
+            .title(Component.translatable("tabs." + MOD_ID + ".tab"))
+            .displayItems((featureFlagSet, tabOutput) -> {
+                AtumItems.ITEMS_FOR_TAB_LIST
+                        .forEach(registryObject -> tabOutput.accept(new ItemStack(registryObject.get())));
+            }).build());
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registries.DIMENSION, LOCATION);
     public static final WoodType PALM = WoodType.register(new WoodType("atum_palm", AtumBlockSetType.PALM));
     public static final WoodType DEADWOOD = WoodType.register(new WoodType("atum_deadwood", AtumBlockSetType.DEADWOOD));
     public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister
             .create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
-    public static Supplier<IForgeRegistry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED
-            .makeRegistry(() -> new RegistryBuilder<AtumVillagerProfession>()
+    public static Supplier<Registry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED
+            .makeRegistry((builder) -> new RegistryBuilder<AtumVillagerProfession>()
                     .setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setMaxID(Integer.MAX_VALUE >> 5)
                     .allowModification());
 
-    public Atum() {
-        final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Atum(IEventBus modBus) {
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
         modBus.addListener(this::interModComms);
         this.registerDeferredRegistries(modBus);
-        modBus.addListener(this::registerTabs);
-        MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
+        NeoForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
         AtumAPI.Tags.init();
@@ -81,7 +85,7 @@ public class Atum {
         event.enqueueWork(() -> WoodType.register(PALM));
         event.enqueueWork(() -> WoodType.register(DEADWOOD));
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
-            MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
+            NeoForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
@@ -112,6 +116,7 @@ public class Atum {
     public void registerDeferredRegistries(IEventBus modBus) {
         AtumBlocks.BLOCK_DEFERRED.register(modBus);
         AtumItems.ITEM_DEFERRED.register(modBus);
+        CREATIVE_TABS.register(modBus);
         AtumEntities.ENTITY_DEFERRED.register(modBus);
         AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
         AtumFeatures.FEATURES_DEFERRED.register(modBus);
@@ -128,15 +133,5 @@ public class Atum {
         AtumDataSerializer.DATA_SERIALIZER_DEFERRED.register(modBus);
         AtumRecipeTypes.RECIPE_TYPE_DEFERRED.register(modBus);
         AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);
-    }
-
-    private void registerTabs(CreativeModeTabEvent.Register event) {
-        GROUP = event.registerCreativeModeTab(new ResourceLocation(MOD_ID, "tab"), builder -> builder
-                .icon(() -> new ItemStack(AtumItems.SCARAB.get()))
-                .title(Component.translatable("tabs." + MOD_ID + ".tab"))
-                .displayItems((featureFlagSet, tabOutput) -> {
-                    AtumItems.ITEMS_FOR_TAB_LIST
-                            .forEach(registryObject -> tabOutput.accept(new ItemStack(registryObject.get())));
-                }));
     }
 }

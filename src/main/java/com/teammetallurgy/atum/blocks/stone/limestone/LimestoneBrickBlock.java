@@ -21,8 +21,6 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +28,7 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     public static final BooleanProperty CAN_FALL = BooleanProperty.create("can_fall");
 
     public LimestoneBrickBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
+        super(Block.Properties.of(Material.STONE, MapColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(UNBREAKABLE, false).setValue(CAN_FALL, false));
     }
 

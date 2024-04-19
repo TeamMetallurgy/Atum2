@@ -25,7 +25,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +46,7 @@ public class AtumFarmTask extends Behavior<Villager> {
 
     @Override
     protected boolean checkExtraStartConditions(@Nonnull ServerLevel level, @Nonnull Villager owner) {
-        if (!ForgeEventFactory.getMobGriefingEvent(level, owner) && !(owner instanceof AtumVillagerEntity)) {
+        if (!EventHooks.getMobGriefingEvent(level, owner) && !(owner instanceof AtumVillagerEntity)) {
             return false;
         } else if (((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() != AtumVillagerProfession.FARMER.get()) {
             return false;
@@ -128,9 +130,9 @@ public class AtumFarmTask extends Behavior<Villager> {
                             } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
                                 level.setBlock(this.pos, Blocks.BEETROOTS.defaultBlockState(), 3);
                                 flag = true;
-                            } else if (itemstack.getItem() instanceof net.minecraftforge.common.IPlantable) {
-                                if (((net.minecraftforge.common.IPlantable) itemstack.getItem()).getPlantType(level, pos) == net.minecraftforge.common.PlantType.CROP) {
-                                    level.setBlock(pos, ((net.minecraftforge.common.IPlantable) itemstack.getItem()).getPlant(level, pos), 3);
+                            } else if (itemstack.getItem() instanceof IPlantable) {
+                                if (((IPlantable) itemstack.getItem()).getPlantType(level, pos) == PlantType.CROP) {
+                                    level.setBlock(pos, ((IPlantable) itemstack.getItem()).getPlant(level, pos), 3);
                                     flag = true;
                                 }
                             }

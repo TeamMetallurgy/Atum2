@@ -22,13 +22,13 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class CrateRender implements BlockEntityRenderer<CrateTileEntity> {
     }
 
     private VertexConsumer getBuilder(@Nonnull CrateTileEntity crate, @Nonnull MultiBufferSource buffer) {
-        String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(crate.getBlockState().getBlock())).getPath();
+        String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(crate.getBlockState().getBlock())).getPath();
         ResourceLocation crateTexture = CACHE.get(name);
 
         if (crateTexture == null) {

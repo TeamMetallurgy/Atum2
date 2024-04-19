@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.core.NonNullList;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import java.util.HashMap;
 import java.util.List;

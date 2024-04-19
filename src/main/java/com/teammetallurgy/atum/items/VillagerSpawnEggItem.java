@@ -5,13 +5,13 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class VillagerSpawnEggItem extends ForgeSpawnEggItem {
+public class VillagerSpawnEggItem extends DeferredSpawnEggItem { //TODO
 
     public VillagerSpawnEggItem() {
         super(AtumEntities.VILLAGER_MALE, 0x9D7A62, 0x452D25, new Item.Properties());

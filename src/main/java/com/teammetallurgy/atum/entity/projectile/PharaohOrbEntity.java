@@ -31,33 +31,25 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 import javax.annotation.Nonnull;
 
-public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSpawnData {
-    private final God god;
+public class PharaohOrbEntity extends CustomArrow implements IEntityWithComplexSpawn {
+    private God god;
     //Montu Berserk
     private static final Object2FloatMap<Entity> BERSERK_TIMER = new Object2FloatOpenHashMap<>();
     private static final Object2FloatMap<Entity> BERSERK_DAMAGE = new Object2FloatOpenHashMap<>();
-
-    public PharaohOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(AtumEntities.PHARAOH_ORB.get(), level);
-        this.pickup = Pickup.DISALLOWED;
-        this.setBaseDamage(this.getOrbDamage());
-        this.god = God.getGodByName(spawnEntity.getAdditionalData().readUtf());
-        MinecraftForge.EVENT_BUS.register(this);
-    }
 
     public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, Level level) {
         super(entityType, level);
         this.pickup = Pickup.DISALLOWED;
         this.setBaseDamage(this.getOrbDamage());
         this.god = God.ATEM;
+        NeoForge.EVENT_BUS.register(this);
     }
 
     public PharaohOrbEntity(Level level, PharaohEntity shooter, God god) {
@@ -113,9 +105,8 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         }
 
         //Particle
-        if (this.level instanceof ServerLevel) {
-            ServerLevel serverLevel = (ServerLevel) level;
-            serverLevel.sendParticles(AtumTorchBlock.GOD_FLAMES.get(this.getGod()).get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(AtumTorchBlock.GOD_FLAMES.get(this.getGod()).get(), this.getX() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level().random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
         }
     }
 
@@ -132,7 +123,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
         int fireTimer = entity.getRemainingFireTicks();
 
-        if (!(entity instanceof PharaohEntity) && entity.hurt(this.level.damageSources().source(AtumDamageTypes.PHARAOH_ORB), (float) i)) {
+        if (!(entity instanceof PharaohEntity) && entity.hurt(this.level().damageSources().source(AtumDamageTypes.PHARAOH_ORB), (float) i)) {
             if (entity instanceof LivingEntity livingEntity) {
 
                 if (this.getKnockback() > 0) {
@@ -142,14 +133,14 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                     }
                 }
 
-                if (!this.level.isClientSide && entity1 instanceof LivingEntity) {
+                if (!this.level().isClientSide && entity1 instanceof LivingEntity) {
                     EnchantmentHelper.doPostHurtEffects(livingEntity, entity1);
                     EnchantmentHelper.doPostDamageEffects((LivingEntity) entity1, livingEntity);
                 }
 
                 this.doPostHurtEffects(livingEntity);
                 Entity shooter = this.getOwner();
-                if (!this.level.isClientSide && shooter instanceof LivingEntity) {
+                if (!this.level().isClientSide && shooter instanceof LivingEntity) {
                     this.doGodSpecificEffect(this.getGod(), (LivingEntity) shooter, livingEntity);
                 }
                 if (entity1 != null && livingEntity != entity1 && livingEntity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
@@ -166,7 +157,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
             this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
             this.setYRot(this.getYRot() + 180.0F);
             this.yRotO += 180.0F;
-            if (!this.level.isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
+            if (!this.level().isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
                 this.discard();
             }
         }
@@ -225,13 +216,13 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
             target.hasImpulse = true;
             Vec3 vector3d = target.getDeltaMovement();
             Vec3 vector3d1 = (new Vec3(ratioX, 0.0D, ratioZ)).normalize().scale(reverseStrength);
-            target.setDeltaMovement(vector3d.x / 2.0D - vector3d1.x, target.isOnGround() ? -Math.min(0.4D, vector3d.y / 2.0D + (double) reverseStrength) : vector3d.y, -(vector3d.z / 2.0D - vector3d1.z));
+            target.setDeltaMovement(vector3d.x / 2.0D - vector3d1.x, target.onGround() ? -Math.min(0.4D, vector3d.y / 2.0D + (double) reverseStrength) : vector3d.y, -(vector3d.z / 2.0D - vector3d1.z));
         }
     }
 
     @SubscribeEvent
     public void onBerserk(LivingHurtEvent event) { //Default Orb damage i 6.0
-        if (event.getEntity().getLevel() instanceof ServerLevel) {
+        if (event.getEntity().level() instanceof ServerLevel) {
             if (event.getSource().is(AtumDamageTypes.PHARAOH_ORB)) {
                 if (this.getGod() == God.MONTU) {
                     Entity pharaoh = this.getOwner();
@@ -262,6 +253,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     }
 
     @Override
-    public void readSpawnData(FriendlyByteBuf additionalData) {
+    public void readSpawnData(@Nonnull FriendlyByteBuf additionalData) {
+        this.god = God.getGodByName(additionalData.readUtf());
     }
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.ITeleporter;
+import net.neoforged.neoforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -112,7 +112,7 @@ public class TeleporterAtum implements ITeleporter {
             pos = pos.below();
         }
 
-        while (!level.isEmptyBlock(pos.above()) && (level.getBlockState(pos).getBlock() != AtumBlocks.STRANGE_SAND.get() || level.getBlockState(pos).getBlock() != Blocks.GRASS)) {
+        while (!level.isEmptyBlock(pos.above()) && (level.getBlockState(pos).getBlock() != AtumBlocks.STRANGE_SAND.get() || level.getBlockState(pos).getBlock() != Blocks.GRASS_BLOCK)) {
             pos = pos.above();
         }
 

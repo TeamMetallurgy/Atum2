@@ -11,20 +11,20 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class AtumStructures {
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPE_DEFERRED = DeferredRegister.create(Registries.STRUCTURE_TYPE, Atum.MOD_ID);
-    public static final RegistryObject<StructureType<GirafiTombStructure>> GIRAFI_TOMB = register("girafi_tomb", GirafiTombStructure.CODEC);
-    public static final RegistryObject<StructureType<TombStructure>> TOMB = register("tomb", TombStructure.CODEC);
-    public static final RegistryObject<StructureType<RuinStructure>> RUIN = register("ruin", RuinStructure.CODEC);
-    public static final RegistryObject<StructureType<PyramidStructure>> PYRAMID = register("pyramid", PyramidStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<GirafiTombStructure>> GIRAFI_TOMB = register("girafi_tomb", GirafiTombStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<TombStructure>> TOMB = register("tomb", TombStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<RuinStructure>> RUIN = register("ruin", RuinStructure.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<PyramidStructure>> PYRAMID = register("pyramid", PyramidStructure.CODEC);
 
     //Structure Resource Keys (Only used in certain instance, only add if needed)
     public static final ResourceKey<Structure> PYRAMID_KEY = createKey("pyramid");
 
-    private static <S extends Structure> RegistryObject<StructureType<S>> register(String name, Codec<S> codec) {
+    private static <S extends Structure> DeferredHolder<StructureType<?>, StructureType<S>> register(String name, Codec<S> codec) {
         return STRUCTURE_TYPE_DEFERRED.register(name, () -> structureTypeFromCodec(codec));
     }
 

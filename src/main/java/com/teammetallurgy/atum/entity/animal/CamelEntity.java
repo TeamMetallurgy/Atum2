@@ -48,10 +48,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WoolCarpetBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -75,7 +75,6 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         super(entityType, level);
         this.xpReward = 3;
         this.canGallop = false;
-        this.maxUpStep = 1.6F;
         this.createInventory();
     }
 
@@ -90,7 +89,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.FOLLOW_RANGE, 36.0D).add(Attributes.JUMP_STRENGTH, 0.0D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.FOLLOW_RANGE, 36.0D).add(Attributes.JUMP_STRENGTH, 0.0D).add(NeoForgeMod.STEP_HEIGHT.value(), 1.6D);
     }
 
     private float getCamelMaxHealth() {
@@ -170,15 +169,15 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     @Override
     public AgeableMob getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
-        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL.get(), this.level);
-        camel.finalizeSpawn(level, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
+        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL.get(), this.level());
+        camel.finalizeSpawn(level, this.level().getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.level.isClientSide && this.entityData.isDirty()) {
+        if (this.level().isClientSide && this.entityData.isDirty()) {
             this.textureName = null;
         }
         if (this.getVariant() == -1) {
@@ -196,10 +195,10 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     private int getCamelVariantBiome() {
-        Biome biome = this.level.getBiome(this.blockPosition()).value();
+        Biome biome = this.level().getBiome(this.blockPosition()).value();
         int chance = this.random.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> optional = level().registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(biome);
 
         if (optional.isPresent()) {
             ResourceKey<Biome> biomeKey = optional.get();
@@ -239,14 +238,14 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     private void spit(LivingEntity target) {
-        CamelSpitEntity camelSpit = new CamelSpitEntity(this.level, this);
+        CamelSpitEntity camelSpit = new CamelSpitEntity(this.level(), this);
         double d0 = target.getX() - this.getX();
         double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - camelSpit.getY();
         double d2 = target.getZ() - this.getZ();
         float f = Mth.sqrt((float) (d0 * d0 + d2 * d2)) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
-        this.level.addFreshEntity(camelSpit);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+        this.level().addFreshEntity(camelSpit);
         this.didSpit = true;
     }
 
@@ -260,17 +259,8 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public double getPassengersRidingOffset() {
-        return (double) this.getBbHeight() * 0.78D;
-    }
-
-    @Override
-    public void positionRider(@Nonnull Entity passenger) {
-        if (this.hasPassenger(passenger)) {
-            float cos = Mth.cos(this.yBodyRot * 0.017453292F);
-            float sin = Mth.sin(this.yBodyRot * 0.017453292F);
-            passenger.setPos(this.getX() + (double) (0.1F * sin), this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() - (double) (0.1F * cos));
-        }
+    protected float ridingOffset(Entity entity) {
+        return super.ridingOffset(entity) * 0.78F;
     }
 
     @Override
@@ -340,7 +330,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     @Override
     protected void updateContainerEquipment() {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             super.updateContainerEquipment();
             this.setColor(getCarpetColor(this.inventory.getItem(2)));
         }
@@ -353,7 +343,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         ArmorType armorType = ArmorType.getByItemStack(stack);
         this.entityData.set(ARMOR_STACK, stack);
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             if (armor != null) {
                 armor.removeModifier(ARMOR_MODIFIER_UUID);
@@ -392,9 +382,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     @Override
     public void openCustomInventoryScreen(@Nonnull Player player) {
-        if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTamed()) {
-            if (player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
+        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTamed()) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(this, buf -> buf.writeInt(this.getId()));
             }
         }
     }
@@ -561,7 +551,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             if (!this.isBaby()) {
                 if (this.isTamed() && player.isSecondaryUseActive()) {
                     this.openCustomInventoryScreen(player);
-                    return InteractionResult.sidedSuccess(this.level.isClientSide);
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
 
                 if (this.isVehicle()) {
@@ -573,7 +563,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
                 return super.mobInteract(player, hand);
             } else {
                 this.doPlayerRide(player);
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
     }
@@ -630,9 +620,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             isEating = true;
         }
         if (this.isBaby() && growthAmount > 0) {
-            this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getX() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), this.getY() + 0.5D + (double) (this.random.nextFloat() * this.getBbHeight()), this.getZ() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), 0.0D, 0.0D, 0.0D);
+            this.level().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getX() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), this.getY() + 0.5D + (double) (this.random.nextFloat() * this.getBbHeight()), this.getZ() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), 0.0D, 0.0D, 0.0D);
 
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.ageUp(growthAmount);
             }
             isEating = true;
@@ -640,7 +630,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
         if (temperAmount > 0 && (isEating || !this.isTamed()) && this.getTemper() < this.getMaxTemper()) {
             isEating = true;
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.modifyTemper(temperAmount);
             }
         }
@@ -652,7 +642,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
 
     private void eatingCamel() {
         if (!this.isSilent()) {
-            this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_EAT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_EAT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
         }
     }
 

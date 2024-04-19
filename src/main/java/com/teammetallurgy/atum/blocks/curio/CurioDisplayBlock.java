@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.curio;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.curio.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.BlockPos;
@@ -24,22 +25,35 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public abstract class CurioDisplayBlock extends BaseEntityBlock {
+public class CurioDisplayBlock extends BaseEntityBlock {
+    public static final MapCodec<CurioDisplayBlock> CODEC = simpleCodec(CurioDisplayBlock::new);
     private static final VoxelShape SHAPE = box(3.0D, 0.0D, 3.0D, 13.0D, 16.0D, 13.0D);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public CurioDisplayBlock(Material material) {
-        super(BlockBehaviour.Properties.of(material).strength(1.5F, 1.0F).sound(SoundType.GLASS));
+    public CurioDisplayBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    @Nullable
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+        return null; //Should be overridden in AtumBlocks, when registering the Curio Display
     }
 
     @Override

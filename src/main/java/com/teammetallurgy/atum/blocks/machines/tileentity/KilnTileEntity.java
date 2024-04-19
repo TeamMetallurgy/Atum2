@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
@@ -24,15 +25,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SpongeBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.minecraftforge.common.Tags.Items.*;
+import static net.neoforged.neoforge.common.Tags.Items.*;
 
 public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up world?
     public int burnTime;
@@ -107,7 +106,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
                 }
 
                 if (!kiln.isBurning() && canSmeltAny) {
-                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, AtumRecipeTypes.KILN.get());
+                    kiln.burnTime = fuelStack.getBurnTime(AtumRecipeTypes.KILN.get());
                     kiln.recipesUsed = kiln.burnTime;
 
                     if (kiln.isBurning()) {
@@ -292,8 +291,8 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
         Item item = stack.getItem();
         Block block = Block.byItem(stack.getItem());
 
-        return AtumRecipeTypes.kilnBlacklist.contains(ForgeRegistries.ITEMS.getKey(item)) || AtumRecipeTypes.kilnBlacklist.contains(ForgeRegistries.BLOCKS.getKey(block)) ||
-                item.isEdible() || stack.is(ItemTags.COALS) ||stack.is( ORES_COAL) || stack.is(STORAGE_BLOCKS_COAL) ||
+        return AtumRecipeTypes.kilnBlacklist.contains(BuiltInRegistries.ITEM.getKey(item)) || AtumRecipeTypes.kilnBlacklist.contains(BuiltInRegistries.BLOCK.getKey(block)) ||
+                item.isEdible() || stack.is(ItemTags.COALS) ||stack.is(ORES_COAL) || stack.is(STORAGE_BLOCKS_COAL) ||
                 stack.is(ItemTags.PLANKS) || stack.is(ItemTags.LOGS) || stack.is(RODS_WOODEN) || stack.is(ItemTags.SMALL_FLOWERS) ||
                 stack.is(ORES) || stack.is(INGOTS) && !stack.is(INGOTS_BRICK) || stack.is(NUGGETS) || stack.is(GEMS) || stack.is(DUSTS) || 
                 stack.is(DYES) || stack.is(SLIMEBALLS) || stack.is(LEATHER) || block instanceof SpongeBlock;
@@ -305,7 +304,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
         this.burnTime = tag.getInt("BurnTime");
         this.cookTime = tag.getInt("CookTime");
         this.cookTimeTotal = tag.getInt("CookTimeTotal");
-        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), AtumRecipeTypes.KILN.get());
+        this.recipesUsed = this.inventory.get(4).getBurnTime(AtumRecipeTypes.KILN.get());
     }
 
     @Override

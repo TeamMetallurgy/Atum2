@@ -14,25 +14,29 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.util.ITeleporter;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 
@@ -40,7 +44,7 @@ public class PortalBlock extends HalfTransparentBlock {
     private static final VoxelShape PORTAL_AABB = Shapes.box(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public PortalBlock() {
-        super(Properties.of(Material.PORTAL, MaterialColor.TERRACOTTA_ORANGE).strength(-1.0F).sound(SoundType.GLASS).noOcclusion().lightLevel((state) -> 10).randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).pushReaction(PushReaction.BLOCK).strength(-1.0F).sound(SoundType.GLASS).noOcclusion().lightLevel((state) -> 10).randomTicks());
     }
 
     @Override
@@ -106,17 +110,17 @@ public class PortalBlock extends HalfTransparentBlock {
                 return;
             }
             if (player.portalCooldown <= 0) {
-                player.level.getProfiler().push("portal");
+                player.level().getProfiler().push("portal");
                 player.changeDimension(destWorld, teleporter);
                 player.portalCooldown = 300; //Set portal cooldown
-                player.level.getProfiler().pop();
+                player.level().getProfiler().pop();
             }
         }
     }
 
     @Override
     @Nonnull
-    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public ItemStack getCloneItemStack(@Nonnull BlockState state, @Nonnull HitResult target, @Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull Player player) {
         return ItemStack.EMPTY;
     }
 

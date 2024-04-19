@@ -57,9 +57,9 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.ITeleporter;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -145,13 +145,13 @@ public class AtumVillagerEntity extends Villager implements ITexture {
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.setActiveActivityIfPossible(Activity.IDLE);
-        brain.updateActivityFromSchedule(this.level.getDayTime(), this.level.getGameTime());
+        brain.updateActivityFromSchedule(this.level().getDayTime(), this.level().getGameTime());
     }
 
     @Override
     public void releasePoi(@Nonnull MemoryModuleType<GlobalPos> moduleType) {
-        if (this.level instanceof ServerLevel) {
-            MinecraftServer server = ((ServerLevel) this.level).getServer();
+        if (this.level() instanceof ServerLevel) {
+            MinecraftServer server = ((ServerLevel) this.level()).getServer();
             this.brain.getMemory(moduleType).ifPresent((jobSitePos) -> {
                 ServerLevel serverLevel = server.getLevel(jobSitePos.dimension());
                 if (serverLevel != null) {

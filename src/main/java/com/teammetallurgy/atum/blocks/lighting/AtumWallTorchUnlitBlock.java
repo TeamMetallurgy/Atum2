@@ -14,16 +14,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class AtumWallTorchUnlitBlock extends AtumWallTorch {
     protected final Block litWallBlock;
-    public static final Map<RegistryObject<Block>, RegistryObject<Block>> UNLIT = Maps.newHashMap();
+    public static final Map<DeferredBlock<Block>, DeferredBlock<Block>> UNLIT = Maps.newHashMap();
 
     public AtumWallTorchUnlitBlock(Block litWallBlock, Properties properties) {
         super(properties);

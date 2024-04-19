@@ -10,8 +10,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -20,10 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nonnull;
 
@@ -31,7 +29,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
     public static final BooleanProperty UP = BooleanProperty.create("up");
 
     public KilnFakeBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 10.0F).sound(SoundType.STONE));
+        super(Properties.of(Material.STONE, MapColor.SAND).strength(1.5F, 10.0F).sound(SoundType.STONE));
         this.registerDefaultState(this.stateDefinition.any().setValue(UP, false));
     }
 
@@ -49,8 +47,8 @@ public class KilnFakeBlock extends BaseEntityBlock {
         BlockPos tepos = getPrimaryKilnBlock(level, pos);
         if (tepos != null) {
             MenuProvider container = this.getMenuProvider(level.getBlockState(tepos), level, tepos);
-            if (container != null && player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, container, tepos);
+            if (container != null && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(container, tepos);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -79,7 +77,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
 
     @Override
     @Nonnull
-    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public ItemStack getCloneItemStack(@Nonnull BlockState state, @Nonnull HitResult target, @Nonnull LevelReader level, @Nonnull BlockPos pos, @Nonnull Player player) {
         return new ItemStack(AtumBlocks.KILN.get());
     }
 

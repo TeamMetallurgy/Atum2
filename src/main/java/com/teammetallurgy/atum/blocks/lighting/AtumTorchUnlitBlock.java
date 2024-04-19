@@ -16,12 +16,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
     private final Supplier<? extends Block> lit;
-    public static final Map<RegistryObject<Block>, RegistryObject<Block>> UNLIT = Maps.newHashMap();
+    public static final Map<DeferredBlock<Block>, DeferredBlock<Block>> UNLIT = Maps.newHashMap();
 
     public AtumTorchUnlitBlock(Supplier<? extends Block> lit) {
         super(0);

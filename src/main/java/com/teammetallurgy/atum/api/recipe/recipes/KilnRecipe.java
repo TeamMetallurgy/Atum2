@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.api.recipe.AbstractAtumRecipe;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     }
 
     public KilnRecipe(Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(input.getItems()[0].getItem())).getPath() + "_to_" + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(output.getItem())).getPath()), input, output, experience, cookTime);
+        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(input.getItems()[0].getItem())).getPath() + "_to_" + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(output.getItem())).getPath()), input, output, experience, cookTime);
     }
 
     public KilnRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
@@ -78,7 +78,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
             else {
                 String s1 = GsonHelper.getAsString(json, "result");
                 ResourceLocation resourcelocation = new ResourceLocation(s1);
-                itemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(resourcelocation));
+                itemstack = new ItemStack(BuiltInRegistries.ITEM.get(resourcelocation));
             }
             float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
             int i = GsonHelper.getAsInt(json, "cookingtime", this.cookTime);

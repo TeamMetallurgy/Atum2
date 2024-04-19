@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ToolActions;
 import org.joml.Quaternionf;
 
 import javax.annotation.Nonnull;
@@ -79,7 +79,7 @@ public class RenderUtils {
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.camera.getYRot();
             float pitch = rendererDispatcher.camera.getXRot();
-            Font font = rendererDispatcher.font;
+            Font font = Minecraft.getInstance().font;
             poseStack.pushPose();
             poseStack.translate(xOffset, yOffset, zOffset);
 

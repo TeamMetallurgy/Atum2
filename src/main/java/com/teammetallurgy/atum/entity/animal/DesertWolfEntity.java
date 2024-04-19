@@ -54,18 +54,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -100,7 +98,6 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 6;
-        this.maxUpStep = 1.1F;
         this.initInventory();
         this.setTame(false);
     }
@@ -150,7 +147,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(JUMP_STRENGTH);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(JUMP_STRENGTH).add(NeoForgeMod.STEP_HEIGHT.value(), 1.1F);
     }
 
     @Override
@@ -220,7 +217,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         this.isShaking = false;
         this.shakeAnimO = 0.0F;
         this.shakeAnim = 0.0F;
-        if (!this.level.isClientSide && this.desertWolfInventory != null) {
+        if (!this.level().isClientSide && this.desertWolfInventory != null) {
             for (int i = 0; i < this.desertWolfInventory.getContainerSize(); ++i) {
                 ItemStack slotStack = this.desertWolfInventory.getItem(i);
                 if (!slotStack.isEmpty()) {
@@ -235,22 +232,22 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     public void aiStep() {
         super.aiStep();
 
-        if (!this.level.isClientSide && this.isWet && !this.isShaking && !this.isPathFinding() && this.onGround) {
+        if (!this.level().isClientSide && this.isWet && !this.isShaking && !this.isPathFinding() && this.onGround()) {
             this.isShaking = true;
             this.shakeAnim = 0.0F;
             this.shakeAnimO = 0.0F;
-            this.level.broadcastEntityEvent(this, (byte) 8);
+            this.level().broadcastEntityEvent(this, (byte) 8);
         }
 
-        if (!this.level.isClientSide) {
-            this.updatePersistentAnger((ServerLevel) this.level, true);
+        if (!this.level().isClientSide) {
+            this.updatePersistentAnger((ServerLevel) this.level(), true);
         }
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.level.isClientSide && this.entityData.isDirty()) {
+        if (this.level().isClientSide && this.entityData.isDirty()) {
             this.texturePath = null;
         }
 
@@ -264,14 +261,14 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
             if (this.isInWaterRainOrBubble()) {
                 this.isWet = true;
-                if (this.isShaking && !this.level.isClientSide) {
-                    this.level.broadcastEntityEvent(this, (byte) 56);
+                if (this.isShaking && !this.level().isClientSide) {
+                    this.level().broadcastEntityEvent(this, (byte) 56);
                     this.cancelShake();
                 }
             } else if ((this.isWet || this.isShaking) && this.isShaking) {
                 if (this.shakeAnim == 0.0F) {
                     this.playSound(SoundEvents.WOLF_SHAKE, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-                    this.gameEvent(GameEvent.ENTITY_SHAKE);
+                    this.gameEvent(GameEvent.ENTITY_ACTION);
                 }
 
                 this.shakeAnimO = this.shakeAnim;
@@ -291,7 +288,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                     for (int j = 0; j < i; ++j) {
                         float f1 = (this.random.nextFloat() * 2.0F - 1.0F) * this.getBbWidth() * 0.5F;
                         float f2 = (this.random.nextFloat() * 2.0F - 1.0F) * this.getBbWidth() * 0.5F;
-                        this.level.addParticle(ParticleTypes.SPLASH, this.getX() + (double) f1, (double) (f + 0.8F), this.getZ() + (double) f2, vector3d.x, vector3d.y, vector3d.z);
+                        this.level().addParticle(ParticleTypes.SPLASH, this.getX() + (double) f1, (double) (f + 0.8F), this.getZ() + (double) f2, vector3d.x, vector3d.y, vector3d.z);
                     }
                 }
             }
@@ -304,13 +301,13 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    protected void tickRidden(@Nonnull LivingEntity livingEntity, @Nonnull Vec3 vec3) {
-        super.tickRidden(livingEntity, vec3);
-        Vec2 vec2 = this.getRiddenRotation(livingEntity);
+    protected void tickRidden(@Nonnull Player player, @Nonnull Vec3 vec3) {
+        super.tickRidden(player, vec3);
+        Vec2 vec2 = this.getRiddenRotation(player);
         this.setRot(vec2.y, vec2.x);
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
         if (this.isControlledByLocalInstance()) {
-            if (this.onGround) {
+            if (this.onGround()) {
                 this.setWolfJumping(false);
                 if (this.playerJumpPendingScale > 0.0F && !this.isJumping()) {
                     this.executeRidersJump(this.playerJumpPendingScale, vec3);
@@ -326,9 +323,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     @Nonnull
-    protected Vec3 getRiddenInput(@Nonnull LivingEntity livingEntity, @Nonnull Vec3 vec3) {
-        float f = livingEntity.xxa * 0.5F;
-        float f1 = livingEntity.zza;
+    protected Vec3 getRiddenInput(@Nonnull Player player, @Nonnull Vec3 vec3) {
+        float f = player.xxa * 0.5F;
+        float f1 = player.zza;
         if (f1 <= 0.0F) {
             f1 *= 0.25F;
         }
@@ -336,7 +333,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    protected float getRiddenSpeed(@Nonnull LivingEntity livinGentity) {
+    protected float getRiddenSpeed(@Nonnull Player player) {
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
     }
 
@@ -347,7 +344,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         this.setDeltaMovement(deltaMovement.x, d1, deltaMovement.z);
         this.setWolfJumping(true);
         this.hasImpulse = true;
-        net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+        CommonHooks.onLivingJump(this);
         if (vec3.z > 0.0D) {
             float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
             float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
@@ -455,7 +452,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         ItemStack heldStack = player.getItemInHand(hand);
         Item item = heldStack.getItem();
         boolean tameItem = heldStack.is(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             boolean flag = this.isOwnedBy(player) || this.isTame() || tameItem && !this.isTame();
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
         } else {
@@ -515,7 +512,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                     heldStack.shrink(1);
                 }
 
-                if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                if (this.random.nextInt(3) == 0 && !EventHooks.onAnimalTame(this, player)) {
                     this.tame(player);
                     this.navigation.stop();
                     this.setTarget(null);
@@ -524,9 +521,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                     }
                     this.stopBeingAngry();
                     this.setHealth(40.0F);
-                    this.level.broadcastEntityEvent(this, (byte) 7);
+                    this.level().broadcastEntityEvent(this, (byte) 7);
                 } else {
-                    this.level.broadcastEntityEvent(this, (byte) 6);
+                    this.level().broadcastEntityEvent(this, (byte) 6);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -564,9 +561,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     private void openGUI(Player player) {
-        if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
-            if (player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
+        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(this, buf -> buf.writeInt(this.getId()));
             }
         }
     }
@@ -590,7 +587,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         }
         this.desertWolfInventory.addListener(this);
         this.updateSlots();
-        this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.desertWolfInventory));
+        //this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.desertWolfInventory)); //TODO
     }
 
     @Override
@@ -684,7 +681,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     public DesertWolfEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
-        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.get().create(this.level);
+        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.get().create(this.level());
         if (desertWolf != null) {
             UUID uuid = this.getOwnerUUID();
 
@@ -782,7 +779,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
         this.setSaddled(tag.getBoolean("Saddle"));
-        this.readPersistentAngerSaveData(this.level, tag);
+        this.readPersistentAngerSaveData(this.level(), tag);
 
         if (tag.contains("CollarColor", 99)) {
             this.setCollarColor(DyeColor.byId(tag.getInt("CollarColor")));
@@ -804,7 +801,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     private void updateSlots() {
         this.setArmorStack(this.desertWolfInventory.getItem(1));
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setSaddled(!this.desertWolfInventory.getItem(0).isEmpty());
         }
     }
@@ -813,7 +810,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         ArmorType armorType = ArmorType.getByItemStack(stack);
         this.entityData.set(ARMOR_STACK, stack);
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             if (armor != null) {
                 armor.removeModifier(ARMOR_MODIFIER_UUID);
@@ -894,23 +891,14 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public double getPassengersRidingOffset() {
-        return super.getPassengersRidingOffset() + 0.07D;
-    }
-
-    @Override
-    public void positionRider(@Nonnull Entity passenger) {
-        if (this.hasPassenger(passenger)) {
-            float cos = Mth.cos(this.yBodyRot * 0.017453292F);
-            float sin = Mth.sin(this.yBodyRot * 0.017453292F);
-            passenger.setPos(this.getX() + (double) (0.4F * sin), this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() - (double) (0.4F * cos));
-        }
+    protected float ridingOffset(Entity entity) {
+        return super.ridingOffset(entity) + 0.07F;
     }
 
     private void doPlayerRide(Player player) {
         player.setYRot(this.getYRot());
         player.setXRot(this.getXRot());
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             player.startRiding(this);
         }
     }
@@ -999,7 +987,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         return ArmorType.isArmor(stack);
     }
 
-    private LazyOptional<?> itemHandler = null;
+    /*private LazyOptional<?> itemHandler = null; //TODO Inventory capability
 
     @Override
     @Nonnull
@@ -1008,7 +996,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
             return itemHandler.cast();
         }
         return super.getCapability(capability, facing);
-    }
+    }*/
 
     @Nullable
     @Override

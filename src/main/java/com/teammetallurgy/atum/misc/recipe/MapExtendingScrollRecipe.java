@@ -2,26 +2,25 @@ package com.teammetallurgy.atum.misc.recipe;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class MapExtendingScrollRecipe extends ShapedRecipe {
 
-    public MapExtendingScrollRecipe(ResourceLocation location, CraftingBookCategory category) {
-        super(location, "", category, 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get()), Ingredient.of(AtumItems.SCROLL.get())), new ItemStack(Items.MAP));
+    public MapExtendingScrollRecipe(CraftingBookCategory category) {
+        super("",
+             category,
+             ShapedRecipePattern.of(Map.of('#', Ingredient.of(AtumItems.SCROLL), 'x', Ingredient.of(Items.FILLED_MAP)), "###", "#x#", "###"),
+             new ItemStack(Items.MAP));
     }
 
     @Override

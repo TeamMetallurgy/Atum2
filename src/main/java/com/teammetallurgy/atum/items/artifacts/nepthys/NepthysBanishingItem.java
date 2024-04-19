@@ -17,11 +17,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NepthysBanishingItem extends SwordItem implements IArtifact {
@@ -39,7 +39,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() == MobType.UNDEAD) {
             if (player.getMainHandItem().getItem() == AtumItems.NEPTHYS_BANISHING.get()) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
@@ -54,7 +54,7 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntity();
                 event.setAmount(event.getAmount() * 2);
-                if (target.level instanceof ServerLevel serverLevel) {
+                if (target.level() instanceof ServerLevel serverLevel) {
                     RandomSource random = serverLevel.random;
                     serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE.get(), target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }

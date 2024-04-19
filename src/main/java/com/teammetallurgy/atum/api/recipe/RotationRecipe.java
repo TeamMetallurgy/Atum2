@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.api.recipe;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -13,8 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.crafting.CraftingHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
                 } else {
                     input = ingredient;
                 }
-                Item tagItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag")));
+                Item tagItem = BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag")));
                 if (tagItem == null || tagItem == Items.AIR) { //Support empty tags, for mod support
                     input = Ingredient.EMPTY;
                 }
@@ -77,7 +77,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
             } else {
                 String result = GsonHelper.getAsString(json, "result");
                 ResourceLocation resultID = new ResourceLocation(result);
-                output = new ItemStack(ForgeRegistries.ITEMS.getValue(resultID));
+                output = new ItemStack(BuiltInRegistries.ITEM.getValue(resultID));
             }
             int rotations = GsonHelper.getAsInt(json, "rotations", 0);
             return this.factory.create(id, input, output, rotations);

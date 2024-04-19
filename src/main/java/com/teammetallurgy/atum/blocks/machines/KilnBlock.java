@@ -23,9 +23,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +34,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
     private static final BooleanProperty MULTIBLOCK_SECONDARY = BooleanProperty.create("multiblock_secondary");
 
     public KilnBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE));
+        super(Properties.of(Material.STONE, MapColor.SAND).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false).setValue(MULTIBLOCK_PRIMARY, false).setValue(MULTIBLOCK_SECONDARY, false));
     }
 
@@ -57,8 +54,8 @@ public class KilnBlock extends AbstractFurnaceBlock {
         BlockPos tepos = getPrimaryKilnBlock(level, pos);
         if (tepos != null) {
             BlockEntity tileEntity = level.getBlockEntity(tepos);
-            if (tileEntity instanceof KilnTileEntity kiln && player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, kiln, tepos);
+            if (tileEntity instanceof KilnTileEntity kiln && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(kiln, tepos);
             }
         }
     }

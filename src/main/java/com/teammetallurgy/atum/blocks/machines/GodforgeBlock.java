@@ -31,11 +31,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,8 +66,8 @@ public class GodforgeBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         } else {
             BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof GodforgeTileEntity godForge && player instanceof ServerPlayer) {
-                NetworkHooks.openScreen((ServerPlayer) player, godForge, pos);
+            if (tileEntity instanceof GodforgeTileEntity godForge && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(godForge, pos);
             }
             return InteractionResult.CONSUME;
         }

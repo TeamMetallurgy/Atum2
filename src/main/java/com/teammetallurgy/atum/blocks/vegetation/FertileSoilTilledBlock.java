@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
 
 import javax.annotation.Nonnull;
 
@@ -31,7 +31,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
 
     public FertileSoilTilledBlock() {
-        super(Block.Properties.of(Material.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always));
+        super(Block.Properties.of().mapColor(MapColor.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always));
         this.registerDefaultState(this.stateDefinition.any().setValue(MOISTURE, 0).setValue(BLESSED, false));
     }
 
@@ -116,7 +116,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     public void neighborChanged(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
-        if (level.getBlockState(pos.above()).getMaterial().isSolid()) {
+        if (level.getBlockState(pos.above()).isSolid()) {
             turnToSoil(level, pos, AtumBlocks.STRANGE_SAND.get());
         }
     }
@@ -125,7 +125,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     public void onPlace(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
 
-        if (level.getBlockState(pos.above()).getMaterial().isSolid()) {
+        if (level.getBlockState(pos.above()).isSolid()) {
             turnToSoil(level, pos, AtumBlocks.STRANGE_SAND.get());
         }
     }

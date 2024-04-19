@@ -15,14 +15,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
     public CompoundTag input = new CompoundTag();
@@ -95,7 +89,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
         return false;
     }
 
-    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.WEST);
+    /*LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.WEST); //TODO Capabilities
 
     @Override
     @Nonnull
@@ -110,7 +104,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
             }
         }
         return super.getCapability(capability, facing);
-    }
+    }*/
 
     @Override
     public void load(@Nonnull CompoundTag tag) {
