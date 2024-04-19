@@ -63,12 +63,6 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
-    @Nonnull
     public RecipeType<?> getType() {
         return this.type;
     }

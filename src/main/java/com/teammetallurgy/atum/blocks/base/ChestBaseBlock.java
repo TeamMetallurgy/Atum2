@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -36,7 +38,7 @@ import java.util.function.Supplier;
 public class ChestBaseBlock extends ChestBlock {
 
     protected ChestBaseBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> tileEntitySupplier) {
-        this(tileEntitySupplier, BlockBehaviour.Properties.of(Material.STONE, MapColor.SAND));
+        this(tileEntitySupplier, BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM));
     }
 
     protected ChestBaseBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> tileEntitySupplier, BlockBehaviour.Properties properties) {

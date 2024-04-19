@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumTileEntities;
@@ -17,25 +18,35 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nonnull;
 
 public class KilnFakeBlock extends BaseEntityBlock {
+    public static final MapCodec<KilnFakeBlock> CODEC = simpleCodec(KilnFakeBlock::new);
     public static final BooleanProperty UP = BooleanProperty.create("up");
 
-    public KilnFakeBlock() {
-        super(Properties.of(Material.STONE, MapColor.SAND).strength(1.5F, 10.0F).sound(SoundType.STONE));
+    public KilnFakeBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(UP, false));
     }
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return AtumTileEntities.KILN.get().create(pos, state);
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends KilnFakeBlock> codec() {
+        return CODEC;
     }
 
     @Override

@@ -240,7 +240,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
     @Override
     public void setItem(int index, @Nonnull ItemStack stack) {
         ItemStack inventoryStack = this.inventory.get(index);
-        boolean haveInputChanged = !stack.isEmpty() && stack.sameItem(inventoryStack) && ItemStack.tagMatches(stack, inventoryStack);
+        boolean haveInputChanged = !stack.isEmpty() && ItemStack.isSameItemSameTags(stack, inventoryStack);
         this.inventory.set(index, stack);
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());

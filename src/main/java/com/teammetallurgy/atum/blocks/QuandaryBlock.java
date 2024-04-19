@@ -22,10 +22,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +33,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     private static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public QuandaryBlock() {
-        super(Block.Properties.of(Material.STONE, MapColor.SAND).strength(1.5F, 8.0F).isRedstoneConductor(AtumBlocks::never).requiresCorrectToolForDrops());
+        super(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 8.0F).isRedstoneConductor(AtumBlocks::never).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVATED, false).setValue(UNBREAKABLE, false));
     }
 

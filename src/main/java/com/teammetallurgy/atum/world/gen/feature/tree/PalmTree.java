@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.feature.tree;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.Nullable;
 

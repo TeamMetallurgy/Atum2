@@ -20,6 +20,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static net.neoforged.neoforge.common.Tags.Items.*;
 
@@ -180,7 +182,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
         }
 
         ItemStack slotStack = this.inventory.get(index);
-        boolean isValid = !stack.isEmpty() && stack.sameItem(slotStack) && ItemStack.tagMatches(stack, slotStack);
+        boolean isValid = !stack.isEmpty() && ItemStack.isSameItemSameTags(stack, slotStack);
 
         this.inventory.set(index, stack);
 
@@ -218,7 +220,7 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
 
                     if (output.isEmpty()) {
                         return outputSlot;
-                    } else if (!output.sameItem(result)) {
+                    } else if (!ItemStack.isSameItem(output, result)) {
                         continue;
                     } else if (output.getCount() + result.getCount() <= this.getMaxStackSize() && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
                         return outputSlot;
@@ -272,7 +274,8 @@ public class KilnTileEntity extends KilnBaseTileEntity { //TODO Might freeze up 
 
     protected int getCookTime() {
         Level level = this.level;
-        return level != null ? level.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN.get(), this, level).map(KilnRecipe::getCookTime).orElse(200) : 200;
+        Optional<RecipeHolder<KilnRecipe>> recipe = level.getRecipeManager().getRecipeFor(AtumRecipeTypes.KILN.get(), this, level);
+        return recipe.map(kilnRecipeRecipeHolder -> kilnRecipeRecipeHolder.value().getCookTime()).orElse(200);
     }
 
     @Override

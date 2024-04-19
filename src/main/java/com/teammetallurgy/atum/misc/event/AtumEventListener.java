@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -40,9 +41,10 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
@@ -59,6 +61,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumEventListener {
@@ -74,7 +77,7 @@ public class AtumEventListener {
         persistedTag.putBoolean(TAG_ATUM_START, true);
         tag.put(Player.PERSISTED_NBT_TAG, persistedTag);
 
-        if (shouldStartInAtum && player instanceof ServerPlayer serverPlayer && player.level instanceof ServerLevel level) {
+        if (shouldStartInAtum && player instanceof ServerPlayer serverPlayer && player.level() instanceof ServerLevel level) {
             PortalBlock.changeDimension(level, serverPlayer, new TeleporterAtumStart());
             SpawnHelper.validateAndGetSpawnPoint(level, serverPlayer, 0);
         }
@@ -85,7 +88,7 @@ public class AtumEventListener {
         if (AtumConfig.ATUM_START.startInAtum.get()) {
             LivingEntity livingEntity = event.getEntity();
             if (livingEntity instanceof ServerPlayer serverPlayer) {
-                ServerLevel serverLevel = serverPlayer.getLevel();
+                ServerLevel serverLevel = serverPlayer.serverLevel();
                 SpawnHelper.validateAndGetSpawnPoint(serverLevel, serverPlayer, 1);
             }
         }
@@ -108,7 +111,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
-        Level level = player.level;
+        Level level = player.level();
         if (!level.isClientSide && AtumConfig.GENERAL.allowCreation.get() && event.phase == TickEvent.Phase.END && player.tickCount % 20 == 0) {
             if (level.dimension() == Level.OVERWORLD || level.dimension() == Atum.ATUM) {
                 for (ItemEntity entityItem : level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(10.0F, 1.0F, 10.0F))) {
@@ -127,8 +130,8 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onPlace(BlockEvent.EntityPlaceEvent event) {
         BlockState state = event.getPlacedBlock();
-        if (event.getEntity() != null && event.getEntity().level.dimension() == Atum.ATUM) {
-            if (((state.getMaterial() == Material.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED.get())) {
+        if (event.getEntity() != null && event.getEntity().level().dimension() == Atum.ATUM) {
+            if (((state.is(BlockTags.DIRT) || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED.get())) {
                 event.getLevel().setBlock(event.getPos(), AtumBlocks.STRANGE_SAND.get().defaultBlockState(), 3);
             }
         }
@@ -141,7 +144,7 @@ public class AtumEventListener {
             BlockPos pos = event.getPos();
             Player player = event.getEntity();
             ItemStack stack = player.getMainHandItem();
-            LazyOptional<IFluidHandler> lazyTank = FluidUtil.getFluidHandler(level, pos, event.getFace());
+            Optional<IFluidHandler> lazyTank = FluidUtil.getFluidHandler(level, pos, event.getFace());
 
             if (stack.getItem() instanceof WandererDyeableArmor && ((WandererDyeableArmor) stack.getItem()).hasCustomColor(stack)) {
                 BlockState state = level.getBlockState(pos);
@@ -182,7 +185,7 @@ public class AtumEventListener {
     public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getEntity();
         Level level = event.getLevel();
-        if (player.level.dimension() == Atum.ATUM) {
+        if (player.level().dimension() == Atum.ATUM) {
             if (player.getItemInHand(event.getHand()).getItem() == Items.WHEAT_SEEDS && level.getBlockState(event.getPos()).getBlock() instanceof FarmBlock) {
                 event.setCanceled(true);
             }
@@ -198,29 +201,35 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onFishLoot(ItemFishedEvent event) {
-        Level level = event.getEntity().level;
+        Level level = event.getEntity().level();
         FishingHook bobber = event.getHookEntity();
         Player angler = bobber.getPlayerOwner();
         if (angler != null) {
             ItemStack heldStack = angler.getItemInHand(angler.getUsedItemHand());
-            LootContext.Builder builder = new LootContext.Builder((ServerLevel) level);
-            builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withParameter(LootContextParams.KILLER_ENTITY, angler).withParameter(LootContextParams.THIS_ENTITY, bobber);
+            LootParams params = new LootParams.Builder((ServerLevel)bobber.level())
+                    .withParameter(LootContextParams.ORIGIN, bobber.position())
+                    .withParameter(LootContextParams.TOOL, heldStack)
+                    .withParameter(LootContextParams.THIS_ENTITY, bobber)
+                    .withParameter(LootContextParams.KILLER_ENTITY, bobber.getOwner())
+                    .withLuck(EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck())
+                    .create(LootContextParamSets.FISHING);
             if (level.dimension() == Atum.ATUM) {
                 event.setCanceled(true); //We don't want vanillas loot table
                 if (heldStack.getItem() instanceof AtemsBountyItem) {
-                    catchFish((ServerLevel) level, angler, heldStack, bobber, builder, AtumLootTables.ATEMS_BOUNTY);
-                    angler.level.addFreshEntity(new ExperienceOrb(angler.level, angler.getX(), angler.getY() + 0.5D, angler.getZ() + 0.5D, level.random.nextInt(6) + 1));
+                    catchFish((ServerLevel) level, angler, bobber, params, AtumLootTables.ATEMS_BOUNTY);
+                    angler.level().addFreshEntity(new ExperienceOrb(angler.level(), angler.getX(), angler.getY() + 0.5D, angler.getZ() + 0.5D, level.random.nextInt(6) + 1));
                 } else {
-                    catchFish((ServerLevel) level, angler, heldStack, bobber, builder, AtumLootTables.FISHING);
+                    catchFish((ServerLevel) level, angler, bobber, params, AtumLootTables.FISHING);
                 }
             }
         }
     }
 
-    private static void catchFish(ServerLevel level, Player angler, ItemStack heldStack, FishingHook bobber, LootContext.Builder builder, ResourceLocation lootTable) {
-        List<ItemStack> loots = level.getServer().getLootTables().get(lootTable).getRandomItems(builder.withParameter(LootContextParams.ORIGIN, bobber.position()).withParameter(LootContextParams.TOOL, heldStack).withParameter(LootContextParams.THIS_ENTITY, bobber).withRandom(level.random).create(LootContextParamSets.FISHING));
+    private static void catchFish(ServerLevel level, Player angler, FishingHook bobber, LootParams params, ResourceLocation lootTableID) {
+        LootTable lootTable = level.getServer().getLootData().getLootTable(lootTableID);
+        List<ItemStack> loots = lootTable.getRandomItems(params);
         for (ItemStack loot : loots) {
-            ItemEntity fish = new ItemEntity(bobber.level, bobber.getX(), bobber.getY(), bobber.getZ(), loot);
+            ItemEntity fish = new ItemEntity(bobber.level(), bobber.getX(), bobber.getY(), bobber.getZ(), loot);
             double x = angler.getX() - bobber.getX();
             double y = angler.getY() - bobber.getY();
             double z = angler.getZ() - bobber.getZ();

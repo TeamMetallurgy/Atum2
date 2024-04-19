@@ -15,9 +15,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.NetworkDirection;
-import net.neoforged.neoforge.network.NetworkRegistry;
-import net.neoforged.neoforge.network.simple.SimpleChannel;
 
 public class NetworkHandler {
     private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
@@ -47,7 +44,7 @@ public class NetworkHandler {
         PlayerList playerList = serverLevel.getServer().getPlayerList();
         for (int i = 0; i < playerList.getPlayerCount(); ++i) {
             ServerPlayer serverPlayer = playerList.getPlayers().get(i);
-            if (serverPlayer.level.dimension() == dimension) {
+            if (serverPlayer.level().dimension() == dimension) {
                 sendTo(serverPlayer, packet);
             }
         }

@@ -24,7 +24,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
         super.randomTick(state, level, pos, rand);
         if (!level.isClientSide) {
             if (level.random.nextDouble() <= 0.05F) {
-                if (isValidBonemealTarget(level, pos, state, false)) {
+                if (isValidBonemealTarget(level, pos, state)) {
                     level.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
                 }
             }
@@ -32,7 +32,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull LevelReader reader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader reader, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return !state.getValue(PERSISTENT) && isValidLocation(reader, pos.below()) && reader.getBlockState(pos.below()).isAir();
     }
 
@@ -54,7 +54,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
 
     @Override
     public void performBonemeal(@Nonnull ServerLevel level, @Nonnull RandomSource rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        if (isValidBonemealTarget(level, pos, state, false) && rand.nextDouble() <= 0.5D) {
+        if (isValidBonemealTarget(level, pos, state) && rand.nextDouble() <= 0.5D) {
             level.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.get().defaultBlockState());
         }
     }

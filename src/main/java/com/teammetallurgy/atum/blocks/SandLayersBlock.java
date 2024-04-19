@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -7,14 +8,14 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -24,13 +25,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SandLayersBlock extends FallingBlock {
-    private static final Material SAND_LAYER = new Material.Builder(MapColor.SAND).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build();
+    public static final MapCodec<SandLayersBlock> CODEC = simpleCodec(SandLayersBlock::new);
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
     private static final VoxelShape[] SAND_SHAPE = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
-    public SandLayersBlock() {
-        super(Block.Properties.of(SAND_LAYER).strength(0.1F).sound(SoundType.SAND));
+    public SandLayersBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends FallingBlock> codec() {
+        return CODEC;
     }
 
     @Override

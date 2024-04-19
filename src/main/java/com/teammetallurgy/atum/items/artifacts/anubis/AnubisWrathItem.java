@@ -15,6 +15,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -39,7 +40,6 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -87,7 +87,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (player.getMainHandItem().getItem() == AtumItems.ANUBIS_WRATH.get() && getTier(player.getMainHandItem()) == 3) {
             if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getMobType() != MobType.UNDEAD && !(event.getTarget() instanceof StoneBaseEntity)) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
@@ -102,9 +102,9 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
                 LivingEntity entity = event.getEntity();
-                RandomSource random = entity.level.random;
+                RandomSource random = entity.level().random;
                 double y = Mth.nextDouble(random, 0.02D, 0.1D);
-                if (entity.level instanceof ServerLevel serverLevel) {
+                if (entity.level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(AtumParticles.ANUBIS.get(), entity.getX() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), entity.getY() + entity.getEyeHeight(), entity.getZ() + (random.nextDouble() - 0.5D) * (double) entity.getBbWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }
@@ -120,7 +120,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
             CompoundTag tag = StackHelper.getTag(heldStack);
             tag.putInt("souls", getSouls(heldStack) + 1);
             if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
-                source.level.playSound(null, source.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 0.0F);
+                source.level().playSound(null, source.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.0F, 0.0F);
                 if (source instanceof Player) {
                     ((Player) source).displayClientMessage(Component.translatable(heldStack.getDescriptionId().replace("item.", "") + ".levelup").withStyle(ChatFormatting.DARK_PURPLE), true);
                 }
@@ -131,7 +131,7 @@ public class AnubisWrathItem extends SwordItem implements IArtifact {
             if (inv.contains(findAnubisWrath(player))) {
                 CompoundTag tag = StackHelper.getTag(findAnubisWrath(player));
                 tag.putInt("souls", getSouls(findAnubisWrath(player)) / 2);
-                player.level.playSound(null, player.blockPosition(), SoundEvents.GHAST_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.level().playSound(null, player.blockPosition(), SoundEvents.GHAST_DEATH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
         }
     }

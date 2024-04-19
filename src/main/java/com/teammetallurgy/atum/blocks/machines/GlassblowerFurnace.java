@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GlassblowerFurnaceTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
@@ -8,19 +9,29 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 
 public class GlassblowerFurnace extends AbstractFurnaceBlock {
+    public static final MapCodec<GlassblowerFurnace> CODEC = simpleCodec(GlassblowerFurnace::new);
 
-    public GlassblowerFurnace() {
-        super(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0));
+    public GlassblowerFurnace(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends AbstractFurnaceBlock> codec() {
+        return CODEC;
     }
 
     @Override

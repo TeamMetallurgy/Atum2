@@ -17,19 +17,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.ForgeEventFactory;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 
 public class CamelSpitEntity extends LlamaSpit {
-
-    public CamelSpitEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
-        this(AtumEntities.CAMEL_SPIT.get(), level);
-    }
 
     public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, Level level) {
         super(entityType, level);
@@ -54,18 +48,12 @@ public class CamelSpitEntity extends LlamaSpit {
     }
 
     @Override
-    @Nonnull
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
         Vec3 motion = this.getDeltaMovement();
-        HitResult raytrace = ProjectileUtil.getHitResult(this, this::canHitEntity);
-        if (raytrace != null && raytrace.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, raytrace)) {
+        HitResult raytrace = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+        if (raytrace != null && raytrace.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, raytrace)) {
             this.onHit(raytrace);
         }
 
@@ -73,7 +61,7 @@ public class CamelSpitEntity extends LlamaSpit {
         double d1 = this.getY() + motion.y;
         double d2 = this.getZ() + motion.z;
         this.updateRotation();
-        if (this.level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
+        if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
             this.discard();
         } else if (this.isInWaterOrBubble()) {
             this.discard();
@@ -99,7 +87,7 @@ public class CamelSpitEntity extends LlamaSpit {
     @Override
     protected void onHitBlock(@Nonnull BlockHitResult rayTraceResult) {
         super.onHitBlock(rayTraceResult);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.discard();
         }
     }

@@ -7,6 +7,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
+import java.awt.*;
 import java.util.HashMap;
 
 public enum God implements StringRepresentable {
@@ -35,7 +36,7 @@ public enum God implements StringRepresentable {
     God(String name, String hex) {
         this.name = name;
         this.hex = hex;
-        this.color = TextColor.parseColor(hex);
+        this.color = TextColor.fromRgb(Color.decode(hex).getRGB());
     }
 
     @Override

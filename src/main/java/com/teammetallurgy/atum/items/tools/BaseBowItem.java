@@ -11,7 +11,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -31,7 +31,7 @@ public class BaseBowItem extends BowItem {
             ItemStack ammoStack = player.getProjectile(stack);
 
             int maxUses = this.getArrowLoose(stack, timeLeft);
-            maxUses = ForgeEventFactory.onArrowLoose(stack, level, player, maxUses, !ammoStack.isEmpty() || infinity);
+            maxUses = EventHooks.onArrowLoose(stack, level, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
 
             if (!ammoStack.isEmpty() || infinity) {

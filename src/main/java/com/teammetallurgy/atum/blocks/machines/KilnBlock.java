@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -19,10 +20,13 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,12 +34,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class KilnBlock extends AbstractFurnaceBlock {
+    public static final MapCodec<KilnBlock> CODEC = simpleCodec(KilnBlock::new);
     static final BooleanProperty MULTIBLOCK_PRIMARY = BooleanProperty.create("multiblock_primary");
     private static final BooleanProperty MULTIBLOCK_SECONDARY = BooleanProperty.create("multiblock_secondary");
 
-    public KilnBlock() {
-        super(Properties.of(Material.STONE, MapColor.SAND).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE));
+    public KilnBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false).setValue(MULTIBLOCK_PRIMARY, false).setValue(MULTIBLOCK_SECONDARY, false));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends KilnBlock> codec() {
+        return CODEC;
     }
 
     @Override

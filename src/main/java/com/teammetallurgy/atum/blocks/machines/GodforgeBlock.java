@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
@@ -27,10 +28,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -39,13 +38,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GodforgeBlock extends BaseEntityBlock {
+    public static final MapCodec<GodforgeBlock> CODEC = simpleCodec(GodforgeBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final EnumProperty<God> GOD = EnumProperty.create("god", God.class);
 
-    public GodforgeBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.5F).lightLevel((state) -> state.getValue(LIT) ? 13 : 0));
+    public GodforgeBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false).setValue(GOD, God.ANPUT));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends GodforgeBlock> codec() {
+        return CODEC;
     }
 
     @Override

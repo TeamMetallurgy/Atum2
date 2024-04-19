@@ -97,7 +97,7 @@ public class AnputsFingersBlock extends CropBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull LevelReader levelReader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(@Nonnull LevelReader levelReader, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return false;
     }
 

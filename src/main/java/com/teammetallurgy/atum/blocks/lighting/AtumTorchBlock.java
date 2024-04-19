@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,7 +25,7 @@ public class AtumTorchBlock extends TorchBlock implements INebuTorch {
     protected final Supplier<SimpleParticleType> flameParticle;
 
     public AtumTorchBlock(int lightValue, Supplier<SimpleParticleType> particleType) {
-        super(Block.Properties.of(Material.DECORATION).noCollission().strength(0.0F).lightLevel(s -> lightValue).sound(SoundType.WOOD), null);
+        super(null, Block.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.0F).lightLevel(s -> lightValue).sound(SoundType.WOOD));
         this.flameParticle = particleType;
     }
 

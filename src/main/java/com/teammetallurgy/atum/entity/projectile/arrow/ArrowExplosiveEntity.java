@@ -9,16 +9,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowExplosiveEntity extends CustomArrow {
     private float velocity;
-
-    public ArrowExplosiveEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.EXPLOSIVE_ARROW.get(), level);
-    }
 
     public ArrowExplosiveEntity(EntityType<? extends ArrowExplosiveEntity> entityType, Level level) {
         super(entityType, level);
@@ -31,7 +26,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
 
     @Override
     public void tick() {
-        if (this.inGroundTime == 20 && velocity == 1.0F && !this.inGround && level.getGameTime() % 2L == 0L) {
+        if (this.inGroundTime == 20 && velocity == 1.0F && !this.inGround && level().getGameTime() % 2L == 0L) {
             level.playSound(null, blockPosition(), SoundEvents.TNT_PRIMED, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
         super.tick();
@@ -42,8 +37,8 @@ public class ArrowExplosiveEntity extends CustomArrow {
         super.onHit(result);
 
         if (velocity == 1.0F) {
-            if (!level.isClientSide) {
-                level.explode(this, getX(), getY(), getZ(), 2.0F, Level.ExplosionInteraction.TNT);
+            if (!level().isClientSide) {
+                level().explode(this, getX(), getY(), getZ(), 2.0F, Level.ExplosionInteraction.TNT);
             }
             this.discard();
         }

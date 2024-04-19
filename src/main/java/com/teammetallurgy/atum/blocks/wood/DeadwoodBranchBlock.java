@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.wood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -17,8 +18,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -69,7 +72,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     public DeadwoodBranchBlock() {
-        super(Properties.of(Material.WOOD).strength(0.8F, 5.0F).sound(SoundType.WOOD).randomTicks().noOcclusion());
+        super(Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(0.8F, 5.0F).sound(SoundType.WOOD).randomTicks().noOcclusion());
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false).setValue(DOWN, false).setValue(WATERLOGGED, false));
     }
 
@@ -101,7 +104,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
         BlockState state = level.getBlockState(pos);
         Direction facing = state.getValue(FACING);
         BlockState neighbor = level.getBlockState(pos.offset(facing.getNormal()));
-        return neighbor.getMaterial() == Material.WOOD;
+        return neighbor.is(BlockTags.LOGS);
     }
 
     @Override

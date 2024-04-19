@@ -12,11 +12,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
-import net.neoforged.neoforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
+import top.theillusivec4.curios.api.SlotContext;
 
 import javax.annotation.Nonnull;
 
@@ -33,9 +35,10 @@ public class RasStep extends RingItem implements IArtifact {
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        super.curioTick(identifier, index, livingEntity, stack);
-        Level level = livingEntity.level;
+    public void curioTick(SlotContext slotContext, @Nonnull ItemStack stack) {
+        super.curioTick(slotContext, stack);
+        LivingEntity livingEntity = slotContext.entity();
+        Level level = livingEntity.level();
         if (livingEntity.isAlive() && !level.isClientSide) {
             BlockPos pos = livingEntity.blockPosition();
 
@@ -47,7 +50,7 @@ public class RasStep extends RingItem implements IArtifact {
     }
 
     private void lavaWalk(LivingEntity living, Level level, BlockPos pos) {
-        if (living.isOnGround()) {
+        if (living.onGround()) {
             BlockState raStone = AtumBlocks.RA_STONE.get().defaultBlockState();
             float area = (float) Math.min(16, 2);
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
@@ -59,7 +62,7 @@ public class RasStep extends RingItem implements IArtifact {
                     if (state.isAir()) {
                         BlockState checkState = level.getBlockState(posBox);
                         boolean isFull = checkState.getFluidState().is(FluidTags.LAVA) && checkState.hasProperty(LiquidBlock.LEVEL) && checkState.getValue(LiquidBlock.LEVEL) == 0;
-                        if (checkState.getMaterial() == Material.LAVA && isFull && raStone.canSurvive(level, posBox) && level.isUnobstructed(raStone, posBox, CollisionContext.empty()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(level.dimension(), level, posBox), Direction.UP)) {
+                        if (checkState == Blocks.LAVA.defaultBlockState() && isFull && raStone.canSurvive(level, posBox) && level.isUnobstructed(raStone, posBox, CollisionContext.empty()) && !EventHooks.onBlockPlace(living, BlockSnapshot.create(level.dimension(), level, posBox), Direction.UP)) {
                             level.setBlockAndUpdate(posBox, raStone);
                             level.scheduleTick(posBox, raStone.getBlock(), Mth.nextInt(living.getRandom(), 60, 120));
                         }

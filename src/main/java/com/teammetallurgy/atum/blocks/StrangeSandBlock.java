@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.common.IPlantable;
 import net.neoforged.neoforge.common.PlantType;
 import net.neoforged.neoforge.common.ToolAction;
@@ -22,7 +24,7 @@ import javax.annotation.Nonnull;
 public class StrangeSandBlock extends FallingBlock {
 
     public StrangeSandBlock() {
-        super(Block.Properties.of(Material.SAND).strength(0.5F).sound(SoundType.SAND).randomTicks());
+        super(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.SNARE).strength(0.5F).sound(SoundType.SAND).randomTicks());
     }
 
     @Override

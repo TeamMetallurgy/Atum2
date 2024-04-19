@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,7 +23,7 @@ import javax.annotation.Nullable;
 public class LimestoneFurnaceBlock extends FurnaceBlock {
 
     public LimestoneFurnaceBlock() {
-        super(Block.Properties.of(Material.STONE).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0));
+        super(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0));
     }
 
     @Override

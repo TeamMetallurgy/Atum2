@@ -26,6 +26,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
@@ -34,6 +35,8 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
@@ -53,11 +56,11 @@ public class AtumBlocks {
     public static final DeferredRegister.Blocks BLOCK_DEFERRED = DeferredRegister.createBlocks(Atum.MOD_ID);
     public static final DeferredBlock<Block> PORTAL = registerBlock(PortalBlock::new, null, "portal");
     public static final DeferredBlock<Block> STRANGE_SAND = registerBlock(StrangeSandBlock::new, "strange_sand");
-    public static final DeferredBlock<Block> STRANGE_SAND_LAYERED = registerBlock(SandLayersBlock::new, "strange_sand_layer");
+    public static final DeferredBlock<Block> STRANGE_SAND_LAYERED = registerBlock(() -> new SandLayersBlock(Block.Properties.of().mapColor(MapColor.SAND).replaceable().noCollission().forceSolidOff().strength(0.1F).sound(SoundType.SAND).pushReaction(PushReaction.DESTROY)), "strange_sand_layer");
     public static final DeferredBlock<Block> LIMESTONE_GRAVEL = registerBlock(LimestoneGravelBlock::new, "limestone_gravel");
     public static final DeferredBlock<Block> DATE_BLOCK = registerBlock(() -> new DateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).pushReaction(PushReaction.DESTROY).sound(SoundType.GRASS).strength(0.35F).noOcclusion().randomTicks()), null, "date_block");
     public static final DeferredBlock<Block> EMMER_WHEAT = registerBlock(EmmerBlock::new, null, "emmer_wheat");
-    public static final DeferredBlock<Block> EMMER_BLOCK = registerBlock(() -> new HayBlock(BlockBehaviour.Properties.of(Material.GRASS, MapColor.COLOR_YELLOW).strength(0.5F).sound(SoundType.GRASS)), "emmer_block");
+    public static final DeferredBlock<Block> EMMER_BLOCK = registerBlock(() -> new HayBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).sound(SoundType.GRASS)), "emmer_block");
     public static final DeferredBlock<Block> ANPUTS_FINGERS = registerBlock(AnputsFingersBlock::new, null, "anputs_fingers");
     public static final DeferredBlock<Block> OASIS_GRASS = registerBlock(OasisGrassBlock::new, "oasis_grass");
     public static final DeferredBlock<Block> DRY_GRASS = registerBlock(DryGrassBlock::new, "dry_grass");
@@ -69,15 +72,15 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> FLAX = registerBlock(FlaxBlock::new, null, "flax_block");
     public static final DeferredBlock<Block> FERTILE_SOIL = registerBlock(FertileSoilBlock::new, "fertile_soil");
     public static final DeferredBlock<Block> FERTILE_SOIL_TILLED = registerBlock(FertileSoilTilledBlock::new, "fertile_soil_tilled");
-    public static final DeferredBlock<Block> FERTILE_SOIL_PATH = registerBlock(() -> new AtumPathBlock(FERTILE_SOIL.get()), "fertile_soil_path");
-    public static final DeferredBlock<Block> STRANGE_SAND_PATH = registerBlock(() -> new AtumPathBlock(STRANGE_SAND.get()), "strange_sand_path");
-    public static final DeferredBlock<Block> QUERN = registerBlock(QuernBlock::new, "quern");
-    public static final DeferredBlock<Block> SPINNING_WHEEL = registerBlock(SpinningWheelBlock::new, "spinning_wheel");
-    public static final DeferredBlock<Block> KILN = registerBlock(KilnBlock::new, "kiln");
-    public static final DeferredBlock<Block> KILN_FAKE = registerBlock(KilnFakeBlock::new, null, "kiln_fake");
-    public static final DeferredBlock<Block> GODFORGE = registerBlock(GodforgeBlock::new, "godforge");
+    public static final DeferredBlock<Block> FERTILE_SOIL_PATH = registerBlock(() -> new AtumPathBlock(FERTILE_SOIL.get(), MapColor.DIRT), "fertile_soil_path");
+    public static final DeferredBlock<Block> STRANGE_SAND_PATH = registerBlock(() -> new AtumPathBlock(STRANGE_SAND.get(), MapColor.SAND), "strange_sand_path");
+    public static final DeferredBlock<Block> QUERN = registerBlock(() -> new QuernBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F)), "quern");
+    public static final DeferredBlock<Block> SPINNING_WHEEL = registerBlock(() -> new SpinningWheelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(1.2F)), "spinning_wheel");
+    public static final DeferredBlock<Block> KILN = registerBlock(() -> new KilnBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE)), "kiln");
+    public static final DeferredBlock<Block> KILN_FAKE = registerBlock(() -> new KilnFakeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 10.0F).sound(SoundType.STONE)), null, "kiln_fake");
+    public static final DeferredBlock<Block> GODFORGE = registerBlock(() -> new GodforgeBlock((BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(3.5F).lightLevel((state) -> state.getValue(GodforgeBlock.LIT) ? 13 : 0))), "godforge");
     public static final DeferredBlock<Block> QUANDARY_BLOCK = registerBlock(QuandaryBlock::new, "quandary_block");
-    public static final DeferredBlock<Block> GLASSBLOWER_FURNACE = registerBlock(GlassblowerFurnace::new, "glassblower_furnace");
+    public static final DeferredBlock<Block> GLASSBLOWER_FURNACE = registerBlock(() -> new GlassblowerFurnace(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0)), "glassblower_furnace");
     public static final DeferredBlock<Block> PALM_CURIO_DISPLAY = registerWithRenderer(() -> new CurioDisplayBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(1.5F, 1.0F).sound(SoundType.GLASS)) {
         @Override
         public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
@@ -127,18 +130,18 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> ARROW_TRAP = registerBlock(ArrowTrapBlock::new, "arrow_trap");
     public static final DeferredBlock<Block> SARCOPHAGUS = registerWithRenderer(SarcophagusBlock::new, new Item.Properties(), "sarcophagus");
     public static final DeferredBlock<Block> LIMESTONE_CHEST = registerWithRenderer(LimestoneChestBlock::new, new Item.Properties(), "limestone_chest");
-    public static final DeferredBlock<Block> GOLD_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "gold_ore");
-    public static final DeferredBlock<Block> IRON_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "iron_ore");
-    public static final DeferredBlock<Block> COAL_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "coal_ore");
-    public static final DeferredBlock<Block> LAPIS_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 5)), "lapis_ore");
-    public static final DeferredBlock<Block> DIAMOND_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "diamond_ore");
-    public static final DeferredBlock<Block> EMERALD_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "emerald_ore");
-    public static final DeferredBlock<Block> REDSTONE_ORE = registerBlock(() -> new RedStoneOreBlock(of(Material.STONE).requiresCorrectToolForDrops().randomTicks().lightLevel(s -> 9).strength(3.0F, 3.0F)), "redstone_ore");
-    public static final DeferredBlock<Block> KHNUMITE_RAW = registerBlock(() -> new Block(of(Material.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "khnumite_raw");
-    public static final DeferredBlock<Block> BONE_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "bone_ore");
-    public static final DeferredBlock<Block> RELIC_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "relic_ore");
-    public static final DeferredBlock<Block> NEBU_ORE = registerBlock(() -> new DropExperienceBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 6)), "nebu_ore");
-    public static final DeferredBlock<Block> NEBU_BLOCK = registerBlock(() -> new Block(BlockBehaviour.Properties.of(Material.METAL, MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
+    public static final DeferredBlock<Block> GOLD_ORE = registerBlock(() -> new DropExperienceBlock(ConstantInt.of(0), ofFullCopy(Blocks.GOLD_ORE)), "gold_ore");
+    public static final DeferredBlock<Block> IRON_ORE = registerBlock(() -> new DropExperienceBlock(ConstantInt.of(0), ofFullCopy(Blocks.IRON_ORE)), "iron_ore");
+    public static final DeferredBlock<Block> COAL_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(0, 2), ofFullCopy(Blocks.COAL_ORE)), "coal_ore");
+    public static final DeferredBlock<Block> LAPIS_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(2, 5), ofFullCopy(Blocks.LAPIS_ORE)), "lapis_ore");
+    public static final DeferredBlock<Block> DIAMOND_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(3, 7), ofFullCopy(Blocks.DIAMOND_ORE)), "diamond_ore");
+    public static final DeferredBlock<Block> EMERALD_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(3, 7), ofFullCopy(Blocks.EMERALD_ORE)), "emerald_ore");
+    public static final DeferredBlock<Block> REDSTONE_ORE = registerBlock(() -> new RedStoneOreBlock(ofFullCopy(Blocks.REDSTONE_ORE)), "redstone_ore");
+    public static final DeferredBlock<Block> KHNUMITE_RAW = registerBlock(() -> new Block(of().mapColor(MapColor.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "khnumite_raw");
+    public static final DeferredBlock<Block> BONE_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(0, 2), of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 3.0F)), "bone_ore");
+    public static final DeferredBlock<Block> RELIC_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(0, 2), of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "relic_ore");
+    public static final DeferredBlock<Block> NEBU_ORE = registerBlock(() -> new DropExperienceBlock(UniformInt.of(2, 6), of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "nebu_ore");
+    public static final DeferredBlock<Block> NEBU_BLOCK = registerBlock(() -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
     public static final DeferredBlock<Block> GODFORGED_BLOCK = registerBlock(GodforgedBlock::new, "godforged_block");
     public static final DeferredBlock<Block> ANPUT_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.ANPUT), "anput_godforged_block");
     public static final DeferredBlock<Block> ANUBIS_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.ANUBIS), "anubis_godforged_block");
@@ -155,8 +158,8 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> SETH_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.SETH), "seth_godforged_block");
     public static final DeferredBlock<Block> SHU_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.SHU), "shu_godforged_block");
     public static final DeferredBlock<Block> TEFNUT_GODFORGED_BLOCK = registerBlock(() -> new GodGodforgedBlock(God.TEFNUT), "tefnut_godforged_block");
-    public static final DeferredBlock<Block> DIRTY_BONE = registerBlock(() -> new RotatedPillarBlock(of(Material.STONE, MapColor.SAND).strength(2.0F)), "dirty_bone_block");
-    public static final DeferredBlock<Block> DIRTY_BONE_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE, MapColor.SAND).strength(2.0F)), "dirty_bone_slab");
+    public static final DeferredBlock<Block> DIRTY_BONE = registerBlock(() -> new RotatedPillarBlock(of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F)), "dirty_bone_block");
+    public static final DeferredBlock<Block> DIRTY_BONE_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F)), "dirty_bone_slab");
     public static final DeferredBlock<Block> BONE_LADDER = registerBlock(AtumLadderBlock::new, "bone_ladder");
     public static final DeferredBlock<Block> LIMESTONE_FURNACE = registerBlock(LimestoneFurnaceBlock::new, "limestone_furnace");
     public static final DeferredBlock<Block> PALM_TORCH = registerTorchWithUnlit(() -> new AtumTorchBlock(14), "palm_torch");
@@ -195,25 +198,25 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> LANTERN_OF_SETH = registerBlock(AtumLanternBlock::new, "lantern_of_seth");
     public static final DeferredBlock<Block> LANTERN_OF_SHU = registerBlock(AtumLanternBlock::new, "lantern_of_shu");
     public static final DeferredBlock<Block> LANTERN_OF_TEFNUT = registerBlock(AtumLanternBlock::new, "lantern_of_tefnut");
-    public static final DeferredBlock<Block> NEBU_CHAIN = registerBlock(() -> new ChainBlock(BlockBehaviour.Properties.of(Material.METAL, MapColor.NONE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.CHAIN).noOcclusion()), "nebu_chain");
-    public static final DeferredBlock<Block> MARL = registerBlock(() -> new Block(of(Material.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "marl");
+    public static final DeferredBlock<Block> NEBU_CHAIN = registerBlock(() -> new ChainBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.CHAIN).noOcclusion()), "nebu_chain");
+    public static final DeferredBlock<Block> MARL = registerBlock(() -> new Block(of().mapColor(MapColor.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "marl");
     public static final DeferredBlock<Block> RA_STONE = registerBlock(RaStoneBlock::new, null, "ra_stone");
     public static final DeferredBlock<Block> LIMESTONE = registerBlock(LimestoneBlock::new, "limestone");
-    public static final DeferredBlock<Block> LIMESTONE_CRACKED = registerBlock(() -> new Block(of(Material.STONE, MapColor.SAND).strength(1.5F, 10.0F)), "limestone_cracked");
+    public static final DeferredBlock<Block> LIMESTONE_CRACKED = registerBlock(() -> new Block(of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 10.0F)), "limestone_cracked");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL = registerBlock(LimestoneBrickBlock::new, "limestone_brick_small");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_LARGE = registerBlock(LimestoneBrickBlock::new, "limestone_brick_large");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_CRACKED_BRICK = registerBlock(LimestoneBrickBlock::new, "limestone_brick_cracked_brick");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED = registerBlock(LimestoneBrickBlock::new, "limestone_brick_chiseled");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED = registerBlock(LimestoneBrickBlock::new, "limestone_brick_carved");
-    public static final DeferredBlock<Block> LIMESTONE_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_slab");
-    public static final DeferredBlock<Block> LIMESTONE_CRACKED_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_cracked_slab");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_small_slab");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_LARGE_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_large_slab");
-    public static final DeferredBlock<Block> LIMESTONE_CRACKED_BRICK_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_cracked_brick_slab");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_chiseled_slab");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED_SLAB = registerBlock(() -> new SlabBlock(of(Material.STONE).strength(2.0F, 6.0F)), "limestone_carved_slab");
+    public static final DeferredBlock<Block> LIMESTONE_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_slab");
+    public static final DeferredBlock<Block> LIMESTONE_CRACKED_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_cracked_slab");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_small_slab");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_LARGE_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_large_slab");
+    public static final DeferredBlock<Block> LIMESTONE_CRACKED_BRICK_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_cracked_brick_slab");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_chiseled_slab");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_carved_slab");
     public static final DeferredBlock<Block> KHNUMITE_BLOCK = registerBlock(KhnumiteBlock::new, "khnumite_block");
-    public static final DeferredBlock<Block> KHNUMITE_FACE = registerBlock(KhnumiteFaceBlock::new, "khnumite_face");
+    public static final DeferredBlock<Block> KHNUMITE_FACE = registerBlock(() -> new KhnumiteFaceBlock(Block.Properties.of().mapColor(MapColor.CLAY).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F)), "khnumite_face");
     public static final DeferredBlock<Block> SMOOTH_STAIRS = registerBlock(() -> new StairBlock(() -> LIMESTONE.get().defaultBlockState(), ofFullCopy(LIMESTONE.get())), "smooth_stairs");
     public static final DeferredBlock<Block> CRACKED_STAIRS = registerBlock(() -> new StairBlock(() -> LIMESTONE_CRACKED.get().defaultBlockState(), ofFullCopy(LIMESTONE_CRACKED.get())), "cracked_stairs");
     public static final DeferredBlock<Block> SMALL_STAIRS = registerBlock(() -> new StairBlock(() -> LIMESTONE_BRICK_SMALL.get().defaultBlockState(), ofFullCopy(LIMESTONE_BRICK_SMALL.get())), "small_stairs");
@@ -236,7 +239,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED_DOOR = registerBlock(() -> new DoorAtumBlock(ofFullCopy(LIMESTONE_BRICK_CHISELED.get()), AtumBlockSetType.LIMESTONE), "limestone_brick_chiseled_door");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED_DOOR = registerBlock(() -> new DoorAtumBlock(ofFullCopy(LIMESTONE_BRICK_CARVED.get()), AtumBlockSetType.LIMESTONE), "limestone_brick_carved_door");
     public static final DeferredBlock<Block> KARST = registerBlock(() -> new Block(ofFullCopy(LIMESTONE.get()).strength(2.0F, 6.0F)), "karst");
-    public static final DeferredBlock<Block> ALABASTER = registerBlock(() -> new Block(of(Material.STONE, MapColor.QUARTZ).strength(2.0F, 8.0F)), "alabaster");
+    public static final DeferredBlock<Block> ALABASTER = registerBlock(() -> new Block(of().mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 8.0F)), "alabaster");
     public static final DeferredBlock<Block> ALABASTER_BRICK_SMOOTH = registerBlock(() -> new Block(ofFullCopy(ALABASTER.get())), "alabaster_brick_smooth");
     public static final DeferredBlock<Block> ALABASTER_BRICK_POLISHED = registerBlock(() -> new Block(ofFullCopy(ALABASTER.get())), "alabaster_brick_polished");
     public static final DeferredBlock<Block> ALABASTER_BRICK_CARVED = registerBlock(() -> new Block(ofFullCopy(ALABASTER.get())), "alabaster_brick_carved");
@@ -257,7 +260,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> ALABASTER_BRICK_CARVED_WALL = registerBlock(() -> new WallBlock(ofFullCopy(ALABASTER.get())), "alabaster_carved_wall");
     public static final DeferredBlock<Block> ALABASTER_BRICK_TILED_WALL = registerBlock(() -> new WallBlock(ofFullCopy(ALABASTER.get())), "alabaster_tiled_wall");
     public static final DeferredBlock<Block> ALABASTER_BRICK_PILLAR_WALL = registerBlock(() -> new WallBlock(ofFullCopy(ALABASTER.get())), "alabaster_pillar_wall");
-    public static final DeferredBlock<Block> PORPHYRY = registerBlock(() -> new Block(of(Material.STONE, MapColor.COLOR_BLACK).strength(1.5F, 5.0F).sound(SoundType.STONE)), "porphyry");
+    public static final DeferredBlock<Block> PORPHYRY = registerBlock(() -> new Block(of().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 5.0F).sound(SoundType.STONE)), "porphyry");
     public static final DeferredBlock<Block> PORPHYRY_BRICK_SMOOTH = registerBlock(() -> new Block(ofFullCopy(PORPHYRY.get())), "porphyry_brick_smooth");
     public static final DeferredBlock<Block> PORPHYRY_BRICK_POLISHED = registerBlock(() -> new Block(ofFullCopy(PORPHYRY.get())), "porphyry_brick_polished");
     public static final DeferredBlock<Block> PORPHYRY_BRICK_CARVED = registerBlock(() -> new Block(ofFullCopy(PORPHYRY.get())), "porphyry_brick_carved");
@@ -358,7 +361,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> CERAMIC_GREEN_WALL = registerBlock(() -> new WallBlock(ofFullCopy(CERAMIC_GREEN.get())), "ceramic_wall_green");
     public static final DeferredBlock<Block> CERAMIC_RED_WALL = registerBlock(() -> new WallBlock(ofFullCopy(CERAMIC_RED.get())), "ceramic_wall_red");
     public static final DeferredBlock<Block> CERAMIC_BLACK_WALL = registerBlock(() -> new WallBlock(ofFullCopy(CERAMIC_BLACK.get())), "ceramic_wall_black");
-    public static final DeferredBlock<Block> CRYSTAL_GLASS = registerBlock(() -> new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "crystal_glass");
+    public static final DeferredBlock<Block> CRYSTAL_GLASS = registerBlock(() -> new AtumGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "crystal_glass");
     public static final DeferredBlock<Block> WHITE_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.WHITE), "white_stained_crystal_glass");
     public static final DeferredBlock<Block> ORANGE_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.ORANGE), "orange_stained_crystal_glass");
     public static final DeferredBlock<Block> MAGENTA_STAINED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.MAGENTA), "magenta_stained_crystal_glass");
@@ -392,7 +395,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> GREEN_STAINED_CRYSTAL_GLASS_PANE = registerBlock(() -> new StainedGlassPaneBlock(DyeColor.GREEN, ofFullCopy(CRYSTAL_GLASS_PANE.get())), "green_stained_crystal_glass_pane");
     public static final DeferredBlock<Block> RED_STAINED_CRYSTAL_GLASS_PANE = registerBlock(() -> new StainedGlassPaneBlock(DyeColor.RED, ofFullCopy(CRYSTAL_GLASS_PANE.get())), "red_stained_crystal_glass_pane");
     public static final DeferredBlock<Block> BLACK_STAINED_CRYSTAL_GLASS_PANE = registerBlock(() -> new StainedGlassPaneBlock(DyeColor.BLACK, ofFullCopy(CRYSTAL_GLASS_PANE.get())), "black_stained_crystal_glass_pane");
-    public static final DeferredBlock<Block> PALM_FRAMED_CRYSTAL_GLASS = registerBlock(() -> new GlassBlocl(of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion()), "palm_framed_crystal_glass");
+    public static final DeferredBlock<Block> PALM_FRAMED_CRYSTAL_GLASS = registerBlock(() -> new AtumGlassBlock(of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion()), "palm_framed_crystal_glass");
     public static final DeferredBlock<Block> WHITE_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.WHITE), "white_stained_palm_framed_crystal_glass");
     public static final DeferredBlock<Block> ORANGE_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.ORANGE), "orange_stained_palm_framed_crystal_glass");
     public static final DeferredBlock<Block> MAGENTA_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.MAGENTA), "magenta_stained_palm_framed_crystal_glass");
@@ -409,7 +412,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> GREEN_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.GREEN), "green_stained_palm_framed_crystal_glass");
     public static final DeferredBlock<Block> RED_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.RED), "red_stained_palm_framed_crystal_glass");
     public static final DeferredBlock<Block> BLACK_STAINED_PALM_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.BLACK), "black_stained_palm_framed_crystal_glass");
-    public static final DeferredBlock<Block> DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(() -> new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "deadwood_framed_crystal_glass");
+    public static final DeferredBlock<Block> DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(() -> new AtumGlassBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never)), "deadwood_framed_crystal_glass");
     public static final DeferredBlock<Block> WHITE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.WHITE), "white_stained_deadwood_framed_crystal_glass");
     public static final DeferredBlock<Block> ORANGE_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.ORANGE), "orange_stained_deadwood_framed_crystal_glass");
     public static final DeferredBlock<Block> MAGENTA_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS = registerBlock(createStainedGlassFromColor(DyeColor.MAGENTA), "magenta_stained_deadwood_framed_crystal_glass");
@@ -492,8 +495,8 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> LINEN_CARPET_GREEN = registerBlock(() -> new LinenCarpetBlock(DyeColor.GREEN), "linen_carpet_green");
     public static final DeferredBlock<Block> LINEN_CARPET_RED = registerBlock(() -> new LinenCarpetBlock(DyeColor.RED), "linen_carpet_red");
     public static final DeferredBlock<Block> LINEN_CARPET_BLACK = registerBlock(() -> new LinenCarpetBlock(DyeColor.BLACK), "linen_carpet_black");
-    public static final DeferredBlock<Block> PALM_PLANKS = registerBlock(() -> new Block(of(Material.WOOD, MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)), "palm_planks");
-    public static final DeferredBlock<Block> DEADWOOD_PLANKS = registerBlock(() -> new Block(of(Material.WOOD, MapColor.PODZOL).strength(2.0F, 3.0F).sound(SoundType.WOOD)), "deadwood_planks");
+    public static final DeferredBlock<Block> PALM_PLANKS = registerBlock(() -> new Block(of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD)), "palm_planks");
+    public static final DeferredBlock<Block> DEADWOOD_PLANKS = registerBlock(() -> new Block(of().mapColor(MapColor.PODZOL).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD)), "deadwood_planks");
     public static final DeferredBlock<Block> PALM_LOG = registerBlock(PalmLog::new, "palm_log");
     public static final DeferredBlock<Block> STRIPPED_PALM_LOG = registerBlock(() -> new RotatedPillarBlock(ofFullCopy(PALM_LOG.get())), "stripped_palm_log");
     public static final DeferredBlock<Block> PALM_WOOD = registerBlock(() -> new RotatedPillarBlock(ofFullCopy(PALM_LOG.get())), "palm_wood");
@@ -508,7 +511,7 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> PALM_SLAB = registerBlock(() -> new SlabBlock(ofFullCopy(PALM_PLANKS.get())), "palm_slab");
     public static final DeferredBlock<Block> DEADWOOD_SLAB = registerBlock(() -> new SlabBlock(ofFullCopy(DEADWOOD_PLANKS.get())), "deadwood_slab");
     public static final DeferredBlock<Block> PALM_SAPLING = registerBlock(PalmSaplingBlock::new, "palm_sapling");
-    public static final DeferredBlock<Block> POTTED_PALM_SAPLING = registerBaseBlock(() -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, PALM_SAPLING, BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()), "potted_palm_sapling");
+    public static final DeferredBlock<Block> POTTED_PALM_SAPLING = registerBaseBlock(() -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, PALM_SAPLING, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).instabreak().noOcclusion()), "potted_palm_sapling");
     public static final DeferredBlock<Block> PALM_LEAVES = registerBlock(PalmLeavesBlock::new, "palm_leaves");
     public static final DeferredBlock<Block> DRY_LEAVES = registerBlock(LeavesAtumBlock::new, null, "dry_leaves");
     public static final DeferredBlock<Block> PALM_CRATE = registerBlock(() -> new CrateBlock(ofFullCopy(PALM_PLANKS.get())), "palm_crate");
@@ -519,22 +522,22 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> DEADWOOD_FENCE = registerBlock(() -> new FenceBlock(ofFullCopy(DEADWOOD_PLANKS.get())), "deadwood_fence");
     public static final DeferredBlock<Block> PALM_FENCE_GATE = registerBlock(() -> new FenceGateBlock(ofFullCopy(PALM_PLANKS.get()), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN), "palm_fence_gate");
     public static final DeferredBlock<Block> DEADWOOD_FENCE_GATE = registerBlock(() -> new FenceGateBlock(ofFullCopy(DEADWOOD_PLANKS.get()), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN), "deadwood_fence_gate");
-    public static final DeferredBlock<Block> PALM_HATCH = registerBlock(() -> new TrapDoorBlock(Block.Properties.of(Material.WOOD, MapColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never), AtumBlockSetType.PALM), "palm_hatch");
-    public static final DeferredBlock<Block> DEADWOOD_HATCH = registerBlock(() -> new TrapDoorBlock(Block.Properties.of(Material.WOOD, MapColor.PODZOL).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never), AtumBlockSetType.DEADWOOD), "deadwood_hatch");
+    public static final DeferredBlock<Block> PALM_HATCH = registerBlock(() -> new TrapDoorBlock(AtumBlockSetType.PALM, Block.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "palm_hatch");
+    public static final DeferredBlock<Block> DEADWOOD_HATCH = registerBlock(() -> new TrapDoorBlock(AtumBlockSetType.DEADWOOD, Block.Properties.of().mapColor(MapColor.PODZOL).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(AtumBlocks::never)), "deadwood_hatch");
     public static final DeferredBlock<Block> PALM_DOOR = registerBlock(() -> new DoorAtumBlock(ofFullCopy(PALM_PLANKS.get()), AtumBlockSetType.PALM), "palm_door");
     public static final DeferredBlock<Block> DEADWOOD_DOOR = registerBlock(() -> new DoorAtumBlock(ofFullCopy(DEADWOOD_PLANKS.get()), AtumBlockSetType.DEADWOOD), "deadwood_door");
-    public static final DeferredBlock<Block> LIMESTONE_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F), AtumBlockSetType.LIMESTONE, 20, false), "limestone_button");
-    public static final DeferredBlock<Block> PALM_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), AtumBlockSetType.PALM, 30, true), "palm_button");
-    public static final DeferredBlock<Block> DEADWOOD_BUTTON = registerBlock(() -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), AtumBlockSetType.DEADWOOD, 30, true), "deadwood_button");
-    public static final DeferredBlock<Block> LIMESTONE_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS, BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().noCollission().strength(0.5F), AtumBlockSetType.LIMESTONE), "limestone_pressure_plate");
-    public static final DeferredBlock<Block> PALM_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, PALM_PLANKS.get().defaultMapColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), AtumBlockSetType.PALM), "palm_pressure_plate");
-    public static final DeferredBlock<Block> DEADWOOD_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, DEADWOOD_PLANKS.get().defaultMapColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), AtumBlockSetType.DEADWOOD), "deadwood_pressure_plate");
-    public static final DeferredBlock<Block> PALM_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.PALM), Atum.PALM);
-    public static final DeferredBlock<Block> DEADWOOD_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.DEADWOOD), Atum.DEADWOOD);
-    public static final DeferredBlock<Block> PALM_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MapColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "palm_scaffolding");
-    public static final DeferredBlock<Block> DEADWOOD_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of(Material.DECORATION, MapColor.SAND).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "deadwood_scaffolding");
-    public static final DeferredBlock<Block> LIFELESS_SAND = registerBlock(() -> new Block(of(Material.SAND, MapColor.COLOR_GRAY).strength(1.5F, 5.0F).sound(SoundType.SAND)), "lifeless_sand");
-    public static final DeferredBlock<Block> PACKED_STRANGE_SAND = registerBlock(() -> new Block(of(Material.SAND, MapColor.COLOR_GRAY).strength(1.5F, 5.0F).sound(SoundType.SAND)), "packed_strange_sand");
+    public static final DeferredBlock<Block> LIMESTONE_BUTTON = registerBlock(() -> new ButtonBlock(AtumBlockSetType.LIMESTONE, 20, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F)), "limestone_button");
+    public static final DeferredBlock<Block> PALM_BUTTON = registerBlock(() -> new ButtonBlock(AtumBlockSetType.PALM, 30, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.WOOD)), "palm_button");
+    public static final DeferredBlock<Block> DEADWOOD_BUTTON = registerBlock(() -> new ButtonBlock(AtumBlockSetType.DEADWOOD, 30, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.WOOD)), "deadwood_button");
+    public static final DeferredBlock<Block> LIMESTONE_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(AtumBlockSetType.LIMESTONE, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().noCollission().strength(0.5F)), "limestone_pressure_plate");
+    public static final DeferredBlock<Block> PALM_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(AtumBlockSetType.PALM, BlockBehaviour.Properties.of().mapColor(PALM_PLANKS.get().defaultMapColor()).ignitedByLava().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).sound(SoundType.WOOD)), "palm_pressure_plate");
+    public static final DeferredBlock<Block> DEADWOOD_PRESSURE_PLATE = registerBlock(() -> new PressurePlateBlock(AtumBlockSetType.DEADWOOD, BlockBehaviour.Properties.of().mapColor(DEADWOOD_PLANKS.get().defaultMapColor()).ignitedByLava().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).sound(SoundType.WOOD)), "deadwood_pressure_plate");
+    public static final DeferredBlock<Block> PALM_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.PALM), Atum.PALM);
+    public static final DeferredBlock<Block> DEADWOOD_SIGN = registerSign(() -> new AtumStandingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).sound(SoundType.WOOD), Atum.DEADWOOD), Atum.DEADWOOD);
+    public static final DeferredBlock<Block> PALM_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).pushReaction(PushReaction.DESTROY).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "palm_scaffolding");
+    public static final DeferredBlock<Block> DEADWOOD_SCAFFOLDING = registerScaffolding(() -> new AtumScaffoldingBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).pushReaction(PushReaction.DESTROY).noCollission().sound(SoundType.SCAFFOLDING).dynamicShape()), "deadwood_scaffolding");
+    public static final DeferredBlock<Block> LIFELESS_SAND = registerBlock(() -> new Block(of().mapColor(MapColor.COLOR_GRAY).instrument(NoteBlockInstrument.SNARE).strength(1.5F, 5.0F).sound(SoundType.SAND)), "lifeless_sand");
+    public static final DeferredBlock<Block> PACKED_STRANGE_SAND = registerBlock(() -> new Block(of().mapColor(MapColor.COLOR_GRAY).instrument(NoteBlockInstrument.SNARE).strength(1.5F, 5.0F).sound(SoundType.SAND)), "packed_strange_sand");
 
     public static void setBlockInfo() {
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(BuiltInRegistries.BLOCK.getKey(PALM_SAPLING.get()), () -> POTTED_PALM_SAPLING.get());
@@ -567,7 +570,7 @@ public class AtumBlocks {
     }
 
     public static Supplier<Block> createStainedGlassFromColor(DyeColor color) {
-        return () -> new StainedGlassBlock(color, BlockBehaviour.Properties.of(Material.GLASS, color).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never));
+        return () -> new StainedGlassBlock(color, BlockBehaviour.Properties.of().mapColor(color).instrument(NoteBlockInstrument.HAT).strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(AtumBlocks::never).isRedstoneConductor(AtumBlocks::never).isSuffocating(AtumBlocks::never).isViewBlocking(AtumBlocks::never));
     }
 
     //Copied from vanilla Block class
@@ -604,7 +607,7 @@ public class AtumBlocks {
         DeferredBlock<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.ofFullCopy(litTorch.get()).lootFrom(litTorch), ((AtumTorchBlock) litTorch.get()).getParticleType()), "wall_" + name);
         DeferredBlock<Block> wallTorchUnlit = registerBaseBlock(() -> new AtumWallTorchUnlitBlock(wallTorchLit.get(), Block.Properties.ofFullCopy(unlitTorch.get()).lootFrom(unlitTorch)), "wall_" + name + "_unlit");
         AtumItems.registerItem(() -> new StandingAndWallBlockItem(unlitTorch.get(), wallTorchUnlit.get(), new Item.Properties(), Direction.DOWN), name + "_unlit");
-        RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
+        DeferredItem<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(litTorch.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
         AtumTorchUnlitBlock.UNLIT.put(litTorch, unlitTorch);
         AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return litTorch;
@@ -613,7 +616,7 @@ public class AtumBlocks {
     public static DeferredBlock<Block> registerTorch(@Nonnull Supplier<Block> torch, @Nonnull String name) {
         DeferredBlock<Block> torchList = registerBaseBlock(torch, name);
         DeferredBlock<Block> wallTorchLit = registerBaseBlock(() -> new AtumWallTorch(Block.Properties.ofFullCopy(torchList.get()).lootFrom(torchList), ((AtumTorchBlock) torchList.get()).getParticleType()), "wall_" + name);
-        RegistryObject<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
+        DeferredItem<Item> litTorchItem = AtumItems.registerItem(() -> new StandingAndWallBlockItem(torchList.get(), wallTorchLit.get(), new Item.Properties(), Direction.DOWN), name);
         AtumItems.ITEMS_FOR_TAB_LIST.add(litTorchItem);
         return torchList;
     }
@@ -637,7 +640,7 @@ public class AtumBlocks {
     public static DeferredBlock<Block> registerSign(@Nonnull Supplier<Block> signBlock, @Nonnull WoodType woodType) {
         String typeName = woodType.name().replace("atum_", "");
         DeferredBlock<Block> signBlockObject = registerBaseBlock(signBlock, typeName + "_sign");
-        DeferredBlock<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlockObject), woodType), typeName + "_wall_sign");
+        DeferredBlock<Block> wallSignBlock = registerBaseBlock(() -> new AtumWallSignBlock(of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).sound(SoundType.WOOD).lootFrom(signBlockObject), woodType), typeName + "_wall_sign");
         DeferredItem<Item> signItem = AtumItems.registerItem(() -> new SignItem((new Item.Properties()).stacksTo(16), signBlockObject.get(), wallSignBlock.get()), typeName + "_sign");
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlockObject, wallSignBlock);
         AtumItems.ITEMS_FOR_TAB_LIST.add(signItem);

@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 
@@ -17,7 +19,7 @@ public class LimestoneBlock extends Block {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
 
     public LimestoneBlock() {
-        super(Block.Properties.of(Material.STONE, MapColor.SAND).strength(1.8F, 6.0F).requiresCorrectToolForDrops());
+        super(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.8F, 6.0F).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(HAS_SCARAB, false));
     }
 

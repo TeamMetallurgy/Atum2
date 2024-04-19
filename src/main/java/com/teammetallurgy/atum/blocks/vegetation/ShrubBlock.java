@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DeadBushBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 
 import javax.annotation.Nonnull;
@@ -20,7 +22,7 @@ import java.util.List;
 public class ShrubBlock extends DeadBushBlock {
 
     public ShrubBlock() {
-        super(Block.Properties.of(Material.REPLACEABLE_PLANT, MapColor.WOOD).noCollission().strength(0.0F).sound(SoundType.GRASS));
+        super(Block.Properties.of().mapColor(MapColor.WOOD).replaceable().ignitedByLava().pushReaction(PushReaction.DESTROY).noCollission().strength(0.0F).sound(SoundType.GRASS));
     }
 
     @Override

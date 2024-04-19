@@ -21,10 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.fml.LogicalSide;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -107,7 +107,7 @@ public class AtemArmor extends ArtifactArmor {
             if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM.get(), AtumItems.BODY_OF_ATEM.get(), AtumItems.LEGS_OF_ATEM.get(), AtumItems.FEET_OF_ATEM.get())) {
                 if (!RECALL_TIMER.containsKey(player)) {
                     livingEntity.setHealth(livingEntity.getMaxHealth());
-                    AtemsHomecomingItem.recall(livingEntity.level, player);
+                    AtemsHomecomingItem.recall(livingEntity.level(), player);
                     RECALL_TIMER.put(player, 24000);
                 }
             }

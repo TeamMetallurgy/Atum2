@@ -15,15 +15,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowFireEntity extends CustomArrow {
-
-    public ArrowFireEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.FIRE_ARROW.get(), level);
-    }
 
     public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, Level level) {
         super(entityType, level);
@@ -55,8 +50,8 @@ public class ArrowFireEntity extends CustomArrow {
         if (shooter instanceof Player) {
             BlockPos pos = rayTraceResult.getBlockPos().relative(rayTraceResult.getDirection());
             Player player = (Player) shooter;
-            if (player.mayUseItemAt(pos, rayTraceResult.getDirection(), player.getItemInHand(player.getUsedItemHand())) && this.level.getBlockState(pos).getMaterial() == Material.AIR) {
-                this.level.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
+            if (player.mayUseItemAt(pos, rayTraceResult.getDirection(), player.getItemInHand(player.getUsedItemHand())) && this.level().getBlockState(pos).isAir()) {
+                this.level().setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             }
         }
     }
@@ -66,8 +61,8 @@ public class ArrowFireEntity extends CustomArrow {
         super.tick();
 
         if (this.isCritArrow()) {
-            if (this.level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.RA_FIRE.get(), this.getX() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + this.level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+            if (this.level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(AtumParticles.RA_FIRE.get(), this.getX() + (this.level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + this.level().random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (this.level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

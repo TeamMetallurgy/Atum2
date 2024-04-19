@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
@@ -21,14 +22,17 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -38,13 +42,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<QuernBlock> CODEC = simpleCodec(QuernBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = box(0.12D * 16, 0.0D, 0.12D * 16, 0.88D * 16, 0.38D * 16, 0.88D * 16);
 
-    public QuernBlock() {
-        super(Properties.of(Material.STONE, MapColor.SAND).strength(1.5F));
+    public QuernBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends QuernBlock> codec() {
+        return CODEC;
     }
 
     @Override

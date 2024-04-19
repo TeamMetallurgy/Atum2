@@ -9,15 +9,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PlayMessages;
 
 public class ArrowRainEntity extends CustomArrow {
     private float velocity;
     private boolean isSmallArrow = false;
-
-    public ArrowRainEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.RAIN_ARROW.get(), level);
-    }
 
     public ArrowRainEntity(EntityType<? extends ArrowRainEntity> entityType, Level level) {
         super(entityType, level);
@@ -36,8 +31,8 @@ public class ArrowRainEntity extends CustomArrow {
 
     @Override
     public void tick() {
-        if (this.level.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
-            if (this.level instanceof ServerLevel serverLevel) {
+        if (this.level().getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
+            if (this.level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(AtumParticles.TEFNUT_DROP.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
@@ -45,21 +40,21 @@ public class ArrowRainEntity extends CustomArrow {
             if (this.tickCount == 12) {
                 this.discard();
                 if (!this.isSmallArrow) {
-                    ArrowRainEntity arrow1 = new ArrowRainEntity(this.level, this.getX() + 0.5D, this.getY(), this.getZ(), false);
+                    ArrowRainEntity arrow1 = new ArrowRainEntity(this.level(), this.getX() + 0.5D, this.getY(), this.getZ(), false);
 
-                    ArrowRainEntity arrow2 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ() + 0.5D, false);
+                    ArrowRainEntity arrow2 = new ArrowRainEntity(this.level(), this.getX(), this.getY(), this.getZ() + 0.5D, false);
 
-                    ArrowRainEntity arrow3 = new ArrowRainEntity(this.level, this.getX() - 0.5D, this.getY(), this.getZ(), false);
+                    ArrowRainEntity arrow3 = new ArrowRainEntity(this.level(), this.getX() - 0.5D, this.getY(), this.getZ(), false);
 
-                    ArrowRainEntity arrow4 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ() - 0.5D, false);
+                    ArrowRainEntity arrow4 = new ArrowRainEntity(this.level(), this.getX(), this.getY(), this.getZ() - 0.5D, false);
 
-                    ArrowRainEntity arrow5 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ(), true);
+                    ArrowRainEntity arrow5 = new ArrowRainEntity(this.level(), this.getX(), this.getY(), this.getZ(), true);
 
-                    this.level.addFreshEntity(arrow1);
-                    this.level.addFreshEntity(arrow2);
-                    this.level.addFreshEntity(arrow3);
-                    this.level.addFreshEntity(arrow4);
-                    this.level.addFreshEntity(arrow5);
+                    this.level().addFreshEntity(arrow1);
+                    this.level().addFreshEntity(arrow2);
+                    this.level().addFreshEntity(arrow3);
+                    this.level().addFreshEntity(arrow4);
+                    this.level().addFreshEntity(arrow5);
                 }
             }
         }

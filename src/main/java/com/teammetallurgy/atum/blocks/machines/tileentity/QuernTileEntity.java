@@ -75,13 +75,13 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
             Container inventory = ((Container) tileEntity);
             stack = HopperBlockEntity.addItem(this, inventory, stack, facing);
         } else if (tileEntity != null) {
-            LazyOptional<IItemHandler> capability = tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, facing);
+            /*LazyOptional<IItemHandler> capability = tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, facing); //TODO
             if (capability.isPresent()) {
                 IItemHandler itemHandler = capability.orElse(null);
                 if (itemHandler != null) {
                     stack = ItemHandlerHelper.insertItem(itemHandler, stack, false);
                 }
-            }
+            }*/
         }
 
         if (!stack.isEmpty()) {

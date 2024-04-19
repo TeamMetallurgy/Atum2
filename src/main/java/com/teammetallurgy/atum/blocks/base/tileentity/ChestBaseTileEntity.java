@@ -39,9 +39,9 @@ public class ChestBaseTileEntity extends ChestBlockEntity {
         }
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    public AABB getRenderBoundingBox() {
+    public AABB getRenderBoundingBox() { //TODO
         return new AABB(worldPosition.getX() - 1, worldPosition.getY(), worldPosition.getZ() - 1, worldPosition.getX() + 2, worldPosition.getY() + 2, worldPosition.getZ() + 2);
-    }
+    }*/
 }

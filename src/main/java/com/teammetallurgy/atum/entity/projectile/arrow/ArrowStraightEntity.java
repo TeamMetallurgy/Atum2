@@ -25,14 +25,10 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.network.PlayMessages;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class ArrowStraightEntity extends CustomArrow {
     private float velocity;
-
-    public ArrowStraightEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.STRAIGHT_ARROW.get(), level);
-    }
 
     public ArrowStraightEntity(EntityType<? extends CustomArrow> entityType, Level level) {
         super(entityType, level);
@@ -55,7 +51,7 @@ public class ArrowStraightEntity extends CustomArrow {
             }
 
             if (this.getOwner() instanceof LivingEntity && !this.inGround && this.velocity == 1.0F && this.isAlive()) {
-                if (this.level instanceof ServerLevel serverLevel && this.tickCount > 2) {
+                if (this.level() instanceof ServerLevel serverLevel && this.tickCount > 2) {
                     serverLevel.sendParticles(AtumParticles.HORUS.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
                 }
             }
@@ -64,7 +60,7 @@ public class ArrowStraightEntity extends CustomArrow {
 
     public void arrowTick() {
         this.abstractArrowTick();
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             if (this.inGround) {
                 if (this.inGroundTime % 5 == 0) {
                     this.makeParticle(1);
@@ -73,7 +69,7 @@ public class ArrowStraightEntity extends CustomArrow {
                 this.makeParticle(2);
             }
         } else if (this.inGround && this.inGroundTime != 0 && !this.effects.isEmpty() && this.inGroundTime >= 600) {
-            this.level.broadcastEntityEvent(this, (byte)0);
+            this.level().broadcastEntityEvent(this, (byte)0);
             this.potion = Potions.EMPTY;
             this.effects.clear();
             this.entityData.set(ID_EFFECT_COLOR, -1);
@@ -88,7 +84,7 @@ public class ArrowStraightEntity extends CustomArrow {
             double d2 = (double)(i >> 0 & 255) / 255.0D;
 
             for(int j = 0; j < p_36877_; ++j) {
-                this.level.addParticle(ParticleTypes.ENTITY_EFFECT, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), d0, d1, d2);
+                this.level().addParticle(ParticleTypes.ENTITY_EFFECT, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), d0, d1, d2);
             }
 
         }
@@ -110,7 +106,7 @@ public class ArrowStraightEntity extends CustomArrow {
     private boolean checkLeftOwner() {
         Entity entity = this.getOwner();
         if (entity != null) {
-            for(Entity entity1 : this.level.getEntities(this, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), (p_37272_) -> {
+            for(Entity entity1 : this.level().getEntities(this, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), (p_37272_) -> {
                 return !p_37272_.isSpectator() && p_37272_.isPickable();
             })) {
                 if (entity1.getRootVehicle() == entity.getRootVehicle()) {
@@ -135,9 +131,9 @@ public class ArrowStraightEntity extends CustomArrow {
         }
 
         BlockPos blockpos = this.blockPosition();
-        BlockState blockstate = this.level.getBlockState(blockpos);
+        BlockState blockstate = this.level().getBlockState(blockpos);
         if (!blockstate.isAir() && !flag) {
-            VoxelShape voxelshape = blockstate.getCollisionShape(this.level, blockpos);
+            VoxelShape voxelshape = blockstate.getCollisionShape(this.level(), blockpos);
             if (!voxelshape.isEmpty()) {
                 Vec3 vec31 = this.position();
 
@@ -159,9 +155,9 @@ public class ArrowStraightEntity extends CustomArrow {
         }
 
         if (this.inGround && !flag) {
-            if (this.lastState != blockstate && (this.inGround && this.level.noCollision((new AABB(this.position(), this.position())).inflate(0.06D)))) {
+            if (this.lastState != blockstate && (this.inGround && this.level().noCollision((new AABB(this.position(), this.position())).inflate(0.06D)))) {
                 this.startFalling();
-            } else if (!this.level.isClientSide) {
+            } else if (!this.level().isClientSide) {
                 this.tickDespawn();
             }
 
@@ -170,7 +166,7 @@ public class ArrowStraightEntity extends CustomArrow {
             this.inGroundTime = 0;
             Vec3 vec32 = this.position();
             Vec3 vec33 = vec32.add(vec3);
-            HitResult hitresult = this.level.clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+            HitResult hitresult = this.level().clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
             if (hitresult.getType() != HitResult.Type.MISS) {
                 vec33 = hitresult.getLocation();
             }
@@ -190,7 +186,7 @@ public class ArrowStraightEntity extends CustomArrow {
                     }
                 }
 
-                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !flag && !net.neoforged.neoforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+                if (hitresult != null && hitresult.getType() != HitResult.Type.MISS && !flag && !EventHooks.onProjectileImpact(this, hitresult)) {
                     this.onHit(hitresult);
                     this.hasImpulse = true;
                 }
@@ -227,7 +223,7 @@ public class ArrowStraightEntity extends CustomArrow {
             if (this.isInWater()) {
                 for(int j = 0; j < 4; ++j) {
                     float f2 = 0.25F;
-                    this.level.addParticle(ParticleTypes.BUBBLE, d7 - d5 * 0.25D, d2 - d6 * 0.25D, d3 - d1 * 0.25D, d5, d6, d1);
+                    this.level().addParticle(ParticleTypes.BUBBLE, d7 - d5 * 0.25D, d2 - d6 * 0.25D, d3 - d1 * 0.25D, d5, d6, d1);
                 }
 
                 f = this.getWaterInertia();

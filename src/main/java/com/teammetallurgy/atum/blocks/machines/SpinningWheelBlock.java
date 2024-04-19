@@ -50,7 +50,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     private static final BooleanProperty WHEEL = BooleanProperty.create("wheel");
 
     public SpinningWheelBlock(BlockBehaviour.Properties properties) {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(1.2F));
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(SPOOL, 0).setValue(WHEEL, false));
     }
 

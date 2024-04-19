@@ -9,14 +9,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 
 public class AtumPathBlock extends DirtPathBlock {
     private final Block baseBlock;
 
-    public AtumPathBlock(Block baseBlock) {
-        super(BlockBehaviour.Properties.of(baseBlock.defaultBlockState().getMaterial()).strength(0.65F).sound(baseBlock.defaultBlockState().getSoundType()).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always).lootFrom(() -> baseBlock));
+    public AtumPathBlock(Block baseBlock, MapColor mapColor) {
+        super(BlockBehaviour.Properties.of().mapColor(mapColor).strength(0.65F).sound(baseBlock.defaultBlockState().getSoundType()).isViewBlocking(AtumBlocks::always).isSuffocating(AtumBlocks::always).lootFrom(() -> baseBlock));
         this.baseBlock = baseBlock;
     }
 

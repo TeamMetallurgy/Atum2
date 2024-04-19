@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.khnumite;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -21,24 +22,34 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nonnull;
 
 public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKhnumite {
+    public static final MapCodec<KhnumiteFaceBlock> CODEC = simpleCodec(KhnumiteFaceBlock::new);
     private BlockPattern stoneguardBasePattern;
     private BlockPattern stoneguardPattern;
     private BlockPattern stonewardenBasePattern;
     private BlockPattern stonewardenPattern;
 
-    public KhnumiteFaceBlock() {
-        super(Block.Properties.of(Material.STONE, MapColor.CLAY).strength(2.0F));
+    public KhnumiteFaceBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends KhnumiteFaceBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -158,28 +169,28 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
 
     private BlockPattern getStoneguardBasePattern() {
         if (this.stoneguardBasePattern == null) {
-            this.stoneguardBasePattern = BlockPatternBuilder.start().aisle("   ", "~#~", " # ").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stoneguardBasePattern = BlockPatternBuilder.start().aisle("   ", "~#~", " # ").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', blockInWorld -> blockInWorld.getState().isAir()).build();
         }
         return this.stoneguardBasePattern;
     }
 
     private BlockPattern getStoneguardPattern() {
         if (this.stoneguardPattern == null) {
-            this.stoneguardPattern = BlockPatternBuilder.start().aisle(" ^ ", "~#~", " # ").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stoneguardPattern = BlockPatternBuilder.start().aisle(" ^ ", "~#~", " # ").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', blockInWorld -> blockInWorld.getState().isAir()).build();
         }
         return this.stoneguardPattern;
     }
 
     private BlockPattern getStonewardenBasePattern() {
         if (this.stonewardenBasePattern == null) {
-            this.stonewardenBasePattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stonewardenBasePattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', blockInWorld -> blockInWorld.getState().isAir()).build();
         }
         return this.stonewardenBasePattern;
     }
 
     private BlockPattern getStonewardenPattern() {
         if (this.stonewardenPattern == null) {
-            this.stonewardenPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+            this.stonewardenPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_FACE.get()))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(AtumBlocks.KHNUMITE_BLOCK.get()))).where('~', blockInWorld -> blockInWorld.getState().isAir()).build();
         }
         return this.stonewardenPattern;
     }

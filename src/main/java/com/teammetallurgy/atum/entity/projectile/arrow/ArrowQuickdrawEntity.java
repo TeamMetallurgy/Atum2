@@ -8,13 +8,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PlayMessages;
 
 public class ArrowQuickdrawEntity extends CustomArrow {
-
-    public ArrowQuickdrawEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.QUICKDRAW_ARROW.get(), level);
-    }
 
     public ArrowQuickdrawEntity(EntityType<? extends ArrowQuickdrawEntity> entityType, Level level) {
         super(entityType, level);
@@ -34,8 +29,8 @@ public class ArrowQuickdrawEntity extends CustomArrow {
         super.tick();
 
         if (this.isCritArrow()) {
-            if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.SHU.get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.01D);
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(AtumParticles.SHU.get(), this.getX() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level().random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

@@ -17,12 +17,12 @@ public class AtumWallTorch extends WallTorchBlock implements INebuTorch {
     private final Supplier<SimpleParticleType> flameParticle;
 
     public AtumWallTorch(Properties properties) {
-        super(properties, ParticleTypes.FLAME);
+        super(ParticleTypes.FLAME, properties);
         this.flameParticle = () -> ParticleTypes.FLAME;
     }
 
     public AtumWallTorch(Properties properties, Supplier<SimpleParticleType> particleType) {
-        super(properties, null);
+        super(null, properties);
         this.flameParticle = particleType;
     }
 

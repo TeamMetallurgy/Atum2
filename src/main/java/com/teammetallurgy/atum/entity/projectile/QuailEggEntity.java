@@ -14,18 +14,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 public class QuailEggEntity extends ThrowableItemProjectile {
-
-    public QuailEggEntity(PlayMessages.SpawnEntity spawnPacket, Level level) {
-        this(AtumEntities.QUAIL_EGG.get(), level);
-    }
 
     public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, Level level) {
         super(entityType, level);
@@ -46,17 +40,11 @@ public class QuailEggEntity extends ThrowableItemProjectile {
     }
 
     @Override
-    @Nonnull
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 3) {
             for (int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -70,7 +58,7 @@ public class QuailEggEntity extends ThrowableItemProjectile {
     @Override
     protected void onHit(@Nonnull HitResult result) {
         super.onHit(result);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             if (this.random.nextInt(8) == 0) {
                 int i = 1;
                 if (this.random.nextInt(32) == 0) {
@@ -78,15 +66,15 @@ public class QuailEggEntity extends ThrowableItemProjectile {
                 }
 
                 for (int j = 0; j < i; ++j) {
-                    QuailEntity quail = AtumEntities.QUAIL.get().create(this.level);
+                    QuailEntity quail = AtumEntities.QUAIL.get().create(this.level());
                     if (quail != null) {
                         quail.setAge(-24000);
                         quail.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        this.level.addFreshEntity(quail);
+                        this.level().addFreshEntity(quail);
                     }
                 }
             }
-            this.level.broadcastEntityEvent(this, (byte) 3);
+            this.level().broadcastEntityEvent(this, (byte) 3);
             this.discard();
         }
     }

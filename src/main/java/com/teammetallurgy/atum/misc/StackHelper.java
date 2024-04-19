@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.misc;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -65,7 +65,7 @@ public class StackHelper {
     }
 
     public static Item getItemFromName(ResourceLocation location) {
-        return BuiltInRegistries.ITEM.getValue(location);
+        return BuiltInRegistries.ITEM.get(location);
     }
 
     /*
@@ -118,7 +118,7 @@ public class StackHelper {
         } else if (stackA.getItem() != stackB.getItem()) {
             return false;
         } else {
-            return (stackA.getTag() == null || stackA.getTag().equals(stackB.getTag())) && stackA.areCapsCompatible(stackB);
+            return (stackA.getTag() == null || stackA.getTag().equals(stackB.getTag()));
         }
     }
 

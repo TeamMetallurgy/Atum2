@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 public class AtumStandingSignBlock extends StandingSignBlock {
 
     public AtumStandingSignBlock(Properties properties, WoodType type) {
-        super(properties, type);
+        super(type, properties);
     }
 
     @Override

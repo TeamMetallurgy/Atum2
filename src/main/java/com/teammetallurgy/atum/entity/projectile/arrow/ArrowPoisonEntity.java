@@ -12,15 +12,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowPoisonEntity extends CustomArrow {
-
-    public ArrowPoisonEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(AtumEntities.POISON_ARROW.get(), level);
-    }
 
     public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, Level level) {
         super(entityType, level);
@@ -36,14 +31,14 @@ public class ArrowPoisonEntity extends CustomArrow {
 
         //Particle while arrow is in air
         if (this.isCritArrow()) {
-            if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(AtumParticles.SETH.get(), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(AtumParticles.SETH.get(), this.getX() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level().random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level().random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
 
         //Particle after hit
-        if (level.getGameTime() % 8L == 0L) {
-            if (level instanceof ServerLevel serverLevel) {
+        if (level().getGameTime() % 8L == 0L) {
+            if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(AtumParticles.SETH.get(), getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
@@ -54,7 +49,7 @@ public class ArrowPoisonEntity extends CustomArrow {
         super.onHitEntity(rayTraceResult);
 
         Entity hitEntity = rayTraceResult.getEntity();
-        if (!level.isClientSide && hitEntity instanceof LivingEntity livingBase) {
+        if (!level().isClientSide && hitEntity instanceof LivingEntity livingBase) {
             MobEffectInstance poison = new MobEffectInstance(MobEffects.POISON, 110, 0, false, true);
 
             if (livingBase.getEffect(MobEffects.POISON) != null) {  //Extra damage, if target is already poisoned
