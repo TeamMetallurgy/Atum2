@@ -87,8 +87,7 @@ public class Atum {
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             NeoForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
-        KhnumiteFaceBlock.addDispenserSupport();
-        NetworkHandler.initialize();
+        event.enqueueWork(KhnumiteFaceBlock::addDispenserSupport);
         IntegrationHandler.INSTANCE.setup();
     }
 

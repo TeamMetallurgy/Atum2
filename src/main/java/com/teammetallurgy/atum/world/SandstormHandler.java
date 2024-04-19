@@ -69,7 +69,7 @@ public class SandstormHandler {
                     this.stormTime = serverLevel.random.nextInt(168000) + 12000;
                 }
                 DimensionHelper.getData(serverLevel).setStorming(DimensionHelper.getData(serverLevel).isStorming());
-                NetworkHandler.sendToDimension(new WeatherPacket(this.stormTime), serverLevel, Atum.ATUM);
+                NetworkHandler.sendToDimension(Atum.ATUM, new WeatherPacket(this.stormTime));
             } else {
                 this.stormTime--;
                 if (this.stormTime <= 0) {
@@ -88,7 +88,7 @@ public class SandstormHandler {
             this.stormStrength = Mth.clamp(this.stormStrength, 0.0F, 1.0F);
 
             if (this.stormStrength != this.prevStormStrength || this.lastUpdateTime < System.currentTimeMillis() - 1000) {
-                NetworkHandler.sendToDimension(new StormStrengthPacket(this.stormStrength), serverLevel, Atum.ATUM);
+                NetworkHandler.sendToDimension(Atum.ATUM, new StormStrengthPacket(this.stormStrength));
                 this.lastUpdateTime = System.currentTimeMillis();
             }
 
