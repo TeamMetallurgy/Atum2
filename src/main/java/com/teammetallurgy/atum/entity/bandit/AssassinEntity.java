@@ -82,7 +82,7 @@ public class AssassinEntity extends BanditBaseEntity {
     public void tick() {
         super.tick();
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setBesideClimbableBlock(this.horizontalCollision);
         }
     }
@@ -132,7 +132,7 @@ public class AssassinEntity extends BanditBaseEntity {
             return false;
         } else {
             if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER.get() && entity instanceof LivingEntity) {
-                entity.hurt(this.level.damageSources().source(AtumDamageTypes.ASSASSINATED), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                entity.hurt(this.level().damageSources().source(AtumDamageTypes.ASSASSINATED), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 (((LivingEntity) entity)).addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
             }
             return true;
@@ -151,7 +151,7 @@ public class AssassinEntity extends BanditBaseEntity {
     public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("MarkedForDeathTarget")) {
-            Player playerEntity = this.level.getPlayerByUUID(compound.getUUID("MarkedForDeathTarget"));
+            Player playerEntity = this.level().getPlayerByUUID(compound.getUUID("MarkedForDeathTarget"));
             if (playerEntity != null) {
                 this.markedTarget = playerEntity;
             }

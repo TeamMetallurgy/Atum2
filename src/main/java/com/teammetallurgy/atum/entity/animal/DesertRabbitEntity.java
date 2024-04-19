@@ -122,8 +122,8 @@ public class DesertRabbitEntity extends Rabbit {
 
     @Override
     public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
-        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.get().create(this.level);
-        int type = this.getRandomAtumRabbitType(this.level);
+        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.get().create(this.level());
+        int type = this.getRandomAtumRabbitType(this.level());
 
         if (rabbit != null) {
             if (this.random.nextInt(20) != 0) {

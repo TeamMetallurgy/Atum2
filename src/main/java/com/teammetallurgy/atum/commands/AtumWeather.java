@@ -21,7 +21,7 @@ public class AtumWeather {
 	}
 
 	private static int sendUsage(CommandSourceStack source) {
-		source.sendSuccess(Component.translatable("atum.commands.weather.usage"), true);
+		source.sendSuccess(() -> Component.translatable("atum.commands.weather.usage"), true);
 		return 0;
 	}
 
@@ -31,9 +31,9 @@ public class AtumWeather {
 			DimensionHelper.getData(serverLevel).setStorming(isSandstorm);
 			SandstormHandler.INSTANCE.stormTime = time == -1 ? 1500 : time != 0 ? Math.min(time, 1000000) * 20 : (300 + (new Random()).nextInt(600)) * 20;
 			if (isSandstorm) {
-				source.sendSuccess(Component.translatable("atum.commands.weather.sandstorm"), true);
+				source.sendSuccess(() -> Component.translatable("atum.commands.weather.sandstorm"), true);
 			} else {
-				source.sendSuccess(Component.translatable("commands.weather.set.clear"), true);
+				source.sendSuccess(() -> Component.translatable("commands.weather.set.clear"), true);
 			}
 			return 0;
 		}

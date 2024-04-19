@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
+import com.mojang.serialization.MapCodec;
 import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -27,11 +29,18 @@ import net.minecraft.world.level.material.MapColor;
 import javax.annotation.Nonnull;
 
 public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
+    public static final MapCodec<LimestoneBrickBlock> CODEC = simpleCodec(LimestoneBrickBlock::new);
     public static final BooleanProperty CAN_FALL = BooleanProperty.create("can_fall");
 
-    public LimestoneBrickBlock() {
-        super(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
+    public LimestoneBrickBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(UNBREAKABLE, false).setValue(CAN_FALL, false));
+    }
+
+    @Override
+    @Nonnull
+    protected MapCodec<? extends LimestoneBrickBlock> codec() {
+        return CODEC;
     }
 
     @Override

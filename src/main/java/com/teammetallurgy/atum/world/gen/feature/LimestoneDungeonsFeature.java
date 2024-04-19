@@ -51,8 +51,7 @@ public class LimestoneDungeonsFeature extends Feature<NoneFeatureConfiguration> 
             for (int y = -1; y <= 4; ++y) {
                 for (int z = l1; z <= i2; ++z) {
                     BlockPos checkPos = pos.offset(x, y, z);
-                    Material material = genLevel.getBlockState(checkPos).getMaterial();
-                    boolean isSolid = material.isSolid();
+                    boolean isSolid = genLevel.getBlockState(checkPos).isSolid();
                     if (y == -1 && !isSolid) {
                         return false;
                     }
@@ -78,9 +77,9 @@ public class LimestoneDungeonsFeature extends Feature<NoneFeatureConfiguration> 
                             if (blockstate.getBlock() != AtumBlocks.DEADWOOD_CRATE.get() && !blockstate.is(Blocks.SPAWNER)) {
                                 genLevel.setBlock(genPos, CAVE_AIR, 2);
                             }
-                        } else if (genPos.getY() >= genLevel.getMinBuildHeight() && !genLevel.getBlockState(genPos.below()).getMaterial().isSolid()) {
+                        } else if (genPos.getY() >= genLevel.getMinBuildHeight() && !genLevel.getBlockState(genPos.below()).isSolid()) {
                             genLevel.setBlock(genPos, CAVE_AIR, 2);
-                        } else if (blockstate.getMaterial().isSolid() && genLevel.getBlockState(genPos).getBlock() != AtumBlocks.DEADWOOD_CRATE.get()) {
+                        } else if (blockstate.isSolid() && genLevel.getBlockState(genPos).getBlock() != AtumBlocks.DEADWOOD_CRATE.get()) {
                             if (i4 == -1 && random.nextInt(4) != 0) {
                                 genLevel.setBlock(genPos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.get().defaultBlockState(), 2);
                             } else {
@@ -101,13 +100,13 @@ public class LimestoneDungeonsFeature extends Feature<NoneFeatureConfiguration> 
                         int j3 = 0;
 
                         for (Direction direction : Direction.Plane.HORIZONTAL) {
-                            if (genLevel.getBlockState(cratePos.relative(direction)).getMaterial().isSolid()) {
+                            if (genLevel.getBlockState(cratePos.relative(direction)).isSolid()) {
                                 ++j3;
                             }
                         }
                         if (j3 == 1) {
                             this.safeSetBlock(genLevel, cratePos, ChestBaseBlock.correctFacing(genLevel, cratePos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), predicate);
-                            RandomizableContainerBlockEntity.setLootTable(genLevel, random, cratePos, AtumLootTables.CRATE);
+                            RandomizableContainerBlockEntity.setBlockEntityLootTable(genLevel, random, cratePos, AtumLootTables.CRATE);
                             break;
                         }
                     }

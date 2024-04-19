@@ -55,15 +55,15 @@ import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of
 public class AtumBlocks {
     public static final DeferredRegister.Blocks BLOCK_DEFERRED = DeferredRegister.createBlocks(Atum.MOD_ID);
     public static final DeferredBlock<Block> PORTAL = registerBlock(PortalBlock::new, null, "portal");
-    public static final DeferredBlock<Block> STRANGE_SAND = registerBlock(StrangeSandBlock::new, "strange_sand");
+    public static final DeferredBlock<Block> STRANGE_SAND = registerBlock(() -> new StrangeSandBlock(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.SNARE).strength(0.5F).sound(SoundType.SAND).randomTicks()), "strange_sand");
     public static final DeferredBlock<Block> STRANGE_SAND_LAYERED = registerBlock(() -> new SandLayersBlock(Block.Properties.of().mapColor(MapColor.SAND).replaceable().noCollission().forceSolidOff().strength(0.1F).sound(SoundType.SAND).pushReaction(PushReaction.DESTROY)), "strange_sand_layer");
     public static final DeferredBlock<Block> LIMESTONE_GRAVEL = registerBlock(LimestoneGravelBlock::new, "limestone_gravel");
     public static final DeferredBlock<Block> DATE_BLOCK = registerBlock(() -> new DateBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).pushReaction(PushReaction.DESTROY).sound(SoundType.GRASS).strength(0.35F).noOcclusion().randomTicks()), null, "date_block");
     public static final DeferredBlock<Block> EMMER_WHEAT = registerBlock(EmmerBlock::new, null, "emmer_wheat");
     public static final DeferredBlock<Block> EMMER_BLOCK = registerBlock(() -> new HayBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.5F).sound(SoundType.GRASS)), "emmer_block");
     public static final DeferredBlock<Block> ANPUTS_FINGERS = registerBlock(AnputsFingersBlock::new, null, "anputs_fingers");
-    public static final DeferredBlock<Block> OASIS_GRASS = registerBlock(OasisGrassBlock::new, "oasis_grass");
-    public static final DeferredBlock<Block> DRY_GRASS = registerBlock(DryGrassBlock::new, "dry_grass");
+    public static final DeferredBlock<Block> OASIS_GRASS = registerBlock(() -> new OasisGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().ignitedByLava().pushReaction(PushReaction.DESTROY).noCollission().strength(0.0F).sound(SoundType.GRASS).offsetType(Block.OffsetType.XYZ)), "oasis_grass");
+    public static final DeferredBlock<Block> DRY_GRASS = registerBlock(() -> new DryGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().ignitedByLava().pushReaction(PushReaction.DESTROY).noCollission().strength(0.0F).sound(SoundType.GRASS).offsetType(Block.OffsetType.XYZ)), "dry_grass");
     public static final DeferredBlock<Block> TALL_DRY_GRASS = registerBlock(TallDryGrass::new, "tall_dry_grass");
     public static final DeferredBlock<Block> SHRUB = registerBlock(ShrubBlock::new, "shrub");
     public static final DeferredBlock<Block> WEED = registerBlock(ShrubBlock::new, "weed");
@@ -123,11 +123,11 @@ public class AtumBlocks {
             return AtumTileEntities.NEBU_CURIO_DISPLAY.get().create(pos, state);
         }
     }, new Item.Properties(), "nebu_curio_display");
-    public static final DeferredBlock<Block> BURNING_TRAP = registerBlock(BurningTrapBlock::new, "burning_trap");
-    public static final DeferredBlock<Block> POISON_TRAP = registerBlock(PoisonTrapBlock::new, "poison_trap");
-    public static final DeferredBlock<Block> TAR_TRAP = registerBlock(TarTrapBlock::new, "tar_trap");
-    public static final DeferredBlock<Block> SMOKE_TRAP = registerBlock(SmokeTrapBlock::new, "smoke_trap");
-    public static final DeferredBlock<Block> ARROW_TRAP = registerBlock(ArrowTrapBlock::new, "arrow_trap");
+    public static final DeferredBlock<Block> BURNING_TRAP = registerBlock(() -> new BurningTrapBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F)), "burning_trap");
+    public static final DeferredBlock<Block> POISON_TRAP = registerBlock(() -> new PoisonTrapBlock(ofFullCopy(BURNING_TRAP.get())), "poison_trap");
+    public static final DeferredBlock<Block> TAR_TRAP = registerBlock(() -> new TarTrapBlock(ofFullCopy(BURNING_TRAP.get())), "tar_trap");
+    public static final DeferredBlock<Block> SMOKE_TRAP = registerBlock(() -> new SmokeTrapBlock(ofFullCopy(BURNING_TRAP.get())), "smoke_trap");
+    public static final DeferredBlock<Block> ARROW_TRAP = registerBlock(() -> new ArrowTrapBlock(ofFullCopy(BURNING_TRAP.get())), "arrow_trap");
     public static final DeferredBlock<Block> SARCOPHAGUS = registerWithRenderer(SarcophagusBlock::new, new Item.Properties(), "sarcophagus");
     public static final DeferredBlock<Block> LIMESTONE_CHEST = registerWithRenderer(LimestoneChestBlock::new, new Item.Properties(), "limestone_chest");
     public static final DeferredBlock<Block> GOLD_ORE = registerBlock(() -> new DropExperienceBlock(ConstantInt.of(0), ofFullCopy(Blocks.GOLD_ORE)), "gold_ore");
@@ -203,11 +203,11 @@ public class AtumBlocks {
     public static final DeferredBlock<Block> RA_STONE = registerBlock(RaStoneBlock::new, null, "ra_stone");
     public static final DeferredBlock<Block> LIMESTONE = registerBlock(LimestoneBlock::new, "limestone");
     public static final DeferredBlock<Block> LIMESTONE_CRACKED = registerBlock(() -> new Block(of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 10.0F)), "limestone_cracked");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL = registerBlock(LimestoneBrickBlock::new, "limestone_brick_small");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_LARGE = registerBlock(LimestoneBrickBlock::new, "limestone_brick_large");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_CRACKED_BRICK = registerBlock(LimestoneBrickBlock::new, "limestone_brick_cracked_brick");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED = registerBlock(LimestoneBrickBlock::new, "limestone_brick_chiseled");
-    public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED = registerBlock(LimestoneBrickBlock::new, "limestone_brick_carved");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL = registerBlock(() -> new LimestoneBrickBlock(Block.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 8.0F).requiresCorrectToolForDrops()), "limestone_brick_small");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_LARGE = registerBlock(() -> new LimestoneBrickBlock(ofFullCopy(LIMESTONE_BRICK_SMALL.get())), "limestone_brick_large");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_CRACKED_BRICK = registerBlock(() -> new LimestoneBrickBlock(ofFullCopy(LIMESTONE_BRICK_SMALL.get())), "limestone_brick_cracked_brick");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_CHISELED = registerBlock(() -> new LimestoneBrickBlock(ofFullCopy(LIMESTONE_BRICK_SMALL.get())), "limestone_brick_chiseled");
+    public static final DeferredBlock<Block> LIMESTONE_BRICK_CARVED = registerBlock(() -> new LimestoneBrickBlock(ofFullCopy(LIMESTONE_BRICK_SMALL.get())), "limestone_brick_carved");
     public static final DeferredBlock<Block> LIMESTONE_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_slab");
     public static final DeferredBlock<Block> LIMESTONE_CRACKED_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_cracked_slab");
     public static final DeferredBlock<Block> LIMESTONE_BRICK_SMALL_SLAB = registerBlock(() -> new SlabBlock(of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)), "limestone_small_slab");

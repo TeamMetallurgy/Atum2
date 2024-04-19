@@ -38,7 +38,7 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
 
     public static void knockUp(LivingEntity target, LivingEntity attacker, RandomSource random) {
         if (attacker != null && !(target instanceof StoneBaseEntity)) {
-            if (!attacker.level.isClientSide) {
+            if (!attacker.level().isClientSide) {
                 double dx = target.getX() - attacker.getX();
                 double dz = target.getZ() - attacker.getZ();
                 double magnitude = Math.sqrt(dx * dx + dz * dz);
@@ -50,7 +50,7 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
                     target.setDeltaMovement(motion.x, 0.9D, motion.z);
                 }
             }
-            if (target.level instanceof ServerLevel serverLevel) {
+            if (target.level() instanceof ServerLevel serverLevel) {
                 double x = Mth.nextDouble(random, 0.0001D, 0.04D);
                 double z = Mth.nextDouble(random, 0.0001D, 0.04D);
                 serverLevel.sendParticles(AtumParticles.HORUS.get(), target.getX(), target.getY() + 0.9D, target.getZ(), 65, x, 0.9D, -z, 0.005D);

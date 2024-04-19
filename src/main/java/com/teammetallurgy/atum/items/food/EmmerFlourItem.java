@@ -53,7 +53,7 @@ public class EmmerFlourItem extends Item {
                         return new InteractionResultHolder<>(InteractionResult.FAIL, heldStack);
                     }
                 } else if (state.getBlock() instanceof BucketPickup bucketPickup) {
-                    ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(level, pos, state);
+                    ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(player, level, pos, state);
                     if (!stack.isEmpty()) {
                         player.awardStat(Stats.ITEM_USED.get(this));
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);

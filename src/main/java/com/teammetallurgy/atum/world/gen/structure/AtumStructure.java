@@ -35,7 +35,7 @@ public abstract class AtumStructure extends Structure {
                     if (!genLevel.isEmptyBlock(mutablePos) && calculateBoundingBox.isInside(mutablePos) && piecesContainer.isInsidePiece(mutablePos)) {
                         for (int i1 = calculateBoundingBoxminY - 1; i1 > minBuild; --i1) {
                             mutablePos.setY(i1);
-                            if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).getMaterial().isLiquid()) {
+                            if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).liquid()) {
                                 break;
                             }
                             setBelowStructureBlock(genLevel, mutablePos, random); //Same as vanilla, but use Limestone instead

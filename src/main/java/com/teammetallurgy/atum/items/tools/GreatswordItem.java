@@ -32,7 +32,7 @@ public class GreatswordItem extends SwordItem {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getMainHandItem().getItem() instanceof GreatswordItem) {
                 cooldown.put(player, player.getAttackStrengthScale(0.5F));
@@ -45,7 +45,7 @@ public class GreatswordItem extends SwordItem {
         if (attacker instanceof Player && cooldown.containsKey(attacker)) {
             if (cooldown.getFloat(attacker) == 1.0F) {
                 Player player = (Player) attacker;
-                Level level = player.level;
+                Level level = player.level();
                 float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.75D, 0.25D, 1.75D))) {

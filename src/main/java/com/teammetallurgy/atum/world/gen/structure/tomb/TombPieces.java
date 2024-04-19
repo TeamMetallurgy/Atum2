@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
@@ -58,7 +60,9 @@ public class TombPieces {
                     if (rand.nextDouble() < 0.2D) {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2); //Set structure block to air, to remove its TE
                         level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
-                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
+                        if (level.getBlockEntity(pos) instanceof CrateTileEntity crate) {
+                            crate.setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        }
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
@@ -66,7 +70,9 @@ public class TombPieces {
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.TOMB_CHEST);
+                    if (level.getBlockEntity(posDown) instanceof LimestoneChestTileEntity tombChest) {
+                        tombChest.setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
+                    }
                 }
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             }

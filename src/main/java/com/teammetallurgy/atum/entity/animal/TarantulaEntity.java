@@ -24,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -69,7 +70,7 @@ public class TarantulaEntity extends Monster {
     }
 
     @Override
-    public double getPassengersRidingOffset() {
+    protected float ridingOffset(@Nonnull Entity entity) {
         return this.getBbHeight() * 0.5F;
     }
 
@@ -88,7 +89,7 @@ public class TarantulaEntity extends Monster {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setBesideClimbableBlock(this.horizontalCollision);
         }
     }
@@ -129,9 +130,9 @@ public class TarantulaEntity extends Monster {
         if (super.doHurtTarget(entity)) {
             if (entity instanceof LivingEntity) {
                 int i = 0;
-                if (this.level.getDifficulty() == Difficulty.NORMAL) {
+                if (this.level().getDifficulty() == Difficulty.NORMAL) {
                     i = 5;
-                } else if (this.level.getDifficulty() == Difficulty.HARD) {
+                } else if (this.level().getDifficulty() == Difficulty.HARD) {
                     i = 8;
                 }
                 if (i > 0) {
@@ -176,8 +177,8 @@ public class TarantulaEntity extends Monster {
         }
 
         @Override
-        protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.getBbWidth();
+        public boolean canUse() {
+            return super.canUse() && !this.mob.isVehicle();
         }
     }
 }

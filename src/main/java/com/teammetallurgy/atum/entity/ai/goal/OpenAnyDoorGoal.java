@@ -33,7 +33,7 @@ public class OpenAnyDoorGoal extends DoorInteractGoal {
                     Node pathPoint = path.getNode(i);
                     this.doorPos = new BlockPos(pathPoint.x, pathPoint.y + 1, pathPoint.z);
                     if (!(this.mob.distanceToSqr(this.doorPos.getX(), this.mob.getY(), this.doorPos.getZ()) > 2.25D)) {
-                        this.hasDoor = canOpen(this.mob.level, this.doorPos);
+                        this.hasDoor = canOpen(this.mob.level(), this.doorPos);
                         if (this.hasDoor) {
                             return true;
                         }
@@ -41,7 +41,7 @@ public class OpenAnyDoorGoal extends DoorInteractGoal {
                 }
 
                 this.doorPos = this.mob.blockPosition().above();
-                this.hasDoor = canOpen(this.mob.level, this.doorPos);
+                this.hasDoor = canOpen(this.mob.level(), this.doorPos);
                 return this.hasDoor;
             } else {
                 return false;
@@ -51,7 +51,7 @@ public class OpenAnyDoorGoal extends DoorInteractGoal {
 
     private boolean canOpen(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        return state.getBlock() instanceof DoorBlock && state.getMaterial() != Material.METAL;
+        return state.getBlock() instanceof DoorBlock doorBlock && doorBlock.type().canOpenByHand();
     }
 
     @Override

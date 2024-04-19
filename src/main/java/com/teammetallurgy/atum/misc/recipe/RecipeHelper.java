@@ -48,15 +48,15 @@ public class RecipeHelper {
         return BrewingRecipeRegistry.addRecipe(new BrewingNBT(Ingredient.of(input), ingredient, output));
     }
 
-    public static <C extends Container, T extends Recipe<C>> List<T> getRecipes(RecipeManager recipeManager, RecipeType<T> recipeType) {
+    public static <C extends Container, T extends Recipe<C>> List<RecipeHolder<T>> getRecipes(RecipeManager recipeManager, RecipeType<T> recipeType) {
         return List.copyOf(recipeManager.byType(recipeType).values());
     }
 
     public static <C extends Container, T extends Recipe<C>> boolean isItemValidForSlot(Level level, @Nonnull ItemStack stack, RecipeType<T> recipeType) {
         if (level instanceof ServerLevel) {
-            Collection<T> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), recipeType);
-            for (Recipe<C> recipe : recipes) {
-                for (Ingredient ingredient : recipe.getIngredients()) {
+            List<RecipeHolder<T>> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), recipeType);
+            for (RecipeHolder<T> recipe : recipes) {
+                for (Ingredient ingredient : recipe.value().getIngredients()) {
                     if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, stack)) {
                         return true;
                     }
@@ -79,12 +79,12 @@ public class RecipeHelper {
 
     public static List<KilnRecipe> getKilnRecipesFromFurnace(RecipeManager recipeManager, Level level) {
         List<KilnRecipe> kilnRecipes = new ArrayList<>();
-        for (SmeltingRecipe furnaceRecipe : RecipeHelper.getRecipes(recipeManager, RecipeType.SMELTING)) {
-            for (Ingredient input : furnaceRecipe.getIngredients()) {
-                ItemStack output = furnaceRecipe.getResultItem(level.registryAccess());
+        for (RecipeHolder<SmeltingRecipe> furnaceRecipe : RecipeHelper.getRecipes(recipeManager, RecipeType.SMELTING)) {
+            for (Ingredient input : furnaceRecipe.value().getIngredients()) {
+                ItemStack output = furnaceRecipe.value().getResultItem(level.registryAccess());
                 if (input != null && !output.isEmpty()) {
                     if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
-                        kilnRecipes.add(new KilnRecipe(input, output, furnaceRecipe.getExperience(), furnaceRecipe.getCookingTime()));
+                        kilnRecipes.add(new KilnRecipe(input, output, furnaceRecipe.value().getExperience(), furnaceRecipe.value().getCookingTime()));
                     }
                 }
             }

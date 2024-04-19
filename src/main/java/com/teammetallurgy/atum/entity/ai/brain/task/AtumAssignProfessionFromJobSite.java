@@ -33,7 +33,7 @@ public class AtumAssignProfessionFromJobSite {
                                 Optional.ofNullable(minecraftserver.getLevel(globalpos.dimension())).flatMap((p_22467_) -> {
                                     return p_22467_.getPoiManager().getType(globalpos.pos());
                                 }).flatMap((p_258313_) -> {
-                                    return Atum.villagerProfession.get().getValues().stream().filter((p_217125_) -> {
+                                    return Atum.villagerProfession.get().stream().filter((p_217125_) -> {
                                         return p_217125_.heldJobSite().test(p_258313_);
                                     }).findFirst();
                                 }).ifPresent((p_22464_) -> {

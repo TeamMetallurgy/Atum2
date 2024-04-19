@@ -17,11 +17,9 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
     protected final Ingredient input;
     protected final ItemStack output;
     protected final RecipeType<?> type;
-    protected final ResourceLocation id;
 
-    public AbstractAtumRecipe(RecipeType<?> type, ResourceLocation id, Ingredient input, @Nonnull ItemStack output) {
+    public AbstractAtumRecipe(RecipeType<?> type, Ingredient input, @Nonnull ItemStack output) {
         this.type = type;
-        this.id = id;
         this.input = input;
         this.output = output;
     }
@@ -52,7 +50,7 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ItemStack assemble(@Nonnull C inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(@Nonnull C inv, @Nonnull RegistryAccess registryAccess) {
         return this.output.copy();
     }
 

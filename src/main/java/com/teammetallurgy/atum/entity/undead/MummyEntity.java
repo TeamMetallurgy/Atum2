@@ -54,7 +54,7 @@ public class MummyEntity extends UndeadBaseEntity {
         if (this.isOnFire() && !attribute.hasModifier(SPEED_BOOST_BURNING)) {
             attribute.addTransientModifier(SPEED_BOOST_BURNING);
         } else {
-            attribute.removeModifier(SPEED_BOOST_BURNING);
+            attribute.removeModifier(SPEED_BOOST_BURNING.getId());
         }
     }
 
@@ -80,11 +80,10 @@ public class MummyEntity extends UndeadBaseEntity {
         boolean attackEntity = super.doHurtTarget(entity);
 
         if (attackEntity) {
-            if (this.isOnFire() && this.random.nextFloat() < (float) this.level.getDifficulty().getId() * 0.4F) {
-                entity.setSecondsOnFire(2 * this.level.getDifficulty().getId());
+            if (this.isOnFire() && this.random.nextFloat() < (float) this.level().getDifficulty().getId() * 0.4F) {
+                entity.setSecondsOnFire(2 * this.level().getDifficulty().getId());
             }
-            if (entity instanceof LivingEntity) {
-                LivingEntity base = (LivingEntity) entity;
+            if (entity instanceof LivingEntity base) {
                 base.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 1));
             }
         }

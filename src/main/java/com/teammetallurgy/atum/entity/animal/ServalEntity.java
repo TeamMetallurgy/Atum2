@@ -30,6 +30,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -158,8 +159,8 @@ public class ServalEntity extends Cat {
         @Override
         public void stop() {
             this.cat.setLying(false);
-            float f = this.cat.level.getTimeOfDay(1.0F);
-            if (this.ownerPlayer.getSleepTimer() >= 100 && (double) f > 0.77D && (double) f < 0.8D && (double) this.cat.level.getRandom().nextFloat() < 0.7D) {
+            float f = this.cat.level().getTimeOfDay(1.0F);
+            if (this.ownerPlayer.getSleepTimer() >= 100 && (double) f > 0.77D && (double) f < 0.8D && (double) this.cat.level().getRandom().nextFloat() < 0.7D) {
                 this.giveGift();
             }
 
@@ -174,11 +175,14 @@ public class ServalEntity extends Cat {
             mutablePos.set(this.cat.blockPosition());
             this.cat.randomTeleport(mutablePos.getX() + random.nextInt(11) - 5, mutablePos.getY() + random.nextInt(5) - 2, mutablePos.getZ() + random.nextInt(11) - 5, false);
             mutablePos.set(this.cat.blockPosition());
-            LootTable lootTable = this.cat.level.getServer().getLootTables().get(AtumLootTables.GAMEPLAY_SERVAL_MORNING_GIFT);
-            LootContext.Builder builder = (new LootContext.Builder((ServerLevel) this.cat.level)).withParameter(LootContextParams.ORIGIN, this.cat.position()).withParameter(LootContextParams.THIS_ENTITY, this.cat).withRandom(random);
+            LootTable lootTable = this.cat.level().getServer().getLootData().getLootTable(AtumLootTables.GAMEPLAY_SERVAL_MORNING_GIFT);
+            LootParams params = new LootParams.Builder((ServerLevel)this.cat.level())
+                    .withParameter(LootContextParams.ORIGIN, this.cat.position())
+                    .withParameter(LootContextParams.THIS_ENTITY, this.cat)
+                    .create(LootContextParamSets.GIFT);
 
-            for (ItemStack stack : lootTable.getRandomItems(builder.create(LootContextParamSets.GIFT))) {
-                this.cat.level.addFreshEntity(new ItemEntity(this.cat.level, (double) mutablePos.getX() - (double) Mth.sin(this.cat.yBodyRot * ((float) Math.PI / 180F)), mutablePos.getY(), (double) mutablePos.getZ() + (double) Mth.cos(this.cat.yBodyRot * ((float) Math.PI / 180F)), stack));
+            for (ItemStack stack : lootTable.getRandomItems(params)) {
+                this.cat.level().addFreshEntity(new ItemEntity(this.cat.level(), (double) mutablePos.getX() - (double) Mth.sin(this.cat.yBodyRot * ((float) Math.PI / 180F)), mutablePos.getY(), (double) mutablePos.getZ() + (double) Mth.cos(this.cat.yBodyRot * ((float) Math.PI / 180F)), stack));
             }
 
         }

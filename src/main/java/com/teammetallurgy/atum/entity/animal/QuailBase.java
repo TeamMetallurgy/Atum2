@@ -46,8 +46,8 @@ public abstract class QuailBase extends Animal { //Needed to get Follow Goal wor
     @Override
     public void tick() {
         super.tick();
-        if (this.isFlockLeader() && this.level.random.nextInt(200) == 1) {
-            List<? extends QuailBase> list = this.level.getEntitiesOfClass(QuailBase.class, this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D));
+        if (this.isFlockLeader() && this.level().random.nextInt(200) == 1) {
+            List<? extends QuailBase> list = this.level().getEntitiesOfClass(QuailBase.class, this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D));
             if (list.size() <= 1) {
                 this.groupSize = 1;
             }

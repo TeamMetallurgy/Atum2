@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.List;
 
 public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
     private int currentRotation;
@@ -52,12 +54,12 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyC
 
             if (quern.quernRotations > 0) {
                 if (level instanceof ServerLevel serverLevel) {
-                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.QUERN.get());
-                    for (QuernRecipe quernRecipe : recipes) {
-                        for (Ingredient ingredient : quernRecipe.getIngredients()) {
-                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.getRotations() == quern.quernRotations) {
+                    List<RecipeHolder<QuernRecipe>> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.QUERN.get());
+                    for (RecipeHolder<QuernRecipe> quernRecipe : recipes) {
+                        for (Ingredient ingredient : quernRecipe.value().getIngredients()) {
+                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.value().getRotations() == quern.quernRotations) {
                                 quern.removeItem(0, 1);
-                                quern.outputItems(quernRecipe.assemble(quern, level.registryAccess()), level, pos);
+                                quern.outputItems(quernRecipe.value().assemble(quern, level.registryAccess()), level, pos);
                                 quern.quernRotations = 0;
                                 quern.setChanged();
                             }

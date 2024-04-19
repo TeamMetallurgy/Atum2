@@ -83,9 +83,9 @@ public class StonewardenEntity extends StoneBaseEntity {
             int y = Mth.floor(this.getY() - 0.20000000298023224D);
             int z = Mth.floor(this.getZ());
 
-            BlockState state = this.level.getBlockState(new BlockPos(x, y, z));
-            if (state.getMaterial() != Material.AIR) {
-                this.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(new BlockPos(x, y, z)), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getBoundingBox().minY + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
+            BlockState state = this.level().getBlockState(new BlockPos(x, y, z));
+            if (state.isAir()) {
+                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(new BlockPos(x, y, z)), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getBoundingBox().minY + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
             }
         }
     }
@@ -93,7 +93,7 @@ public class StonewardenEntity extends StoneBaseEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         this.attackTimer = 10;
-        this.level.broadcastEntityEvent(this, (byte) 4);
+        this.level().broadcastEntityEvent(this, (byte) 4);
         boolean attack = entity.hurt(this.damageSources().mobAttack(this), (float) (7 + this.random.nextInt(15)));
 
         if (attack) {

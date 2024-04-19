@@ -64,7 +64,7 @@ public class HammerItem extends SwordItem {
         if (attribute != null && attribute.hasModifier(STUN_MODIFIER)) {
             int stunTime = STUN.getInt(entity);
             if (stunTime <= 1) {
-                attribute.removeModifier(STUN_MODIFIER);
+                attribute.removeModifier(STUN_MODIFIER.getId());
                 STUN.remove(entity, stunTime);
             } else {
                 STUN.replace(entity, stunTime - 1);
@@ -75,7 +75,7 @@ public class HammerItem extends SwordItem {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && player.getMainHandItem().getItem() instanceof HammerItem) {
             COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
         }

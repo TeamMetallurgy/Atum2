@@ -7,8 +7,11 @@ import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutputI
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.openzen.zencode.java.ZenCodeType;
 
@@ -18,7 +21,7 @@ public class CTQuern implements IRecipeManager<QuernRecipe> {
 
     @ZenCodeType.Method
     public void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new QuernRecipe(input.getInternal(), output.getInternal(), rotations), "quern"));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "quern"), new QuernRecipe(input.getInternal(), output.getInternal(), rotations)), "quern"));
     }
 
     @ZenCodeType.Method

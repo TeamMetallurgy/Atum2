@@ -124,7 +124,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     public static void onKnockback(LivingKnockBackEvent event) {
         LivingEntity livingEntity = event.getEntity();
         Item legs = livingEntity.getItemBySlot(EquipmentSlot.LEGS).getItem();
-        if (legs instanceof ArtifactArmor && legs == ((ArtifactArmor) legs).getLeggings() && livingEntity.isOnGround()) {
+        if (legs instanceof ArtifactArmor && legs == ((ArtifactArmor) legs).getLeggings() && livingEntity.onGround()) {
             event.setStrength(event.getStrength() * 0.5F);
         }
     }
@@ -142,7 +142,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
                     attribute.addTransientModifier(SPEED_BOOST);
                 }
             } else if (attribute.hasModifier(SPEED_BOOST)) {
-                attribute.removeModifier(SPEED_BOOST);
+                attribute.removeModifier(SPEED_BOOST.getId());
             }
         }
     }

@@ -48,8 +48,8 @@ public abstract class TrapBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
-    protected TrapBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F));
+    protected TrapBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(DISABLED, Boolean.FALSE));
     }
 

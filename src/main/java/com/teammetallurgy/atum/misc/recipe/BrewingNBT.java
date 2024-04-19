@@ -24,7 +24,7 @@ public class BrewingNBT extends BrewingRecipe {
 
     private boolean testNBT(Ingredient ingredient, @Nonnull ItemStack stack) {
         for (ItemStack testStack : ingredient.getItems()) {
-            return (testStack.getTag() == null || testStack.getTag().equals(stack.getTag()) && testStack.areCapsCompatible(stack));
+            return (testStack.getTag() == null || testStack.getTag().equals(stack.getTag()));
         }
         return false;
     }

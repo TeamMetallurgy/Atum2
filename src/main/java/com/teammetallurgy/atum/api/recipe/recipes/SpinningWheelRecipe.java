@@ -21,11 +21,7 @@ public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity>
     }
 
     public SpinningWheelRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
-        this(new ResourceLocation(Atum.MOD_ID, "spinning_wheel_" + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(input.getItems()[0].getItem())).getPath() + "_to_" + Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(output.getItem())).getPath() + (output.getCount() > 1 ? "_" + output.getCount() : "")), input, output, rotations);
-    }
-
-    public SpinningWheelRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {
-        super(AtumRecipeTypes.SPINNING_WHEEL.get(), id, input, output, rotations);
+        super(AtumRecipeTypes.SPINNING_WHEEL.get(), input, output, rotations);
     }
 
     @Override

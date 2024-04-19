@@ -67,7 +67,7 @@ public class JEIIntegration implements IModPlugin {
     }
 
     private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level level, RecipeType<T> recipeType, mezz.jei.api.recipe.RecipeType jeiRecipeType) {
-        registry.addRecipes(jeiRecipeType, RecipeHelper.getRecipes(level.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)));
+        registry.addRecipes(jeiRecipeType, RecipeHelper.getRecipes(level.getRecipeManager(), recipeType).stream().filter(r -> r.value().getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)));
     }
 
     @Override

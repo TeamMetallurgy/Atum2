@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.api.material.AtumMaterialTiers;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,7 +44,7 @@ public class GebsUndoingItem extends PickaxeItem implements IArtifact {
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, Enchantment enchantment) {
+    public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, @Nonnull Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment == Enchantments.KNOCKBACK || enchantment == Enchantments.MOB_LOOTING || enchantment == Enchantments.SHARPNESS;
     }
 
@@ -65,7 +66,7 @@ public class GebsUndoingItem extends PickaxeItem implements IArtifact {
 
     @Override
     public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
-        if (state.getMaterial() == Material.WOOD) {
+        if (state.is(BlockTags.LOGS) || state.is(BlockTags.PLANKS)) {
             return 11.0F;
         }
         return super.getDestroySpeed(stack, state);

@@ -31,7 +31,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     @Override
     public void curioTick(SlotContext slotContext, @Nonnull ItemStack stack) {
         LivingEntity livingEntity = slotContext.entity();
-        if (!livingEntity.level.isClientSide()) {
+        if (!livingEntity.level().isClientSide()) {
             DURATION.putIfAbsent(livingEntity, 175);
 
             int duration = DURATION.getInt(livingEntity);

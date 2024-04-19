@@ -1,6 +1,10 @@
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.blocks.wood.CrateBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
@@ -12,6 +16,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.CrafterBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
@@ -45,8 +50,9 @@ public class GirafiTombPieces {
                     if (box.isInside(pos)) {
                         if (rand.nextDouble() <= 0.15D) {
                             level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
-
-                            RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
+                            if (level.getBlockEntity(pos) instanceof CrateTileEntity crate) {
+                                crate.setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                            }
                         } else {
                             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                         }
@@ -55,7 +61,9 @@ public class GirafiTombPieces {
                 case "GirafiSarcophagus": {
                     BlockPos posDown = pos.below();
                     if (box.isInside(posDown)) {
-                        RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.GIRAFI_TOMB);
+                        if (level.getBlockEntity(posDown) instanceof SarcophagusTileEntity sarcophagus) {
+                            sarcophagus.setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
+                        }
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                     break;
@@ -63,7 +71,9 @@ public class GirafiTombPieces {
                 case "Sarcophagus": {
                     BlockPos posDown = pos.below();
                     if (box.isInside(posDown)) {
-                        RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PHARAOH);
+                        if (level.getBlockEntity(posDown) instanceof SarcophagusTileEntity sarcophagus) {
+                            sarcophagus.setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                        }
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                     break;

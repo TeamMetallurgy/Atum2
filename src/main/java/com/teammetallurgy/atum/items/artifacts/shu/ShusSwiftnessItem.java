@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import top.theillusivec4.curios.api.SlotContext;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -28,13 +29,14 @@ public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
     }
 
     @Override
-    public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
+    public void curioTick(SlotContext slotContext, @Nonnull ItemStack stack) {
+        LivingEntity livingEntity = slotContext.entity();
         AttributeInstance attribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (livingEntity.isOnGround() && (livingEntity.zza > 0.0F || livingEntity.isSprinting())) {
+        if (livingEntity.onGround() && (livingEntity.zza > 0.0F || livingEntity.isSprinting())) {
             this.doEffect(livingEntity, stack);
         } else {
             if (attribute != null && attribute.hasModifier(SPEED_BOOST)) {
-                attribute.removeModifier(SPEED_BOOST);
+                attribute.removeModifier(SPEED_BOOST.getId());
             }
         }
     }

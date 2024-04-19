@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -54,7 +55,7 @@ public class DimensionHelper {
         Optional<ResourceKey<Biome>> biomeKey = genLevel.registryAccess().registryOrThrow(Registries.BIOME).getResourceKey(genLevel.getBiome(pos).value());
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
                 //&& !StructureHelper.doesChunkHaveStructure(level, pos, AtumStructures.GENERIC_VILLAGE) //TODO Re-add ones Atum villages are in
-                && (genLevel.isEmptyBlock(pos.above()) || state.getMaterial().isReplaceable())
+                && (genLevel.isEmptyBlock(pos.above()) || state.is(BlockTags.REPLACEABLE))
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED.get()
                 && Block.canSupportRigidBlock(genLevel, pos.below())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)

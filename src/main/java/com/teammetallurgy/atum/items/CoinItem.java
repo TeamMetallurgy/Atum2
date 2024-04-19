@@ -31,17 +31,17 @@ public class CoinItem extends Item {
 
     @Override
     public boolean onEntityItemUpdate(@Nonnull ItemStack stack, ItemEntity entityItem) {
-        Level level = entityItem.level;
+        Level level = entityItem.level();
         BlockState state = level.getBlockState(new BlockPos(Mth.floor(entityItem.getX()), Mth.floor(entityItem.getY()), Mth.floor(entityItem.getZ())));
         if ((state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof LayeredCauldronBlock && state.getValue(LayeredCauldronBlock.LEVEL) > 0) && entityItem.getItem().getItem() == AtumItems.DIRTY_COIN.get()) {
             if (!level.isClientSide) {
                 while (stack.getCount() > 0) {
                     if (level.random.nextFloat() <= 0.10F) {
                         stack.shrink(1);
-                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level().random.nextFloat() * 0.4F);
                     } else {
                         level.addFreshEntity(new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(), new ItemStack(AtumItems.GOLD_COIN.get())));
-                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level().random.nextFloat() * 0.4F);
                         stack.shrink(1);
                     }
                 }

@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -42,6 +43,7 @@ import net.minecraft.world.phys.HitResult;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.List;
 
 public class SpinningWheelBlock extends BaseEntityBlock {
     public static final MapCodec<SpinningWheelBlock> CODEC = simpleCodec(SpinningWheelBlock::new);
@@ -122,9 +124,9 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                         }
                     } else if (!spinningWheel.input.isEmpty()) {
                         ItemStack input = ItemStack.of(spinningWheel.input);
-                        Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL.get());
-                        for (SpinningWheelRecipe spinningWheelRecipe : recipes) {
-                            for (Ingredient ingredient : spinningWheelRecipe.getIngredients()) {
+                        List<RecipeHolder<SpinningWheelRecipe>> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), AtumRecipeTypes.SPINNING_WHEEL.get());
+                        for (RecipeHolder<SpinningWheelRecipe> spinningWheelRecipe : recipes) {
+                            for (Ingredient ingredient : spinningWheelRecipe.value().getIngredients()) {
                                 for (ItemStack ingredientStack : ingredient.getItems()) {
                                     if (StackHelper.areStacksEqualIgnoreSize(ingredientStack, input)) {
                                         boolean isSpoolFull = false;
@@ -133,7 +135,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                                             level.setBlock(pos, state.cycle(WHEEL), 2);
 
                                             if (state.getValue(SPOOL) < 3) {
-                                                if (spinningWheelRecipe.getRotations() == spinningWheel.rotations) {
+                                                if (spinningWheelRecipe.value().getRotations() == spinningWheel.rotations) {
                                                     spinningWheel.removeItem(0, 1);
                                                     spinningWheel.rotations = 0;
                                                     int count = ingredientStack.getCount();
@@ -152,7 +154,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
                                             }
                                         }
                                         if (isSpoolFull) {
-                                            ItemStack copyOutput = spinningWheelRecipe.assemble(spinningWheel, level.registryAccess());
+                                            ItemStack copyOutput = spinningWheelRecipe.value().assemble(spinningWheel, level.registryAccess());
                                             ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount());
                                             spinningWheel.setItem(1, output);
                                             spinningWheel.input = new CompoundTag();

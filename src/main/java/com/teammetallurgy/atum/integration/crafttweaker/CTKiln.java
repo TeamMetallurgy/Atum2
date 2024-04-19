@@ -8,9 +8,11 @@ import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutputI
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.openzen.zencode.java.ZenCodeType;
 
@@ -25,7 +27,7 @@ public class CTKiln implements IRecipeManager<KilnRecipe> {
 
     @ZenCodeType.Method
     public void addRecipe(IItemStack input, IItemStack output, float experience, int cookTime) {
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new KilnRecipe(input.getInternal(), output.getInternal(), experience, cookTime), "kiln"));
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "kiln"), new KilnRecipe(input.getInternal(), output.getInternal(), experience, cookTime)), "kiln"));
     }
 
     @ZenCodeType.Method

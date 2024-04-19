@@ -69,13 +69,13 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     }
 
     private void setCombatTask() {
-        if (this.level != null && !this.level.isClientSide) {
+        if (this.level() != null && !this.level().isClientSide) {
             this.goalSelector.removeGoal(this.aiAttackOnCollide);
             this.goalSelector.removeGoal(this.aiArrowAttack);
             ItemStack heldBow = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW.get()));
             if (heldBow.getItem() instanceof BowItem) {
                 int cooldown = 20;
-                if (this.level.getDifficulty() != Difficulty.HARD) {
+                if (this.level().getDifficulty() != Difficulty.HARD) {
                     cooldown = 35;
                 }
                 this.aiArrowAttack.setAttackCooldown(cooldown);
@@ -91,15 +91,15 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
         ItemStack ammo = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW.get())));
         AbstractArrow arrow = ProjectileUtil.getMobArrow(this, ammo, distanceFactor);
         if (this.getMainHandItem().getItem() instanceof BowItem) {
-            arrow = ((BowItem) this.getMainHandItem().getItem()).customArrow(arrow);
+            arrow = ((BowItem) this.getMainHandItem().getItem()).customArrow(arrow, ammo);
         }
         double x = target.getX() - this.getX();
         double y = target.getY(0.3333333333333333D) - arrow.getY();
         double z = target.getZ() - this.getZ();
         double height = Mth.sqrt((float) (x * x + z * z));
-        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.level.getDifficulty().getId() * 4));
+        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(arrow);
+        this.level().addFreshEntity(arrow);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     @Override
     public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
         super.setItemSlot(slot, stack);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setCombatTask();
         }
     }
@@ -122,8 +122,8 @@ public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    public double getMyRidingOffset() {
-        return -0.35D;
+    protected float ridingOffset(Entity entity) {
+        return -0.35F;
     }
 
     @Override

@@ -77,7 +77,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
 
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (attacker.level.random.nextFloat() <= 0.25F) {
+        if (attacker.level().random.nextFloat() <= 0.25F) {
             applyWeakness(target, attacker, attacker.getOffhandItem().getItem() == AtumItems.NUITS_IRE.get());
         }
         return super.hurtEnemy(stack, target, attacker);
@@ -99,7 +99,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getDirectEntity();
         LivingEntity livingEntity = event.getEntity();
-        if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level.random.nextFloat() <= 0.25F) {
+        if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level().random.nextFloat() <= 0.25F) {
             applyWeakness((LivingEntity) trueSource, event.getEntity(), event.getEntity().getMainHandItem().getItem() == AtumItems.NUITS_IRE.get());
             IS_BLOCKING.removeBoolean(livingEntity);
         }
@@ -107,7 +107,7 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
 
     private static void applyWeakness(LivingEntity target, LivingEntity attacker, boolean isNuitsIreHeld) {
         if (attacker != target) {
-            if (target.level instanceof ServerLevel serverLevel) {
+            if (target.level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(AtumParticles.NUIT_BLACK.get(), target.getX() + (serverLevel.random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (serverLevel.random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
             }
             target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));

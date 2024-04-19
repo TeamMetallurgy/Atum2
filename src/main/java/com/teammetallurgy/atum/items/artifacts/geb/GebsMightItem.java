@@ -25,7 +25,7 @@ public class GebsMightItem extends HammerItem implements IArtifact {
     @Override
     protected void onStun(LivingEntity target) {
         STUN.put(target, 80);
-        if (target.level instanceof ServerLevel serverLevel) {
+        if (target.level() instanceof ServerLevel serverLevel) {
             RandomSource random = serverLevel.random;
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;

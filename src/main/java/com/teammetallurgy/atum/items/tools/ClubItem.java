@@ -43,7 +43,7 @@ public class ClubItem extends SwordItem {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof StoneBaseEntity)) {
             if (player.getMainHandItem().getItem() instanceof ClubItem) {
                 cooldown.put(player, player.getAttackStrengthScale(0.5F));

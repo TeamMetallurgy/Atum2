@@ -5,7 +5,11 @@ import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
+import com.teammetallurgy.atum.blocks.wood.CrateBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
@@ -177,7 +181,9 @@ public class PyramidPieces {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
                         level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
-                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
+                        if (level.getBlockEntity(pos) instanceof CrateTileEntity crate) {
+                            crate.setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        }
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
@@ -185,13 +191,17 @@ public class PyramidPieces {
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PYRAMID_CHEST);
+                    if (level.getBlockEntity(posDown) instanceof LimestoneChestTileEntity limestoneChest) {
+                        limestoneChest.setLootTable(AtumLootTables.PYRAMID_CHEST, rand.nextLong());
+                    }
                 }
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.below();
                 if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(level, rand, posDown, AtumLootTables.PHARAOH);
+                    if (level.getBlockEntity(posDown) instanceof SarcophagusTileEntity sarcophagus) {
+                        sarcophagus.setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                    }
                 }
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             } else if (function.equals("NebuTorch")) {

@@ -32,6 +32,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
@@ -106,7 +107,7 @@ public class AtumVillagerTrades {
 
         @Nullable
         public MerchantOffer getOffer(Entity trader, @Nonnull RandomSource rand) {
-            if (!(trader.level instanceof ServerLevel serverLevel)) {
+            if (!(trader.level() instanceof ServerLevel serverLevel)) {
                 return null;
             } else {
                 BlockPos pos = serverLevel.findNearestMapStructure(this.destination, trader.blockPosition(), 100, true);
@@ -275,16 +276,18 @@ public class AtumVillagerTrades {
     }
 
     static class SuspiciousStewForCoinsTrade implements VillagerTrades.ItemListing {
-        final MobEffect effect;
-        private final int cointCount;
-        final int duration;
+        private final List<SuspiciousEffectHolder.EffectEntry> effects;
+        private final int coinCount;
         final int xpValue;
         private final float priceMultiplier;
 
-        public SuspiciousStewForCoinsTrade(MobEffect effect, int cointCount, int duration, int xpValue) {
-            this.effect = effect;
-            this.cointCount = cointCount;
-            this.duration = duration;
+        public SuspiciousStewForCoinsTrade(MobEffect mobEffect, int coinCount, int duration, int xpValue) {
+            this(List.of(new SuspiciousEffectHolder.EffectEntry(mobEffect, duration)), coinCount, xpValue);
+        }
+
+        public SuspiciousStewForCoinsTrade(List<SuspiciousEffectHolder.EffectEntry> effects, int coinCount, int xpValue) {
+            this.effects = effects;
+            this.coinCount = coinCount;
             this.xpValue = xpValue;
             this.priceMultiplier = 0.05F;
         }
@@ -292,8 +295,8 @@ public class AtumVillagerTrades {
         @Override
         public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull RandomSource rand) {
             ItemStack stewStack = new ItemStack(Items.SUSPICIOUS_STEW, 1);
-            SuspiciousStewItem.saveMobEffect(stewStack, this.effect, this.duration);
-            return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.cointCount), stewStack, 12, this.xpValue, this.priceMultiplier);
+            SuspiciousStewItem.saveMobEffects(stewStack, this.effects);
+            return new MerchantOffer(new ItemStack(AtumItems.GOLD_COIN.get(), this.coinCount), stewStack, 12, this.xpValue, this.priceMultiplier);
         }
     }
 

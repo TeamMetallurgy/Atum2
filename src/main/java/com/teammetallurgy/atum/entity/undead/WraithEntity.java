@@ -93,7 +93,7 @@ public class WraithEntity extends UndeadBaseEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.setBesideClimbableBlock(this.horizontalCollision);
         }
     }
@@ -162,11 +162,6 @@ public class WraithEntity extends UndeadBaseEntity {
             } else {
                 return super.canContinueToUse();
             }
-        }
-
-        @Override
-        protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.getBbWidth();
         }
     }
 

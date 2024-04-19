@@ -23,7 +23,7 @@ public class CamelCaravanGoal extends Goal {
     @Override
     public boolean canUse() {
         if (this.camel.isTamed() && !this.canLeadCaravan(this.camel) && !this.camel.inCaravan()) {
-            List<Entity> list = this.camel.level.getEntities(this.camel, this.camel.getBoundingBox().inflate(9.0D, 4.0D, 9.0D));
+            List<Entity> list = this.camel.level().getEntities(this.camel, this.camel.getBoundingBox().inflate(9.0D, 4.0D, 9.0D));
             CamelEntity camel = null;
             double distance = Double.MAX_VALUE;
 

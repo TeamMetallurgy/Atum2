@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.tree.PalmTree;
+import com.teammetallurgy.atum.world.gen.feature.tree.AtumTreeGrower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +20,7 @@ public class PalmSaplingBlock extends SaplingBlock implements BonemealableBlock 
     private static final VoxelShape PALM_SAPLING_AABB = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D);
 
     public PalmSaplingBlock() {
-        super(new PalmTree(), Block.Properties.of().mapColor(MapColor.PLANT).pushReaction(PushReaction.DESTROY).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));
+        super(AtumTreeGrower.PALM, Block.Properties.of().mapColor(MapColor.PLANT).pushReaction(PushReaction.DESTROY).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));
     }
 
     @Override

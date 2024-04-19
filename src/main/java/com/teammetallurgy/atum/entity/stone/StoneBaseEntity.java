@@ -125,7 +125,7 @@ public class StoneBaseEntity extends Monster {
                 heldStack.shrink(1);
             }
 
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.heal(5.0F);
             }
             return InteractionResult.SUCCESS;

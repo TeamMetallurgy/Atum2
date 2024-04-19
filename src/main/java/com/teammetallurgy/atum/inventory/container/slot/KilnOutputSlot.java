@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
@@ -54,8 +55,8 @@ public class KilnOutputSlot extends Slot {
 
     @Override
     protected void checkTakeAchievements(@Nonnull ItemStack stack) {
-        stack.onCraftedBy(this.player.level, this.player, this.removeCount);
-        Level level = player.level;
+        stack.onCraftedBy(this.player.level(), this.player, this.removeCount);
+        Level level = player.level();
 
         if (!level.isClientSide() && level instanceof ServerLevel) {
             this.spawnAllOrbs((ServerLevel) level, stack, this.removeCount);
@@ -64,7 +65,9 @@ public class KilnOutputSlot extends Slot {
     }
 
     private void spawnAllOrbs(ServerLevel serverLevel, @Nonnull ItemStack stack, int removeCount) {
-        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.KILN.get()));
+        List<RecipeHolder<KilnRecipe>> recipeHolders = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), AtumRecipeTypes.KILN.get());
+        List<KilnRecipe> recipes = new ArrayList<>();
+        recipeHolders.forEach(r -> recipes.add(r.value()));
         recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverLevel.getRecipeManager(), serverLevel));
         for (KilnRecipe kilnRecipe : recipes) {
             if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getResultItem(serverLevel.registryAccess()))) {
@@ -87,7 +90,7 @@ public class KilnOutputSlot extends Slot {
         while (count > 0) {
             int xpSplit = ExperienceOrb.getExperienceValue(count);
             count -= xpSplit;
-            player.level.addFreshEntity(new ExperienceOrb(player.level, player.getX(), player.getY() + 0.5D, player.getZ() + 0.5D, xpSplit));
+            player.level().addFreshEntity(new ExperienceOrb(player.level(), player.getX(), player.getY() + 0.5D, player.getZ() + 0.5D, xpSplit));
         }
     }
 }

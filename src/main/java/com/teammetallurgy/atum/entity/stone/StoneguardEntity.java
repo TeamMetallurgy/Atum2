@@ -78,7 +78,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         if (randomWeapon != 2) {
             this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD.get()));
 
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 AttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
                 if (attribute != null && !attribute.hasModifier(SHIELD_ARMOR)) {
@@ -119,7 +119,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     @Nonnull
     protected InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
         if (this.isPlayerCreated() && player.isCrouching() && player.getItemInHand(hand).isEmpty()) {
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 for (ItemStack held : this.getHandSlots()) {
                     StackHelper.giveItem(player, hand, held);
                 }

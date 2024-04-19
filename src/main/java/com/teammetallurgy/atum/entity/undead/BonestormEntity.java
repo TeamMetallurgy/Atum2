@@ -67,7 +67,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
 
     @Override
     public void aiStep() {
-        if (!this.onGround && this.getDeltaMovement().y < 0.0D) {
+        if (!this.onGround() && this.getDeltaMovement().y < 0.0D) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D));
         }
 
@@ -160,12 +160,12 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
 
                         if (this.attackStep > 1) {
                             float f = Mth.sqrt(Mth.sqrt((float) distance)) * 0.5F;
-                            this.bonestorm.level.playSound(null, livingBase.blockPosition(), SoundEvents.SKELETON_HURT, SoundSource.HOSTILE, 0.7F, (this.bonestorm.random.nextFloat() - this.bonestorm.random.nextFloat()) * 0.2F + 1.0F);
+                            this.bonestorm.level().playSound(null, livingBase.blockPosition(), SoundEvents.SKELETON_HURT, SoundSource.HOSTILE, 0.7F, (this.bonestorm.random.nextFloat() - this.bonestorm.random.nextFloat()) * 0.2F + 1.0F);
 
                             for (int i = 0; i < 1; ++i) {
-                                SmallBoneEntity entitySmallBone = new SmallBoneEntity(this.bonestorm.level, this.bonestorm, boneX + this.bonestorm.getRandom().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRandom().nextGaussian() * (double) f);
+                                SmallBoneEntity entitySmallBone = new SmallBoneEntity(this.bonestorm.level(), this.bonestorm, boneX + this.bonestorm.getRandom().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRandom().nextGaussian() * (double) f);
                                 entitySmallBone.setPos(entitySmallBone.getX(), this.bonestorm.getY() + (this.bonestorm.getBbHeight() / 2.0F) + 0.5D, entitySmallBone.getZ());
-                                this.bonestorm.level.addFreshEntity(entitySmallBone);
+                                this.bonestorm.level().addFreshEntity(entitySmallBone);
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -72,7 +73,9 @@ public class RuinPieces {
                 if (box.isInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
                         level.setBlock(pos, ChestBaseBlock.correctFacing(level, pos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), 2);
-                        RandomizableContainerBlockEntity.setLootTable(level, rand, pos, AtumLootTables.CRATE);
+                        if (level.getBlockEntity(pos) instanceof CrateTileEntity crate) {
+                            crate.setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        }
                     } else {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }

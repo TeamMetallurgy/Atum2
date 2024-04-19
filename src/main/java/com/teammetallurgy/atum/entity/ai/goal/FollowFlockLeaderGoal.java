@@ -33,7 +33,7 @@ public class FollowFlockLeaderGoal extends Goal {
         } else {
             this.cooldown = this.getNewCooldown(this.taskOwner);
             Predicate<QuailBase> predicate = (quail) -> quail.canGroupGrow() || !quail.hasFlockLeader();
-            List<? extends QuailBase> list = this.taskOwner.level.getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
+            List<? extends QuailBase> list = this.taskOwner.level().getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
             QuailBase quail = DataFixUtils.orElse(list.stream().filter(QuailBase::canGroupGrow).findAny(), this.taskOwner);
             quail.addFollowers(list.stream().filter((quailEntity) -> {
                 return !quailEntity.hasFlockLeader();

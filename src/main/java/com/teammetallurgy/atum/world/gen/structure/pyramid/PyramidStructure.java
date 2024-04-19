@@ -80,7 +80,7 @@ public class PyramidStructure extends AtumStructure {
                     if (!genLevel.isEmptyBlock(mutablePos) && calculateBoundingBox.isInside(mutablePos) && piecesContainer.isInsidePiece(mutablePos)) {
                         for (int i1 = calculateBoundingBoxminY - 1; i1 > minBuild; --i1) {
                             mutablePos.setY(i1);
-                            if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).getMaterial().isLiquid()) {
+                            if (!genLevel.isEmptyBlock(mutablePos) && !genLevel.getBlockState(mutablePos).liquid()) {
                                 break;
                             }
                             genLevel.setBlock(mutablePos, AtumBlocks.LIMESTONE_BRICK_LARGE.get().defaultBlockState(), 2);
@@ -94,7 +94,7 @@ public class PyramidStructure extends AtumStructure {
     @SubscribeEvent
     public static void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
         if (event.getEntity() instanceof ServerPlayer) {
-            LevelAccessor level = event.getEntity().level;
+            LevelAccessor level = event.getEntity().level();
             if (level instanceof ServerLevel serverLevel) {
                 StructureManager structureManager = serverLevel.structureManager();
                 Structure structure = structureManager.registryAccess().registryOrThrow(Registries.STRUCTURE).get(AtumStructures.PYRAMID_KEY);
@@ -119,7 +119,7 @@ public class PyramidStructure extends AtumStructure {
 
     @SubscribeEvent
     public static void onPharaohBeaten(PharaohBeatenEvent event) {
-        Level level = event.getPharaoh().level;
+        Level level = event.getPharaoh().level();
         BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
         if (sarcophagusPos != null && level instanceof ServerLevel serverLevel && !level.isClientSide) {
             StructureManager structureManager = serverLevel.structureManager();

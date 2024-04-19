@@ -48,7 +48,7 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getMainHandItem().getItem() == AtumItems.MONTUS_STRIKE.get()) {
                 COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
@@ -61,14 +61,14 @@ public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
         if (attacker instanceof Player && COOLDOWN.containsKey(attacker)) {
             if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 Player player = (Player) attacker;
-                Level level = player.level;
+                Level level = player.level();
                 float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isAlliedTo(entity) && player.distanceToSqr(entity) < 12.0D) {
                         entity.knockback(1.0F + EnchantmentHelper.getKnockbackBonus(player), Mth.sin(player.getYRot() * 0.017453292F), -Mth.cos(player.getYRot() * 0.017453292F));
                         entity.hurt(entity.damageSources().playerAttack(player), damage);
-                        if (entity.level instanceof ServerLevel serverLevel) {
+                        if (entity.level() instanceof ServerLevel serverLevel) {
                             double d0 = -Mth.sin(player.getYRot() * 0.017453292F);
                             double d1 = Mth.cos(player.getYRot() * 0.017453292F);
                             serverLevel.sendParticles(AtumParticles.MONTU.get(), target.getX() + d0, target.getY() + 1.1D, target.getZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);

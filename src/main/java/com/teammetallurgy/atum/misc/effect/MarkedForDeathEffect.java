@@ -38,18 +38,8 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
-    }
-
-    @Override
-    public List<ItemStack> getCurativeItems() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public void applyEffectTick(@Nonnull LivingEntity livingEntity, int amplifier) {
-        Level level = livingEntity.level;
+        Level level = livingEntity.level();
         if (!level.isClientSide()) {
             if (level instanceof ServerLevel serverLevel) {
                 if (serverLevel.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
