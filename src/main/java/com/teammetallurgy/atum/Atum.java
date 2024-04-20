@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
-import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.init.*;
@@ -12,7 +11,6 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.gen.feature.tree.TreePlacerTypes;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -22,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.InterModComms;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
@@ -35,7 +32,6 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
-import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,6 +64,8 @@ public class Atum {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
         AtumAPI.Tags.init();
+
+        modBus.addListener(this::newRegistryEvent);
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
@@ -89,7 +87,6 @@ public class Atum {
         IntegrationHandler.INSTANCE.clientSide();
     }
 
-    @SubscribeEvent
     public void onCommandRegistering(RegisterCommandsEvent event) {
         AtumWeather.register(event.getDispatcher());
     }

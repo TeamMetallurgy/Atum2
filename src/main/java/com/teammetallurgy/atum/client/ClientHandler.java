@@ -50,6 +50,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 
 import javax.annotation.Nonnull;
 
@@ -282,5 +283,13 @@ public class ClientHandler {
 
     public static void registerShieldModelProperties(Item shield) {
         ItemProperties.register(shield, new ResourceLocation("blocking"), (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
+    }
+
+    @SubscribeEvent
+    public static void registerDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
+        AtumSkyRenderer.createStars();
+        AtumSkyRenderer.createLightSky();
+        AtumSkyRenderer.createDarkSky();
+        event.register(new ResourceLocation(Atum.MOD_ID, "atum_effects"), new AtumSpecialEffects());
     }
 }
