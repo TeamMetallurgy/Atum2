@@ -42,10 +42,10 @@ public class OphidianTongueBlock extends VineBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
-        super.tick(state, level, pos, rand);
-        if (!level.isClientSide && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
-            level.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);
+    public void randomTick(@Nonnull BlockState state, @Nonnull ServerLevel serverLevel, @Nonnull BlockPos pos, @Nonnull RandomSource randomSource) {
+        super.randomTick(state, serverLevel, pos, randomSource);
+        if (!state.getValue(HAS_FLOWERS) && randomSource.nextDouble() <= 0.04D && serverLevel.isAreaLoaded(pos, 4)) {
+            serverLevel.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);
         }
     }
 

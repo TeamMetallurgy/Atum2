@@ -2,46 +2,42 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:alternatives",
-          "children": [
-            {
-              "type": "minecraft:item",
-              "conditions": [
-                {
-                  "action": "shears_dig",
-                  "condition": "neoforge:can_tool_perform_action"
-                }
-              ],
-              "name": "atum:ophidian_tongue"
-            },
-            {
-              "type": "minecraft:item",
-              "functions": [
-                {
-                  "function": "minecraft:set_count",
-                  "conditions": [
-                    {
-                      "condition": "minecraft:block_state_property",
-                      "block": "atum:ophidian_tongue",
-                      "properties": {
-                        "flowers": "true"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "function": "minecraft:explosion_decay"
-                }
-              ],
-              "name": "atum:ophidian_tongue_flower"
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "atum:ophidian_tongue"
         }
       ],
-      "rolls": 1.0
+      "conditions": [
+        {
+          "action": "shears_dig",
+          "condition": "neoforge:can_tool_perform_action"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "atum:ophidian_tongue_flower"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "atum:ophidian_tongue",
+          "properties": {
+            "flowers": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
     }
   ]
 }
