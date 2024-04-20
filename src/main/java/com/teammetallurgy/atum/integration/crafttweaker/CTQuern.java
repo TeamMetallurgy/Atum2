@@ -5,6 +5,7 @@ import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutput;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutputInput;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
+import com.blamejared.crafttweaker.api.ingredient.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
 import com.teammetallurgy.atum.Atum;
@@ -20,8 +21,8 @@ import org.openzen.zencode.java.ZenCodeType;
 public class CTQuern implements IRecipeManager<QuernRecipe> {
 
     @ZenCodeType.Method
-    public void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "quern"), new QuernRecipe(input.getInternal(), output.getInternal(), rotations)), "quern"));
+    public void addRecipe(IIngredient input, IItemStack output, int rotations) {
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "quern"), new QuernRecipe(input.asVanillaIngredient(), output.getInternal(), rotations)), "quern"));
     }
 
     @ZenCodeType.Method

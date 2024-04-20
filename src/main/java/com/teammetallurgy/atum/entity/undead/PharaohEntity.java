@@ -97,7 +97,6 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         this.stage = 0;
         this.setCanPickUpLoot(false);
         this.setCombatTask();
-        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override

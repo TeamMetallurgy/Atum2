@@ -71,6 +71,6 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     public void draw(SpinningWheelRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         Font font = Minecraft.getInstance().font;
-        guiGraphics.drawString(font, Component.translatable("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
+        guiGraphics.drawString(font, Component.translatable("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB(), false);
     }
 }

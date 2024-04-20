@@ -5,6 +5,7 @@ import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutput;
 import com.blamejared.crafttweaker.api.action.recipe.ActionRemoveRecipeByOutputInput;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
+import com.blamejared.crafttweaker.api.ingredient.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
 import com.teammetallurgy.atum.Atum;
@@ -20,8 +21,8 @@ import org.openzen.zencode.java.ZenCodeType;
 public class CTSpinningWheel implements IRecipeManager<SpinningWheelRecipe> {
 
     @ZenCodeType.Method
-    public void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "spinning_wheel"), new SpinningWheelRecipe(input.getInternal(), output.getInternal(), rotations))));
+    public void addRecipe(IIngredient input, IItemStack output, int rotations) {
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, new RecipeHolder<>(new ResourceLocation(Atum.MOD_ID, "spinning_wheel"), new SpinningWheelRecipe(input.asVanillaIngredient(), output.getInternal(), rotations))));
     }
 
     @ZenCodeType.Method
@@ -30,7 +31,7 @@ public class CTSpinningWheel implements IRecipeManager<SpinningWheelRecipe> {
     }
 
     @ZenCodeType.Method
-    public void removeRecipeByOutputInput(IItemStack output, IItemStack input) {
+    public void removeRecipeByOutputInput(IItemStack output, IIngredient input) {
         CraftTweakerAPI.apply(new ActionRemoveRecipeByOutputInput<>(this, output, input));
     }
 

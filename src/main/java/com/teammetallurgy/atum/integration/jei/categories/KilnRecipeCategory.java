@@ -83,7 +83,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
         if (experience > 0) {
             Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
             Font font = Minecraft.getInstance().font;
-            guiGraphics.drawString(font, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            guiGraphics.drawString(font, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB(), false);
         }
     }
 }

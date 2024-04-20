@@ -71,7 +71,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
     @Override
     public void draw(QuernRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         Font font = Minecraft.getInstance().font;
-        guiGraphics.drawString(font, Component.translatable("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
+        guiGraphics.drawString(font, Component.translatable("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB(), false);
         this.icon.draw(guiGraphics, 29, 8);
     }
 }

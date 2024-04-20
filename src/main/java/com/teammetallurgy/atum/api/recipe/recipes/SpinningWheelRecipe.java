@@ -5,13 +5,14 @@ import com.teammetallurgy.atum.api.recipe.RotationRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import javax.annotation.Nonnull;
 
 public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity> {
 
-    public SpinningWheelRecipe(ItemStack input, @Nonnull ItemStack output, int rotations) {
+    public SpinningWheelRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
         super(AtumRecipeTypes.SPINNING_WHEEL.get(), input, output, rotations);
     }
 

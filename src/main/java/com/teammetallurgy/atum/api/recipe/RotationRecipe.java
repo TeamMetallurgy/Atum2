@@ -11,13 +11,11 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import javax.annotation.Nonnull;
 
-public abstract class RotationRecipe<C extends Container> extends AbstractAtumRecipe<C> {
-    protected final ItemStack inputRotation;
+public abstract class RotationRecipe<C extends Container> extends AbstractAtumRecipe<C> { //TODO Move input Inredient to "SizedIngredient" in 1.20.5
     protected final int rotations;
 
-    public RotationRecipe(RecipeType<?> recipeType, ItemStack input, @Nonnull ItemStack output, int rotations) {
-        super(recipeType, Ingredient.of(input), output);
-        this.inputRotation = input;
+    public RotationRecipe(RecipeType<?> recipeType, Ingredient input, @Nonnull ItemStack output, int rotations) {
+        super(recipeType, input, output);
         this.rotations = rotations;
     }
 
@@ -33,8 +31,8 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
             this.factory = factory;
             this.codec = RecordCodecBuilder.create(
                     r -> r.group(
-                                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("ingredient").forGetter(rotationRecipe -> rotationRecipe.inputRotation),
-                                    ItemStack.RESULT_CODEC.fieldOf("result").forGetter(rotationRecipe -> rotationRecipe.output),
+                                    Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(rotationRecipe -> rotationRecipe.input),
+                                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("result").forGetter(rotationRecipe -> rotationRecipe.output),
                                     Codec.INT.fieldOf("rotations").orElse(1).forGetter(rotationRecipe -> rotationRecipe.rotations)
                             )
                             .apply(r, factory::create)
@@ -51,7 +49,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
         @Override
         @Nonnull
         public C fromNetwork(@Nonnull FriendlyByteBuf buffer) {
-            ItemStack ingredient = buffer.readItem();
+            Ingredient ingredient = Ingredient.fromNetwork(buffer);
             ItemStack stack = buffer.readItem();
             int rotations = buffer.readInt();
             return this.factory.create(ingredient, stack, rotations);
@@ -65,7 +63,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
         }
 
         public interface IFactory<T extends RotationRecipe<? extends Container>> {
-            T create(ItemStack input, @Nonnull ItemStack output, int rotations);
+            T create(Ingredient input, @Nonnull ItemStack output, int rotations);
         }
     }
 }

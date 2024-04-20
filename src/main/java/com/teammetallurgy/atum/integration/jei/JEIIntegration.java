@@ -27,11 +27,14 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @JeiPlugin
@@ -67,7 +70,10 @@ public class JEIIntegration implements IModPlugin {
     }
 
     private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level level, RecipeType<T> recipeType, mezz.jei.api.recipe.RecipeType jeiRecipeType) {
-        registry.addRecipes(jeiRecipeType, RecipeHelper.getRecipes(level.getRecipeManager(), recipeType).stream().filter(r -> r.value().getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)));
+        Collection<RecipeHolder<T>> recipeHolders = RecipeHelper.getRecipes(level.getRecipeManager(), recipeType).stream().filter(r -> r.value().getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new));
+        List<T> recipes = new ArrayList<>();
+        recipeHolders.forEach(recipeHolder -> recipes.add(recipeHolder.value()));
+        registry.addRecipes(jeiRecipeType, recipes);
     }
 
     @Override
