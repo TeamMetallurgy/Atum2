@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.List;
 
 public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {

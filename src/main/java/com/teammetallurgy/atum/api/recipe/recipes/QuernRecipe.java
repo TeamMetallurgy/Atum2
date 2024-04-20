@@ -5,18 +5,13 @@ import com.teammetallurgy.atum.api.recipe.RotationRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import javax.annotation.Nonnull;
 
 public class QuernRecipe extends RotationRecipe<QuernTileEntity> {
 
-    public QuernRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
-        this(Ingredient.of(input), output, rotations);
-    }
-
-    public QuernRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
+    public QuernRecipe(ItemStack input, @Nonnull ItemStack output, int rotations) {
         super(AtumRecipeTypes.QUERN.get(), input, output, rotations);
     }
 

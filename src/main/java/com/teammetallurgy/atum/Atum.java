@@ -9,7 +9,6 @@ import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.gen.feature.tree.TreePlacerTypes;
 import net.minecraft.core.Registry;
@@ -41,8 +40,6 @@ import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
 
-import java.util.function.Supplier;
-
 @Mod(value = Atum.MOD_ID)
 public class Atum {
     public static final String MOD_ID = "atum";
@@ -59,12 +56,14 @@ public class Atum {
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registries.DIMENSION, LOCATION);
     public static final WoodType PALM = WoodType.register(new WoodType("atum_palm", AtumBlockSetType.PALM));
     public static final WoodType DEADWOOD = WoodType.register(new WoodType("atum_deadwood", AtumBlockSetType.DEADWOOD));
+
+    public static final ResourceKey<? extends Registry<AtumVillagerProfession>> ATUM_VILLAGER_PROFESSION_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MOD_ID, "villager_profession_key"));
     public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister
             .create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
-    public static Supplier<Registry<AtumVillagerProfession>> villagerProfession = ATUM_PROFESSION_DEFERRED
-            .makeRegistry((builder) -> new RegistryBuilder<AtumVillagerProfession>()
-                    .setName(new ResourceLocation(Atum.MOD_ID, "villager_profession")).setMaxID(Integer.MAX_VALUE >> 5)
-                    .allowModification());
+    public static Registry<AtumVillagerProfession> villagerProfession = ATUM_PROFESSION_DEFERRED
+            .makeRegistry((builder) -> new RegistryBuilder<AtumVillagerProfession>(ATUM_VILLAGER_PROFESSION_KEY)
+                    .defaultKey(new ResourceLocation(Atum.MOD_ID, "villager_profession")).maxId(Integer.MAX_VALUE >> 5)
+                    .create());
 
     public Atum(IEventBus modBus) {
         modBus.addListener(this::setupCommon);

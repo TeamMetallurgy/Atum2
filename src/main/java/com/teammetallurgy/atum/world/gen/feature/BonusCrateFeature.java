@@ -8,9 +8,9 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -41,7 +41,7 @@ public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> { //TOD
                 BlockPos posHeight = genLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos);
                 if (genLevel.isEmptyBlock(posHeight) || genLevel.getBlockState(posHeight).getCollisionShape(genLevel, posHeight).isEmpty()) {
                     genLevel.setBlock(posHeight, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), 2);
-                    RandomizableContainerBlockEntity.setBlockEntityLootTable(genLevel, random, posHeight, AtumLootTables.CRATE_BONUS);
+                    RandomizableContainer.setBlockEntityLootTable(genLevel, random, posHeight, AtumLootTables.CRATE_BONUS);
                     BlockState torch = AtumBlocks.DEADWOOD_TORCH.get().defaultBlockState();
 
                     for (Direction horizontal : Direction.Plane.HORIZONTAL) {

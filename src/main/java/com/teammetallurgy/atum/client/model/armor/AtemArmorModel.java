@@ -112,7 +112,7 @@ public class AtemArmorModel extends ArmorModel {
 	}
 
 	@SubscribeEvent
-	public static void onPlayerRender(RenderPlayerEvent event) {
+	public static void onPlayerRender(RenderPlayerEvent.Post event) {
 		Player player = event.getEntity();
 		PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
 		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATEM.get()) {

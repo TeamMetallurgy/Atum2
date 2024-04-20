@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.api.recipe;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;

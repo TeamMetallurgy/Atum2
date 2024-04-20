@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -26,35 +26,34 @@ public class AlphaDesertWolfScreen extends AbstractContainerScreen<AlphaDesertWo
     }
 
     @Override
-    protected void renderLabels(@Nonnull PoseStack poseStack, int mouseX, int mouseY) {
-        this.font.draw(poseStack, this.title, 8, 6, 4210752);
-        this.font.draw(poseStack, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752);
+    protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(this.font, this.title, 8, 6, 4210752, false);
+        guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, CAMEL_GUI_TEXTURE);
         int width = (this.width - this.imageWidth) / 2;
         int height = (this.height - this.imageHeight) / 2;
-        this.blit(poseStack, width, height, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(CAMEL_GUI_TEXTURE, width, height, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.desertWolf != null) {
             if (this.menu.desertWolf.isAlpha()) {
-                this.blit(poseStack, width + 7, height + 35 - 18, 18, this.imageHeight, 18, 18); //Saddle
+                guiGraphics.blit(CAMEL_GUI_TEXTURE, width + 7, height + 35 - 18, 18, this.imageHeight, 18, 18); //Saddle
             }
-            this.blit(poseStack, width + 7, height + 35, 0, this.imageHeight, 18, 18); //Armor
-            InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, width + 51, height + 60, 17, (float) (width + 51) - this.mousePosx, (float) (height + 75 - 50) - this.mousePosY, this.menu.desertWolf);
+            guiGraphics.blit(CAMEL_GUI_TEXTURE, width + 7, height + 35, 0, this.imageHeight, 18, 18); //Armor
+            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, width + 51, height + 60, width + 51, height + 75 - 50, 17, 0.25F, this.mousePosx, this.mousePosY, this.menu.desertWolf); //TODO Check
         }
     }
 
     @Override
-    public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(poseStack);
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         this.mousePosx = (float) mouseX;
         this.mousePosY = (float) mouseY;
-        super.render(poseStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(poseStack, mouseX, mouseY);
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 }

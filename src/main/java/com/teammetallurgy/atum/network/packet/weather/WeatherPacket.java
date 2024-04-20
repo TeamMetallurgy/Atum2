@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 import javax.annotation.Nonnull;
-import java.util.function.Supplier;
 
 public class WeatherPacket implements CustomPacketPayload {
 	public static final ResourceLocation ID = new ResourceLocation(Atum.MOD_ID, "weather");

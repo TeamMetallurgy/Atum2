@@ -17,18 +17,23 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DerivedLevelData;
-import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
 
+    public static SavedData.Factory<AtumDimensionData> factory() {
+        return new SavedData.Factory<>(AtumDimensionData::new, AtumDimensionData::load);
+    }
+
     public static AtumDimensionData getData(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().computeIfAbsent(AtumDimensionData::load, AtumDimensionData::new, AtumDimensionData.ID);
+        return serverLevel.getDataStorage().computeIfAbsent(factory(), AtumDimensionData.ID);
     }
 
     @SubscribeEvent

@@ -19,7 +19,7 @@ public class AlphaDesertWolfContainer extends AbstractContainerMenu {
     public AlphaDesertWolfContainer(int windowID, Inventory playerInventory, final int entityID) {
         super(AtumMenuType.ALPHA_DESERT_WOLF.get(), windowID);
         Player player = playerInventory.player;
-        this.desertWolf = (DesertWolfEntity) player.level.getEntity(entityID);
+        this.desertWolf = (DesertWolfEntity) player.level().getEntity(entityID);
         this.wolfInventory = this.desertWolf.getInventory();
         wolfInventory.startOpen(player);
         this.addSlot(new Slot(AlphaDesertWolfContainer.this.wolfInventory, 0, 8, 18) {

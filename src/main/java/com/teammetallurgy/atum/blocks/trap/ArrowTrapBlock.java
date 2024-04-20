@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
 import com.mojang.serialization.MapCodec;
-import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.trap.tileentity.ArrowTrapTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;

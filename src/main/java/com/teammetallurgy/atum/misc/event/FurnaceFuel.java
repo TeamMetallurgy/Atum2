@@ -9,9 +9,9 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class FurnaceFuel {

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
@@ -16,9 +15,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -70,24 +69,21 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 36, 49).addItemStack(recipe.getResultItem(clientLevel.registryAccess())).addTooltipCallback((recipeSlotView, tooltip) -> { //Output
-                boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
-                if (showAdvanced) {
-                    tooltip.add(Component.translatable("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
-                }
-            });
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 36, 49).addItemStack(recipe.getResultItem(clientLevel.registryAccess())); //Output
         }
     }
 
+
     @Override
-    public void draw(KilnRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
-        animatedFlame.draw(poseStack, 1, 17);
-        arrow.draw(poseStack, 43, 38);
+    public void draw(KilnRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        animatedFlame.draw(guiGraphics, 1, 17);
+        arrow.draw(guiGraphics, 43, 38);
 
         float experience = recipe.getExperience();
         if (experience > 0) {
             Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
-            Minecraft.getInstance().font.draw(poseStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            Font font = Minecraft.getInstance().font;
+            guiGraphics.drawString(font, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
 }

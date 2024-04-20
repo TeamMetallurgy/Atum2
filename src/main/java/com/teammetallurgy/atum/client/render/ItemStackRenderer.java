@@ -42,9 +42,9 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Map<String, ResourceLocation> SHIELD_CACHE = Maps.newHashMap();
-    private static final Material ATEMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
-    private static final Material BRIGAND_SHIELD_MATERIAL = getShieldMaterial("brigand_shield");
-    private static final Material STONEGUARD_SHIELD_MATERIAL = getShieldMaterial("stoneguard_shield");
+    private final Material ATEMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
+    private final Material BRIGAND_SHIELD_MATERIAL = getShieldMaterial("brigand_shield");
+    private final Material STONEGUARD_SHIELD_MATERIAL = getShieldMaterial("stoneguard_shield");
     private final AtemsProtectionModel atemsProtection;
     private final BrigandShieldModel brigandShield;
     private final StoneguardShieldModel stoneguardShield;

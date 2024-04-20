@@ -11,11 +11,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -106,7 +106,7 @@ public class LimestoneDungeonsFeature extends Feature<NoneFeatureConfiguration> 
                         }
                         if (j3 == 1) {
                             this.safeSetBlock(genLevel, cratePos, ChestBaseBlock.correctFacing(genLevel, cratePos, AtumBlocks.DEADWOOD_CRATE.get().defaultBlockState(), AtumBlocks.DEADWOOD_CRATE.get()), predicate);
-                            RandomizableContainerBlockEntity.setBlockEntityLootTable(genLevel, random, cratePos, AtumLootTables.CRATE);
+                            RandomizableContainer.setBlockEntityLootTable(genLevel, random, cratePos, AtumLootTables.CRATE);
                             break;
                         }
                     }

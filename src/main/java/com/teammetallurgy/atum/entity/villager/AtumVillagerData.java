@@ -12,7 +12,7 @@ import net.minecraft.world.entity.npc.VillagerType;
 import javax.annotation.Nonnull;
 
 public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerData, but makes sure VillagerType is not used
-    public static final Codec<AtumVillagerProfession> VILLAGER_PROFESSION_CODEC = Atum.villagerProfession.get().byNameCodec();
+    public static final Codec<AtumVillagerProfession> VILLAGER_PROFESSION_CODEC = Atum.villagerProfession.byNameCodec();
     public static final Codec<AtumVillagerData> CODEC = RecordCodecBuilder.create((dataInstance) -> {
         return dataInstance.group(VILLAGER_PROFESSION_CODEC.fieldOf("profession").orElseGet(AtumVillagerProfession.NONE).forGetter((data) -> {
             return data.profession;

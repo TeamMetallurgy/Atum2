@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -14,9 +13,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -65,18 +64,13 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
 
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 47, 11).addItemStack(recipe.getResultItem(clientLevel.registryAccess())).addTooltipCallback((recipeSlotView, tooltip) -> { // Output
-                boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
-                if (showAdvanced) {
-                    tooltip.add(Component.translatable("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
-                }
-            });
+            builder.addSlot(RecipeIngredientRole.INPUT, 47, 11).addItemStack(recipe.getResultItem(clientLevel.registryAccess())); // Output
         }
     }
 
     @Override
-    public void draw(SpinningWheelRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull PoseStack poseStack, double mouseX, double mouseY) {
-        Minecraft mc = Minecraft.getInstance();
-        mc.font.draw(poseStack, Component.translatable("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
+    public void draw(SpinningWheelRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        Font font = Minecraft.getInstance().font;
+        guiGraphics.drawString(font, Component.translatable("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
     }
 }
