@@ -9,11 +9,9 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Atum.MOD_ID)
 public class AtumFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES_DEFERRED = DeferredRegister.create(Registries.FEATURE, Atum.MOD_ID);
 

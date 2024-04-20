@@ -743,7 +743,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @SubscribeEvent
-    public void onTarget(LivingChangeTargetEvent event) {
+    public static void onTarget(LivingChangeTargetEvent event) {
         if (event.getOriginalTarget() instanceof DesertWolfEntity && event.getEntity() instanceof DesertWolfEntity) {
             if (((DesertWolfEntity) event.getOriginalTarget()).isTame() && ((DesertWolfEntity) event.getEntity()).isTame()) {
                 ((DesertWolfEntity) event.getEntity()).setTarget(null);

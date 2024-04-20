@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.api.recipe.AtumRecipeTypes;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
+import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.init.*;
@@ -33,6 +34,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -56,14 +58,6 @@ public class Atum {
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registries.DIMENSION, LOCATION);
     public static final WoodType PALM = WoodType.register(new WoodType("atum_palm", AtumBlockSetType.PALM));
     public static final WoodType DEADWOOD = WoodType.register(new WoodType("atum_deadwood", AtumBlockSetType.DEADWOOD));
-
-    public static final ResourceKey<? extends Registry<AtumVillagerProfession>> ATUM_VILLAGER_PROFESSION_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MOD_ID, "villager_profession_key"));
-    public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister
-            .create(new ResourceLocation(MOD_ID, "atum_villager"), Atum.MOD_ID);
-    public static Registry<AtumVillagerProfession> villagerProfession = ATUM_PROFESSION_DEFERRED
-            .makeRegistry((builder) -> new RegistryBuilder<AtumVillagerProfession>(ATUM_VILLAGER_PROFESSION_KEY)
-                    .defaultKey(new ResourceLocation(Atum.MOD_ID, "villager_profession")).maxId(Integer.MAX_VALUE >> 5)
-                    .create());
 
     public Atum(IEventBus modBus) {
         modBus.addListener(this::setupCommon);
@@ -126,10 +120,13 @@ public class Atum {
         AtumPoiTypes.POI_DEFERRED.register(modBus);
         AtumSounds.SOUND_DEFERRED.register(modBus);
         AtumParticles.PARTICLE_DEFERRED.register(modBus);
-        ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
         AtumDataSerializer.DATA_SERIALIZER_DEFERRED.register(modBus);
         AtumRecipeTypes.RECIPE_TYPE_DEFERRED.register(modBus);
         AtumRecipeSerializers.RECIPE_SERIALIZER_DEFERRED.register(modBus);
+    }
+
+    public void newRegistryEvent(NewRegistryEvent event) {
+        event.register(AtumVillagerProfession.VILLAGER_PROFESSION);
     }
 }

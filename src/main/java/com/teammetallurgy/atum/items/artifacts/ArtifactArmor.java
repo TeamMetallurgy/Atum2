@@ -27,6 +27,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingKnockBackEvent;
 import org.lwjgl.glfw.GLFW;
@@ -35,12 +36,13 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifact, IFogReductionItem {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Artifact boots speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
     public ArtifactArmor(ArmorMaterial material, String name, Type type, Properties properties) {
         super(material, name, type, properties);
+        NeoForge.EVENT_BUS.addListener(this::onKnockback);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
     }
 
     public abstract Item getHelmet();
@@ -120,8 +122,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     }
 
     //Artifact Legs
-    @SubscribeEvent
-    public static void onKnockback(LivingKnockBackEvent event) {
+    public void onKnockback(LivingKnockBackEvent event) {
         LivingEntity livingEntity = event.getEntity();
         Item legs = livingEntity.getItemBySlot(EquipmentSlot.LEGS).getItem();
         if (legs instanceof ArtifactArmor && legs == ((ArtifactArmor) legs).getLeggings() && livingEntity.onGround()) {
@@ -130,8 +131,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     }
 
     //Artifact Boots
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
 
         AttributeInstance attribute = player.getAttribute(Attributes.MOVEMENT_SPEED);

@@ -18,11 +18,11 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class KhopeshItem extends SwordItem {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
 
@@ -32,14 +32,14 @@ public class KhopeshItem extends SwordItem {
 
     public KhopeshItem(Tier itemTier, Item.Properties properties) {
         super(itemTier, 3, -2.6F, properties);
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onAttack);
     }
 
     public boolean getIsOffHand(@Nonnull ItemStack stack) {
         return StackHelper.hasKey(stack, "is_offhand") && stack.getTag() != null && stack.getTag().getBoolean("is_offhand");
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onAttack(AttackEntityEvent event) {
+    public void onAttack(AttackEntityEvent event) {
         Player player = event.getEntity();
         if (player.level().isClientSide) return;
         if (event.getTarget() instanceof LivingEntity) {
