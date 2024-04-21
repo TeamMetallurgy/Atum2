@@ -50,7 +50,7 @@ public class CamelScreen extends AbstractContainerScreen<CamelContainer> {
             if (this.menu.camel.hasRightCrate()) {
                 guiGraphics.blit(CAMEL_GUI_TEXTURE, width + 97, height + 85, this.imageWidth, 0, this.menu.camel.getInventoryColumns() * 18, 54); //Right Crate
             }
-            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, width + 88, height + 50, width + 51, height + 75 - 50, 17, this.mousePosX, this.mousePosY, 0.25F, this.menu.camel); //TODO Check
+            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, width + 50, height + 10, width + 125, height + 50, 17, 0.25F, this.mousePosX, this.mousePosY, this.menu.camel);
         }
     }
 

@@ -22,10 +22,19 @@ public class AtumSpecialEffects extends DimensionSpecialEffects {
         return vec3.multiply(f * 0.94F + 0.06F, f * 0.94F + 0.06F, (double) (f * 0.91F + 0.09F));
     }
 
-
     @Override
     public boolean isFoggyAt(int x, int y) {
         return false; //TODO
+    }
+
+    @Override
+    public boolean renderSky(@Nonnull ClientLevel level, int ticks, float partialTick, @Nonnull PoseStack poseStack, @Nonnull Camera camera, @Nonnull Matrix4f projectionMatrix, boolean isFoggy, @Nonnull Runnable setupFog) {
+        return AtumSkyRenderer.renderSky(level, ticks, partialTick, poseStack, camera, projectionMatrix, isFoggy, setupFog);
+    }
+
+    @Override
+    public boolean renderClouds(@Nonnull ClientLevel level, int ticks, float partialTick, @Nonnull PoseStack poseStack, double camX, double camY, double camZ, @Nonnull Matrix4f projectionMatrix) {
+        return AtumCloudRenderer.renderClouds(level, ticks, partialTick, poseStack, camX, camY, camZ, projectionMatrix);
     }
 
     @Override
@@ -34,7 +43,7 @@ public class AtumSpecialEffects extends DimensionSpecialEffects {
     }
 
     @Override
-    public boolean renderSky(@Nonnull ClientLevel level, int ticks, float partialTick, @Nonnull PoseStack poseStack, @Nonnull Camera camera, @Nonnull Matrix4f projectionMatrix, boolean isFoggy, @Nonnull Runnable setupFog) {
-        return AtumSkyRenderer.renderSky(level, ticks, partialTick, poseStack, camera, projectionMatrix, isFoggy, setupFog);
+    public boolean tickRain(@Nonnull ClientLevel level, int ticks, @Nonnull Camera camera) {
+        return true; //Setting to true prevents rendering
     }
 }

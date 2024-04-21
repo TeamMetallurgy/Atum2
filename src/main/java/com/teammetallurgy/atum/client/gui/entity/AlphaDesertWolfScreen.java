@@ -45,7 +45,7 @@ public class AlphaDesertWolfScreen extends AbstractContainerScreen<AlphaDesertWo
                 guiGraphics.blit(CAMEL_GUI_TEXTURE, width + 7, height + 35 - 18, 18, this.imageHeight, 18, 18); //Saddle
             }
             guiGraphics.blit(CAMEL_GUI_TEXTURE, width + 7, height + 35, 0, this.imageHeight, 18, 18); //Armor
-            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, width + 51, height + 60, width + 51, height + 75 - 50, 17, 0.25F, this.mousePosx, this.mousePosY, this.menu.desertWolf); //TODO Check
+            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, width + 25, height + 10, width + 75, height + 80, 17, 0.25F, this.mousePosx, this.mousePosY, this.menu.desertWolf);
         }
     }
 
