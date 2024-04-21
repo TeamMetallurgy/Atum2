@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -24,6 +25,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class AtumSkyRenderer {
+    private static final ResourceLocation SUN_LOCATION = new ResourceLocation("textures/environment/sun.png");
+    private static final ResourceLocation MOON_LOCATION = new ResourceLocation("textures/environment/moon_phases.png");
+    private static final ResourceLocation PLANET_TEST = new ResourceLocation(Atum.MOD_ID, "textures/environment/planet_test.png");
     @Nullable
     private static VertexBuffer starBuffer;
     @Nullable
@@ -79,6 +83,11 @@ public class AtumSkyRenderer {
                 poseStack.popPose();
             }
 
+            RenderSystem.disableBlend();
+            additionalPlanet(level, poseStack, level.getTimeOfDay(partialTick) * 360.0F, -180.0F, 0.0F, -50.0F, 0.0F, PLANET_TEST);
+            additionalPlanet(level, poseStack, level.getTimeOfDay(partialTick) * 360.0F, -35.0F, level.getTimeOfDay(partialTick) * 360.0F, -150.0F, 0.0F, PLANET_TEST);
+            RenderSystem.enableBlend();
+
             RenderSystem.blendFuncSeparate(
                     GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO
             );
@@ -90,7 +99,7 @@ public class AtumSkyRenderer {
             Matrix4f matrix4f1 = poseStack.last().pose();
             float f12 = 30.0F;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, new ResourceLocation("textures/environment/sun.png")); //TODO Constant
+            RenderSystem.setShaderTexture(0, SUN_LOCATION);
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
             bufferbuilder.vertex(matrix4f1, -f12, 100.0F, -f12).uv(0.0F, 0.0F).endVertex();
             bufferbuilder.vertex(matrix4f1, f12, 100.0F, -f12).uv(1.0F, 0.0F).endVertex();
@@ -98,7 +107,7 @@ public class AtumSkyRenderer {
             bufferbuilder.vertex(matrix4f1, -f12, 100.0F, f12).uv(0.0F, 1.0F).endVertex();
             BufferUploader.drawWithShader(bufferbuilder.end());
             f12 = 20.0F;
-            RenderSystem.setShaderTexture(0, new ResourceLocation("textures/environment/moon_phases.png")); //TODO Constant
+            RenderSystem.setShaderTexture(0, MOON_LOCATION);
             int k = level.getMoonPhase();
             int l = k % 4;
             int i1 = k / 4 % 2;
@@ -112,14 +121,6 @@ public class AtumSkyRenderer {
             bufferbuilder.vertex(matrix4f1, f12, -50.0F, f12).uv(f13, f16).endVertex();
             bufferbuilder.vertex(matrix4f1, f12, -50.0F, -f12).uv(f13, f14).endVertex();
             bufferbuilder.vertex(matrix4f1, -f12, -50.0F, -f12).uv(f15, f14).endVertex();
-
-            //2nd moon
-            bufferbuilder.vertex(matrix4f1, -f12 + 50, -50.0F, f12).uv(f15, f16).endVertex();
-            bufferbuilder.vertex(matrix4f1, f12, -50.0F, f12).uv(f13, f16).endVertex();
-            bufferbuilder.vertex(matrix4f1, f12, -50.0F, -f12 + 50).uv(f13, f14).endVertex();
-            bufferbuilder.vertex(matrix4f1, -f12 + 50, -50.0F, -f12 + 50).uv(f15, f14).endVertex();
-
-            backwardsMoonTest(level, poseStack, partialTick, matrix4f1, f12, f13, f14, f15, f16, bufferbuilder);
 
             BufferUploader.drawWithShader(bufferbuilder.end());
             float f10 = level.getStarBrightness(partialTick) * f11;
@@ -149,25 +150,45 @@ public class AtumSkyRenderer {
 
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.depthMask(true);
+
         }
         return true; //Setting to true prevents rendering
     }
 
-    public static void backwardsMoonTest(ClientLevel level, PoseStack poseStack, float partialTick, Matrix4f matrix4f1, float f12, float f13, float f14, float f15, float f16, BufferBuilder bufferBuilder) {
-        poseStack.mulPose(Axis.XP.rotationDegrees(45.0F + level.getTimeOfDay(partialTick)));
-        poseStack.mulPose(Axis.YP.rotationDegrees(-170));
+    public static void additionalPlanet(@Nonnull ClientLevel level, @Nonnull PoseStack poseStack, float xDegrees, float yDegrees, float zDegrees, float sizeModifier, float renderOffset, ResourceLocation location) {
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        VertexBuffer.unbind();
+        RenderSystem.enableBlend();
 
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        poseStack.pushPose();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(zDegrees));
+        poseStack.mulPose(Axis.YP.rotationDegrees(yDegrees));
+        poseStack.mulPose(Axis.XP.rotationDegrees(xDegrees));
+        Matrix4f matrix4f1 = poseStack.last().pose();
+        float f12 = 20.0F;
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, location);
+        int k = level.getMoonPhase();
+        int l = k % 4;
+        int i1 = k / 4 % 2;
+        float f13 = (float) (l + 0) / 4.0F;
+        float f14 = (float) (i1 + 0) / 2.0F;
+        float f15 = (float) (l + 1) / 4.0F;
+        float f16 = (float) (i1 + 1) / 2.0F;
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        //Planet
+        bufferbuilder.vertex(matrix4f1, -f12 + renderOffset, sizeModifier, f12).uv(f15, f16).endVertex();
+        bufferbuilder.vertex(matrix4f1, f12, sizeModifier, f12).uv(f13, f16).endVertex();
+        bufferbuilder.vertex(matrix4f1, f12, sizeModifier, -f12 + renderOffset).uv(f13, f14).endVertex();
+        bufferbuilder.vertex(matrix4f1, -f12 + renderOffset, sizeModifier, -f12 + renderOffset).uv(f15, f14).endVertex();
 
-        /*poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-        float f3 = Mth.sin(level.getSunAngle(partialTick)) < 0.0F ? 180.0F : 0.0F;
-        poseStack.mulPose(Axis.ZP.rotationDegrees(f3));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(90.0F));*/
+        BufferUploader.drawWithShader(bufferbuilder.end());
 
-        //Bigger moon
-        bufferBuilder.vertex(matrix4f1, -f12, -50.0F, f12).uv(f15, f16).endVertex();
-        bufferBuilder.vertex(matrix4f1, f12, -50.0F, f12).uv(f13, f16).endVertex();
-        bufferBuilder.vertex(matrix4f1, f12, -50.0F, -f12).uv(f13, f14).endVertex();
-        bufferBuilder.vertex(matrix4f1, -f12, -50.0F, -f12).uv(f15, f14).endVertex();
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+        poseStack.popPose();
     }
 
     private static boolean doesMobEffectBlockSky(Camera camera) {
@@ -198,11 +219,11 @@ public class AtumSkyRenderer {
         RandomSource randomsource = RandomSource.create(10842L);
         p_234260_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
-        for(int i = 0; i < 1500; ++i) {
-            double d0 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-            double d1 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-            double d2 = (double)(randomsource.nextFloat() * 2.0F - 1.0F);
-            double d3 = (double)(0.15F + randomsource.nextFloat() * 0.1F);
+        for (int i = 0; i < 1500; ++i) {
+            double d0 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d1 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d2 = (double) (randomsource.nextFloat() * 2.0F - 1.0F);
+            double d3 = (double) (0.15F + randomsource.nextFloat() * 0.1F);
             double d4 = d0 * d0 + d1 * d1 + d2 * d2;
             if (d4 < 1.0 && d4 > 0.01) {
                 d4 = 1.0 / Math.sqrt(d4);
@@ -222,10 +243,10 @@ public class AtumSkyRenderer {
                 double d15 = Math.sin(d14);
                 double d16 = Math.cos(d14);
 
-                for(int j = 0; j < 4; ++j) {
+                for (int j = 0; j < 4; ++j) {
                     double d17 = 0.0;
-                    double d18 = (double)((j & 2) - 1) * d3;
-                    double d19 = (double)((j + 1 & 2) - 1) * d3;
+                    double d18 = (double) ((j & 2) - 1) * d3;
+                    double d19 = (double) ((j + 1 & 2) - 1) * d3;
                     double d20 = 0.0;
                     double d21 = d18 * d16 - d19 * d15;
                     double d22 = d19 * d16 + d18 * d15;
@@ -274,13 +295,13 @@ public class AtumSkyRenderer {
         float f1 = 512.0F;
         RenderSystem.setShader(GameRenderer::getPositionShader);
         p_234268_.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION);
-        p_234268_.vertex(0.0, (double)p_234269_, 0.0).endVertex();
+        p_234268_.vertex(0.0, (double) p_234269_, 0.0).endVertex();
 
-        for(int i = -180; i <= 180; i += 45) {
+        for (int i = -180; i <= 180; i += 45) {
             p_234268_.vertex(
-                            (double)(f * Mth.cos((float)i * (float) (Math.PI / 180.0))),
-                            (double)p_234269_,
-                            (double)(512.0F * Mth.sin((float)i * (float) (Math.PI / 180.0)))
+                            (double) (f * Mth.cos((float) i * (float) (Math.PI / 180.0))),
+                            (double) p_234269_,
+                            (double) (512.0F * Mth.sin((float) i * (float) (Math.PI / 180.0)))
                     )
                     .endVertex();
         }
