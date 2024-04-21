@@ -39,7 +39,7 @@ public class AtumSkyRenderer {
         Minecraft minecraft = Minecraft.getInstance();
         FogType fogtype = camera.getFluidInCamera();
         setupFog.run();
-        if (!isFoggy && fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !doesMobEffectBlockSky(camera)) {
+        if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !doesMobEffectBlockSky(camera)) {
             Vec3 vec3 = level.getSkyColor(minecraft.gameRenderer.getMainCamera().getPosition(), partialTick);
             float f = (float) vec3.x;
             float f1 = (float) vec3.y;
@@ -70,7 +70,7 @@ public class AtumSkyRenderer {
                 bufferbuilder.vertex(matrix4f, 0.0F, 100.0F, 0.0F).color(f4, f5, f6, afloat[3]).endVertex();
                 int i = 16;
 
-                for (int j = 0; j <= 16; ++j) {
+                for (int j = 0; j <= i; ++j) {
                     float f7 = (float) j * (float) (Math.PI * 2) / 16.0F;
                     float f8 = Mth.sin(f7);
                     float f9 = Mth.cos(f7);
@@ -88,9 +88,7 @@ public class AtumSkyRenderer {
             additionalPlanet(level, poseStack, level.getTimeOfDay(partialTick) * 360.0F, -35.0F, level.getTimeOfDay(partialTick) * 360.0F, -150.0F, 0.0F, PLANET_TEST);
             RenderSystem.enableBlend();
 
-            RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO
-            );
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             poseStack.pushPose();
             float f11 = 1.0F - level.getRainLevel(partialTick);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);

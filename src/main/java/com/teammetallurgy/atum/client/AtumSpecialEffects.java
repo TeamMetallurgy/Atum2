@@ -24,7 +24,7 @@ public class AtumSpecialEffects extends DimensionSpecialEffects {
 
     @Override
     public boolean isFoggyAt(int x, int y) {
-        return false; //TODO
+        return false; //Makes the sky foggy too. Might want for only certain biomes maybe?
     }
 
     @Override
