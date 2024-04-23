@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks;
+package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.world.level.block.TransparentBlock;
 

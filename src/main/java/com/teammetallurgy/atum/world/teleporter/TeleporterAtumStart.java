@@ -24,18 +24,20 @@ public class TeleporterAtumStart implements ITeleporter {
             this.onInitialAtumJoining(destWorld, spawnPos);
             DimensionHelper.getData(destWorld).setHasStartStructureSpawned(true);
         }
-        return this.onAtumJoining(destWorld, repositionEntity.apply(false), spawnPos, yaw);
+        return this.onAtumJoining(destWorld, repositionEntity, spawnPos, yaw);
     }
 
-    private Entity onAtumJoining(ServerLevel level, Entity entity, BlockPos spawnPos, float yaw) {
+    private Entity onAtumJoining(ServerLevel level, Function<Boolean, Entity> repositionEntity, BlockPos spawnPos, float yaw) {
+        Entity entity = repositionEntity.apply(false);
         if (level.dimension() == Atum.ATUM) {
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
+                entity = repositionEntity.apply(true);
                 TeleporterAtum teleporterAtum = TeleporterAtum.INSTANCE;
                 teleporterAtum.makePortal(level, entity);
                 teleporterAtum.placeInPortal(level, entity, yaw);
             } else {
                 entity.setYRot(yaw);
-                entity.moveTo(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
+                entity.moveTo(spawnPos.getX(), spawnPos.getY() + 2, spawnPos.getZ());
             }
         }
         return entity;

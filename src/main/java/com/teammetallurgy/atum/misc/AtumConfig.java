@@ -17,17 +17,16 @@ public class AtumConfig {
     public static class General {
         public static final String GENERAL = "general";
         public final ModConfigSpec.BooleanValue allowCreation;
-        public final ModConfigSpec.BooleanValue fogEnabled;
+        public final ModConfigSpec.IntValue fogDensity;
 
         public General(ModConfigSpec.Builder builder) {
             builder.push(GENERAL);
             this.allowCreation = builder.comment("Can a non-creative user create a portal using the scarab?")
                     .translation("atum.config.portal_creation")
                     .define("Atum Portal", true);
-            this.fogEnabled = builder.comment("Should clientside fog be rendered?")
+            this.fogDensity = builder.comment("Value that determines how dense the fog is in Atum. Set to 0 to disable fog completely.")
                     .translation("atum.config.fog")
-                    .worldRestart()
-                    .define("Atum Fog", true);
+                    .defineInRange("Atum Fog Density", 200, 0, 10000);
             builder.pop();
         }
     }

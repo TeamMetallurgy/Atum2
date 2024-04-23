@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.*;
+import com.teammetallurgy.atum.blocks.base.AtumGlassBlock;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.curio.CurioDisplayBlock;

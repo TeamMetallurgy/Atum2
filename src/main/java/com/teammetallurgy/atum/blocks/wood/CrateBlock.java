@@ -28,7 +28,7 @@ public class CrateBlock extends ChestBlock {
 
     public CrateBlock(Properties properties) {
         super(properties.noOcclusion(), AtumTileEntities.CRATE::get);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     @Override

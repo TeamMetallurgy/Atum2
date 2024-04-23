@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import javax.annotation.Nonnull;
 import java.util.stream.IntStream;
 
-public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> { //TODO Water seems to generate on two of the sides of it?? Apparently vanilla bug - look into how to fix
+public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> {
 
     public BonusCrateFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -28,8 +28,8 @@ public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> { //TOD
 
     @Override
     public boolean place(@Nonnull FeaturePlaceContext<NoneFeatureConfiguration> placeContext) {
-        WorldGenLevel genLevel = placeContext.level();
         RandomSource random = placeContext.random();
+        WorldGenLevel genLevel = placeContext.level();
         ChunkPos chunkpos = new ChunkPos(placeContext.origin());
         IntArrayList xPositions = Util.toShuffledList(IntStream.rangeClosed(chunkpos.getMinBlockX(), chunkpos.getMaxBlockX()), random);
         IntArrayList zPositions = Util.toShuffledList(IntStream.rangeClosed(chunkpos.getMinBlockZ(), chunkpos.getMaxBlockZ()), random);

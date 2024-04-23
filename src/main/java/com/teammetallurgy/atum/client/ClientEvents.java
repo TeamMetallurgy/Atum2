@@ -61,9 +61,9 @@ public class ClientEvents {
         Entity entity = event.getCamera().getEntity();
         Level level = entity.level();
 
-        if (level.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
+        if (level.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogDensity.get() > 0.0F) {
             if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
-                float fogDensity = 200.0F;
+                float fogDensity = (float) AtumConfig.GENERAL.fogDensity.get();
 
                 if (entity instanceof Player player) {
                     if (player.blockPosition().getY() <= 60) {

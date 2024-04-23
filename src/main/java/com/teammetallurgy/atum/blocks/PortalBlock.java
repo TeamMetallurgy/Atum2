@@ -97,8 +97,8 @@ public class PortalBlock extends HalfTransparentBlock {
 
     @Override
     public void entityInside(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (level instanceof ServerLevel) {
-           changeDimension((ServerLevel) level, entity, new TeleporterAtum());
+        if (level instanceof ServerLevel serverLevel) {
+           changeDimension(serverLevel, entity, new TeleporterAtum());
         }
     }
 
@@ -110,10 +110,10 @@ public class PortalBlock extends HalfTransparentBlock {
                 return;
             }
             if (player.portalCooldown <= 0) {
-                player.level().getProfiler().push("portal");
+                serverLevel.getProfiler().push("portal");
                 player.changeDimension(destWorld, teleporter);
                 player.portalCooldown = 300; //Set portal cooldown
-                player.level().getProfiler().pop();
+                serverLevel.getProfiler().pop();
             }
         }
     }

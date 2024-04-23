@@ -3,10 +3,12 @@ package com.teammetallurgy.atum.world.teleporter;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumPoiTypes;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -30,39 +32,26 @@ public class TeleporterAtum implements ITeleporter {
     public static final TeleporterAtum INSTANCE = new TeleporterAtum();
 
     @Override
-    public Entity placeEntity(Entity entity, ServerLevel currentWorld, ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        Entity movedEntity = repositionEntity.apply(false);
-        if (!placeInPortal(destWorld, entity, yaw)) {
-            makePortal(destWorld, movedEntity);
-            placeInPortal(destWorld, movedEntity, yaw);
-            return movedEntity;
-        } else {
-            placeInPortal(destWorld, movedEntity, yaw);
-            return movedEntity;
+    @Nonnull
+    public Entity placeEntity(@Nonnull Entity entity, @Nonnull ServerLevel currentWorld, @Nonnull ServerLevel destWorld, float yaw, @Nonnull Function<Boolean, Entity> repositionEntity) {
+        if (placeInPortal(destWorld, entity, yaw)) { //Generate portal
+            return repositionEntity.apply(true);
+        } else { //Don't generate portal
+            return repositionEntity.apply(false);
         }
     }
 
     public boolean placeInPortal(ServerLevel level, Entity entity, float yaw) {
-        PortalInfo portalInfo = this.getPortalInfo(entity, level, null);
-        if (portalInfo == null) {
-            return false;
-        } else {
-            Vec3 vec3d1 = portalInfo.pos;
-            Vec3 vec3d2 = portalInfo.speed;
-            entity.setDeltaMovement(vec3d2);
-            entity.setYRot(yaw + portalInfo.yRot);
-            entity.moveTo(vec3d1.x, vec3d1.y + 1, vec3d1.z);
-            return true;
-        }
+        return this.getPortalInfo(entity, level, null) != null;
     }
 
     @Override
     @Nullable
-    public PortalInfo getPortalInfo(Entity entity, ServerLevel destWorld, Function<ServerLevel, PortalInfo> defaultPortalInfo) {
+    public PortalInfo getPortalInfo(Entity entity, @Nonnull ServerLevel destWorld, @Nonnull Function<ServerLevel, PortalInfo> defaultPortalInfo) {
         Optional<BlockUtil.FoundRectangle> result = teleporterResult(destWorld, entity.blockPosition());
         if (result.isPresent()) {
             BlockPos startPos = result.get().minCorner;
-            return new PortalInfo(new Vec3(startPos.getX(), startPos.getY(), startPos.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+            return new PortalInfo(new Vec3(startPos.getX(), startPos.getY() + 5, startPos.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot()); //+5 workaround for spawning in portal
         } else {
             return new PortalInfo(entity.position(), Vec3.ZERO, entity.getYRot(), entity.getXRot());
         }
@@ -74,7 +63,7 @@ public class TeleporterAtum implements ITeleporter {
             return optional;
         } else {
             Optional<BlockUtil.FoundRectangle> optional1 = createPortal(serverLevel, pos);
-            if (!optional1.isPresent()) {
+            if (optional1.isEmpty()) {
                 Atum.LOG.error("Unable to create a portal, likely target out of worldborder");
             }
             return optional1;
