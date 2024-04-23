@@ -6,6 +6,9 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.97'
 }
 
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
@@ -129,21 +132,21 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-//processResources { TODO Readd sometime before release
-//    // Minifies all .json files when building the mod.
-//    // Source files are not minified, only the jar copies.
-//	doLast {
-//	    def jsonMinifyStart = System.currentTimeMillis()
-//	    def jsonMinified = 0
-//		def jsonBytesSaved = 0
-//		
-//	    fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
-//			File file = it
-//			jsonMinified++
-//			def oldLength = file.length()
-//			file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
-//			jsonBytesSaved += oldLength - file.length()
-//		}
-//		println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
-//	}
-//}
+processResources {
+    // Minifies all .json files when building the mod.
+    // Source files are not minified, only the jar copies.
+	doLast {
+	    def jsonMinifyStart = System.currentTimeMillis()
+	    def jsonMinified = 0
+		def jsonBytesSaved = 0
+
+	    fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
+			File file = it
+			jsonMinified++
+			def oldLength = file.length()
+			file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+			jsonBytesSaved += oldLength - file.length()
+		}
+		println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+	}
+}
