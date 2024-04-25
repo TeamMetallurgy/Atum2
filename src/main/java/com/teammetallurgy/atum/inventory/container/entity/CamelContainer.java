@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.inventory.container.entity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumMenuType;
+import com.teammetallurgy.atum.inventory.container.slot.SlotHideableCamel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +24,11 @@ public class CamelContainer extends AbstractContainerMenu {
     public final CamelEntity camel;
     private List<Slot> rightCrateSlots = new ArrayList<>();
     private List<Slot> leftCrateSlots = new ArrayList<>();
+    public Slot saddleSlot;
+    public Slot armorSlot;
+    public Slot carpetSlot;
+    public Slot leftCrateSlot;
+    public Slot rightCrateSlot;
 
     public CamelContainer(int windowID, Inventory playerInventory, final int entityID) {
         super(AtumMenuType.CAMEL.get(), windowID);
@@ -31,14 +37,14 @@ public class CamelContainer extends AbstractContainerMenu {
         this.camelInventory = this.camel.getCamelCrate();
         camelInventory.startOpen(player);
         //Saddle slot
-        this.addSlot(new Slot(camelInventory, 0, 62, 64) {
+        this.saddleSlot = this.addSlot(new Slot(camelInventory, 0, 62, 64) {
             @Override
             public boolean mayPlace(@Nonnull ItemStack stack) {
                 return stack.getItem() instanceof SaddleItem && !this.hasItem();
             }
         });
         //Armor slot
-        this.addSlot(new Slot(camelInventory, 1, 80, 64) {
+        this.armorSlot = this.addSlot(new Slot(camelInventory, 1, 80, 64) {
             @Override
             public boolean mayPlace(@Nonnull ItemStack stack) {
                 return camel.isArmor(stack);
@@ -56,7 +62,7 @@ public class CamelContainer extends AbstractContainerMenu {
             }
         });
         //Carpet slot
-        this.addSlot(new Slot(camelInventory, 2, 98, 64) {
+        this.carpetSlot = this.addSlot(new Slot(camelInventory, 2, 98, 64) {
             @Override
             public boolean mayPlace(@Nonnull ItemStack stack) {
                 return camel.isValidCarpet(stack);
@@ -68,16 +74,10 @@ public class CamelContainer extends AbstractContainerMenu {
             }
         });
         //Left Crate slot
-        this.addSlot(new Slot(camelInventory, 3, 35, 64) {
+        this.leftCrateSlot = this.addSlot(new Slot(camelInventory, 3, 35, 64) {
             @Override
             public boolean mayPlace(@Nonnull ItemStack stack) {
                 return Block.byItem(stack.getItem()) instanceof CrateBlock;
-            }
-
-            @Override
-            public void setChanged() {
-                super.setChanged();
-                CamelContainer.this.updateLeftChestSlots();
             }
 
             @Override
@@ -96,16 +96,10 @@ public class CamelContainer extends AbstractContainerMenu {
             }
         });
         //Right Crate slot
-        this.addSlot(new Slot(camelInventory, 4, 125, 64) {
+        this.rightCrateSlot = this.addSlot(new Slot(camelInventory, 4, 125, 64) {
             @Override
             public boolean mayPlace(@Nonnull ItemStack stack) {
                 return Block.byItem(stack.getItem()) instanceof CrateBlock;
-            }
-
-            @Override
-            public void setChanged() {
-                super.setChanged();
-                CamelContainer.this.updateRightChestSlots();
             }
 
             @Override
@@ -126,19 +120,15 @@ public class CamelContainer extends AbstractContainerMenu {
         //Left Crate Inventory
         for (int row = 0; row < 3; ++row) {
             for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
-                leftCrateSlots.add(new Slot(camelInventory, camel.getNonCrateSize() + slot + row * camel.getInventoryColumns(), 8 + slot * 18, 86 + row * 18));
-                if (camel != null && camel.hasLeftCrate()) {
-                    this.addSlot(leftCrateSlots.get(leftCrateSlots.size() - 1));
-                }
+                leftCrateSlots.add(new SlotHideableCamel(this.leftCrateSlot, this.camelInventory, camel.getNonCrateSize() + slot + row * camel.getInventoryColumns(), 8 + slot * 18, 86 + row * 18));
+                this.addSlot(leftCrateSlots.get(leftCrateSlots.size() - 1));
             }
         }
         //Right Crate Inventory
         for (int row = 0; row < 3; ++row) {
             for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
-                rightCrateSlots.add(new Slot(camelInventory, camel.getNonCrateSize() + 3 * camel.getInventoryColumns() + slot + row * camel.getInventoryColumns(), 98 + slot * 18, 86 + row * 18));
-                if (camel != null && camel.hasRightCrate()) {
-                    this.addSlot(rightCrateSlots.get(rightCrateSlots.size() - 1));
-                }
+                rightCrateSlots.add(new SlotHideableCamel(this.rightCrateSlot, this.camelInventory, camel.getNonCrateSize() + 3 * camel.getInventoryColumns() + slot + row * camel.getInventoryColumns(), 98 + slot * 18, 86 + row * 18));
+                this.addSlot(rightCrateSlots.get(rightCrateSlots.size() - 1));
             }
         }
         //Player Inventory
@@ -150,70 +140,6 @@ public class CamelContainer extends AbstractContainerMenu {
         //Player Hotbar
         for (int slot = 0; slot < 9; ++slot) {
             this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 212));
-        }
-    }
-
-    private void updateLeftChestSlots() {
-        if (camel.hasLeftCrate()) {
-            boolean hasLeftSlots = false;
-            for (Slot slot : leftCrateSlots) {
-                if (slots.contains(slot)) {
-                    hasLeftSlots = true;
-                    break;
-                }
-            }
-            if (!hasLeftSlots) {
-                for (Slot leftCrateSlot : leftCrateSlots) {
-                    slots.add(camel.getNonCrateSize() + leftCrateSlots.size(), leftCrateSlot);
-                    remoteSlots.add(ItemStack.EMPTY);
-                    lastSlots.add(ItemStack.EMPTY);
-                }
-            }
-        } else {
-            for (int i = 0; i < slots.size(); i++) {
-                Slot slot = slots.get(i);
-                if (leftCrateSlots.contains(slot)) {
-                    slots.remove(i);
-                    remoteSlots.remove(i);
-                    lastSlots.remove(i);
-                    i--;
-                }
-            }
-        }
-        for (int i = 0; i < slots.size(); i++) {
-            slots.get(i).index = i;
-        }
-    }
-
-    private void updateRightChestSlots() {
-        if (camel.hasRightCrate()) {
-            boolean hasRightSlots = false;
-            for (Slot slot : rightCrateSlots) {
-                if (slots.contains(slot)) {
-                    hasRightSlots = true;
-                    break;
-                }
-            }
-            if (!hasRightSlots) {
-                for (Slot rightCrateSlot : rightCrateSlots) {
-                    slots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlot);
-                    remoteSlots.add(ItemStack.EMPTY);
-                    lastSlots.add(ItemStack.EMPTY);
-                }
-            }
-        } else {
-            for (int i = 0; i < slots.size(); i++) {
-                Slot slot = slots.get(i);
-                if (rightCrateSlots.contains(slot)) {
-                    slots.remove(i);
-                    remoteSlots.remove(i);
-                    lastSlots.remove(i);
-                    i--;
-                }
-            }
-        }
-        for (int i = 0; i < slots.size(); i++) {
-            slots.get(i).index = i;
         }
     }
 

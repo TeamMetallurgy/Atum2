@@ -64,6 +64,7 @@ public class CamelEntity extends Camel implements RangedAttackMob, MenuProvider 
     private static final EntityDataAccessor<ItemStack> LEFT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> RIGHT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> ARMOR_STACK = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDimensions SITTING_DIMENSIONS = EntityDimensions.scalable(AtumEntities.CAMEL.get().getWidth(), AtumEntities.CAMEL.get().getHeight() - 1.43F);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
     private String textureName;
     public boolean didSpit;
@@ -128,6 +129,12 @@ public class CamelEntity extends Camel implements RangedAttackMob, MenuProvider 
     @Nonnull
     protected Brain<?> makeBrain(@Nonnull Dynamic<?> dynamic) {
         return AtumCamelAi.makeBrain(this.brainProvider().makeBrain(dynamic));
+    }
+
+    @Override
+    @Nonnull
+    public EntityDimensions getDimensions(@Nonnull Pose pose) {
+        return pose == Pose.SITTING ? SITTING_DIMENSIONS.scale(this.getScale()) : super.getDimensions(pose);
     }
 
     @Override
