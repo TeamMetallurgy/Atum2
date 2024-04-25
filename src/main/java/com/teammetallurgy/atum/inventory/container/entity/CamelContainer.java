@@ -28,7 +28,7 @@ public class CamelContainer extends AbstractContainerMenu {
         super(AtumMenuType.CAMEL.get(), windowID);
         Player player = playerInventory.player;
         this.camel = (CamelEntity) player.level().getEntity(entityID);
-        this.camelInventory = this.camel.getHorseChest();
+        this.camelInventory = this.camel.getCamelCrate();
         camelInventory.startOpen(player);
         //Saddle slot
         this.addSlot(new Slot(camelInventory, 0, 62, 64) {

@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.entity.animal;
 
+import com.mojang.serialization.Dynamic;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
-import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
+import com.teammetallurgy.atum.entity.ai.brain.AtumCamelAi;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -24,30 +24,29 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.camel.Camel;
+import net.minecraft.world.entity.animal.camel.CamelAi;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WoolCarpetBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -58,23 +57,20 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuProvider {
+public class CamelEntity extends Camel implements RangedAttackMob, MenuProvider {
+    public static final Ingredient TEMPTATION_ITEM = Ingredient.of(AtumItems.DATE, Items.CACTUS);
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_COLOR_ID = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<ItemStack> LEFT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> RIGHT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> ARMOR_STACK = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
-    public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String textureName;
-    private boolean didSpit;
-    private CamelEntity caravanHead;
-    private CamelEntity caravanTail;
+    public boolean didSpit;
 
     public CamelEntity(EntityType<? extends CamelEntity> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 3;
-        this.canGallop = false;
         this.createInventory();
     }
 
@@ -88,8 +84,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         this.entityData.define(ARMOR_STACK, ItemStack.EMPTY);
     }
 
+    @Nonnull
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.FOLLOW_RANGE, 36.0D).add(Attributes.JUMP_STRENGTH, 0.0D).add(NeoForgeMod.STEP_HEIGHT.value(), 1.6D);
+        return createBaseHorseAttributes().add(Attributes.MAX_HEALTH, 32.0).add(Attributes.MOVEMENT_SPEED, 0.09F).add(Attributes.JUMP_STRENGTH, 0.42F);
     }
 
     private float getCamelMaxHealth() {
@@ -115,51 +112,27 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
+    @Nonnull
+    protected Brain.Provider<Camel> brainProvider() {
+        return AtumCamelAi.brainProvider();
+    }
+
+    @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
-        this.goalSelector.addGoal(2, new CamelCaravanGoal(this, 2.0999999046325684D));
+        super.registerGoals();
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
-        this.goalSelector.addGoal(3, new PanicGoal(this, 1.2D));
-        this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new CamelEntity.SpitGoal(this));
-        this.targetSelector.addGoal(2, new CamelEntity.DefendDesertWolfGoal(this));
-        this.targetSelector.addGoal(3, new CamelEntity.DefendWolfGoal(this));
     }
 
     @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.LLAMA_AMBIENT;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.LLAMA_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.LLAMA_DEATH;
-    }
-
-    @Override
-    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.HORSE_STEP, 0.15F, 1.0F);
-    }
-
-    @Override
-    protected float getSoundVolume() {
-        return 0.4F;
+    @Nonnull
+    protected Brain<?> makeBrain(@Nonnull Dynamic<?> dynamic) {
+        return AtumCamelAi.makeBrain(this.brainProvider().makeBrain(dynamic));
     }
 
     @Override
     protected SoundEvent getAngrySound() {
-        return SoundEvents.LLAMA_AMBIENT;
+        return SoundEvents.CAMEL_DASH;
     }
 
     @Override
@@ -168,7 +141,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public AgeableMob getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
+    public CamelEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
         CamelEntity camel = new CamelEntity(AtumEntities.CAMEL.get(), this.level());
         camel.finalizeSpawn(level, this.level().getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;
@@ -249,69 +222,8 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         this.didSpit = true;
     }
 
-    private void setDidSpit(boolean didSpit) {
+    public void setDidSpit(boolean didSpit) {
         this.didSpit = didSpit;
-    }
-
-    @Override
-    public boolean canJump() {
-        return false;
-    }
-
-    @Override
-    protected float ridingOffset(Entity entity) {
-        return super.ridingOffset(entity) * 0.78F;
-    }
-
-    @Override
-    public void setSpeed(float speed) {
-        if (this.isVehicle()) {
-            super.setSpeed(speed * CAMEL_RIDING_SPEED_AMOUNT);
-        } else {
-            super.setSpeed(speed);
-        }
-    }
-
-    public void leaveCaravan() {
-        if (this.caravanHead != null) {
-            this.caravanHead.caravanTail = null;
-        }
-        this.caravanHead = null;
-    }
-
-    public void joinCaravan(CamelEntity camel) {
-        this.caravanHead = camel;
-        this.caravanHead.caravanTail = this;
-    }
-
-    public boolean hasCaravanTrail() {
-        return this.caravanTail != null;
-    }
-
-    public boolean inCaravan() {
-        return this.caravanHead != null;
-    }
-
-    @Nullable
-    public CamelEntity getCaravanHead() {
-        return this.caravanHead;
-    }
-
-    @Override
-    protected double followLeashSpeed() {
-        return 2.0D;
-    }
-
-    @Override
-    protected void followMommy() {
-        if (!this.inCaravan() && this.isBaby()) {
-            super.followMommy();
-        }
-    }
-
-    @Override
-    public boolean canEatGrass() {
-        return false;
     }
 
     @Nullable
@@ -389,7 +301,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         }
     }
 
-    public SimpleContainer getHorseChest() {
+    public SimpleContainer getCamelCrate() {
         return this.inventory;
     }
 
@@ -562,7 +474,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             if (this.isBaby()) {
                 return super.mobInteract(player, hand);
             } else {
-                this.doPlayerRide(player);
+                if (this.getPassengers().size() < 2 && !this.isBaby()) {
+                    this.doPlayerRide(player);
+                }
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
@@ -587,7 +501,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
-        } else if (item == AtumItems.DATE.get()) {
+        } else if (item == AtumItems.DATE.get() || item == Items.CACTUS) {
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
@@ -640,6 +554,11 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         return isEating;
     }
 
+    @Override
+    public boolean isFood(@Nonnull ItemStack stack) {
+        return TEMPTATION_ITEM.test(stack);
+    }
+
     private void eatingCamel() {
         if (!this.isSilent()) {
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_EAT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
@@ -659,37 +578,15 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         return new CamelContainer(windowID, playerInventory, this.getId());
     }
 
-    static class DefendDesertWolfGoal extends NearestAttackableTargetGoal<DesertWolfEntity> {
-        DefendDesertWolfGoal(CamelEntity camel) {
-            super(camel, DesertWolfEntity.class, 16, false, true, (entity) -> !((DesertWolfEntity) entity).isTame());
-        }
-
-        @Override
-        protected double getFollowDistance() {
-            return super.getFollowDistance() * 0.25D;
-        }
-    }
-
-    static class DefendWolfGoal extends NearestAttackableTargetGoal<Wolf> {
-        public DefendWolfGoal(CamelEntity camel) {
-            super(camel, Wolf.class, 16, false, true, (entity) -> !((Wolf) entity).isTame());
-        }
-
-        @Override
-        protected double getFollowDistance() {
-            return super.getFollowDistance() * 0.25D;
-        }
-    }
-
     static class SpitGoal extends HurtByTargetGoal {
-        SpitGoal(CamelEntity camel) {
+
+        public SpitGoal(CamelEntity camel) {
             super(camel);
         }
 
         @Override
         public boolean canContinueToUse() {
-            if (this.mob instanceof CamelEntity) {
-                CamelEntity camel = (CamelEntity) this.mob;
+            if (this.mob instanceof CamelEntity camel) {
                 if (camel.didSpit) {
                     camel.setDidSpit(false);
                     return false;

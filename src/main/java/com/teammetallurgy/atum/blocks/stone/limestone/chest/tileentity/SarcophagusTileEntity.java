@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;

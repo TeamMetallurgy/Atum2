@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.StackHelper;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -16,8 +15,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 

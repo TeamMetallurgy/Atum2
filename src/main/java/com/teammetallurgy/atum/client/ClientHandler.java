@@ -242,9 +242,9 @@ public class ClientHandler {
         event.registerLayerDefinition(BONESTORM, BlazeModel::createBodyLayer);
         event.registerLayerDefinition(PHARAOH, PharaohModel::createLayer);
         event.registerLayerDefinition(PHARAOH_ORB, PharaohOrbModel::createLayer);
-        event.registerLayerDefinition(CAMEL, () -> LayerDefinition.create(CamelModel.createMesh(CubeDeformation.NONE), 128, 64));
-        event.registerLayerDefinition(CAMEL_ARMOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.02F)), 128, 64));
-        event.registerLayerDefinition(CAMEL_DECOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.01F)), 128, 64));
+        event.registerLayerDefinition(CAMEL, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.05F)), 128, 128));
+        event.registerLayerDefinition(CAMEL_ARMOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.07F)), 128, 128));
+        event.registerLayerDefinition(CAMEL_DECOR, () -> LayerDefinition.create(CamelModel.createMesh(new CubeDeformation(0.06F)), 128, 128));
         event.registerLayerDefinition(QUAIL, QuailModel::createLayer);
         event.registerLayerDefinition(STONEWARDEN, StonewardenModel::createLayer);
         event.registerLayerDefinition(DESERT_WOLF, () -> LayerDefinition.create(DesertWolfModel.createMesh(CubeDeformation.NONE), 64, 32));

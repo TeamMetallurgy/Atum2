@@ -165,7 +165,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity {
     }
 
     @Override
-    public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
+    public void onDataPacket(@Nonnull Connection manager, @Nonnull ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
         if (packet.getTag() != null) {
             this.load(packet.getTag());

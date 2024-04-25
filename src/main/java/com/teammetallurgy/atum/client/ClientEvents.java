@@ -32,7 +32,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.FogType;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;

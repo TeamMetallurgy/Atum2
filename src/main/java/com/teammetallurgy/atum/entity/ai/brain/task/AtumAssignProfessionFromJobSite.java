@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.ai.brain.task;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.init.AtumVillagerProfession;
 import net.minecraft.core.GlobalPos;
