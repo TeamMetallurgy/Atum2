@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CamelEntity extends Camel implements RangedAttackMob, MenuProvider {
+public class CamelEntity extends Camel implements RangedAttackMob, MenuProvider { //TODO Fix spit/attacking
     public static final Ingredient TEMPTATION_ITEM = Ingredient.of(AtumItems.DATE, Items.CACTUS);
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_COLOR_ID = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
